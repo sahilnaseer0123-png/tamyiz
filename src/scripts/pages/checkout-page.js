@@ -87,9 +87,9 @@ export function renderCheckoutPage(appInstance) {
                         type="text"
                         id="chk-name"
                         required
-                        value="Collector"
                         class="tamyiz-form-input"
-                        placeholder="Your full name"
+                        placeholder="e.g. Sahil Naseer"
+                        autocomplete="name"
                       />
                     </div>
 
@@ -100,9 +100,9 @@ export function renderCheckoutPage(appInstance) {
                           type="email"
                           id="chk-email"
                           required
-                          value="collector@tamyiz.in"
                           class="tamyiz-form-input"
                           placeholder="name@domain.com"
+                          autocomplete="email"
                         />
                       </div>
                       <div>
@@ -111,9 +111,9 @@ export function renderCheckoutPage(appInstance) {
                           type="tel"
                           id="chk-phone"
                           required
-                          value="${brandInfo.phone}"
                           class="tamyiz-form-input"
                           placeholder="+91 98765 43210"
+                          autocomplete="tel"
                         />
                       </div>
                     </div>

@@ -33,23 +33,23 @@ class Store {
         date: "14 Oct 2026",
         items: [
           {
-            name: "TAMYIZ Horizon 480GSM Particle Hoodie",
-            variant: "L",
-            price: 4499,
+            name: "TAMYIZ Monograph 01: The Horizon of Distinction",
+            variant: "Interactive PDF + EPUB",
+            price: 899,
             quantity: 1,
-            image: "/assets/images/products/p1-hoodie-front.jpg"
+            image: "/assets/images/products/book-monograph-01.jpg"
           }
         ],
-        subtotal: 4499,
+        subtotal: 899,
         shipping: 0,
-        discount: 450,
-        total: 4049,
-        status: "In Transit",
-        carrier: "Blue Dart Express",
-        trackingId: "BLU-893021948",
+        discount: 90,
+        total: 809,
+        status: "Access Vault Active",
+        carrier: "Instant Digital Dispatch",
+        trackingId: "DIGITAL-TOKEN-98214",
         shippingAddress: {
           name: "Basit Khan",
-          address: "TAMYIZ Atelier, Main Market",
+          address: "TAMYIZ Digital Atelier",
           city: "Sopore",
           state: "Jammu & Kashmir",
           pincode: "193201",

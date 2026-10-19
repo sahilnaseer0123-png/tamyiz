@@ -80,7 +80,7 @@ export class LiveSearch {
   renderDefault() {
     this.resultsContainer.innerHTML = `
       <div class="search-empty-state">
-        <p class="search-hint">Type product name, category, or material (e.g. "Hoodie", "Chronograph", "Parfum", "Cargo").</p>
+        <p class="search-hint">Type edition title, category, or format (e.g. "Monograph", "Second Brain", "Notion", "Figma", "UI Kit").</p>
       </div>
     `;
   }
@@ -89,19 +89,19 @@ export class LiveSearch {
     if (results.length === 0) {
       this.resultsContainer.innerHTML = `
         <div class="search-no-results">
-          <p class="no-res-title">No distinct items found for "${query}"</p>
-          <p class="no-res-subtitle">Try searching for "480GSM", "Ripstop", "Chronograph", or browse all products.</p>
-          <a href="#shop" class="btn btn-primary btn-sm" onclick="window.tamyizApp.closeSearch()">Explore Catalog</a>
+          <p class="no-res-title">No distinct editions found for "${query}"</p>
+          <p class="no-res-subtitle">Try searching for "Monograph", "Notion", "Figma", "Blueprint", or browse the full archive.</p>
+          <button class="btn btn-primary btn-sm" onclick="window.tamyizApp.closeSearch(); window.tamyizApp.navigateTo('/editions');">Explore Archive</button>
         </div>
       `;
       return;
     }
 
     this.resultsContainer.innerHTML = `
-      <div class="search-count-label">${results.length} distinct item${results.length > 1 ? 's' : ''} found</div>
+      <div class="search-count-label">${results.length} distinct edition${results.length > 1 ? 's' : ''} found</div>
       <div class="search-results-grid">
         ${results.map(product => `
-          <div class="search-item" data-product-id="${product.id}">
+          <div class="search-item" data-product-slug="${product.slug || product.id}">
             <img src="${product.images[0]}" alt="${product.name}" class="search-item-thumb" />
             <div class="search-item-info">
               <span class="search-item-category">${product.category}</span>
@@ -112,7 +112,7 @@ export class LiveSearch {
                 ${product.isSale ? `<span class="tag-sale">SALE</span>` : ''}
               </div>
             </div>
-            <button class="btn-icon-link" aria-label="View product details">
+            <button class="btn-icon-link" aria-label="View edition details">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
           </div>
@@ -123,9 +123,13 @@ export class LiveSearch {
     // Attach click listeners
     this.resultsContainer.querySelectorAll('.search-item').forEach(item => {
       item.addEventListener('click', () => {
-        const id = item.getAttribute('data-product-id');
+        const slug = item.getAttribute('data-product-slug');
         this.close();
-        window.location.hash = `#product/${id}`;
+        if (window.tamyizApp) {
+          window.tamyizApp.navigateTo(`/edition/${slug}`);
+        } else {
+          window.location.pathname = `/edition/${slug}`;
+        }
       });
     });
   }

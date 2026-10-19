@@ -733,7 +733,15 @@ export class TamyizUnifiedApp {
 
   toggleWishlist(id) {
     const product = findProductBySlugOrId(id);
-    store.toggleWishlist(id, product ? product.name : "Edition");
+    const inWish = store.toggleWishlist(id, product ? product.name : "Edition");
+    document.querySelectorAll(`.tamyiz-btn-wishlist[data-id="${id}"]`).forEach(btn => {
+      btn.classList.toggle('active', inWish);
+      const svg = btn.querySelector('svg');
+      if (svg) {
+        svg.setAttribute('fill', inWish ? 'var(--color-red)' : 'none');
+        svg.style.fill = inWish ? 'var(--color-red)' : 'none';
+      }
+    });
   }
 
   // Cart Drawer
@@ -911,9 +919,30 @@ export class TamyizUnifiedApp {
       return;
     }
 
-    const name = document.getElementById('chk-name')?.value || 'Collector';
-    const email = document.getElementById('chk-email')?.value || 'collector@tamyiz.in';
-    const phone = document.getElementById('chk-phone')?.value || brandInfo.phone;
+    const nameInput = document.getElementById('chk-name');
+    const emailInput = document.getElementById('chk-email');
+    const phoneInput = document.getElementById('chk-phone');
+
+    const name = nameInput?.value?.trim() || '';
+    const email = emailInput?.value?.trim() || '';
+    const phone = phoneInput?.value?.trim() || '';
+
+    if (!name) {
+      store.showToast('Please enter your full name for order issuance.', 'error');
+      nameInput?.focus();
+      return;
+    }
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      store.showToast('Please enter a valid email address for digital download dispatch.', 'error');
+      emailInput?.focus();
+      return;
+    }
+    if (!phone || phone.replace(/\D/g, '').length < 8) {
+      store.showToast('Please enter a valid WhatsApp number for backup delivery.', 'error');
+      phoneInput?.focus();
+      return;
+    }
+
     const payment = document.querySelector('input[name="checkout-payment"]:checked')?.value || 'upi';
 
     const order = store.createOrder({
@@ -921,7 +950,7 @@ export class TamyizUnifiedApp {
         name,
         email,
         phone,
-        city: "Digital Dispatch",
+        city: "Instant Digital Dispatch",
         state: "Online",
         pincode: "193201"
       },
@@ -1023,7 +1052,11 @@ export class TamyizUnifiedApp {
   }
 }
 
-// Instantiate and expose globally
-document.addEventListener('DOMContentLoaded', () => {
-  window.tamyizApp = new TamyizUnifiedApp();
-});
+// Safe DOM-ready instantiation
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.tamyizApp) window.tamyizApp = new TamyizUnifiedApp();
+  });
+} else {
+  if (!window.tamyizApp) window.tamyizApp = new TamyizUnifiedApp();
+}
