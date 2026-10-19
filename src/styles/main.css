@@ -1,0 +1,397 @@
+/* ==========================================================================
+   TAMYIZ™ — Premium E-Commerce Design System
+   "Be Distinct."
+   Colors:
+     Ink Black:  #0B0B0B
+     Signal Red: #E1251B
+     Off-White:  #F4F4F2
+     Soft Grey:  #8A8A8A
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  /* Color Palette */
+  --color-black: #0B0B0B;
+  --color-black-rgb: 11, 11, 11;
+  --color-red: #E1251B;
+  --color-red-rgb: 225, 37, 27;
+  --color-offwhite: #F4F4F2;
+  --color-white: #FFFFFF;
+  --color-grey: #8A8A8A;
+  --color-border: #E5E5E2;
+  --color-border-dark: #222222;
+
+  /* Typography */
+  --font-display: 'Michroma', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-subdisplay: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Layout & Spacing */
+  --max-width: 1400px;
+  --header-height: 80px;
+  --header-height-mobile: 68px;
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  /* Transitions */
+  --transition-fast: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 450ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows (minimal & sharp) */
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-elevated: 0 16px 40px rgba(0, 0, 0, 0.08);
+  --shadow-drawer: -12px 0 48px rgba(0, 0, 0, 0.16);
+}
+
+/* Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-offwhite);
+  color: var(--color-black);
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  background-color: var(--color-offwhite);
+  color: var(--color-black);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Typography Presets */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-black);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+}
+
+h4 {
+  font-size: 1.1rem;
+}
+
+p {
+  color: #333333;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  font-family: var(--font-body);
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+}
+
+/* Dotted Divider Motif */
+.dotted-divider {
+  width: 100%;
+  height: 1px;
+  background-image: radial-gradient(circle, var(--color-grey) 1px, transparent 1px);
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
+  margin: 4rem 0;
+  opacity: 0.45;
+}
+
+/* Button Component Hierarchy */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 2rem;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: 1px solid var(--color-black);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-red);
+  border-color: var(--color-red);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(225, 37, 27, 0.25);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+.btn-red {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  border: 1px solid var(--color-red);
+}
+
+.btn-red:hover {
+  background-color: #c41e15;
+  border-color: #c41e15;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(225, 37, 27, 0.35);
+}
+
+.btn-sm {
+  padding: 0.65rem 1.25rem;
+  font-size: 0.75rem;
+}
+
+.btn-lg {
+  padding: 1.2rem 2.8rem;
+  font-size: 0.9rem;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Tags & Badges */
+.tag-sale {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  display: inline-block;
+}
+
+.tag-bestseller {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  display: inline-block;
+}
+
+.tag-new {
+  background-color: transparent;
+  border: 1px solid var(--color-black);
+  color: var(--color-black);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  display: inline-block;
+}
+
+/* Pricing typography */
+.price-current {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-black);
+  font-size: 1.15rem;
+}
+
+.price-original {
+  font-family: var(--font-body);
+  color: var(--color-grey);
+  text-decoration: line-through;
+  font-size: 0.95rem;
+  margin-left: 0.4rem;
+}
+
+/* Toast Notifications */
+.tamyiz-toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.tamyiz-toast {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: 0.9rem 1.4rem;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all var(--transition-normal);
+  border-left: 3px solid var(--color-red);
+  max-width: 380px;
+}
+
+.tamyiz-toast.toast-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-grey);
+  flex-shrink: 0;
+}
+
+.toast-dot-red {
+  background-color: var(--color-red);
+  box-shadow: 0 0 8px var(--color-red);
+}
+
+/* Floating WhatsApp Button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 990;
+  width: 54px;
+  height: 54px;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.whatsapp-float:hover {
+  background-color: var(--color-red);
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(225, 37, 27, 0.35);
+}
+
+.whatsapp-float-tooltip {
+  position: absolute;
+  right: 68px;
+  background: var(--color-black);
+  color: var(--color-white);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: var(--radius-xs);
+  opacity: 0;
+  transform: translateX(8px);
+  transition: all var(--transition-fast);
+  pointer-events: none;
+}
+
+.whatsapp-float:hover .whatsapp-float-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .whatsapp-float {
+    bottom: 5rem;
+    right: 1.25rem;
+    width: 48px;
+    height: 48px;
+  }
+}
