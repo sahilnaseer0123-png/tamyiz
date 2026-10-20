@@ -328,37 +328,6 @@ export class UIController {
         </div>
       </section>
 
-      <!-- Customer Reviews Testimonials (3 Cards) -->
-      <section class="section">
-        <div class="container">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <h2>Customer Distinction</h2>
-              <p class="section-subtitle">Unfiltered feedback from verified buyers across India.</p>
-            </div>
-            <div style="font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;">
-              4.9 / 5.0 RATING
-            </div>
-          </div>
-
-          <div class="testimonials-grid">
-            ${testimonials.map(t => `
-              <div class="testimonial-card">
-                <div class="testimonial-stars">
-                  ${Array(t.rating).fill(`
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--color-red)" stroke="var(--color-red)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                  `).join('')}
-                </div>
-                <p class="testimonial-text">"${t.text}"</p>
-                <div class="testimonial-author">
-                  <span class="author-name">${t.author} — ${t.location}</span>
-                  <span class="author-meta">${t.product} • ${t.date}</span>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      </section>
 
       <!-- Newsletter Section -->
       <section class="newsletter-section">

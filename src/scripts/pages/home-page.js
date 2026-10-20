@@ -4,7 +4,7 @@
  */
 
 import { products } from '../../data/products.js';
-import { foundersData, testimonials } from '../../data/content.js';
+import { foundersData } from '../../data/content.js';
 import { siteConfig } from '../../data/site-config.js';
 import { store } from '../store.js';
 
@@ -338,46 +338,6 @@ export function renderHomePage(appInstance) {
         </div>
       </section>
 
-      <!-- 6. INSIDE THE ATELIER / EARLY READER NOTES -->
-      <section class="tamyiz-section py-14 md:py-24" style="background: #FFFFFF;">
-        <div class="container">
-          <div style="text-align: center; max-width: 680px; margin: 0 auto 3.5rem auto;">
-            <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red); text-transform: uppercase; letter-spacing: 0.12em;">Inside The Atelier</span>
-            <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; margin-top: 0.4rem; text-transform: uppercase;">Early Reader Notes</h2>
-            <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem; line-height: 1.5;">
-              Reflections on writing clarity, Swiss typographic discipline, and architectural philosophy from verified readers and design leaders.
-            </p>
-          </div>
-
-          <div class="tamyiz-reviews-grid grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            ${testimonials.map(t => `
-              <div class="tamyiz-review-card">
-                <div>
-                  <div style="display: flex; gap: 4px; color: var(--color-red); margin-bottom: 1.25rem; font-size: 0.95rem;">
-                    ${Array(t.rating).fill('★').join('')}
-                  </div>
-                  <p style="font-size: 0.95rem; color: #222; line-height: 1.6; margin-bottom: 1.75rem;">"${t.text}"</p>
-                </div>
-                <div style="border-top: 1px solid var(--color-border); padding-top: 1rem; font-size: 0.82rem;">
-                  <strong>${t.author}</strong> — ${t.location}
-                  <div style="margin-top: 0.35rem;">
-                    <button 
-                      onclick="window.tamyizApp.openProductPreview('${t.productId || 'tmz-dig-001'}')" 
-                      class="tamyiz-testimonial-product-link hover:text-black hover:underline cursor-pointer transition-colors text-left font-semibold text-black"
-                      style="background: none; border: none; padding: 0; font-family: var(--font-sub); font-size: 0.76rem; font-weight: 700; text-decoration: underline; color: #111; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;"
-                      title="Inspect ${t.product}"
-                      aria-label="Inspect ${t.product}"
-                    >
-                      <span>${t.product}</span>
-                      <span style="color: var(--color-red); text-decoration: none;">↗</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      </section>
     </div>
   `;
 }

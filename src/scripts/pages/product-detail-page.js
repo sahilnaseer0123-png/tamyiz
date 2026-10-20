@@ -167,12 +167,6 @@ export function renderProductDetailPage(slug, appInstance) {
                 <h1 class="tamyiz-pdp-title">${product.name}</h1>
                 <p class="tamyiz-pdp-tagline">${product.tagline}</p>
 
-                <!-- Reviews Rating Badge -->
-                <div class="tamyiz-pdp-rating-row">
-                  <span class="tamyiz-stars">★★★★★</span>
-                  <span class="tamyiz-rating-score">${product.rating.toFixed(1)}</span>
-                  <span class="tamyiz-rating-count">(${product.reviewsCount} verified readers)</span>
-                </div>
 
                 <!-- Pricing -->
                 <div class="tamyiz-pdp-pricing">

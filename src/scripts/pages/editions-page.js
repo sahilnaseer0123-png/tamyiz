@@ -79,7 +79,6 @@ export function renderEditionsPage(appInstance) {
                 <option value="featured" ${appInstance.sortBy === 'featured' ? 'selected' : ''}>Curated Archive</option>
                 <option value="price-asc" ${appInstance.sortBy === 'price-asc' ? 'selected' : ''}>Price: Low to High</option>
                 <option value="price-desc" ${appInstance.sortBy === 'price-desc' ? 'selected' : ''}>Price: High to Low</option>
-                <option value="rating" ${appInstance.sortBy === 'rating' ? 'selected' : ''}>Highest Rated</option>
               </select>
             </div>
           </div>
