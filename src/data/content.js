@@ -40,9 +40,9 @@ export const foundersData = {
       bio: "A software engineer and digital architect obsessed with high-performance code, luxury UI/UX, and scalable systems. Sahil develops the TAMYIZ digital ecosystem, instant delivery engines, and interactive reading applications.",
       quote: "Great software, like great architecture, is defined by precision and discipline. We build frictionless, instant digital experiences that honor the craft.",
       socials: {
-        instagram: "https://instagram.com/tamyiz.sahil",
-        linkedin: "https://linkedin.com/in/sahil-tamyiz",
-        x: "https://x.com/sahil_tmz"
+        instagram: "https://www.instagram.com/tamyiz.co/",
+        linkedin: "https://www.linkedin.com/in/sahil-naseer-03717b350/",
+        x: "https://x.com/sahilnaseer0123"
       }
     }
   ],

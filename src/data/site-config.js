@@ -44,9 +44,9 @@ export const siteConfig = {
       image: "/assets/images/founders/sahil.jpg",
       quote: "Software and architecture share the same demand: proportion, restraint, and an absolute intolerance for the superfluous.",
       socials: {
-        linkedin: "https://linkedin.com/in/sahil-tamyiz",
-        x: "https://x.com/sahil_tamyiz",
-        instagram: "https://instagram.com/sahil_tamyiz"
+        instagram: "https://www.instagram.com/tamyiz.co/",
+        linkedin: "https://www.linkedin.com/in/sahil-naseer-03717b350/",
+        x: "https://x.com/sahilnaseer0123"
       }
     }
   },
@@ -56,9 +56,9 @@ export const siteConfig = {
 
   // Social Links
   socials: {
-    x: "https://x.com/tamyiz_atelier",
-    linkedin: "https://linkedin.com/company/tamyiz-atelier",
-    instagram: "https://instagram.com/tamyiz.atelier",
+    instagram: "https://www.instagram.com/tamyiz.co/",
+    linkedin: "https://www.linkedin.com/in/sahil-naseer-03717b350/",
+    x: "https://x.com/sahilnaseer0123",
     github: "https://github.com/sahilnaseer0123-png/tamyiz"
   }
 };
