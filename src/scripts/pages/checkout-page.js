@@ -113,7 +113,7 @@ export function renderCheckoutPage(appInstance) {
                           id="chk-phone"
                           required
                           class="tamyiz-form-input"
-                          placeholder="+91 98765 43210"
+                          placeholder="+91 95417 22379"
                           autocomplete="tel"
                         />
                       </div>
@@ -177,7 +177,7 @@ export function renderCheckoutPage(appInstance) {
                 </div>
 
                 <button type="submit" class="tamyiz-btn-submit-order w-full">
-                  <span>COMPLETE ACQUISITION →</span>
+                  <span id="checkout-submit-label">Pay &amp; Access Editions →</span>
                   <span>•</span>
                   <span>₹${total.toLocaleString('en-IN')}</span>
                 </button>
@@ -236,18 +236,20 @@ export function renderCheckoutPage(appInstance) {
                       <input
                         type="text"
                         id="checkout-coupon-input"
-                        placeholder="Coupon (DISTINCT10)"
+                        placeholder="Coupon code (DISTINCT10)"
                         class="tamyiz-coupon-input flex-1"
                         style="text-transform: uppercase;"
+                        onkeydown="if(event.key==='Enter'){ event.preventDefault(); window.tamyizApp.applyCouponFromCheckout(); }"
                       />
                       <button
                         type="button"
                         class="tamyiz-btn-apply-coupon"
                         onclick="window.tamyizApp.applyCouponFromCheckout()"
                       >
-                        APPLY
+                        Apply Code
                       </button>
                     </div>
+                    <div id="checkout-coupon-feedback" style="display: none; font-size: 0.75rem; margin-top: 0.45rem; font-weight: 600;"></div>
                   `}
                 </div>
 
@@ -297,28 +299,32 @@ export function renderCheckoutPage(appInstance) {
  * Order Confirmation & Download Vault View
  */
 export function renderOrderVaultHtml(order) {
+  const currentDateStr = order.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const invoiceNumber = `INV-TMZ-${order.orderId}`;
+  const authToken = `TMZ-AUTH-${order.orderId}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
   return `
     <div class="tamyiz-page-order-vault py-12 md:py-20">
-      <div class="container max-w-3xl mx-auto">
+      <div class="container max-w-4xl mx-auto">
         <div class="tamyiz-vault-card">
           <!-- Success Seal -->
-          <div class="tamyiz-vault-seal">
+          <div class="tamyiz-vault-seal no-print">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           </div>
 
-          <span class="tamyiz-vault-kicker">Digital Dispatch Protocol Confirmed</span>
-          <h1 class="tamyiz-vault-title">Instant Access Unlocked</h1>
-          <p class="tamyiz-vault-sub">
+          <span class="tamyiz-vault-kicker no-print">Order Confirmed &amp; Authenticated</span>
+          <h1 class="tamyiz-vault-title no-print">Instant Access Unlocked</h1>
+          <p class="tamyiz-vault-sub no-print">
             Order <strong>#${order.orderId}</strong> • Total Paid: <strong>₹${order.total.toLocaleString('en-IN')}</strong>
           </p>
-          <p style="font-size: 0.9rem; color: #555; margin-bottom: 2rem;">
-            Redundant copies have been dispatched to <strong>${order.shippingAddress?.email || 'your email'}</strong> and <strong>${order.shippingAddress?.phone || 'WhatsApp'}</strong>. Your files are ready for immediate download below:
+          <p class="no-print" style="font-size: 0.9rem; color: #555; margin-bottom: 2rem;">
+            A confirmation has been dispatched to <strong>${order.shippingAddress?.email || 'your email'}</strong> and <strong>${order.shippingAddress?.phone || 'WhatsApp'}</strong>. Your files and official invoice are ready below:
           </p>
 
           <!-- Download Cards for Each Item -->
-          <div class="tamyiz-vault-downloads-list mb-8">
+          <div class="tamyiz-vault-downloads-list mb-8 no-print">
             ${order.items.map(item => `
               <div class="tamyiz-download-item-card">
                 <div class="flex items-center gap-4">
@@ -338,34 +344,162 @@ export function renderOrderVaultHtml(order) {
                     class="tamyiz-btn-download-vault"
                     onclick="window.tamyizApp.triggerDownloadSim('${item.name}')"
                   >
-                    <span>⬇ DOWNLOAD FILES</span>
+                    <span>Download Edition</span>
                   </button>
                 </div>
               </div>
             `).join('')}
           </div>
 
-          <!-- Secondary Actions -->
-          <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <!-- Quick Invoice Action Bar -->
+          <div class="no-print flex flex-wrap gap-3 justify-center items-center mb-6">
+            <button
+              class="tamyiz-hero-btn-primary"
+              style="padding: 0.75rem 1.6rem; font-size: 0.82rem;"
+              onclick="window.print()"
+            >
+              <span>🖨 Print Invoice</span>
+            </button>
+            <button
+              class="tamyiz-btn-nav-outline"
+              style="padding: 0.75rem 1.6rem; font-size: 0.82rem;"
+              onclick="window.tamyizApp.downloadInvoice('${order.orderId}')"
+            >
+              <span>⬇ Download Invoice</span>
+            </button>
             <a
               href="https://wa.me/${siteConfig.whatsappNumber}?text=Hello%20TAMYIZ,%20I%20just%20completed%20Order%20${order.orderId}%20and%20would%20like%20my%20receipt%20confirmation."
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="tamyiz-btn-nav-outline"
-              style="display: inline-flex; align-items: center; gap: 0.4rem; color: #278838; border-color: #278838;"
+              style="padding: 0.75rem 1.4rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; color: #278838; border-color: #278838;"
             >
-              <span>💬 Send Receipt to WhatsApp</span>
-              <span>↗</span>
+              <span>💬 WhatsApp Confirmation ↗</span>
             </a>
-
             <button
-              class="tamyiz-hero-btn-primary"
-              style="padding: 0.75rem 1.75rem; font-size: 0.82rem;"
+              class="tamyiz-btn-nav-outline"
+              style="padding: 0.75rem 1.4rem; font-size: 0.82rem;"
               onclick="window.tamyizApp.resetOrderAndReturnHome()"
             >
-              <span>Return To Digital Flagship</span>
-              <span>→</span>
+              <span>Continue Browsing Editions →</span>
             </button>
+          </div>
+
+          <!-- OFFICIAL PRINTABLE SWISS DIGITAL TAX INVOICE -->
+          <div class="tamyiz-invoice-card" id="tamyiz-printable-invoice">
+            <div class="tamyiz-invoice-header">
+              <div class="tamyiz-invoice-brand">
+                <h2>TAMYIZ™</h2>
+                <div style="font-size: 0.72rem; color: #555; font-family: var(--font-sub); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2rem;">
+                  Digital Publishing &amp; Systems Architecture Atelier
+                </div>
+                <div style="font-size: 0.76rem; color: #555; margin-top: 0.35rem; line-height: 1.45;">
+                  Atelier Sopore, Kashmir 193201, India<br/>
+                  Phone / WhatsApp: ${siteConfig.phone} • Email: ${siteConfig.email}
+                </div>
+              </div>
+
+              <div class="tamyiz-invoice-meta sm:text-right">
+                <div class="tamyiz-invoice-badge">TAX &amp; DIGITAL COMMERCIAL INVOICE</div>
+                <div style="margin-top: 0.5rem; font-family: var(--font-sub); font-size: 0.78rem; line-height: 1.5;">
+                  <div><strong>INVOICE NO:</strong> ${invoiceNumber}</div>
+                  <div><strong>ORDER ID:</strong> #${order.orderId}</div>
+                  <div><strong>DATE OF ISSUE:</strong> ${currentDateStr}</div>
+                  <div><strong>PAYMENT STATUS:</strong> <span style="color: #278838; font-weight: 800;">PAID (CONFIRMED)</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tamyiz-invoice-divider"></div>
+
+            <!-- Customer & License Details -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
+              <div>
+                <span class="tamyiz-invoice-section-label">BILLED TO (LICENSEE)</span>
+                <div style="font-size: 0.9rem; font-weight: 700; color: #111;">
+                  ${order.shippingAddress?.fullName || order.shippingAddress?.name || 'Valued Patron'}
+                </div>
+                <div style="font-size: 0.8rem; color: #555; line-height: 1.45; margin-top: 0.15rem;">
+                  Email: ${order.shippingAddress?.email || '—'}<br/>
+                  ${order.shippingAddress?.phone ? `WhatsApp: ${order.shippingAddress.phone}` : ''}
+                </div>
+              </div>
+
+              <div class="sm:text-right">
+                <span class="tamyiz-invoice-section-label">DELIVERY &amp; LICENSE SPECIFICATION</span>
+                <div style="font-size: 0.9rem; font-weight: 700; color: #111;">
+                  Instant Digital Fulfillment
+                </div>
+                <div style="font-size: 0.8rem; color: #555; line-height: 1.45; margin-top: 0.15rem;">
+                  Single-Seat Lifetime Commercial License<br/>
+                  Cryptographic Auth Token: <code>${authToken}</code>
+                </div>
+              </div>
+            </div>
+
+            <!-- Itemized Table -->
+            <div class="tamyiz-invoice-table-wrap">
+              <table class="tamyiz-invoice-table">
+                <thead>
+                  <tr>
+                    <th style="text-align: left;">EDITION / TITLE</th>
+                    <th style="text-align: left;">SPECIFICATION / FORMAT</th>
+                    <th style="text-align: center;">QTY</th>
+                    <th style="text-align: right;">PRICE</th>
+                    <th style="text-align: right;">AMOUNT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${order.items.map(item => `
+                    <tr>
+                      <td>
+                        <strong>${item.name}</strong>
+                        <div style="font-size: 0.72rem; color: #777;">Full Single-Seat License Included</div>
+                      </td>
+                      <td>${item.variant || 'Standard Digital Edition'}</td>
+                      <td style="text-align: center;">1</td>
+                      <td style="text-align: right;">₹${item.price.toLocaleString('en-IN')}</td>
+                      <td style="text-align: right; font-weight: 700;">₹${item.price.toLocaleString('en-IN')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Financial Totals -->
+            <div class="flex justify-end mt-4">
+              <div style="width: 290px;">
+                <div class="flex justify-between py-1 text-xs">
+                  <span style="color: #666;">Subtotal:</span>
+                  <span style="font-weight: 600;">₹${order.subtotal.toLocaleString('en-IN')}</span>
+                </div>
+                ${order.discount ? `
+                  <div class="flex justify-between py-1 text-xs" style="color: var(--color-red);">
+                    <span>Coupon Discount (${order.coupon?.code || 'APPLIED'}):</span>
+                    <span style="font-weight: 700;">−₹${order.discount.toLocaleString('en-IN')}</span>
+                  </div>
+                ` : ''}
+                <div class="flex justify-between py-1 text-xs">
+                  <span style="color: #666;">Digital Delivery &amp; Storage:</span>
+                  <span style="color: #278838; font-weight: 700;">₹0 (Complimentary)</span>
+                </div>
+                <div class="flex justify-between py-2 text-sm font-bold border-t border-black mt-2" style="font-family: var(--font-display);">
+                  <span>Total Paid:</span>
+                  <span style="color: var(--color-red);">₹${order.total.toLocaleString('en-IN')}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Invoice Footer & Verification -->
+            <div class="mt-6 pt-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs text-gray-500">
+              <div>
+                <div>Authenticated by TAMYIZ™ Digital Publishing Studio • Basit &amp; Sahil</div>
+                <div>All digital editions include zero DRM friction and perpetual single-seat commercial rights.</div>
+              </div>
+              <div class="mt-2 sm:mt-0 font-mono text-right" style="font-size: 0.7rem;">
+                VERIFICATION TOKEN: <strong>${authToken}</strong>
+              </div>
+            </div>
           </div>
         </div>
       </div>

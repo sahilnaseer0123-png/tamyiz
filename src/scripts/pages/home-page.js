@@ -195,7 +195,7 @@ export function renderHomePage(appInstance) {
               </p>
               <div class="flex flex-wrap gap-3">
                 <button class="tamyiz-hero-btn-primary" style="padding: 0.85rem 1.75rem; font-size: 0.82rem;" onclick="window.tamyizApp.navigateTo('/atelier')">
-                  <span>EXPLORE ATELIER ORIGIN &amp; FOUNDERS</span>
+                  <span>Explore Atelier &amp; Story</span>
                   <span>→</span>
                 </button>
               </div>
@@ -390,12 +390,10 @@ export function renderProductCardHtml(p, appInstance) {
 
         <div class="tamyiz-card-actions-row">
           <button class="tamyiz-btn-quick-add" id="btn-quick-${p.id}" style="background: var(--color-red); font-size: 0.82rem; padding: 0.82rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickAddToCart('${p.id}')">
-            INSTANT ACCESS • ₹${currentPrice.toLocaleString('en-IN')}
+            Instant Access • ₹${currentPrice.toLocaleString('en-IN')}
           </button>
           <button class="tamyiz-btn-preview-trigger" onclick="event.stopPropagation(); window.tamyizApp.openProductPreview('${p.id}')">
-            <span>📖</span>
-            <span>PREVIEW / DEMO</span>
-            <span>↗</span>
+            <span>Preview Edition ↗</span>
           </button>
         </div>
       </div>

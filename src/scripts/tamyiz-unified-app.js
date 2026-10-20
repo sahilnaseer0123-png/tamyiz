@@ -417,13 +417,14 @@ export class TamyizUnifiedApp {
             <span id="cart-total">₹0</span>
           </div>
 
-          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-            <input type="text" id="coupon-input" placeholder="Coupon Code (DISTINCT10)" style="flex-grow: 1; padding: 0.65rem 0.85rem; border: 1px solid var(--color-border); border-radius: 4px; text-transform: uppercase; font-size: 16px;" />
-            <button style="background: var(--color-black); color: #FFF; padding: 0 1.1rem; border-radius: 4px; font-size: 0.75rem; font-weight: 800; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase;" onclick="window.tamyizApp.applyCoupon()">Apply</button>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 0.4rem;">
+            <input type="text" id="coupon-input" placeholder="Coupon Code (DISTINCT10)" style="flex-grow: 1; padding: 0.65rem 0.85rem; border: 1px solid var(--color-border); border-radius: 4px; text-transform: uppercase; font-size: 16px;" onkeydown="if(event.key==='Enter') window.tamyizApp.applyCoupon();" />
+            <button id="btn-apply-drawer-coupon" style="background: var(--color-black); color: #FFF; padding: 0 1.1rem; border-radius: 4px; font-size: 0.75rem; font-weight: 800; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase; transition: transform 0.1s ease, background 0.2s ease;" onclick="window.tamyizApp.applyCoupon()">Apply</button>
           </div>
+          <div id="drawer-coupon-feedback" style="display: none; font-size: 0.75rem; margin-bottom: 0.85rem; font-weight: 600;"></div>
 
           <button class="tamyiz-btn-quick-add" style="background: var(--color-red); font-size: 0.88rem; padding: 0.95rem; border: none;" onclick="window.tamyizApp.closeCart(); window.tamyizApp.navigateTo('/checkout');">
-            PROCEED TO INSTANT ACCESS →
+            Proceed to Checkout →
           </button>
 
           <div class="tamyiz-trust-bar">
@@ -796,7 +797,7 @@ export class TamyizUnifiedApp {
       }
       const quickBtn = document.getElementById(`btn-quick-${productId}`);
       if (quickBtn) {
-        quickBtn.innerHTML = `INSTANT ACCESS • ₹${price.toLocaleString('en-IN')}`;
+        quickBtn.innerHTML = `Instant Access • ₹${price.toLocaleString('en-IN')}`;
       }
 
       // 2. Update PDP Price & Button
@@ -809,11 +810,11 @@ export class TamyizUnifiedApp {
       }
       const pdpAddBtn = document.getElementById('pdp-add-btn');
       if (pdpAddBtn) {
-        pdpAddBtn.innerHTML = `<span>ADD TO ATELIER BAG</span><span>•</span><span>₹${price.toLocaleString('en-IN')}</span>`;
+        pdpAddBtn.innerHTML = `<span>Add to Bag</span><span>•</span><span>₹${price.toLocaleString('en-IN')}</span>`;
       }
       const pdpBuyBtn = document.getElementById('pdp-buy-btn');
       if (pdpBuyBtn) {
-        pdpBuyBtn.innerHTML = `<span>INSTANT CHECKOUT</span><span>•</span><span>₹${price.toLocaleString('en-IN')} →</span>`;
+        pdpBuyBtn.innerHTML = `<span>Buy Now</span><span>•</span><span>₹${price.toLocaleString('en-IN')} →</span>`;
       }
 
       // 3. Update Modal Price & Button (if open)
@@ -821,7 +822,7 @@ export class TamyizUnifiedApp {
       if (modalPriceEl) modalPriceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
       const modalBuyBtn = document.getElementById(`modal-buy-btn-${productId}`);
       if (modalBuyBtn) {
-        modalBuyBtn.innerHTML = `INSTANT ACCESS • ₹${price.toLocaleString('en-IN')} →`;
+        modalBuyBtn.innerHTML = `Add to Bag • ₹${price.toLocaleString('en-IN')} →`;
       }
     }
   }
@@ -985,9 +986,42 @@ export class TamyizUnifiedApp {
 
   applyCoupon() {
     const input = document.getElementById('coupon-input');
+    const feedback = document.getElementById('drawer-coupon-feedback');
     if (!input) return;
-    const success = store.applyCoupon(input.value);
-    if (success) input.value = '';
+
+    const val = (input.value || '').trim();
+    if (!val) {
+      if (feedback) {
+        feedback.textContent = 'Please enter a coupon code.';
+        feedback.style.color = 'var(--color-red)';
+        feedback.style.display = 'block';
+      }
+      input.classList.remove('shake-anim');
+      void input.offsetWidth;
+      input.classList.add('shake-anim');
+      store.showToast('Please enter a coupon code.', 'error');
+      return;
+    }
+
+    const success = store.applyCoupon(val);
+    if (success) {
+      input.value = '';
+      if (feedback) {
+        feedback.textContent = `✓ Coupon ${val.toUpperCase()} applied!`;
+        feedback.style.color = '#278838';
+        feedback.style.display = 'block';
+      }
+    } else {
+      if (feedback) {
+        feedback.textContent = `✕ Invalid coupon code "${val.toUpperCase()}". Try DISTINCT10`;
+        feedback.style.color = 'var(--color-red)';
+        feedback.style.display = 'block';
+      }
+      input.classList.remove('shake-anim');
+      void input.offsetWidth;
+      input.classList.add('shake-anim');
+    }
+
     this.renderDrawerItems();
     if (this.currentPage === 'checkout') {
       this.renderCurrentPage();
@@ -1220,7 +1254,7 @@ export class TamyizUnifiedApp {
             ${origPrice ? `<span style="font-size: 0.88rem; color: #999; text-decoration: line-through; margin-left: 0.35rem;">₹${origPrice.toLocaleString('en-IN')}</span>` : ''}
           </div>
           <button class="tamyiz-btn-quick-add" id="modal-buy-btn-${product.id}" style="background: var(--color-red); font-size: 0.84rem; padding: 0.85rem 1.4rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickBuyFromModal('${product.id}')">
-            INSTANT ACCESS • ₹${price.toLocaleString('en-IN')} →
+            Add to Bag • ₹${price.toLocaleString('en-IN')} →
           </button>
         </div>
       </div>
@@ -1354,16 +1388,194 @@ export class TamyizUnifiedApp {
 
   applyCouponFromCheckout() {
     const input = document.getElementById('checkout-coupon-input');
+    const feedback = document.getElementById('checkout-coupon-feedback');
     if (!input) return;
-    const success = store.applyCoupon(input.value);
+
+    const val = (input.value || '').trim();
+    if (!val) {
+      if (feedback) {
+        feedback.textContent = 'Please enter a coupon code.';
+        feedback.style.color = 'var(--color-red)';
+        feedback.style.display = 'block';
+      }
+      input.classList.remove('shake-anim');
+      void input.offsetWidth;
+      input.classList.add('shake-anim');
+      store.showToast('Please enter a coupon code.', 'error');
+      return;
+    }
+
+    const success = store.applyCoupon(val);
     if (success) {
       this.renderCurrentPage();
+    } else {
+      if (feedback) {
+        feedback.textContent = `✕ Invalid coupon code "${val.toUpperCase()}". Try DISTINCT10`;
+        feedback.style.color = 'var(--color-red)';
+        feedback.style.display = 'block';
+      }
+      input.classList.remove('shake-anim');
+      void input.offsetWidth;
+      input.classList.add('shake-anim');
     }
   }
 
   removeCouponFromCheckout() {
     store.removeCoupon();
     this.renderCurrentPage();
+  }
+
+  downloadInvoice(orderId) {
+    const order = this.confirmedOrder || (store.orders && store.orders.find(o => o.orderId === orderId)) || {
+      orderId: orderId || 'TMZ-SAMPLE',
+      date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+      total: 899,
+      subtotal: 899,
+      discount: 0,
+      items: [
+        { name: 'TAMYIZ Monograph 01: The Horizon of Distinction', variant: 'Interactive PDF + EPUB', price: 899 }
+      ],
+      shippingAddress: {
+        fullName: 'Valued Patron',
+        email: 'tamyiz.co@gmail.com',
+        phone: siteConfig.phone
+      }
+    };
+
+    const invoiceNumber = `INV-TMZ-${order.orderId}`;
+    const invoiceDate = order.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    const authToken = `TMZ-AUTH-${order.orderId}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
+    const itemsHtml = order.items.map((item) => `
+      <tr>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5;">
+          <strong style="font-size: 13px;">${item.name}</strong>
+          <div style="font-size: 11px; color: #666; margin-top: 3px;">Single-Seat Lifetime Commercial License</div>
+        </td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5;">${item.variant || 'Standard Digital Edition'}</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: center;">1</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: right;">₹${item.price.toLocaleString('en-IN')}</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: right; font-weight: bold;">₹${item.price.toLocaleString('en-IN')}</td>
+      </tr>
+    `).join('');
+
+    const invoiceDoc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TAMYIZ™ — Tax Invoice #${invoiceNumber}</title>
+  <style>
+    @page { size: A4; margin: 15mm; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #111; margin: 0; padding: 25px; background: #FFF; line-height: 1.5; font-size: 13px; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 20px; border-bottom: 2px solid #000; }
+    .brand h1 { font-size: 28px; font-weight: 900; letter-spacing: 2px; margin: 0; text-transform: uppercase; }
+    .brand-sub { font-size: 11px; color: #444; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-top: 4px; }
+    .meta { text-align: right; font-size: 12px; }
+    .badge { display: inline-block; background: #000; color: #FFF; font-size: 10px; font-weight: 800; padding: 4px 8px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .parties { display: flex; justify-content: space-between; margin: 24px 0; font-size: 12px; }
+    .party-title { font-size: 10px; font-weight: 800; color: #E1251B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 12px; }
+    th { background: #F4F4F4; padding: 10px; text-align: left; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
+    .totals { width: 300px; margin-left: auto; margin-top: 20px; }
+    .totals-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
+    .totals-total { display: flex; justify-content: space-between; padding: 8px 0; font-size: 15px; font-weight: 800; border-top: 2px solid #000; margin-top: 6px; }
+    .footer { margin-top: 40px; padding-top: 15px; border-top: 1px solid #DDD; font-size: 11px; color: #666; display: flex; justify-content: space-between; }
+    @media print { .no-print { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">
+      <h1>TAMYIZ™</h1>
+      <div class="brand-sub">Digital Publishing &amp; Systems Architecture Atelier</div>
+      <div style="font-size: 11px; color: #666; margin-top: 6px;">
+        Atelier Sopore, Kashmir 193201, India<br/>
+        Phone / WhatsApp: ${siteConfig.phone} • Email: ${siteConfig.email}
+      </div>
+    </div>
+    <div class="meta">
+      <div class="badge">OFFICIAL DIGITAL TAX INVOICE</div>
+      <div><strong>INVOICE:</strong> ${invoiceNumber}</div>
+      <div><strong>ORDER ID:</strong> #${order.orderId}</div>
+      <div><strong>DATE:</strong> ${invoiceDate}</div>
+      <div><strong>STATUS:</strong> <span style="color: #278838; font-weight: 800;">PAID (CONFIRMED)</span></div>
+    </div>
+  </div>
+
+  <div class="parties">
+    <div>
+      <div class="party-title">BILLED TO (LICENSEE)</div>
+      <div style="font-size: 13px; font-weight: 700;">${order.shippingAddress?.fullName || order.shippingAddress?.name || 'Valued Patron'}</div>
+      <div>Email: ${order.shippingAddress?.email || '—'}</div>
+      ${order.shippingAddress?.phone ? `<div>WhatsApp: ${order.shippingAddress.phone}</div>` : ''}
+    </div>
+    <div style="text-align: right;">
+      <div class="party-title">DELIVERY PROTOCOL</div>
+      <div style="font-size: 13px; font-weight: 700;">Instant Digital Dispatch</div>
+      <div>Single-Seat Lifetime Commercial License</div>
+      <div>Auth Token: <code>${authToken}</code></div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 45%;">EDITION / TITLE</th>
+        <th style="width: 25%;">SPECIFICATION</th>
+        <th style="text-align: center; width: 8%;">QTY</th>
+        <th style="text-align: right; width: 11%;">PRICE</th>
+        <th style="text-align: right; width: 11%;">AMOUNT</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${itemsHtml}
+    </tbody>
+  </table>
+
+  <div class="totals">
+    <div class="totals-row">
+      <span style="color: #666;">Subtotal:</span>
+      <span>₹${order.subtotal.toLocaleString('en-IN')}</span>
+    </div>
+    ${order.discount ? `
+      <div class="totals-row" style="color: #E1251B; font-weight: 700;">
+        <span>Coupon Discount:</span>
+        <span>−₹${order.discount.toLocaleString('en-IN')}</span>
+      </div>
+    ` : ''}
+    <div class="totals-row">
+      <span style="color: #666;">Digital Delivery:</span>
+      <span style="color: #278838; font-weight: 700;">₹0 (Free)</span>
+    </div>
+    <div class="totals-total">
+      <span>Total Paid:</span>
+      <span style="color: #E1251B;">₹${order.total.toLocaleString('en-IN')}</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>
+      <strong>TAMYIZ™ Digital Publishing Atelier • Sopore, Kashmir</strong><br/>
+      Authentic single-seat lifetime license. Zero DRM friction.
+    </div>
+    <div style="text-align: right;">
+      Verification Token: <strong>${authToken}</strong>
+    </div>
+  </div>
+</body>
+</html>`;
+
+    const blob = new Blob([invoiceDoc], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `TAMYIZ-Invoice-${order.orderId}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    store.showToast(`Invoice downloaded for Order #${order.orderId}`, 'success');
   }
 
   updateSummaryQty(cartItemId, delta) {
@@ -1421,13 +1633,13 @@ export class TamyizUnifiedApp {
 
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>DISPATCHING TO FOUNDERS...</span>';
+      submitBtn.innerHTML = '<span>Sending Message...</span>';
     }
 
     setTimeout(() => {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>DISPATCH MESSAGE TO FOUNDERS</span><span>→</span>';
+        submitBtn.innerHTML = '<span>Send Message</span><span>→</span>';
       }
       store.showToast(`Thank you, ${name}. Message received by Basit & Sahil. Response within 4 hours.`, 'success');
       const form = document.getElementById('atelier-contact-form') || document.querySelector('.tamyiz-contact-form');

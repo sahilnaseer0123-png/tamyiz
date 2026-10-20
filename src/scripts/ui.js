@@ -20,8 +20,8 @@ export class UIController {
     this.checkoutData = {
       address: {
         name: "Basit Khan",
-        email: "basit@tamyiz.in",
-        phone: "+91 98765 43210",
+        email: "tamyiz.co@gmail.com",
+        phone: "+91 95417 22379",
         address: "TAMYIZ Atelier, Main Market",
         city: "Sopore",
         state: "Jammu & Kashmir",

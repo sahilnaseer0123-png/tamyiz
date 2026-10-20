@@ -15,9 +15,9 @@ export const siteConfig = {
   email: "tamyiz.co@gmail.com",
   conciergeEmail: "tamyiz.co@gmail.com",
   supportEmail: "tamyiz.co@gmail.com",
-  phone: "+91 98765 43210",
-  whatsappNumber: "919876543210",
-  whatsappUrl: "https://wa.me/919876543210?text=Hello%20TAMYIZ%20Concierge,%20I%20have%20an%20inquiry%20regarding%20your%20digital%20publications.",
+  phone: "+91 95417 22379",
+  whatsappNumber: "919541722379",
+  whatsappUrl: "https://wa.me/919541722379?text=Hello%20TAMYIZ%20Concierge,%20I%20have%20an%20inquiry%20regarding%20your%20digital%20publications.",
 
   // Co-Founders
   founders: {

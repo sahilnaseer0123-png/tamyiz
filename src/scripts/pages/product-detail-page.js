@@ -19,7 +19,7 @@ export function renderProductDetailPage(slug, appInstance) {
           The requested digital edition could not be located in the archive.
         </p>
         <button class="tamyiz-hero-btn-primary" onclick="window.tamyizApp.navigateTo('/editions')">
-          <span>Return To The Archive</span>
+          <span>Return to Editions</span>
           <span>→</span>
         </button>
       </div>
@@ -202,7 +202,7 @@ export function renderProductDetailPage(slug, appInstance) {
                     class="tamyiz-pdp-btn-add"
                     onclick="window.tamyizApp.quickAddToCart('${product.id}')"
                   >
-                    <span>ADD TO BAG &amp; INSTANT ACCESS</span>
+                    <span>Add to Bag • Instant Access</span>
                     <span>•</span>
                     <span>₹${product.price.toLocaleString('en-IN')}</span>
                   </button>
@@ -211,7 +211,7 @@ export function renderProductDetailPage(slug, appInstance) {
                     class="tamyiz-pdp-btn-buy-now"
                     onclick="window.tamyizApp.buyNowDirect('${product.id}')"
                   >
-                    <span>⚡ BUY NOW (DIRECT CHECKOUT)</span>
+                    <span>Buy Now • Direct Checkout →</span>
                   </button>
                 </div>
 

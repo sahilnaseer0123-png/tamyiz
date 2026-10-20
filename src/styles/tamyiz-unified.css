@@ -4846,6 +4846,212 @@ img {
   gap: 1rem;
 }
 
+/* ==========================================================================
+   TOAST NOTIFICATIONS (COUPON & ORDER STATUS ALERTS)
+   ========================================================================== */
+.tamyiz-toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
 
+.tamyiz-toast {
+  background-color: var(--color-black);
+  color: #FFFFFF;
+  padding: 0.85rem 1.35rem;
+  border-radius: 4px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-sub);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 4px solid var(--color-red);
+  max-width: 420px;
+}
 
+.tamyiz-toast.toast-show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
+.tamyiz-toast-error {
+  border-left-color: #E1251B;
+}
+
+.tamyiz-toast-success {
+  border-left-color: #278838;
+}
+
+.toast-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #888888;
+  flex-shrink: 0;
+}
+
+.toast-dot-red {
+  background-color: var(--color-red);
+  box-shadow: 0 0 8px var(--color-red);
+}
+
+.tamyiz-toast-success .toast-dot {
+  background-color: #278838;
+  box-shadow: 0 0 8px #278838;
+}
+
+/* Coupon Shake Animation */
+@keyframes shake-coupon {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.shake-anim {
+  animation: shake-coupon 0.35s ease-in-out;
+}
+
+/* ==========================================================================
+   OFFICIAL SWISS DIGITAL TAX INVOICE
+   ========================================================================== */
+.tamyiz-invoice-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-black);
+  border-radius: 4px;
+  padding: 2.25rem;
+  margin: 2rem 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  font-family: var(--font-sans);
+  color: #111111;
+  text-align: left;
+}
+
+.tamyiz-invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.tamyiz-invoice-brand h2 {
+  font-family: var(--font-brand);
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.tamyiz-invoice-badge {
+  display: inline-block;
+  background: var(--color-black);
+  color: #FFFFFF;
+  font-family: var(--font-sub);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 0.3rem 0.65rem;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.tamyiz-invoice-divider {
+  height: 1px;
+  background: #E5E5E5;
+  margin: 1.5rem 0;
+}
+
+.tamyiz-invoice-section-label {
+  display: block;
+  font-family: var(--font-sub);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--color-red);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.tamyiz-invoice-table-wrap {
+  margin: 1.75rem 0 1.25rem 0;
+  overflow-x: auto;
+}
+
+.tamyiz-invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.tamyiz-invoice-table th {
+  background: #F8F8F7;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-sub);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+}
+
+.tamyiz-invoice-table td {
+  padding: 0.85rem;
+  border-bottom: 1px solid #EAEAEA;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   PRINT MEDIA STYLES (CLEAN A4 / RECEIPT EXPORT)
+   ========================================================================== */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  
+  /* Hide all surrounding app elements */
+  .tamyiz-header,
+  .tamyiz-footer,
+  .tamyiz-whatsapp-fab,
+  .tamyiz-modal-backdrop,
+  .tamyiz-drawer,
+  .no-print,
+  .tamyiz-vault-seal,
+  .tamyiz-vault-kicker,
+  .tamyiz-vault-title,
+  .tamyiz-vault-sub,
+  .tamyiz-vault-downloads-list {
+    display: none !important;
+  }
+
+  .tamyiz-page-order-vault {
+    padding: 0 !important;
+  }
+
+  .tamyiz-vault-card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .tamyiz-invoice-card {
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 1.5rem !important;
+    page-break-inside: avoid;
+  }
+}

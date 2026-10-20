@@ -207,11 +207,11 @@ export function renderAtelierPage(appInstance) {
 
               <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
                 <button type="submit" class="tamyiz-hero-btn-primary w-full sm:w-auto" id="contact-submit-btn">
-                  <span>DISPATCH MESSAGE TO FOUNDERS</span>
+                  <span>Send Message</span>
                   <span>→</span>
                 </button>
 
-                <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener" class="tamyiz-btn-nav-outline w-full sm:w-auto text-center" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: #278838; border-color: #278838;">
+                <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-btn-nav-outline w-full sm:w-auto text-center" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: #278838; border-color: #278838;">
                   <span>💬 Instant WhatsApp Concierge</span>
                   <span>↗</span>
                 </a>

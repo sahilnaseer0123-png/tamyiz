@@ -13,6 +13,8 @@ const STORAGE_KEYS = {
 
 const AVAILABLE_COUPONS = {
   'DISTINCT10': { type: 'percent', value: 10, label: '10% Off First Order' },
+  'DISTINCT': { type: 'percent', value: 10, label: '10% Off First Order' },
+  'WELCOME10': { type: 'percent', value: 10, label: '10% Off Welcome Privilege' },
   'TAMYIZ15': { type: 'percent', value: 15, label: '15% Off VIP Circle' },
   'HORIZON500': { type: 'flat', value: 500, label: '₹500 Flat Discount (Min ₹3000)' }
 };
@@ -23,9 +25,9 @@ class Store {
     this.wishlist = this.load(STORAGE_KEYS.WISHLIST, ['tmz-001', 'tmz-008']);
     this.user = this.load(STORAGE_KEYS.USER, {
       isLoggedIn: true,
-      name: "Basset Khan",
-      email: "basset@tamyiz.in",
-      phone: "+91 98765 43210"
+      name: "Basit Khan",
+      email: "tamyiz.co@gmail.com",
+      phone: "+91 95417 22379"
     });
     this.orders = this.load(STORAGE_KEYS.ORDERS, [
       {
@@ -53,7 +55,7 @@ class Store {
           city: "Sopore",
           state: "Jammu & Kashmir",
           pincode: "193201",
-          phone: "+91 98765 43210"
+          phone: "+91 95417 22379"
         }
       }
     ]);
