@@ -48,11 +48,11 @@ export function renderHomePage(appInstance) {
             <div class="tamyiz-hero-horizon-assembly">
               <div class="tamyiz-hero-dome-cropper">
                 <picture class="w-full flex items-start justify-center">
-                  <source srcset="/assets/images/tamyiz-logo-transparent.png" type="image/png" />
+                  <source srcset="/assets/images/tamyiz-globe-horizon.png" type="image/png" />
                   <img
-                    src="/assets/images/tamyiz-logo-transparent.png"
+                    src="/assets/images/tamyiz-globe-horizon.png"
                     alt="TAMYIZ Horizon Emblem"
-                    class="tamyiz-hero-logo-img mix-blend-multiply"
+                    class="tamyiz-hero-logo-img"
                     loading="eager"
                     fetchpriority="high"
                   />
@@ -212,7 +212,7 @@ export function renderHomePage(appInstance) {
                 Architects of the Archive
               </h2>
               <p style="font-size: 0.95rem; color: #444; line-height: 1.6; margin-bottom: 1.75rem; max-width: 580px;">
-                Founded in late 2025 by <strong>Basit</strong> (Islamic Studies, Ethics &amp; Research) and <strong>Sahil</strong> (Full-Stack Architecture, Systems &amp; UI/UX). Together, they fuse Himalayan heritage with modern digital precision.
+                Founded in late 2025 by <strong>Basit Majeed</strong> (Security &amp; Research) and <strong>Sahil</strong> (AI/ML &amp; Build). Together, they fuse Himalayan heritage with modern technical precision.
               </p>
               <div class="flex flex-wrap gap-3">
                 <button class="tamyiz-hero-btn-primary" style="padding: 0.85rem 1.75rem; font-size: 0.82rem;" onclick="window.tamyizApp.navigateTo('/atelier')">
@@ -224,10 +224,10 @@ export function renderHomePage(appInstance) {
 
             <div class="tamyiz-founders-teaser-duo">
               <div class="tamyiz-founder-mini-portrait">
-                <img src="/assets/images/founders/basit.jpg" alt="Basit — Co-Founder" loading="lazy" />
+                <img src="/assets/images/founders/basit.jpg" alt="Basit Majeed — Co-Founder" loading="lazy" />
                 <div class="tamyiz-founder-mini-label">
-                  <strong>BASIT</strong>
-                  <span>Islamic Studies &amp; Ethics</span>
+                  <strong>BASIT MAJEED</strong>
+                  <span>Security &amp; Research</span>
                   <div class="tamyiz-mini-socials flex gap-2 mt-1.5" style="font-family: var(--font-sub); font-size: 0.65rem; font-weight: 700;">
                     <a href="${siteConfig.founders.basit.socials.instagram}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">Instagram ↗</a>
                     <a href="${siteConfig.founders.basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">LinkedIn ↗</a>
@@ -239,7 +239,7 @@ export function renderHomePage(appInstance) {
                 <img src="/assets/images/founders/sahil.jpg" alt="Sahil — Co-Founder" loading="lazy" />
                 <div class="tamyiz-founder-mini-label">
                   <strong>SAHIL</strong>
-                  <span>Full-Stack Architecture</span>
+                  <span>AI/ML &amp; Build</span>
                   <div class="tamyiz-mini-socials flex gap-2 mt-1.5" style="font-family: var(--font-sub); font-size: 0.65rem; font-weight: 700;">
                     <a href="${siteConfig.founders.sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">Instagram ↗</a>
                     <a href="${siteConfig.founders.sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">LinkedIn ↗</a>

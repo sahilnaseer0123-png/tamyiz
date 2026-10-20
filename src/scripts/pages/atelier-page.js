@@ -41,7 +41,7 @@ export function renderAtelierPage(appInstance) {
               </h2>
               <div class="tamyiz-manifesto-paragraphs">
                 <p>
-                  In late 2025 in Sopore, Kashmir, Basit and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Islamic Studies, Ethics &amp; Research, and Sahil in software development and full-stack architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.
+                  In late 2025 in Sopore, Kashmir, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Systems Security &amp; Research, and Sahil in Artificial Intelligence, Machine Learning &amp; Systems Architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.
                 </p>
                 <p>
                   The Arabic root of <em>Tamyiz</em> (تمييز) denotes the capacity to distinguish, to elevate, and to discern between the superfluous and the essential. Surrounded by the serene waters of the Jhelum and the alpine majesty of northern Kashmir, we established a quiet atelier that treats e-books, Notion operating frameworks, and UI systems with the permanence of classical architecture.
@@ -94,7 +94,7 @@ export function renderAtelierPage(appInstance) {
               Co-Founders &amp; Leads
             </h2>
             <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem; line-height: 1.5;">
-              Two complementary disciplines: ethical philosophy and full-stack software architecture.
+              Two complementary disciplines: cybersecurity research and AI/ML systems architecture.
             </p>
           </div>
 

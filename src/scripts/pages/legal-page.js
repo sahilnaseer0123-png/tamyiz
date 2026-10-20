@@ -196,7 +196,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
                   <div class="mb-1.5"><strong class="text-black">Operating Entity:</strong> TAMYIZ™ Digital Publishing &amp; Systems Architecture Atelier</div>
                   <div class="mb-1.5"><strong class="text-black">Studio Address:</strong> Sopore, Kashmir 193201, India</div>
                   <div class="mb-1.5"><strong class="text-black">Geographic Coordinates:</strong> 34.28° N, 74.46° E (Himalayan Valley Base)</div>
-                  <div><strong class="text-black">Co-Founders:</strong> Basit (Ethics &amp; Research) &amp; Sahil (Systems &amp; Architecture)</div>
+                  <div><strong class="text-black">Co-Founders:</strong> Basit Majeed (Security &amp; Research) &amp; Sahil (AI/ML &amp; Build)</div>
                 </div>
                 <div>
                   <div class="mb-1.5"><strong class="text-black">Direct Concierge Email:</strong> <a href="mailto:tamyiz.co@gmail.com" class="underline text-black font-bold">tamyiz.co@gmail.com</a></div>

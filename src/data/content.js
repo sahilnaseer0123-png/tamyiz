@@ -17,13 +17,13 @@ export const foundersData = {
   founders: [
     {
       id: "basit",
-      name: "BASIT",
-      role: "Co-Founder • Islamic Studies, Ethics & Research",
-      speciality: "Islamic Studies, Ethics & Research",
-      tagline: "Islamic Studies, Ethics & Research",
+      name: "BASIT MAJEED",
+      role: "Co-Founder • Security & Research",
+      speciality: "Security & Research",
+      tagline: "Security & Research",
       image: "/assets/images/founders/basit.jpg",
-      bio: "A technologist with deep specialization in Islamic scholarship, research, and ethical philosophy. Basit ensures every TAMYIZ digital publication and design framework adheres to timeless principles of distinction, honesty, and intellectual rigor.",
-      quote: "True distinction is rooted in timeless principles. We engineer digital publications and design systems with intellectual depth and ethical honesty.",
+      bio: "Basit is the security and research mind behind TAMYIZ. A student at Prince Sattam bin Abdulaziz University, he is focused on cybersecurity and ethical hacking, studying how systems are attacked so they can be built to withstand it. He backs that technical work with disciplined research, reading, and writing, and he keeps learning as emerging technology changes the field. His principle is simple: knowledge carries responsibility, and he applies his toward a safer digital world.",
+      quote: "Knowledge carries responsibility, and we apply ours toward building resilient systems and a safer digital world.",
       socials: {
         instagram: "https://www.instagram.com/abbasitlone?exln=bjNrbjFjeHhvbXVi",
         linkedin: "https://www.linkedin.com/in/basit-najadi-93944a445",
@@ -33,12 +33,12 @@ export const foundersData = {
     {
       id: "sahil",
       name: "SAHIL",
-      role: "Co-Founder • Full-Stack Architecture, Systems & UI/UX",
-      speciality: "Full-Stack Development, Systems Architecture & UI/UX",
-      tagline: "Tech × Full-Stack Development & Architecture",
+      role: "Co-Founder • AI/ML & Build",
+      speciality: "AI/ML & Build",
+      tagline: "AI/ML & Build",
       image: "/assets/images/founders/sahil.jpg",
-      bio: "A software engineer and digital architect obsessed with high-performance code, luxury UI/UX, and scalable systems. Sahil develops the TAMYIZ digital ecosystem, instant delivery engines, and interactive reading applications.",
-      quote: "Great software, like great architecture, is defined by precision and discipline. We build frictionless, instant digital experiences that honor the craft.",
+      bio: "Sahil is the engineer behind TAMYIZ. Artificial intelligence and machine learning are his speciality, and they shape how he thinks: every problem is a system, and every system can be made cleaner, faster, and more precise. He leads the studio’s technical direction with one rule, which is that nothing stays unless it earns its place. Rigorous in method, exacting in detail, and uncompromising on quality. If it can be simplified, he simplifies it.",
+      quote: "Every problem is a system, and every system can be made cleaner, faster, and more precise. Nothing stays unless it earns its place.",
       socials: {
         instagram: "https://www.instagram.com/tamyiz.co/",
         linkedin: "https://www.linkedin.com/in/sahil-naseer-03717b350/",
@@ -47,7 +47,7 @@ export const foundersData = {
     }
   ],
   story: {
-    origin: "In late 2025 in Sopore, Kashmir, Basit and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Islamic Studies, Ethics & Research, and Sahil in software development and full-stack architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.",
+    origin: "In late 2025 in Sopore, Kashmir, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Ethical Hacking & Research, and Sahil in Artificial Intelligence, Machine Learning & Systems Architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.",
     mission: "To bring distinct, uncompromising quality products to everyone who refuses to blend into the background.",
     values: [
       {

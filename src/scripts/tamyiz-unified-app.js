@@ -280,12 +280,9 @@ export class TamyizUnifiedApp {
               <span>INDEX / MENU</span>
             </button>
 
-            <!-- Desktop Left Brand (EST. 2025 • SOPORE and TAMYIZ • both cleanly visible with high contrast) -->
+            <!-- Desktop Left Brand (EST. 2025 • SOPORE Hallmark) -->
             <a href="/" class="tamyiz-header-brand tamyiz-header-brand-desktop" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')" aria-label="TAMYIZ Home">
               <span class="tamyiz-top-meta">EST. 2025 • SOPORE</span>
-              <span class="tamyiz-header-brand-title">
-                TAMYIZ<span class="tamyiz-brand-dot text-red-600">•</span>
-              </span>
             </a>
           </div>
 
