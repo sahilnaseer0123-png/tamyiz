@@ -3,9 +3,12 @@
  * Route: /atelier
  */
 
-import { foundersData, brandInfo } from '../../data/content.js';
+import { siteConfig } from '../../data/site-config.js';
 
 export function renderAtelierPage(appInstance) {
+  const basit = siteConfig.founders.basit;
+  const sahil = siteConfig.founders.sahil;
+
   return `
     <div class="tamyiz-page-atelier">
       <!-- DEDICATED HEADER BANNER -->
@@ -13,7 +16,7 @@ export function renderAtelierPage(appInstance) {
         <div class="container">
           <div class="tamyiz-page-header-inner">
             <span class="tamyiz-page-badge">
-              ATELIER ORIGIN // 34.28° N, 74.46° E • SOPORE, KASHMIR
+              ATELIER ORIGIN // ${siteConfig.coordinates} • SOPORE, KASHMIR
             </span>
             <h1 class="tamyiz-page-title">
               Atelier Origin &amp; Architects
@@ -38,7 +41,7 @@ export function renderAtelierPage(appInstance) {
               </h2>
               <div class="tamyiz-manifesto-paragraphs">
                 <p>
-                  In late 2025 in Sopore, Kashmir, Basit and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in the Islamic field, ethics, and research, and Sahil in software development and full-stack architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.
+                  In late 2025 in Sopore, Kashmir, Basit and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Islamic Studies, Ethics &amp; Research, and Sahil in software development and full-stack architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.
                 </p>
                 <p>
                   The Arabic root of <em>Tamyiz</em> (تمييز) denotes the capacity to distinguish, to elevate, and to discern between the superfluous and the essential. Surrounded by the serene waters of the Jhelum and the alpine majesty of northern Kashmir, we established a quiet atelier that treats e-books, Notion operating frameworks, and UI systems with the permanence of classical architecture.
@@ -51,22 +54,27 @@ export function renderAtelierPage(appInstance) {
               <div class="tamyiz-origin-meta-strip mt-8">
                 <div class="meta-item">
                   <strong>LOCATION</strong>
-                  <span>Sopore, Kashmir 193201, India</span>
+                  <span>${siteConfig.location}</span>
                 </div>
                 <div class="meta-item">
                   <strong>COORDINATES</strong>
-                  <span>34.28° N, 74.46° E</span>
+                  <span>${siteConfig.coordinates}</span>
                 </div>
                 <div class="meta-item">
                   <strong>FOUNDED</strong>
-                  <span>Late 2025</span>
+                  <span>${siteConfig.founded}</span>
                 </div>
               </div>
             </div>
 
             <div class="tamyiz-origin-imagery-col">
               <div class="tamyiz-origin-photo-frame">
-                <img src="/assets/images/founders/basit.jpg" alt="TAMYIZ Sopore Atelier Inspiration" class="tamyiz-origin-photo" />
+                <img 
+                  src="${siteConfig.atelierStudioImage}" 
+                  alt="FIG. 01 — TAMYIZ Sopore Research Atelier Drafting Desk" 
+                  class="tamyiz-origin-photo object-cover" 
+                  loading="eager"
+                />
                 <div class="tamyiz-origin-photo-caption">
                   <span>FIG. 01 — SOPORE RESEARCH ATELIER</span>
                   <span>EST. 2025</span>
@@ -91,37 +99,67 @@ export function renderAtelierPage(appInstance) {
           </div>
 
           <div class="tamyiz-founders-dual-grid grid grid-cols-1 lg:grid-cols-2 gap-8">
-            ${(foundersData.founders || []).map(f => `
-              <div class="tamyiz-founder-card">
-                <div class="tamyiz-founder-portrait-wrap">
-                  <img src="${f.image}" alt="${f.name} — ${f.role}" class="tamyiz-founder-portrait-img" loading="lazy" />
-                  <div class="tamyiz-founder-portrait-badge">
-                    <span>${f.tagline || f.role}</span>
-                  </div>
-                </div>
-
-                <div class="tamyiz-founder-info">
-                  <div class="tamyiz-founder-name-row">
-                    <h3 class="tamyiz-founder-title">${f.name}</h3>
-                    <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red); text-transform: uppercase;">Co-Founder</span>
-                  </div>
-
-                  <div class="tamyiz-founder-speciality-pill">${f.speciality || f.role}</div>
-
-                  <p class="tamyiz-founder-bio">${f.bio}</p>
-
-                  <div class="tamyiz-founder-quote">
-                    "${f.quote}"
-                  </div>
-
-                  <div class="tamyiz-founder-socials flex flex-wrap gap-2 mt-4">
-                    <a href="${f.socials.linkedin}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">LinkedIn ↗</a>
-                    <a href="${f.socials.x}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
-                    <a href="${f.socials.instagram}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">Instagram ↗</a>
-                  </div>
+            <!-- Basit Card -->
+            <div class="tamyiz-founder-card">
+              <div class="tamyiz-founder-portrait-wrap">
+                <img src="${basit.image}" alt="${basit.name} — ${basit.role}" class="tamyiz-founder-portrait-img" loading="lazy" />
+                <div class="tamyiz-founder-portrait-badge">
+                  <span>${basit.badge}</span>
                 </div>
               </div>
-            `).join('')}
+
+              <div class="tamyiz-founder-info">
+                <div class="tamyiz-founder-name-row">
+                  <h3 class="tamyiz-founder-title">${basit.name}</h3>
+                  <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red); text-transform: uppercase;">Co-Founder</span>
+                </div>
+
+                <div class="tamyiz-founder-speciality-pill">${basit.role}</div>
+
+                <p class="tamyiz-founder-bio">${basit.bio}</p>
+
+                <div class="tamyiz-founder-quote">
+                  "${basit.quote}"
+                </div>
+
+                <div class="tamyiz-founder-socials flex flex-wrap gap-2 mt-4">
+                  <a href="${basit.socials.linkedin}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">LinkedIn ↗</a>
+                  <a href="${basit.socials.x}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
+                  <a href="${basit.socials.instagram}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">Instagram ↗</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sahil Card -->
+            <div class="tamyiz-founder-card">
+              <div class="tamyiz-founder-portrait-wrap">
+                <img src="${sahil.image}" alt="${sahil.name} — ${sahil.role}" class="tamyiz-founder-portrait-img" loading="lazy" />
+                <div class="tamyiz-founder-portrait-badge">
+                  <span>${sahil.badge}</span>
+                </div>
+              </div>
+
+              <div class="tamyiz-founder-info">
+                <div class="tamyiz-founder-name-row">
+                  <h3 class="tamyiz-founder-title">${sahil.name}</h3>
+                  <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red); text-transform: uppercase;">Co-Founder</span>
+                </div>
+
+                <div class="tamyiz-founder-speciality-pill">${sahil.role}</div>
+
+                <p class="tamyiz-founder-bio">${sahil.bio}</p>
+
+                <div class="tamyiz-founder-quote">
+                  "${sahil.quote}"
+                </div>
+
+                <div class="tamyiz-founder-socials flex flex-wrap gap-2 mt-4">
+                  <a href="${sahil.socials.linkedin}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">LinkedIn ↗</a>
+                  <a href="${sahil.socials.x}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
+                  <a href="${sahil.socials.instagram}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">Instagram ↗</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -129,7 +167,7 @@ export function renderAtelierPage(appInstance) {
       <!-- DIRECT CONCIERGE CONTACT FORM -->
       <section class="tamyiz-section py-14 md:py-24" style="background: #FFFFFF;" id="contact-form-section">
         <div class="container">
-          <div class="max-w-2xl mx-auto">
+          <div class="max-w-2xl mx-auto" id="atelier-contact-container">
             <div style="text-align: center; margin-bottom: 2.5rem;">
               <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Concierge Access</span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; margin-top: 0.4rem;">
@@ -140,7 +178,7 @@ export function renderAtelierPage(appInstance) {
               </p>
             </div>
 
-            <form class="tamyiz-contact-form" onsubmit="event.preventDefault(); window.tamyizApp.handleContactSubmit();">
+            <form class="tamyiz-contact-form" id="atelier-contact-form" onsubmit="event.preventDefault(); window.tamyizApp.handleContactSubmit();">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label class="tamyiz-form-label">Your Name *</label>
@@ -168,12 +206,12 @@ export function renderAtelierPage(appInstance) {
               </div>
 
               <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
-                <button type="submit" class="tamyiz-hero-btn-primary w-full sm:w-auto">
+                <button type="submit" class="tamyiz-hero-btn-primary w-full sm:w-auto" id="contact-submit-btn">
                   <span>DISPATCH MESSAGE TO FOUNDERS</span>
                   <span>→</span>
                 </button>
 
-                <a href="https://wa.me/${brandInfo.whatsappNumber}" target="_blank" rel="noopener" class="tamyiz-btn-nav-outline w-full sm:w-auto text-center" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: #278838; border-color: #278838;">
+                <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener" class="tamyiz-btn-nav-outline w-full sm:w-auto text-center" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: #278838; border-color: #278838;">
                   <span>💬 Instant WhatsApp Concierge</span>
                   <span>↗</span>
                 </a>

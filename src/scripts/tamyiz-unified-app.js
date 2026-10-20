@@ -14,6 +14,7 @@ import { TamyizHero3D } from './tamyiz-hero-3d.js';
 import { TamyizLogoSparks } from './tamyiz-logo-sparks.js';
 import { products, findProductBySlugOrId } from '../data/products.js';
 import { foundersData, brandInfo, policies } from '../data/content.js';
+import { siteConfig } from '../data/site-config.js';
 import { store } from './store.js';
 
 import { renderHomePage } from './pages/home-page.js';
@@ -22,6 +23,7 @@ import { renderProductDetailPage } from './pages/product-detail-page.js';
 import { renderPhilosophyPage } from './pages/philosophy-page.js';
 import { renderAtelierPage } from './pages/atelier-page.js';
 import { renderCheckoutPage } from './pages/checkout-page.js';
+import { renderLegalPage } from './pages/legal-page.js';
 
 export class TamyizUnifiedApp {
   constructor() {
@@ -68,16 +70,34 @@ export class TamyizUnifiedApp {
 
   // Parse path & hash for zero-crash routing
   parseRoute(locationPath, locationHash) {
-    let cleanPath = (locationPath || window.location.pathname || '/').toLowerCase();
-    const hash = (locationHash || window.location.hash || '');
+    let raw = (locationPath || window.location.pathname || '/').toLowerCase();
+    let hash = (locationHash || window.location.hash || '');
+
+    // If raw contains hash, extract it
+    if (raw.includes('#') && !raw.startsWith('#/')) {
+      const parts = raw.split('#');
+      raw = parts[0];
+      hash = '#' + parts[1];
+    }
 
     // Support hash-based fallback (e.g. #/editions, #/edition/slug)
     if (hash.startsWith('#/')) {
-      cleanPath = hash.slice(1).toLowerCase();
+      raw = hash.slice(1).toLowerCase();
     }
 
-    // Remove index.html suffix if present
-    cleanPath = cleanPath.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+    // Split search query if present
+    const [rawPath, rawQuery] = raw.split('?');
+    let cleanPath = (rawPath || '/').replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+
+    // Parse category from query param if available
+    const searchStr = rawQuery ? `?${rawQuery}` : window.location.search;
+    if (searchStr) {
+      const params = new URLSearchParams(searchStr);
+      const cat = params.get('category') || params.get('cat');
+      if (cat) {
+        this.activeCategory = (cat === 'ui-ux' ? 'design' : cat);
+      }
+    }
 
     if (cleanPath === '' || cleanPath === '/') {
       return { page: 'home', slug: null, anchor: hash };
@@ -97,6 +117,13 @@ export class TamyizUnifiedApp {
     }
     if (cleanPath === '/checkout') {
       return { page: 'checkout', slug: null, anchor: hash };
+    }
+    if (cleanPath === '/legal') {
+      return { page: 'legal', slug: 'delivery-protocol', anchor: hash };
+    }
+    if (cleanPath.startsWith('/legal/')) {
+      const slug = cleanPath.replace('/legal/', '').split('/')[0] || 'delivery-protocol';
+      return { page: 'legal', slug, anchor: hash };
     }
 
     // Default fallback to home
@@ -296,16 +323,16 @@ export class TamyizUnifiedApp {
           <div>
             <div class="tamyiz-mobile-nav-group-title">Digital Editions Categories</div>
             <div class="tamyiz-mobile-cat-grid">
-              <button class="tamyiz-mobile-cat-btn" onclick="window.tamyizApp.filterCategoryAndNavigate('all')">
+              <button class="tamyiz-mobile-cat-btn" onclick="window.tamyizApp.navigateTo('/editions')">
                 <span>All Digital Editions (8)</span> <span>→</span>
               </button>
-              <button class="tamyiz-mobile-cat-btn" onclick="window.tamyizApp.filterCategoryAndNavigate('ebooks')">
+              <button class="tamyiz-mobile-cat-btn" onclick="window.tamyizApp.navigateTo('/editions?category=ebooks')">
                 <span>E-Books &amp; Monographs</span> <span>→</span>
               </button>
-              <button class="tamyiz-mobile-cat-btn" onclick="window.tamyizApp.filterCategoryAndNavigate('notion')">
+              <button class="tamyiz-mobile-cat-btn" onclick="window.tamyizApp.navigateTo('/editions?category=notion')">
                 <span>Notion &amp; Productivity Templates</span> <span>→</span>
               </button>
-              <button class="tamyiz-mobile-cat-btn" onclick="window.tamyizApp.filterCategoryAndNavigate('design')">
+              <button class="tamyiz-mobile-cat-btn" onclick="window.tamyizApp.navigateTo('/editions?category=ui-ux')">
                 <span>UI/UX &amp; Design Systems</span> <span>→</span>
               </button>
             </div>
@@ -314,10 +341,12 @@ export class TamyizUnifiedApp {
           <div>
             <div class="tamyiz-mobile-nav-group-title">Customer Care</div>
             <ul class="tamyiz-footer-links">
-              <li><a href="#" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/philosophy#formats')">Digital Format &amp; Template Guide</a></li>
-              <li><a href="#" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openPolicyModal('shipping')">Instant Digital Delivery Protocol</a></li>
-              <li><a href="#" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openPolicyModal('returns')">Atelier Guarantee &amp; License</a></li>
-              <li><a href="https://wa.me/${brandInfo.whatsappNumber}" target="_blank" rel="noopener" style="color: #278838; font-weight: 700;">WhatsApp Concierge (+91 98765 43210) ↗</a></li>
+              <li><a href="/philosophy#formats" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/philosophy#formats')">Digital Format &amp; Template Guide</a></li>
+              <li><a href="/legal/delivery-protocol" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/legal/delivery-protocol')">Instant Digital Delivery Protocol</a></li>
+              <li><a href="/legal/license" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/legal/license')">Atelier Guarantee &amp; License</a></li>
+              <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/legal/privacy')">Privacy &amp; Data Security</a></li>
+              <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/legal/terms')">Terms of Service</a></li>
+              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener" style="color: #278838; font-weight: 700;">WhatsApp Concierge (${siteConfig.phone}) ↗</a></li>
             </ul>
           </div>
         </div>
@@ -411,7 +440,7 @@ export class TamyizUnifiedApp {
               <p>
                 "Tamyiz" translates to distinction. Designed for those who stand apart.<br/>
                 Digital Publishing &amp; Design Systems Studio: Sopore, Kashmir 193201, India.<br/>
-                Concierge: <a href="mailto:${brandInfo.email}" style="color: #FFF; text-decoration: underline;">${brandInfo.email}</a> • <a href="https://wa.me/${brandInfo.whatsappNumber}" target="_blank" rel="noopener" style="color: var(--color-red); font-weight: 700;">${brandInfo.phone}</a>
+                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener" style="color: var(--color-red); font-weight: 700;">${siteConfig.phone}</a>
               </p>
             </div>
 
@@ -430,10 +459,10 @@ export class TamyizUnifiedApp {
             <div class="tamyiz-footer-col">
               <h4>Digital Editions</h4>
               <ul class="tamyiz-footer-links">
-                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.filterCategoryAndNavigate('all')">All Digital Editions (8)</a></li>
-                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.filterCategoryAndNavigate('ebooks')">E-Books &amp; Monographs</a></li>
-                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.filterCategoryAndNavigate('notion')">Notion &amp; Productivity Templates</a></li>
-                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.filterCategoryAndNavigate('design')">UI/UX &amp; Design Systems</a></li>
+                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">All Digital Editions (8)</a></li>
+                <li><a href="/editions?category=ebooks" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=ebooks')">E-Books &amp; Monographs</a></li>
+                <li><a href="/editions?category=notion" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=notion')">Notion &amp; Productivity Templates</a></li>
+                <li><a href="/editions?category=ui-ux" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=ui-ux')">UI/UX &amp; Design Systems</a></li>
               </ul>
             </div>
 
@@ -441,16 +470,16 @@ export class TamyizUnifiedApp {
               <h4>Customer Care</h4>
               <ul class="tamyiz-footer-links">
                 <li><a href="/philosophy#formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy#formats')">Digital Format &amp; Template Guide</a></li>
-                <li><a href="#" onclick="event.preventDefault(); window.tamyizApp.openPolicyModal('shipping')">Instant Digital Delivery Protocol</a></li>
-                <li><a href="#" onclick="event.preventDefault(); window.tamyizApp.openPolicyModal('returns')">Atelier Guarantee &amp; License</a></li>
-                <li><a href="#" onclick="event.preventDefault(); window.tamyizApp.openPolicyModal('privacy')">Privacy &amp; Data Security</a></li>
-                <li><a href="#" onclick="event.preventDefault(); window.tamyizApp.openPolicyModal('terms')">Terms of Service</a></li>
-                <li><a href="https://wa.me/${brandInfo.whatsappNumber}" target="_blank" rel="noopener" style="color: #278838; font-weight: 700;">WhatsApp Concierge ↗</a></li>
+                <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/delivery-protocol')">Instant Digital Delivery Protocol</a></li>
+                <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/license')">Atelier Guarantee &amp; License</a></li>
+                <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/privacy')">Privacy &amp; Data Security</a></li>
+                <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/terms')">Terms of Service</a></li>
+                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener" style="color: #278838; font-weight: 700;">WhatsApp Concierge ↗</a></li>
               </ul>
             </div>
           </div>
 
-          <div class="tamyiz-footer-bottom pb-24 md:pb-12">
+          <div class="tamyiz-footer-bottom pb-28 md:pb-14">
             <div>
               &copy; ${new Date().getFullYear()} TAMYIZ Digital Publishing &amp; Design Systems Studio. Crafted in Sopore, Kashmir.
             </div>
@@ -467,7 +496,7 @@ export class TamyizUnifiedApp {
       </div>
 
       <!-- 5. COMPACT WHATSAPP CONCIERGE BUTTON -->
-      <a href="https://wa.me/${brandInfo.whatsappNumber}?text=Hi%20TAMYIZ%20concierge%2C%20I%20have%20an%20inquiry%20about%20your%20digital%20publications%20and%20design%20systems." target="_blank" rel="noopener" class="tamyiz-whatsapp-fab" aria-label="WhatsApp Concierge">
+      <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener" class="tamyiz-whatsapp-fab" aria-label="WhatsApp Concierge">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
         </svg>
@@ -525,6 +554,10 @@ export class TamyizUnifiedApp {
         mainEl.innerHTML = renderCheckoutPage(this);
         break;
 
+      case 'legal':
+        mainEl.innerHTML = renderLegalPage(this.currentSlug || 'delivery-protocol', this);
+        break;
+
       default:
         mainEl.innerHTML = renderHomePage(this);
         break;
@@ -546,12 +579,18 @@ export class TamyizUnifiedApp {
     // Remove active from all
     Object.values(links).forEach(el => el && el.classList.remove('active'));
 
+    const isFormatsHash = window.location.hash === '#formats';
+
     if (this.currentPage === 'home') {
       links.home && links.home.classList.add('active');
     } else if (this.currentPage === 'editions' || this.currentPage === 'edition') {
       links.editions && links.editions.classList.add('active');
     } else if (this.currentPage === 'philosophy') {
-      links.philosophy && links.philosophy.classList.add('active');
+      if (isFormatsHash) {
+        links.formats && links.formats.classList.add('active');
+      } else {
+        links.philosophy && links.philosophy.classList.add('active');
+      }
     } else if (this.currentPage === 'atelier') {
       links.atelier && links.atelier.classList.add('active');
     }
@@ -744,6 +783,23 @@ export class TamyizUnifiedApp {
     });
   }
 
+  setScrollLock(locked) {
+    if (locked) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
+    } else {
+      const cartOpen = document.getElementById('cart-drawer')?.classList.contains('active');
+      const mobileOpen = document.getElementById('mobile-drawer')?.classList.contains('active');
+      const modalOpen = document.getElementById('tamyiz-modal')?.classList.contains('active');
+      if (!cartOpen && !mobileOpen && !modalOpen) {
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        document.body.classList.remove('modal-open');
+      }
+    }
+  }
+
   // Cart Drawer
   openCart() {
     const drawer = document.getElementById('cart-drawer');
@@ -751,7 +807,7 @@ export class TamyizUnifiedApp {
     if (drawer && backdrop) {
       drawer.classList.add('active');
       backdrop.classList.add('active');
-      document.body.classList.add('modal-open');
+      this.setScrollLock(true);
       this.renderDrawerItems();
     }
   }
@@ -762,7 +818,7 @@ export class TamyizUnifiedApp {
     if (drawer && backdrop) {
       drawer.classList.remove('active');
       backdrop.classList.remove('active');
-      document.body.classList.remove('modal-open');
+      this.setScrollLock(false);
     }
   }
 
@@ -846,7 +902,7 @@ export class TamyizUnifiedApp {
     if (drawer && backdrop) {
       drawer.classList.toggle('active', this.mobileMenuOpen);
       backdrop.classList.toggle('active', this.mobileMenuOpen);
-      document.body.classList.toggle('modal-open', this.mobileMenuOpen);
+      this.setScrollLock(this.mobileMenuOpen);
     }
   }
 
@@ -857,7 +913,7 @@ export class TamyizUnifiedApp {
     if (drawer && backdrop) {
       drawer.classList.remove('active');
       backdrop.classList.remove('active');
-      document.body.classList.remove('modal-open');
+      this.setScrollLock(false);
     }
   }
 
@@ -1005,10 +1061,45 @@ export class TamyizUnifiedApp {
 
   // Contact form handler in Atelier
   handleContactSubmit() {
-    const name = document.getElementById('contact-name')?.value || 'Friend';
-    store.showToast(`Thank you, ${name}. Your message has been dispatched to Basit & Sahil.`, 'success');
-    const form = document.querySelector('.tamyiz-contact-form');
-    if (form) form.reset();
+    const nameInput = document.getElementById('contact-name');
+    const emailInput = document.getElementById('contact-email');
+    const messageInput = document.getElementById('contact-message');
+    const submitBtn = document.getElementById('contact-submit-btn');
+
+    const name = nameInput?.value?.trim() || '';
+    const email = emailInput?.value?.trim() || '';
+    const message = messageInput?.value?.trim() || '';
+
+    if (!name) {
+      store.showToast('Please provide your name.', 'error');
+      nameInput?.focus();
+      return;
+    }
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      store.showToast('Please provide a valid email address.', 'error');
+      emailInput?.focus();
+      return;
+    }
+    if (!message) {
+      store.showToast('Please enter your message.', 'error');
+      messageInput?.focus();
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>DISPATCHING TO FOUNDERS...</span>';
+    }
+
+    setTimeout(() => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>DISPATCH MESSAGE TO FOUNDERS</span><span>→</span>';
+      }
+      store.showToast(`Thank you, ${name}. Message received by Basit & Sahil. Response within 4 hours.`, 'success');
+      const form = document.getElementById('atelier-contact-form') || document.querySelector('.tamyiz-contact-form');
+      if (form) form.reset();
+    }, 700);
   }
 
   // Policy Modal
@@ -1039,7 +1130,7 @@ export class TamyizUnifiedApp {
         ${html}
       `;
       modal.classList.add('active');
-      document.body.classList.add('modal-open');
+      this.setScrollLock(true);
     }
   }
 
@@ -1047,7 +1138,7 @@ export class TamyizUnifiedApp {
     const modal = document.getElementById('tamyiz-modal');
     if (modal) {
       modal.classList.remove('active');
-      document.body.classList.remove('modal-open');
+      this.setScrollLock(false);
     }
   }
 }

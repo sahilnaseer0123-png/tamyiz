@@ -5,6 +5,7 @@
 
 import { store } from '../store.js';
 import { brandInfo } from '../../data/content.js';
+import { siteConfig } from '../../data/site-config.js';
 
 export function renderCheckoutPage(appInstance) {
   // If we have an active confirmed order in the session, show the Download Vault
@@ -176,7 +177,7 @@ export function renderCheckoutPage(appInstance) {
                 </div>
 
                 <button type="submit" class="tamyiz-btn-submit-order w-full">
-                  <span>COMPLETE ORDER &amp; UNLOCK DOWNLOAD</span>
+                  <span>COMPLETE ACQUISITION →</span>
                   <span>•</span>
                   <span>₹${total.toLocaleString('en-IN')}</span>
                 </button>
@@ -351,7 +352,7 @@ export function renderOrderVaultHtml(order) {
           <!-- Secondary Actions -->
           <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <a
-              href="https://wa.me/${brandInfo.whatsappNumber}?text=Hello%20TAMYIZ,%20I%20just%20completed%20Order%20${order.orderId}%20and%20would%20like%20my%20receipt%20confirmation."
+              href="https://wa.me/${siteConfig.whatsappNumber}?text=Hello%20TAMYIZ,%20I%20just%20completed%20Order%20${order.orderId}%20and%20would%20like%20my%20receipt%20confirmation."
               target="_blank"
               rel="noopener"
               class="tamyiz-btn-nav-outline"

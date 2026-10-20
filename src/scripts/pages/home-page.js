@@ -164,7 +164,7 @@ export function renderHomePage(appInstance) {
               <div class="tamyiz-value-num">03</div>
               <h3 class="tamyiz-value-title">Instant Frictionless Systems</h3>
               <p class="tamyiz-value-desc">
-                Zero shipping waits. 1-click Notion duplication links, DRM-free multi-format files (PDF, EPUB, MOBI), and lifetime async version upgrades.
+                Zero shipping waits. 1-click Notion duplication links, DRM-free multi-format files (PDF, EPUB, Kindle EPUB), and lifetime async version upgrades.
               </p>
             </div>
           </div>
@@ -190,7 +190,7 @@ export function renderHomePage(appInstance) {
                 Architects of the Archive
               </h2>
               <p style="font-size: 0.95rem; color: #444; line-height: 1.6; margin-bottom: 1.75rem; max-width: 580px;">
-                Founded in late 2025 by <strong>Basit</strong> (Islamic studies, research &amp; ethical philosophy) and <strong>Sahil</strong> (software engineering, UI/UX architecture &amp; full-stack systems). Together, they fuse Himalayan heritage with modern digital precision.
+                Founded in late 2025 by <strong>Basit</strong> (Islamic Studies, Ethics &amp; Research) and <strong>Sahil</strong> (Full-Stack Architecture, Systems &amp; UI/UX). Together, they fuse Himalayan heritage with modern digital precision.
               </p>
               <div class="flex flex-wrap gap-3">
                 <button class="tamyiz-hero-btn-primary" style="padding: 0.85rem 1.75rem; font-size: 0.82rem;" onclick="window.tamyizApp.navigateTo('/atelier')">
@@ -205,7 +205,7 @@ export function renderHomePage(appInstance) {
                 <img src="/assets/images/founders/basit.jpg" alt="Basit — Co-Founder" loading="lazy" />
                 <div class="tamyiz-founder-mini-label">
                   <strong>BASIT</strong>
-                  <span>Islamic Field &amp; Ethics</span>
+                  <span>Islamic Studies &amp; Ethics</span>
                 </div>
               </div>
               <div class="tamyiz-founder-mini-portrait">

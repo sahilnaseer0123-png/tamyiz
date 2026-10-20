@@ -109,7 +109,7 @@ export function renderPhilosophyPage(appInstance) {
       </section>
 
       <!-- SECTION 2: DIGITAL FORMATS & COMPATIBILITY MATRIX -->
-      <section class="tamyiz-section py-14 md:py-24" style="background: var(--color-offwhite); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);" id="formats">
+      <section class="tamyiz-section py-14 md:py-24 scroll-mt-28" style="background: var(--color-offwhite); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); scroll-margin-top: 6rem;" id="formats">
         <div class="container">
           <div style="text-align: center; max-width: 720px; margin: 0 auto 3.5rem auto;">
             <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Technical Matrix</span>
@@ -163,12 +163,12 @@ export function renderPhilosophyPage(appInstance) {
               </div>
             </div>
 
-            <!-- Format 3: Kindle MOBI / KFX -->
+            <!-- Format 3: Kindle EPUB / Scribe -->
             <div class="tamyiz-matrix-card">
               <div class="matrix-card-header">
                 <span class="matrix-icon">📖</span>
                 <div>
-                  <h4>Kindle MOBI / KFX</h4>
+                  <h4>Kindle EPUB / Scribe</h4>
                   <span class="matrix-sub">E-Ink Contrast Tuned</span>
                 </div>
               </div>

@@ -23,7 +23,7 @@ export const products = [
     ],
     variants: {
       type: "Format",
-      options: ["PDF + EPUB Bundle", "Kindle MOBI"]
+      options: ["PDF + EPUB Bundle", "Kindle EPUB"]
     },
     colors: ["Obsidian / Signal Red"],
     description: "An uncompromising 140-page editorial monograph examining the intersection of architectural minimalism, Himalayan textile heritage, and high-density garment engineering. Authored by the TAMYIZ atelier in Sopore, Kashmir. Includes detailed pattern studies, fabric density analysis, and the philosophy of distinction in an age of mass commoditization.",

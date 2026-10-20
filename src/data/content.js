@@ -18,9 +18,9 @@ export const foundersData = {
     {
       id: "basit",
       name: "BASIT",
-      role: "Co-Founder • Islamic Field & Editorial Lead",
-      speciality: "Islamic Studies, Ethics & Digital Philosophy",
-      tagline: "Tech × Islamic Field & Ethical Research",
+      role: "Co-Founder • Islamic Studies, Ethics & Research",
+      speciality: "Islamic Studies, Ethics & Research",
+      tagline: "Islamic Studies, Ethics & Research",
       image: "/assets/images/founders/basit.jpg",
       bio: "A technologist with deep specialization in Islamic scholarship, research, and ethical philosophy. Basit ensures every TAMYIZ digital publication and design framework adheres to timeless principles of distinction, honesty, and intellectual rigor.",
       quote: "True distinction is rooted in timeless principles. We engineer digital publications and design systems with intellectual depth and ethical honesty.",
@@ -33,7 +33,7 @@ export const foundersData = {
     {
       id: "sahil",
       name: "SAHIL",
-      role: "Co-Founder • Lead Developer & Software Architect",
+      role: "Co-Founder • Full-Stack Architecture, Systems & UI/UX",
       speciality: "Full-Stack Development, Systems Architecture & UI/UX",
       tagline: "Tech × Full-Stack Development & Architecture",
       image: "/assets/images/founders/sahil.jpg",
@@ -47,7 +47,7 @@ export const foundersData = {
     }
   ],
   story: {
-    origin: "In late 2025 in Sopore, Kashmir, Basit and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in the Islamic field, ethics, and research, and Sahil in software development and full-stack architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.",
+    origin: "In late 2025 in Sopore, Kashmir, Basit and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Islamic Studies, Ethics & Research, and Sahil in software development and full-stack architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.",
     mission: "To bring distinct, uncompromising quality products to everyone who refuses to blend into the background.",
     values: [
       {
@@ -106,7 +106,7 @@ export const faqs = [
   },
   {
     q: "What formats do your e-books and monographs come in?",
-    a: "Every publication includes interactive PDF (with clickable TOC, bookmarks, and 300DPI architectural plates), EPUB for Apple Books and mobile readers, and Kindle-compatible MOBI files."
+    a: "Every publication includes interactive PDF (with clickable TOC, bookmarks, and 300DPI architectural plates), EPUB for Apple Books and mobile readers, and Kindle-compatible EPUB files."
   },
   {
     q: "How does digital delivery work?",
@@ -133,11 +133,11 @@ export const policies = {
   },
   formatGuide: {
     title: "Digital Formats & Compatibility Guide",
-    content: "• E-BOOKS (PDF + EPUB + MOBI):\n- Compatible with Apple Books, Amazon Kindle, iPad, Android tablets, Remarkable, and desktop readers.\n- Vector typography, scalable charts, and dark mode reading support.\n\n• NOTION TEMPLATES:\n- 1-click duplication into any free or Plus Notion workspace.\n- Fully automated databases, formula views, and onboarding video guides.\n\n• UI/UX & DESIGN SYSTEMS:\n- Clean auto-layout Figma component libraries.\n- Production-ready Tailwind CSS and semantic HTML snippets."
+    content: "• E-BOOKS (PDF + EPUB + Kindle EPUB):\n- Compatible with Apple Books, Amazon Kindle, iPad, Android tablets, Remarkable, and desktop readers.\n- Vector typography, scalable charts, and dark mode reading support.\n\n• NOTION TEMPLATES:\n- 1-click duplication into any free or Plus Notion workspace.\n- Fully automated databases, formula views, and onboarding video guides.\n\n• UI/UX & DESIGN SYSTEMS:\n- Clean auto-layout Figma component libraries.\n- Production-ready Tailwind CSS and semantic HTML snippets."
   },
   sizeGuide: {
     title: "Digital Formats & Compatibility Guide",
-    content: "• E-BOOKS (PDF + EPUB + MOBI):\n- Compatible with Apple Books, Amazon Kindle, iPad, Android tablets, Remarkable, and desktop readers.\n- Vector typography, scalable charts, and dark mode reading support.\n\n• NOTION TEMPLATES:\n- 1-click duplication into any free or Plus Notion workspace.\n- Fully automated databases, formula views, and onboarding video guides.\n\n• UI/UX & DESIGN SYSTEMS:\n- Clean auto-layout Figma component libraries.\n- Production-ready Tailwind CSS and semantic HTML snippets."
+    content: "• E-BOOKS (PDF + EPUB + Kindle EPUB):\n- Compatible with Apple Books, Amazon Kindle, iPad, Android tablets, Remarkable, and desktop readers.\n- Vector typography, scalable charts, and dark mode reading support.\n\n• NOTION TEMPLATES:\n- 1-click duplication into any free or Plus Notion workspace.\n- Fully automated databases, formula views, and onboarding video guides.\n\n• UI/UX & DESIGN SYSTEMS:\n- Clean auto-layout Figma component libraries.\n- Production-ready Tailwind CSS and semantic HTML snippets."
   },
   privacy: {
     title: "Privacy & Data Protection",
