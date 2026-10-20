@@ -382,8 +382,8 @@ img {
   }
 
   .tamyiz-hero-giant-title {
-    font-size: clamp(2.35rem, 10vw, 5.2rem) !important;
-    letter-spacing: 0.06em !important;
+    font-size: clamp(2.35rem, 11vw, 5.5rem) !important;
+    letter-spacing: 0.12em !important;
     text-align: center;
     margin-bottom: 1rem;
     word-break: break-word;
@@ -406,8 +406,8 @@ img {
   }
 
   .tamyiz-hero-giant-title {
-    font-size: clamp(2.1rem, 9.5vw, 3.6rem) !important;
-    letter-spacing: 0.04em !important;
+    font-size: clamp(2.2rem, 10.5vw, 3.8rem) !important;
+    letter-spacing: 0.10em !important;
   }
 
   .tamyiz-hero-actions {
@@ -480,78 +480,15 @@ img {
 }
 
 .tamyiz-hero-giant-title {
-  font-family: var(--font-brand);
-  font-size: clamp(3.2rem, 8.2vw, 7.2rem);
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 8vw, 7.5rem);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  line-height: 0.94;
-  color: #0B0B0B;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  color: var(--color-black);
   margin: 0 0 1.25rem 0;
-  position: relative;
-  display: inline-block;
   user-select: none;
-  -webkit-font-smoothing: antialiased;
-  text-shadow:
-    0 1px 2px rgba(11, 11, 11, 0.15),
-    0 0 20px rgba(225, 37, 27, 0.45),
-    0 0 45px rgba(225, 37, 27, 0.28),
-    0 0 80px rgba(225, 37, 27, 0.16);
-  animation: tamyiz-hero-luminous-glow 4s ease-in-out infinite alternate;
-  transition: text-shadow 0.4s ease, transform 0.4s ease;
-}
-
-.tamyiz-hero-giant-title:hover {
-  transform: translateY(-2px);
-  text-shadow:
-    0 2px 4px rgba(11, 11, 11, 0.2),
-    0 0 28px rgba(225, 37, 27, 0.65),
-    0 0 60px rgba(225, 37, 27, 0.42),
-    0 0 100px rgba(225, 37, 27, 0.24);
-}
-
-.tamyiz-hero-giant-title::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 110%;
-  height: 120%;
-  background: radial-gradient(ellipse at center, rgba(225, 37, 27, 0.18) 0%, rgba(225, 37, 27, 0.05) 55%, transparent 75%);
-  filter: blur(32px);
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.9;
-  animation: tamyiz-title-aura 4s ease-in-out infinite alternate;
-}
-
-@keyframes tamyiz-hero-luminous-glow {
-  0% {
-    text-shadow:
-      0 1px 2px rgba(11, 11, 11, 0.15),
-      0 0 16px rgba(225, 37, 27, 0.38),
-      0 0 36px rgba(225, 37, 27, 0.22),
-      0 0 65px rgba(225, 37, 27, 0.12);
-  }
-  100% {
-    text-shadow:
-      0 1px 2px rgba(11, 11, 11, 0.15),
-      0 0 26px rgba(225, 37, 27, 0.55),
-      0 0 55px rgba(225, 37, 27, 0.34),
-      0 0 95px rgba(225, 37, 27, 0.20);
-  }
-}
-
-@keyframes tamyiz-title-aura {
-  0% {
-    transform: translate(-50%, -50%) scale(0.92);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.08);
-    opacity: 1;
-  }
 }
 
 .tamyiz-hero-subheadline {
