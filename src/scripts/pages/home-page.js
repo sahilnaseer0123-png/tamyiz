@@ -105,7 +105,7 @@ export function renderHomePage(appInstance) {
       </div>
 
       <!-- 3. FEATURED CURATED EDITIONS (BESTSELLERS SPOTLIGHT) -->
-      <section class="tamyiz-section py-14 md:py-24" style="background: var(--color-offwhite);">
+      <section id="editions" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite);">
         <div class="container">
           <div class="tamyiz-shop-header" style="align-items: flex-end; margin-bottom: 2.5rem;">
             <div>
@@ -133,7 +133,7 @@ export function renderHomePage(appInstance) {
       </section>
 
       <!-- 4. PHILOSOPHY SNAPSHOT (THE THREE PILLARS) -->
-      <section class="tamyiz-section py-14 md:py-24" style="background: #FFFFFF; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+      <section id="philosophy" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: #FFFFFF; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
         <div class="container">
           <div style="text-align: center; max-width: 680px; margin: 0 auto 3rem auto;">
             <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Atelier Philosophy</span>
@@ -170,8 +170,8 @@ export function renderHomePage(appInstance) {
           </div>
 
           <div style="text-align: center; margin-top: 3rem;">
-            <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/philosophy')">
-              <span>READ FULL MANIFESTO &amp; FORMAT GUIDE</span>
+            <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/#format-guide')">
+              <span>EXPLORE FORMAT &amp; COMPATIBILITY GUIDE</span>
               <span>→</span>
             </button>
           </div>
@@ -179,7 +179,7 @@ export function renderHomePage(appInstance) {
       </section>
 
       <!-- 5. ARCHITECTS TEASER (CO-FOUNDERS BANNER) -->
-      <section class="tamyiz-section py-14 md:py-24" style="background: var(--color-offwhite); border-bottom: 1px solid var(--color-border);">
+      <section id="origin" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite); border-bottom: 1px solid var(--color-border);">
         <div class="container">
           <div class="tamyiz-founders-teaser-card">
             <div class="tamyiz-founders-teaser-content">
@@ -214,6 +214,72 @@ export function renderHomePage(appInstance) {
                   <strong>SAHIL</strong>
                   <span>Full-Stack Architecture</span>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5B. FORMAT GUIDE / COMPATIBILITY MATRIX -->
+      <section id="format-guide" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+          <div style="text-align: center; max-width: 680px; margin: 0 auto 3rem auto;">
+            <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Digital Standards &amp; Readers</span>
+            <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; line-height: 1.1;">Digital Format Guide</h2>
+            <p style="color: #666; font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.55;">
+              Every publication, Notion workspace, and UI system is engineered for zero DRM friction across Apple, Kindle, and modern web environments.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
+              <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+                <span class="matrix-icon" style="font-size:1.5rem;">📄</span>
+                <div>
+                  <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Interactive PDF</h4>
+                  <span class="matrix-sub" style="font-size:0.75rem; color:#888;">300DPI Retina Vector Edition</span>
+                </div>
+              </div>
+              <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
+                Full-bleed architectural spreads, linked citations, margin notes, and vector typography optimized for iPads and desktop reading.
+              </p>
+              <div class="matrix-compatibility-tags" style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Apple Books ✓</span>
+                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Adobe Acrobat ✓</span>
+              </div>
+            </div>
+
+            <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
+              <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+                <span class="matrix-icon" style="font-size:1.5rem;">📱</span>
+                <div>
+                  <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Kindle &amp; EPUB 3</h4>
+                  <span class="matrix-sub" style="font-size:0.75rem; color:#888;">Reflowable E-Ink &amp; Mobile</span>
+                </div>
+              </div>
+              <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
+                Compatible with Amazon Kindle Paperwhite/Oasis, Kobo, and smartphones with customizable font sizes, night modes, and whispersync.
+              </p>
+              <div class="matrix-compatibility-tags" style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Kindle Scribe/Paperwhite ✓</span>
+                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Google Books ✓</span>
+              </div>
+            </div>
+
+            <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
+              <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+                <span class="matrix-icon" style="font-size:1.5rem;">⚡</span>
+                <div>
+                  <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Notion &amp; Figma</h4>
+                  <span class="matrix-sub" style="font-size:0.75rem; color:#888;">1-Click Duplication Vault</span>
+                </div>
+              </div>
+              <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
+                Instant 1-click duplication into your personal Notion workspace (Free &amp; Plus) and full vector components in Figma.
+              </p>
+              <div class="matrix-compatibility-tags" style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Notion App ✓</span>
+                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Figma Desktop/Web ✓</span>
               </div>
             </div>
           </div>
@@ -260,6 +326,14 @@ export function renderProductCardHtml(p, appInstance) {
   const slug = p.slug || p.id;
   const hasVariants = p.variants && p.variants.options && p.variants.options.length > 0;
   const currentSelectedOption = appInstance.selectedSizes[p.id] || (hasVariants ? p.variants.options[0] : "Standard");
+  
+  // Calculate dynamic variant pricing
+  let currentPrice = p.price;
+  let currentOrigPrice = p.originalPrice;
+  if (p.variants?.prices && p.variants.prices[currentSelectedOption]) {
+    currentPrice = p.variants.prices[currentSelectedOption].price;
+    currentOrigPrice = p.variants.prices[currentSelectedOption].originalPrice;
+  }
 
   return `
     <div class="tamyiz-product-card flex flex-col h-full" id="card-${p.id}">
@@ -281,9 +355,9 @@ export function renderProductCardHtml(p, appInstance) {
           <span class="tamyiz-product-cat">${p.category}</span>
           <h4 class="tamyiz-product-name" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">${p.name}</h4>
 
-          <div class="tamyiz-product-pricing flex items-baseline gap-2" aria-label="Price: ₹${p.price.toLocaleString('en-IN')}${p.originalPrice ? `, original price ₹${p.originalPrice.toLocaleString('en-IN')}` : ''}">
-            <span class="tamyiz-price-cur font-bold text-black">₹${p.price.toLocaleString('en-IN')}</span>
-            ${p.originalPrice ? `<span class="tamyiz-price-orig text-gray-400 line-through">₹${p.originalPrice.toLocaleString('en-IN')}</span>` : ''}
+          <div class="tamyiz-product-pricing flex items-baseline gap-2" id="pricing-${p.id}" aria-label="Price: ₹${currentPrice.toLocaleString('en-IN')}${currentOrigPrice ? `, original price ₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}">
+            <span class="tamyiz-price-cur font-bold text-black" id="price-${p.id}">₹${currentPrice.toLocaleString('en-IN')}</span>
+            <span class="tamyiz-price-orig text-gray-400 line-through" id="orig-price-${p.id}" style="${currentOrigPrice ? '' : 'display:none;'}">${currentOrigPrice ? `₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}</span>
           </div>
 
           ${hasVariants ? `
@@ -304,10 +378,10 @@ export function renderProductCardHtml(p, appInstance) {
         </div>
 
         <div class="tamyiz-card-actions-row">
-          <button class="tamyiz-btn-quick-add" style="background: var(--color-red); font-size: 0.82rem; padding: 0.82rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickAddToCart('${p.id}')">
-            INSTANT ACCESS • ₹${p.price.toLocaleString('en-IN')}
+          <button class="tamyiz-btn-quick-add" id="btn-quick-${p.id}" style="background: var(--color-red); font-size: 0.82rem; padding: 0.82rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickAddToCart('${p.id}')">
+            INSTANT ACCESS • ₹${currentPrice.toLocaleString('en-IN')}
           </button>
-          <button class="tamyiz-btn-preview-trigger" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">
+          <button class="tamyiz-btn-preview-trigger" onclick="event.stopPropagation(); window.tamyizApp.openProductPreview('${p.id}')">
             <span>📖</span>
             <span>PREVIEW / DEMO</span>
             <span>↗</span>

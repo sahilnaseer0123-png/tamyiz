@@ -39,11 +39,16 @@ export class TamyizUnifiedApp {
     this.selectedSizes = {}; // { [productId]: formatOptionString }
     this.activePdpImageIndex = 0;
     this.mobileMenuOpen = false;
+    this.activePreviewProduct = null;
+    this.activePreviewTab = 0;
 
     this.init();
   }
 
   init() {
+    // 0. Expose global store instance for inline HTML event reliability
+    window.store = store;
+
     // 1. Initial shell render (Header, Drawer, Shell, Footer, Modals)
     this.renderShell();
 
@@ -60,11 +65,11 @@ export class TamyizUnifiedApp {
     // 5. Header scroll listener
     this.bindScrollHeader();
 
-    // 6. Check deep-link query parameter: ?cat=...
+    // 6. Check deep-link query parameter: ?category=... or ?cat=...
     const params = new URLSearchParams(window.location.search);
-    const catParam = params.get('cat');
+    const catParam = params.get('category') || params.get('cat');
     if (catParam) {
-      this.activeCategory = catParam;
+      this.activeCategory = (catParam === 'ui-ux' ? 'design' : catParam);
     }
   }
 
@@ -132,23 +137,25 @@ export class TamyizUnifiedApp {
 
   handleLocationChange(isUserNav = true) {
     const route = this.parseRoute(window.location.pathname, window.location.hash);
+    const previousPage = this.currentPage;
     this.currentPage = route.page;
     this.currentSlug = route.slug;
-
-    // Reset PDP image index on page change
     this.activePdpImageIndex = 0;
 
-    // Critical Stability Rule 2: Auto Scroll-to-Top
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    const anchor = route.anchor ? route.anchor.replace(/^#/, '') : null;
 
-    // Render active page view
+    if (!anchor) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
     this.renderCurrentPage();
 
-    // Handle hash anchors (e.g. #formats)
-    if (route.anchor && route.anchor.startsWith('#') && !route.anchor.startsWith('#/')) {
-      const targetId = route.anchor.slice(1);
+    if (anchor) {
       setTimeout(() => {
-        const el = document.getElementById(targetId);
+        let el = document.getElementById(anchor);
+        if (!el && (anchor === 'formats' || anchor === 'format-guide')) {
+          el = document.getElementById('format-guide') || document.getElementById('formats');
+        }
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
         }
@@ -159,6 +166,9 @@ export class TamyizUnifiedApp {
   navigateTo(path, replace = false) {
     this.closeMobileMenu();
 
+    const hasAnchor = path.includes('#');
+    const anchor = hasAnchor ? path.split('#')[1] : null;
+
     // Route path calculation
     const url = (window.location.protocol === 'file:') ? '#' + path : path;
 
@@ -168,27 +178,35 @@ export class TamyizUnifiedApp {
       window.history.pushState({ path }, '', url);
     }
 
+    const previousPage = this.currentPage;
     const route = this.parseRoute(path, '');
     this.currentPage = route.page;
     this.currentSlug = route.slug;
     this.activePdpImageIndex = 0;
 
-    // Critical Stability Rule 2: Auto Scroll-to-Top
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Only auto-scroll to top if not navigating to a specific hash anchor
+    if (!anchor) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
 
-    this.renderCurrentPage();
+    // Render if template changed or if on editions with category filter
+    if (previousPage !== this.currentPage || this.currentPage === 'editions') {
+      this.renderCurrentPage();
+    } else {
+      this.updateActiveNavIndicators();
+    }
 
-    // Handle hash if in path (e.g., /philosophy#formats)
-    if (path.includes('#')) {
-      const anchor = path.split('#')[1];
-      if (anchor) {
-        setTimeout(() => {
-          const el = document.getElementById(anchor);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 100);
-      }
+    // Handle hash smooth scrolling
+    if (anchor) {
+      setTimeout(() => {
+        let el = document.getElementById(anchor);
+        if (!el && (anchor === 'formats' || anchor === 'format-guide')) {
+          el = document.getElementById('format-guide') || document.getElementById('formats');
+        }
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 80);
     }
   }
 
@@ -279,9 +297,9 @@ export class TamyizUnifiedApp {
           <nav class="tamyiz-header-nav" id="desktop-nav" aria-label="Primary Navigation">
             <a href="/" class="tamyiz-header-nav-link" id="nav-link-home" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a>
             <a href="/editions" class="tamyiz-header-nav-link" id="nav-link-editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">Editions</a>
-            <a href="/philosophy" class="tamyiz-header-nav-link" id="nav-link-philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy')">Philosophy</a>
-            <a href="/atelier" class="tamyiz-header-nav-link" id="nav-link-atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">Atelier Origin</a>
-            <a href="/philosophy#formats" class="tamyiz-header-nav-link" id="nav-link-formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy#formats')">Format Guide</a>
+            <a href="/#philosophy" class="tamyiz-header-nav-link" id="nav-link-philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Philosophy</a>
+            <a href="/#origin" class="tamyiz-header-nav-link" id="nav-link-atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin</a>
+            <a href="/#format-guide" class="tamyiz-header-nav-link" id="nav-link-formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Format Guide</a>
           </nav>
 
           <div class="tamyiz-header-right">
@@ -313,9 +331,9 @@ export class TamyizUnifiedApp {
             <ul class="tamyiz-mobile-nav-list">
               <li><a href="/" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home <span>→</span></a></li>
               <li><a href="/editions" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">The Editions <span>→</span></a></li>
-              <li><a href="/philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy')">Three Pillars &amp; Philosophy <span>→</span></a></li>
-              <li><a href="/atelier" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">Atelier Origin &amp; Founders <span>→</span></a></li>
-              <li><a href="/philosophy#formats" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy#formats')">Digital Format Guide <span>→</span></a></li>
+              <li><a href="/#philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars &amp; Philosophy <span>→</span></a></li>
+              <li><a href="/#origin" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin &amp; Founders <span>→</span></a></li>
+              <li><a href="/#format-guide" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Digital Format Guide <span>→</span></a></li>
               <li><a href="/checkout" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/checkout')" style="color: var(--color-red);">Instant Checkout <span>→</span></a></li>
             </ul>
           </div>
@@ -385,7 +403,7 @@ export class TamyizUnifiedApp {
             <span id="cart-discount-label">Coupon Discount</span>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <strong id="cart-discount-val">-₹0</strong>
-              <button onclick="store.removeCoupon()" style="background: none; border: none; color: #888; font-size: 0.75rem; cursor: pointer;" title="Remove coupon">✕</button>
+              <button onclick="window.tamyizApp.removeCoupon()" style="background: none; border: none; color: #888; font-size: 0.75rem; cursor: pointer;" title="Remove coupon">✕</button>
             </div>
           </div>
 
@@ -434,7 +452,7 @@ export class TamyizUnifiedApp {
             <span>Lifetime Digital Updates</span>
           </div>
 
-          <div class="tamyiz-footer-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="tamyiz-footer-grid">
             <div class="tamyiz-footer-brand">
               <h3>TAMYIZ™</h3>
               <p>
@@ -449,9 +467,9 @@ export class TamyizUnifiedApp {
               <ul class="tamyiz-footer-links">
                 <li><a href="/" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a></li>
                 <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">The Editions</a></li>
-                <li><a href="/philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy')">Three Pillars &amp; Philosophy</a></li>
-                <li><a href="/atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">Atelier Origin &amp; Founders</a></li>
-                <li><a href="/philosophy#formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy#formats')">Digital Format Guide</a></li>
+                <li><a href="/#philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars &amp; Philosophy</a></li>
+                <li><a href="/#origin" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin &amp; Founders</a></li>
+                <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Digital Format Guide</a></li>
                 <li><a href="/checkout" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/checkout')" style="color: var(--color-red); font-weight: 700;">Instant Checkout →</a></li>
               </ul>
             </div>
@@ -469,7 +487,7 @@ export class TamyizUnifiedApp {
             <div class="tamyiz-footer-col">
               <h4>Customer Care</h4>
               <ul class="tamyiz-footer-links">
-                <li><a href="/philosophy#formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy#formats')">Digital Format &amp; Template Guide</a></li>
+                <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Digital Format &amp; Template Guide</a></li>
                 <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/delivery-protocol')">Instant Digital Delivery Protocol</a></li>
                 <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/license')">Atelier Guarantee &amp; License</a></li>
                 <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/privacy')">Privacy &amp; Data Security</a></li>
@@ -493,6 +511,11 @@ export class TamyizUnifiedApp {
       <!-- 4. CHECKOUT / WAITLIST & POLICY MODAL OVERLAY -->
       <div class="tamyiz-modal" id="tamyiz-modal" onclick="if(event.target === this) window.tamyizApp.closeModal();">
         <div class="tamyiz-modal-box" id="tamyiz-modal-content"></div>
+      </div>
+
+      <!-- 4B. LOOK INSIDE / PRODUCT PREVIEW MODAL OVERLAY (Task 3) -->
+      <div class="tamyiz-modal-backdrop" id="preview-modal-backdrop" onclick="if(event.target === this) window.tamyizApp.closeProductPreview();">
+        <div class="tamyiz-preview-modal" id="preview-modal-container" role="dialog" aria-modal="true"></div>
       </div>
 
       <!-- 5. COMPACT WHATSAPP CONCIERGE BUTTON -->
@@ -683,17 +706,24 @@ export class TamyizUnifiedApp {
         btn.classList.add('active');
       }
     }
+    const catCode = cat === 'design' ? 'ui-ux' : cat;
+    const searchParam = cat === 'all' ? '' : `?category=${catCode}`;
+    const newUrl = `/editions${searchParam}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+
     if (this.currentPage === 'editions') {
       this.renderCurrentPage();
     } else {
-      this.navigateTo('/editions');
+      this.navigateTo(newUrl);
     }
   }
 
   filterCategoryAndNavigate(cat) {
     this.closeMobileMenu();
-    this.activeCategory = cat;
-    this.navigateTo('/editions');
+    this.activeCategory = cat === 'ui-ux' ? 'design' : cat;
+    const catCode = cat === 'design' ? 'ui-ux' : cat;
+    const searchParam = cat === 'all' ? '' : `?category=${catCode}`;
+    this.navigateTo(`/editions${searchParam}`);
   }
 
   handleSearch(query) {
@@ -745,6 +775,55 @@ export class TamyizUnifiedApp {
     if (label) label.textContent = size;
     const pdpLabel = document.getElementById('pdp-selected-size-label');
     if (pdpLabel) pdpLabel.textContent = size;
+
+    // Dynamically calculate and update variant prices across card, PDP and modal
+    const product = findProductBySlugOrId(productId);
+    if (product) {
+      let price = product.price;
+      let origPrice = product.originalPrice;
+      if (product.variants?.prices && product.variants.prices[size]) {
+        price = product.variants.prices[size].price;
+        origPrice = product.variants.prices[size].originalPrice;
+      }
+
+      // 1. Update Card Price & Button
+      const priceEl = document.getElementById(`price-${productId}`);
+      if (priceEl) priceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
+      const origPriceEl = document.getElementById(`orig-price-${productId}`);
+      if (origPriceEl) {
+        origPriceEl.textContent = origPrice ? `₹${origPrice.toLocaleString('en-IN')}` : '';
+        origPriceEl.style.display = origPrice ? 'inline' : 'none';
+      }
+      const quickBtn = document.getElementById(`btn-quick-${productId}`);
+      if (quickBtn) {
+        quickBtn.innerHTML = `INSTANT ACCESS • ₹${price.toLocaleString('en-IN')}`;
+      }
+
+      // 2. Update PDP Price & Button
+      const pdpPriceEl = document.getElementById('pdp-price');
+      if (pdpPriceEl) pdpPriceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
+      const pdpOrigPriceEl = document.getElementById('pdp-orig-price');
+      if (pdpOrigPriceEl) {
+        pdpOrigPriceEl.textContent = origPrice ? `₹${origPrice.toLocaleString('en-IN')}` : '';
+        pdpOrigPriceEl.style.display = origPrice ? 'inline' : 'none';
+      }
+      const pdpAddBtn = document.getElementById('pdp-add-btn');
+      if (pdpAddBtn) {
+        pdpAddBtn.innerHTML = `<span>ADD TO ATELIER BAG</span><span>•</span><span>₹${price.toLocaleString('en-IN')}</span>`;
+      }
+      const pdpBuyBtn = document.getElementById('pdp-buy-btn');
+      if (pdpBuyBtn) {
+        pdpBuyBtn.innerHTML = `<span>INSTANT CHECKOUT</span><span>•</span><span>₹${price.toLocaleString('en-IN')} →</span>`;
+      }
+
+      // 3. Update Modal Price & Button (if open)
+      const modalPriceEl = document.getElementById(`modal-price-${productId}`);
+      if (modalPriceEl) modalPriceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
+      const modalBuyBtn = document.getElementById(`modal-buy-btn-${productId}`);
+      if (modalBuyBtn) {
+        modalBuyBtn.innerHTML = `INSTANT ACCESS • ₹${price.toLocaleString('en-IN')} →`;
+      }
+    }
   }
 
   quickAddToCart(id) {
@@ -753,8 +832,14 @@ export class TamyizUnifiedApp {
 
     const hasVariants = product.variants && product.variants.options && product.variants.options.length > 0;
     const selectedVariant = this.selectedSizes[product.id] || (hasVariants ? product.variants.options[0] : "Standard");
+    let price = product.price;
+    let origPrice = product.originalPrice;
+    if (product.variants?.prices && product.variants.prices[selectedVariant]) {
+      price = product.variants.prices[selectedVariant].price;
+      origPrice = product.variants.prices[selectedVariant].originalPrice;
+    }
 
-    store.addToCart(product, selectedVariant, 1);
+    store.addToCart(product, selectedVariant, 1, price, origPrice);
     this.openCart();
   }
 
@@ -764,8 +849,14 @@ export class TamyizUnifiedApp {
 
     const hasVariants = product.variants && product.variants.options && product.variants.options.length > 0;
     const selectedVariant = this.selectedSizes[product.id] || (hasVariants ? product.variants.options[0] : "Standard");
+    let price = product.price;
+    let origPrice = product.originalPrice;
+    if (product.variants?.prices && product.variants.prices[selectedVariant]) {
+      price = product.variants.prices[selectedVariant].price;
+      origPrice = product.variants.prices[selectedVariant].originalPrice;
+    }
 
-    store.addToCart(product, selectedVariant, 1);
+    store.addToCart(product, selectedVariant, 1, price, origPrice);
     this.closeCart();
     this.navigateTo('/checkout');
   }
@@ -792,7 +883,8 @@ export class TamyizUnifiedApp {
       const cartOpen = document.getElementById('cart-drawer')?.classList.contains('active');
       const mobileOpen = document.getElementById('mobile-drawer')?.classList.contains('active');
       const modalOpen = document.getElementById('tamyiz-modal')?.classList.contains('active');
-      if (!cartOpen && !mobileOpen && !modalOpen) {
+      const previewOpen = document.getElementById('preview-modal-backdrop')?.classList.contains('active');
+      if (!cartOpen && !mobileOpen && !modalOpen && !previewOpen) {
         document.documentElement.style.overflow = '';
         document.body.style.overflow = '';
         document.body.classList.remove('modal-open');
@@ -837,8 +929,8 @@ export class TamyizUnifiedApp {
           <p style="font-size: 0.82rem; color: var(--color-grey); text-align: center; max-width: 240px; margin-bottom: 1.5rem; line-height: 1.5;">
             Explore our architectural e-books, Notion systems, and Swiss UI kits.
           </p>
-          <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.closeCart(); window.tamyizApp.navigateTo('/editions')">
-            Explore Editions →
+          <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.closeCart(); window.tamyizApp.navigateTo('/#editions')">
+            Explore Digital Editions →
           </button>
         </div>
       `;
@@ -848,22 +940,18 @@ export class TamyizUnifiedApp {
 
     if (foot) foot.style.display = 'block';
 
+    // Lock digital quantities to 1: clean single license display with direct remove button
     container.innerHTML = store.cart.map(item => `
       <div class="tamyiz-cart-item">
         <img src="${item.image}" alt="${item.name}" class="tamyiz-cart-thumb" />
         <div class="tamyiz-cart-info">
           <div class="tamyiz-cart-name">${item.name}</div>
-          <div class="tamyiz-cart-size">Format: <strong>${item.variant}</strong></div>
-          <div class="tamyiz-cart-row">
-            <div class="tamyiz-cart-qty">
-              <button onclick="store.updateQuantity('${item.cartItemId}', -1)">−</button>
-              <span>${item.quantity}</span>
-              <button onclick="store.updateQuantity('${item.cartItemId}', 1)">+</button>
-            </div>
-            <span class="tamyiz-cart-price">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+          <div class="tamyiz-cart-size">Format: <strong>${item.variant}</strong> • Single License</div>
+          <div class="tamyiz-cart-row" style="margin-top: 0.35rem;">
+            <span class="tamyiz-cart-price" style="font-size: 1.05rem; font-weight: 800; color: #000;">₹${item.price.toLocaleString('en-IN')}</span>
           </div>
         </div>
-        <button class="tamyiz-cart-del" onclick="store.removeFromCart('${item.cartItemId}')" title="Remove item">✕</button>
+        <button class="tamyiz-cart-del" onclick="window.tamyizApp.removeFromBag('${item.cartItemId}')" title="Remove item from bag">✕</button>
       </div>
     `).join('');
 
@@ -887,11 +975,256 @@ export class TamyizUnifiedApp {
     }
   }
 
+  removeFromBag(cartItemId) {
+    store.removeFromCart(cartItemId);
+    this.renderDrawerItems();
+    if (this.currentPage === 'checkout') {
+      this.renderCurrentPage();
+    }
+  }
+
   applyCoupon() {
     const input = document.getElementById('coupon-input');
     if (!input) return;
     const success = store.applyCoupon(input.value);
     if (success) input.value = '';
+    this.renderDrawerItems();
+    if (this.currentPage === 'checkout') {
+      this.renderCurrentPage();
+    }
+  }
+
+  removeCoupon() {
+    store.removeCoupon();
+    this.renderDrawerItems();
+    if (this.currentPage === 'checkout') {
+      this.renderCurrentPage();
+    }
+  }
+
+  // ==========================================
+  // Look Inside / Product Preview Modal (Task 3)
+  // ==========================================
+  openProductPreview(productId) {
+    const product = findProductBySlugOrId(productId);
+    if (!product) return;
+
+    this.activePreviewProduct = product;
+    this.activePreviewTab = 0;
+
+    const modalBackdrop = document.getElementById('preview-modal-backdrop');
+    const modalContainer = document.getElementById('preview-modal-container');
+    if (!modalBackdrop || !modalContainer) return;
+
+    this.renderPreviewModalContent();
+    modalBackdrop.classList.add('active');
+    this.setScrollLock(true);
+  }
+
+  closeProductPreview() {
+    const modalBackdrop = document.getElementById('preview-modal-backdrop');
+    if (modalBackdrop) {
+      modalBackdrop.classList.remove('active');
+    }
+    this.activePreviewProduct = null;
+    this.setScrollLock(false);
+  }
+
+  setPreviewTab(tabIndex) {
+    this.activePreviewTab = tabIndex;
+    this.renderPreviewModalContent();
+  }
+
+  selectModalFormat(productId, opt) {
+    this.selectProductSize(productId, opt, null);
+    this.renderPreviewModalContent();
+  }
+
+  quickBuyFromModal(productId) {
+    const product = findProductBySlugOrId(productId);
+    if (!product) return;
+
+    const hasVariants = product.variants && product.variants.options && product.variants.options.length > 0;
+    const selectedVariant = this.selectedSizes[product.id] || (hasVariants ? product.variants.options[0] : "Standard");
+    let price = product.price;
+    let origPrice = product.originalPrice;
+    if (product.variants?.prices && product.variants.prices[selectedVariant]) {
+      price = product.variants.prices[selectedVariant].price;
+      origPrice = product.variants.prices[selectedVariant].originalPrice;
+    }
+
+    store.addToCart(product, selectedVariant, 1, price, origPrice);
+    this.closeProductPreview();
+    this.navigateTo('/checkout');
+  }
+
+  renderPreviewModalContent() {
+    const modalContainer = document.getElementById('preview-modal-container');
+    const product = this.activePreviewProduct;
+    if (!modalContainer || !product) return;
+
+    const hasVariants = product.variants && product.variants.options && product.variants.options.length > 0;
+    const selectedVariant = this.selectedSizes[product.id] || (hasVariants ? product.variants.options[0] : "Standard");
+    let price = product.price;
+    let origPrice = product.originalPrice;
+    if (product.variants?.prices && product.variants.prices[selectedVariant]) {
+      price = product.variants.prices[selectedVariant].price;
+      origPrice = product.variants.prices[selectedVariant].originalPrice;
+    }
+
+    const currentTab = this.activePreviewTab;
+
+    let bodyContent = '';
+    if (currentTab === 0) {
+      // Samples & Spreads
+      bodyContent = `
+        <div class="tamyiz-modal-spreads-grid">
+          <div class="tamyiz-modal-spread-item">
+            <img src="${product.images[0]}" alt="${product.name} Plate 01" loading="lazy" />
+            <div class="tamyiz-modal-spread-caption">FIG. 01 — ARCHITECTURAL COVER &amp; SPECIFICATION RATIO</div>
+          </div>
+          <div class="tamyiz-modal-spread-item">
+            <img src="${product.images[1] || product.images[0]}" alt="${product.name} Spread 02" loading="lazy" />
+            <div class="tamyiz-modal-spread-caption">FIG. 02 — RETINA 300DPI INTERIOR SPREAD / WORKSPACE VIEW</div>
+          </div>
+        </div>
+
+        ${product.sampleExcerpt ? `
+          <div class="tamyiz-modal-excerpt-box">
+            <div class="tamyiz-modal-excerpt-title">${product.sampleExcerpt.chapter} • ${product.sampleExcerpt.subtitle || 'Selected Excerpt'}</div>
+            <p class="tamyiz-modal-excerpt-text">"${product.sampleExcerpt.text}"</p>
+          </div>
+        ` : `
+          <div class="tamyiz-modal-excerpt-box">
+            <div class="tamyiz-modal-excerpt-title">System Overview</div>
+            <p class="tamyiz-modal-excerpt-text">"${product.description}"</p>
+          </div>
+        `}
+      `;
+    } else if (currentTab === 1) {
+      // Chapters & Modules / TOC
+      bodyContent = `
+        <div style="margin-bottom: 1.25rem;">
+          <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">
+            Curriculum &amp; System Architecture
+          </h4>
+          <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">
+            Every section engineered with rigorous intellectual depth and practical execution frameworks.
+          </p>
+        </div>
+
+        <ul class="tamyiz-modal-toc-list">
+          ${product.tableOfContents && product.tableOfContents.length > 0 ? product.tableOfContents.map((item, idx) => `
+            <li class="tamyiz-modal-toc-item">
+              <span class="tamyiz-modal-toc-num">0${idx + 1}</span>
+              <span style="font-weight: 600; color: #111;">${item}</span>
+            </li>
+          `).join('') : `
+            <li class="tamyiz-modal-toc-item">
+              <span class="tamyiz-modal-toc-num">01</span>
+              <span>Complete architectural files, formulas, and verified frameworks included.</span>
+            </li>
+          `}
+        </ul>
+
+        ${product.highlights && product.highlights.length > 0 ? `
+          <div style="margin-top: 1.5rem; background: #F9F9F8; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 4px;">
+            <div style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.08em;">
+              Included Assets &amp; Deliverables
+            </div>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.82rem; color: #444;">
+              ${product.highlights.map(h => `<li>✓ ${h}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+      `;
+    } else {
+      // Technical Specifications
+      bodyContent = `
+        <div style="margin-bottom: 1.25rem;">
+          <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">
+            Technical Specifications &amp; License
+          </h4>
+          <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">
+            Hardware, reader, and software compatibility metrics verified by the TAMYIZ atelier.
+          </p>
+        </div>
+
+        <table class="tamyiz-modal-specs-table">
+          <tbody>
+            ${product.specifications ? product.specifications.map(s => `
+              <tr>
+                <td>${s.label}</td>
+                <td><strong>${s.value}</strong></td>
+              </tr>
+            `).join('') : ''}
+            <tr>
+              <td>License Scope</td>
+              <td><strong>100% Personal &amp; Commercial Single-Operator License</strong></td>
+            </tr>
+            <tr>
+              <td>Guarantee</td>
+              <td><strong>7-Day Technical Compatibility Guarantee (Full Refund)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: #F4F4F2; border-left: 3px solid var(--color-black); font-size: 0.82rem; color: #444; line-height: 1.55;">
+          ${product.careInstructions || 'DRM-free digital files delivered immediately upon order clearance. Redundant link copies dispatched to verified Email and WhatsApp.'}
+        </div>
+      `;
+    }
+
+    modalContainer.innerHTML = `
+      <div class="tamyiz-modal-header">
+        <div>
+          <span class="tamyiz-modal-meta-tag">ARCHITECTURAL LOOK INSIDE // ${product.category.toUpperCase()}</span>
+          <h3 class="tamyiz-modal-title">${product.name}</h3>
+        </div>
+        <button class="tamyiz-modal-close-btn" onclick="window.tamyizApp.closeProductPreview()" aria-label="Close Preview Modal">✕</button>
+      </div>
+
+      <div class="tamyiz-modal-tabs">
+        <button class="tamyiz-modal-tab-btn ${currentTab === 0 ? 'active' : ''}" onclick="window.tamyizApp.setPreviewTab(0)">
+          01 Samples &amp; Plates
+        </button>
+        <button class="tamyiz-modal-tab-btn ${currentTab === 1 ? 'active' : ''}" onclick="window.tamyizApp.setPreviewTab(1)">
+          02 Chapters &amp; Modules
+        </button>
+        <button class="tamyiz-modal-tab-btn ${currentTab === 2 ? 'active' : ''}" onclick="window.tamyizApp.setPreviewTab(2)">
+          03 Technical Specs
+        </button>
+      </div>
+
+      <div class="tamyiz-modal-body">
+        ${bodyContent}
+      </div>
+
+      <div class="tamyiz-modal-footer">
+        <div class="tamyiz-modal-format-choice">
+          ${hasVariants ? `
+            <span style="font-size: 0.75rem; font-weight: 800; font-family: var(--font-sub); text-transform: uppercase; color: #555;">${product.variants.type || 'Format'}:</span>
+            ${product.variants.options.map(opt => `
+              <button class="tamyiz-size-pill-btn ${opt === selectedVariant ? 'active' : ''}" onclick="window.tamyizApp.selectModalFormat('${product.id}', '${opt}')">
+                ${opt}
+              </button>
+            `).join('')}
+          ` : `
+            <span style="font-size: 0.78rem; font-weight: 800; font-family: var(--font-sub); color: #555;">DRM-FREE DIGITAL EDITION</span>
+          `}
+        </div>
+
+        <div class="tamyiz-modal-action-group">
+          <div style="text-align: right;">
+            <span style="font-size: 1.25rem; font-weight: 800; font-family: var(--font-display); color: #000;" id="modal-price-${product.id}">₹${price.toLocaleString('en-IN')}</span>
+            ${origPrice ? `<span style="font-size: 0.88rem; color: #999; text-decoration: line-through; margin-left: 0.35rem;">₹${origPrice.toLocaleString('en-IN')}</span>` : ''}
+          </div>
+          <button class="tamyiz-btn-quick-add" id="modal-buy-btn-${product.id}" style="background: var(--color-red); font-size: 0.84rem; padding: 0.85rem 1.4rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickBuyFromModal('${product.id}')">
+            INSTANT ACCESS • ₹${price.toLocaleString('en-IN')} →
+          </button>
+        </div>
+      </div>
+    `;
   }
 
   // Mobile Menu Drawer

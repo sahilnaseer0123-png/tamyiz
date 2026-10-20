@@ -65,7 +65,7 @@ export function renderCheckoutPage(appInstance) {
       </section>
 
       <!-- 2-COLUMN CHECKOUT ARCHITECTURE -->
-      <section class="tamyiz-section py-10 md:py-16" style="background: var(--color-offwhite);">
+      <section class="tamyiz-section py-10 md:py-16 pb-16 md:pb-24" style="background: var(--color-offwhite);">
         <div class="container">
           <div class="tamyiz-checkout-grid">
             <!-- LEFT COLUMN: CUSTOMER DETAILS & PAYMENT METHOD -->
@@ -189,7 +189,7 @@ export function renderCheckoutPage(appInstance) {
               <div class="tamyiz-checkout-summary-card">
                 <div class="tamyiz-summary-header">
                   <h3>Order Summary</h3>
-                  <span class="text-xs font-bold text-neutral-500 uppercase">${cart.length} Item${cart.length > 1 ? 's' : ''}</span>
+                  <span class="text-xs font-bold text-neutral-500 uppercase">${cart.length} Digital License${cart.length > 1 ? 's' : ''}</span>
                 </div>
 
                 <!-- Items List -->
@@ -201,12 +201,8 @@ export function renderCheckoutPage(appInstance) {
                         <h4 class="summary-item-name">${item.name}</h4>
                         <span class="summary-item-variant">${item.variant}</span>
                         <div class="flex items-center gap-3 mt-1.5">
-                          <div class="tamyiz-qty-picker-small">
-                            <button type="button" onclick="window.tamyizApp.updateSummaryQty('${item.cartItemId}', -1)">−</button>
-                            <span>${item.quantity}</span>
-                            <button type="button" onclick="window.tamyizApp.updateSummaryQty('${item.cartItemId}', 1)">+</button>
-                          </div>
-                          <strong class="text-sm font-bold text-black">₹${(item.price * item.quantity).toLocaleString('en-IN')}</strong>
+                          <span class="text-xs font-mono text-neutral-500 uppercase tracking-wider">Single License (1)</span>
+                          <strong class="text-sm font-bold text-black">₹${item.price.toLocaleString('en-IN')}</strong>
                         </div>
                       </div>
                       <button

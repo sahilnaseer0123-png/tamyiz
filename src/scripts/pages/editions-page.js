@@ -29,7 +29,7 @@ export function renderEditionsPage(appInstance) {
       </section>
 
       <!-- CATALOG CONTROLS & PRODUCT GRID -->
-      <section class="tamyiz-section py-10 md:py-16" style="background: var(--color-offwhite);">
+      <section id="editions-catalog" class="tamyiz-section py-10 md:py-16 scroll-mt-24" style="background: var(--color-offwhite);">
         <div class="container">
           <!-- Category Filter Tabs -->
           <div class="tamyiz-filter-pills flex overflow-x-auto whitespace-nowrap gap-2 pb-2 -mx-4 px-4 no-scrollbar sm:flex-wrap sm:mx-0 sm:px-0">

@@ -17,8 +17,8 @@
   --color-offwhite: #F4F4F2;
   --color-white: #FFFFFF;
   --color-grey: #8A8A8A;
-  --color-border: #E5E5E2;
-  --font-display: 'Syne', 'Michroma', -apple-system, sans-serif;
+  --font-brand: 'Syne', 'Michroma', -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sub: 'Space Grotesk', -apple-system, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -184,10 +184,10 @@ img {
 }
 
 .tamyiz-header-brand-scrolled {
-  font-family: var(--font-display);
+  font-family: var(--font-brand);
   font-size: 1.35rem;
   font-weight: 900;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.1em;
   color: var(--color-black);
   text-transform: uppercase;
   display: inline-flex;
@@ -241,7 +241,7 @@ img {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-family: var(--font-display);
+    font-family: var(--font-brand);
     font-size: 1rem; /* text-base */
     font-weight: 900;
     letter-spacing: 0.15em; /* tracking-[0.15em] */
@@ -610,7 +610,11 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   z-index: 2;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 60%, rgba(0, 0, 0, 0.8) 80%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 60%, rgba(0, 0, 0, 0.8) 80%, transparent 100%);
 }
 
 .tamyiz-hero-dome-cropper {
@@ -1042,9 +1046,10 @@ img {
 }
 
 .tamyiz-value-num {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-family: var(--font-brand);
+  font-size: 1.1rem;
   font-weight: 900;
+  letter-spacing: 0.05em;
   color: var(--color-red);
   margin-bottom: 0.75rem;
 }
@@ -1708,8 +1713,8 @@ img {
 
 .tamyiz-footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 2.5rem;
   margin-bottom: 3.5rem;
 }
 
@@ -1729,14 +1734,18 @@ img {
 
 .tamyiz-footer-brand h3,
 .tamyiz-footer-brand-title {
-  font-family: var(--font-display);
-  font-size: 1.85rem;
+  font-family: var(--font-brand);
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
   font-weight: 900;
-  letter-spacing: 0.14em; /* tracking-[0.14em] */
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
-  display: inline-flex;
-  align-items: baseline;
+  display: block;
+  max-width: 100%;
+  padding-right: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tamyiz-footer-brand p {
@@ -2560,7 +2569,7 @@ img {
   font-family: var(--font-sub);
   font-size: 0.65rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 0.28rem 0.6rem;
   border-radius: 2px;
@@ -2568,6 +2577,11 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  max-width: calc(100% - 3.8rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 5;
 }
 
 .tamyiz-badge-digital::before {
@@ -3815,7 +3829,7 @@ img {
 }
 
 .tamyiz-pillar-num-badge {
-  font-family: var(--font-display);
+  font-family: var(--font-brand);
   font-size: 2.2rem;
   font-weight: 900;
   color: var(--color-red);
@@ -4178,7 +4192,7 @@ img {
 }
 
 .tamyiz-step-num {
-  font-family: var(--font-display);
+  font-family: var(--font-brand);
   font-size: 1.5rem;
   font-weight: 900;
   color: var(--color-red);
@@ -4186,8 +4200,9 @@ img {
 
 .tamyiz-step-title {
   font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 900;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0;
 }
@@ -4533,6 +4548,304 @@ img {
 .tamyiz-btn-download-vault:hover {
   background: var(--color-red);
 }
+
+/* ==========================================================================
+   8. SWISS EDITORIAL POLISH & PREVIEW MODAL
+   ========================================================================== */
+.scroll-mt-24 {
+  scroll-margin-top: 6rem !important;
+}
+
+.tamyiz-page-checkout {
+  padding-bottom: 5rem;
+}
+
+/* Un-stretched Section Headings: Swiss Grotesque with Tight Tracking */
+.tamyiz-section h2,
+.tamyiz-page-title,
+.tamyiz-shop-header h2,
+.tamyiz-step-title,
+.tamyiz-pillar-heading {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  transform: scaleX(1) !important;
+}
+
+/* High-Contrast Swiss Look Inside / Preview Modal */
+.tamyiz-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 11, 11, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.tamyiz-modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tamyiz-preview-modal {
+  background: #FFFFFF;
+  color: var(--color-black);
+  width: 100%;
+  max-width: 880px;
+  max-height: 90vh;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tamyiz-modal-backdrop.active .tamyiz-preview-modal {
+  transform: translateY(0) scale(1);
+}
+
+.tamyiz-modal-header {
+  background: #0B0B0B;
+  color: #FFFFFF;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tamyiz-modal-meta-tag {
+  font-family: var(--font-sub);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--color-red);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.tamyiz-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.tamyiz-modal-close-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  width: 34px;
+  height: 34px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.tamyiz-modal-close-btn:hover {
+  background: var(--color-red);
+  border-color: var(--color-red);
+}
+
+/* Modal Tab Bar */
+.tamyiz-modal-tabs {
+  display: flex;
+  background: #F4F4F2;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 1.5rem;
+  overflow-x: auto;
+  gap: 0.5rem;
+}
+
+.tamyiz-modal-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-sub);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-grey);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tamyiz-modal-tab-btn:hover {
+  color: var(--color-black);
+}
+
+.tamyiz-modal-tab-btn.active {
+  color: var(--color-black);
+  border-bottom-color: var(--color-red);
+  font-weight: 800;
+}
+
+/* Modal Scrollable Body */
+.tamyiz-modal-body {
+  padding: 1.75rem;
+  overflow-y: auto;
+  flex: 1;
+  background: #FFFFFF;
+}
+
+/* Sample Spreads & Plates */
+.tamyiz-modal-spreads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.tamyiz-modal-spread-item {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #F8F8F7;
+}
+
+.tamyiz-modal-spread-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.tamyiz-modal-spread-caption {
+  padding: 0.65rem 0.85rem;
+  font-size: 0.72rem;
+  font-family: var(--font-sub);
+  color: #555;
+  background: #FFFFFF;
+  border-top: 1px solid var(--color-border);
+  font-weight: 600;
+}
+
+.tamyiz-modal-excerpt-box {
+  background: #F9F9F8;
+  border-left: 3px solid var(--color-red);
+  padding: 1.25rem;
+  margin-top: 1rem;
+  border-radius: 0 4px 4px 0;
+}
+
+.tamyiz-modal-excerpt-title {
+  font-family: var(--font-sub);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-black);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.06em;
+}
+
+.tamyiz-modal-excerpt-text {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #333333;
+  font-style: italic;
+}
+
+/* Table of Contents inside Modal */
+.tamyiz-modal-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.tamyiz-modal-toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #F9F9F8;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.88rem;
+}
+
+.tamyiz-modal-toc-num {
+  font-family: var(--font-brand);
+  color: var(--color-red);
+  font-weight: 900;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* Technical Specifications inside Modal */
+.tamyiz-modal-specs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tamyiz-modal-specs-table tr {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tamyiz-modal-specs-table td {
+  padding: 0.8rem 0;
+  font-size: 0.88rem;
+}
+
+.tamyiz-modal-specs-table td:first-child {
+  font-weight: 700;
+  font-family: var(--font-sub);
+  color: #666;
+  width: 32%;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+/* Modal Sticky Footer */
+.tamyiz-modal-footer {
+  background: #F4F4F2;
+  border-top: 1px solid var(--color-border);
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tamyiz-modal-format-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tamyiz-modal-action-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 
 
 

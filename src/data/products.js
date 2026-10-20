@@ -23,7 +23,11 @@ export const products = [
     ],
     variants: {
       type: "Format",
-      options: ["PDF + EPUB Bundle", "Kindle EPUB"]
+      options: ["PDF + EPUB Bundle", "Kindle EPUB"],
+      prices: {
+        "PDF + EPUB Bundle": { price: 499, originalPrice: 999 },
+        "Kindle EPUB": { price: 399, originalPrice: 799 }
+      }
     },
     colors: ["Obsidian / Signal Red"],
     description: "An uncompromising 140-page editorial monograph examining the intersection of architectural minimalism, Himalayan textile heritage, and high-density garment engineering. Authored by the TAMYIZ atelier in Sopore, Kashmir. Includes detailed pattern studies, fabric density analysis, and the philosophy of distinction in an age of mass commoditization.",
@@ -78,7 +82,11 @@ export const products = [
     ],
     variants: {
       type: "Format",
-      options: ["Interactive PDF + EPUB", "Complete Bundle"]
+      options: ["Interactive PDF + EPUB", "Complete Bundle"],
+      prices: {
+        "Interactive PDF + EPUB": { price: 699, originalPrice: 1299 },
+        "Complete Bundle": { price: 899, originalPrice: 1599 }
+      }
     },
     colors: ["Titanium / Signal Red"],
     description: "The tactical, non-fluff operational manual for solo engineers, designers, and brand builders. Details the end-to-end architecture used to design, code, launch, and monetize premium digital products with single-person efficiency. Includes duplicate-ready Notion workspace templates, pricing psychology models, and brand token design systems.",
@@ -133,7 +141,11 @@ export const products = [
     ],
     variants: {
       type: "Format",
-      options: ["PDF + EPUB", "Annotated Edition"]
+      options: ["PDF + EPUB", "Annotated Edition"],
+      prices: {
+        "PDF + EPUB": { price: 449, originalPrice: 899 },
+        "Annotated Edition": { price: 599, originalPrice: 1199 }
+      }
     },
     colors: ["Slate Black / Red Foil"],
     description: "Authored from our Sopore atelier with deep roots in Islamic scholarship and modern computational systems. A 110-page master guide for students, researchers, and technologists on cultivating intellectual depth, navigating AI ethics, and synthesizing enduring knowledge systems.",
@@ -187,7 +199,11 @@ export const products = [
     ],
     variants: {
       type: "Format",
-      options: ["PDF + Checklists", "EPUB"]
+      options: ["PDF + Checklists", "EPUB"],
+      prices: {
+        "PDF + Checklists": { price: 549, originalPrice: 1099 },
+        "EPUB": { price: 449, originalPrice: 899 }
+      }
     },
     colors: ["Industrial Charcoal / Signal Red"],
     description: "A battle-tested 94-page tactical guide covering luxury brand positioning, high-converting minimal checkout UX, pricing psychology in Indian Rupees & Global Currencies, and zero-ad organic distribution.",
@@ -245,7 +261,11 @@ export const products = [
     ],
     variants: {
       type: "License",
-      options: ["Notion Duplicate Link + Guide", "Team License"]
+      options: ["Notion Duplicate Link + Guide", "Team License"],
+      prices: {
+        "Notion Duplicate Link + Guide": { price: 799, originalPrice: 1499 },
+        "Team License": { price: 1499, originalPrice: 2999 }
+      }
     },
     colors: ["Obsidian Dark Mode"],
     description: "The exact operational system used by the TAMYIZ atelier. Features an architectural dark-mode dashboard implementing the PARA method, daily focus cockpit, weekly review cadences, long-term knowledge vaults, and automated habit matrix in a clean Swiss layout.",
@@ -300,7 +320,11 @@ export const products = [
     ],
     variants: {
       type: "License",
-      options: ["Notion Template + Invoice Kit", "Studio Multi-Client Pack"]
+      options: ["Notion Template + Invoice Kit", "Studio Multi-Client Pack"],
+      prices: {
+        "Notion Template + Invoice Kit": { price: 899, originalPrice: 1699 },
+        "Studio Multi-Client Pack": { price: 1599, originalPrice: 2999 }
+      }
     },
     colors: ["Architectural Dark Slate"],
     description: "Command respect from high-ticket clients with a private, branded Notion client portal. Features proposal decks, contract sign-off checklists, real-time milestone Kanban boards, file handoff chambers, and automated invoice tracking.",
@@ -354,7 +378,11 @@ export const products = [
     ],
     variants: {
       type: "License",
-      options: ["Notion Template + Zotero Guide", "Student Edition"]
+      options: ["Notion Template + Zotero Guide", "Student Edition"],
+      prices: {
+        "Notion Template + Zotero Guide": { price: 399, originalPrice: 799 },
+        "Student Edition": { price: 299, originalPrice: 599 }
+      }
     },
     colors: ["Deep Charcoal / Minimalist Red"],
     description: "Engineered for university scholars, independent researchers, and graduate students. Manages hundreds of academic papers, citation tags, synthesis matrices, methodology comparisons, and chapter drafting boards.",
@@ -411,7 +439,11 @@ export const products = [
     ],
     variants: {
       type: "Format",
-      options: ["Figma + Tailwind Code", "Figma Only"]
+      options: ["Figma + Tailwind Code", "Figma Only"],
+      prices: {
+        "Figma + Tailwind Code": { price: 999, originalPrice: 1999 },
+        "Figma Only": { price: 699, originalPrice: 1399 }
+      }
     },
     colors: ["Swiss Red / Matte Obsidian"],
     description: "The complete design system powering TAMYIZ. Includes the 12-column asymmetric grid mathematics, typography pairing ratios, Signal Red accent tokens, responsive breakpoints, accessible interactive states, and clean Tailwind/Vanilla CSS components.",

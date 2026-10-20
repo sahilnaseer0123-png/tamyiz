@@ -97,30 +97,47 @@ class Store {
   }
 
   // Cart operations
-  addToCart(product, variantOption, quantity = 1) {
+  addToCart(product, variantOption, quantity = 1, customPrice = null, customOriginalPrice = null) {
     const variant = variantOption || (product.variants ? product.variants.options[0] : "Standard");
     const cartItemId = `${product.id}-${variant}`;
+    
+    // Resolve variant price
+    let itemPrice = customPrice;
+    let itemOrigPrice = customOriginalPrice;
+    if (itemPrice === null || itemPrice === undefined) {
+      if (product.variants && product.variants.prices && product.variants.prices[variant]) {
+        itemPrice = product.variants.prices[variant].price;
+        itemOrigPrice = product.variants.prices[variant].originalPrice;
+      } else {
+        itemPrice = product.price;
+        itemOrigPrice = product.originalPrice;
+      }
+    }
+
     const existingIndex = this.cart.findIndex(item => item.cartItemId === cartItemId);
 
     if (existingIndex > -1) {
-      this.cart[existingIndex].quantity += quantity;
+      // Digital products are single-license: lock quantity to 1
+      this.cart[existingIndex].quantity = 1;
+      this.cart[existingIndex].price = itemPrice;
+      this.cart[existingIndex].originalPrice = itemOrigPrice;
     } else {
       this.cart.push({
         cartItemId,
         productId: product.id,
         name: product.name,
-        price: product.price,
-        originalPrice: product.originalPrice,
+        price: itemPrice,
+        originalPrice: itemOrigPrice,
         image: product.images[0],
         variant,
-        quantity,
-        isDigital: Boolean(product.isDigital)
+        quantity: 1, // Locked to 1 for digital publications
+        isDigital: Boolean(product.isDigital !== false)
       });
     }
 
     this.save(STORAGE_KEYS.CART, this.cart);
     this.notify('cart_updated', { cart: this.cart });
-    this.showToast(`Added to cart: ${product.name} (${variant})`, 'success');
+    this.showToast(`Added to bag: ${product.name} (${variant})`, 'success');
   }
 
   removeFromCart(cartItemId) {

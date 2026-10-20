@@ -62,3 +62,5 @@ export const siteConfig = {
     github: "https://github.com/sahilnaseer0123-png/tamyiz"
   }
 };
+
+export const SITE_CONFIG = siteConfig;
