@@ -82,10 +82,10 @@ export const products = [
     ],
     variants: {
       type: "Format",
-      options: ["Interactive PDF + EPUB", "Complete Bundle"],
+      options: ["PDF + Checklists", "EPUB"],
       prices: {
-        "Interactive PDF + EPUB": { price: 699, originalPrice: 1299 },
-        "Complete Bundle": { price: 899, originalPrice: 1599 }
+        "PDF + Checklists": { price: 699, originalPrice: 1299 },
+        "EPUB": { price: 499, originalPrice: 899 }
       }
     },
     colors: ["Titanium / Signal Red"],
@@ -319,7 +319,7 @@ export const products = [
       "/assets/images/products/notion-client-portal-06.jpg"
     ],
     variants: {
-      type: "License",
+      type: "Format",
       options: ["Notion Template + Invoice Kit", "Studio Multi-Client Pack"],
       prices: {
         "Notion Template + Invoice Kit": { price: 899, originalPrice: 1699 },
@@ -377,7 +377,7 @@ export const products = [
       "/assets/images/products/notion-research-tracker-07.jpg"
     ],
     variants: {
-      type: "License",
+      type: "Format",
       options: ["Notion Template + Zotero Guide", "Student Edition"],
       prices: {
         "Notion Template + Zotero Guide": { price: 399, originalPrice: 799 },

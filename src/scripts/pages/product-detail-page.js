@@ -114,10 +114,22 @@ export function renderProductDetailPage(slug, appInstance) {
                         <div class="tamyiz-excerpt-pullquote">
                           "Distinction is not loud; it is undeniable weight and proportion."
                         </div>
-                        <div class="tamyiz-reader-specs-chip">
-                          <span>📐 Architectural Layout 300DPI</span>
+                        <div class="tamyiz-reader-specs-chip" style="display:flex; align-items:center; gap:0.5rem;">
+                          <span style="display:inline-flex; align-items:center; gap:0.35rem;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M2 22h20"></path>
+                              <path d="M3 22L19 6a3 3 0 0 0-4.24-4.24L2 14.5V22z"></path>
+                            </svg>
+                            Architectural Layout 300DPI
+                          </span>
                           <span>•</span>
-                          <span>📱 Retina Optimized</span>
+                          <span style="display:inline-flex; align-items:center; gap:0.35rem;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                            </svg>
+                            Retina Optimized
+                          </span>
                         </div>
                       </div>
                     ` : ''}
@@ -144,7 +156,12 @@ export function renderProductDetailPage(slug, appInstance) {
               <div class="tamyiz-pdp-details-card">
                 <div class="flex items-center justify-between gap-3 mb-2">
                   <span class="tamyiz-pdp-cat">${product.category}</span>
-                  <span class="tamyiz-tag-dispatch">⚡ INSTANT DISPATCH</span>
+                  <span class="tamyiz-tag-dispatch" style="display:inline-flex; align-items:center; gap:0.35rem;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                    INSTANT DISPATCH
+                  </span>
                 </div>
 
                 <h1 class="tamyiz-pdp-title">${product.name}</h1>
@@ -218,15 +235,28 @@ export function renderProductDetailPage(slug, appInstance) {
                 <!-- Trust Guarantee List -->
                 <div class="tamyiz-pdp-guarantee-list">
                   <div class="tamyiz-guarantee-item">
-                    <span>⚡</span>
+                    <span style="display:inline-flex; align-items:center;" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                      </svg>
+                    </span>
                     <span>Instant on-screen download + redundant copies to email and WhatsApp.</span>
                   </div>
                   <div class="tamyiz-guarantee-item">
-                    <span>📱</span>
+                    <span style="display:inline-flex; align-items:center;" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                      </svg>
+                    </span>
                     <span>DRM-free files compatible with Apple Books, Kindle, and mobile tablets.</span>
                   </div>
                   <div class="tamyiz-guarantee-item">
-                    <span>♾️</span>
+                    <span style="display:inline-flex; align-items:center;" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18.178 8c5.096 0 5.096 8 0 8-2.67 0-4.67-2.67-6.178-5.333C10.5 8 8.5 8 5.822 8c-5.096 0-5.096 8 0 8 2.67 0 4.67-2.67 6.178-5.333C13.5 16 15.5 16 18.178 16z"></path>
+                      </svg>
+                    </span>
                     <span>Lifetime free updates whenever new revisions or templates are published.</span>
                   </div>
                 </div>

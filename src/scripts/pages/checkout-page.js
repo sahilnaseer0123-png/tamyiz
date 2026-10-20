@@ -137,7 +137,12 @@ export function renderCheckoutPage(appInstance) {
                       <div class="flex-1">
                         <div class="flex justify-between items-center">
                           <strong>Instant UPI (Google Pay, PhonePe, Paytm, QR)</strong>
-                          <span class="tamyiz-badge-fast">⚡ Instant</span>
+                          <span class="tamyiz-badge-fast" style="display:inline-flex; align-items:center; gap:0.25rem;">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                            Instant
+                          </span>
                         </div>
                         <span class="text-xs text-neutral-500 block mt-0.5">Zero convenience fees • Instant mobile checkout</span>
                       </div>
@@ -168,7 +173,11 @@ export function renderCheckoutPage(appInstance) {
                 <!-- GUARANTEE BADGE & SUBMIT BUTTON -->
                 <div class="tamyiz-digital-delivery-card mb-6">
                   <div class="tamyiz-digital-delivery-badge">
-                    <span>⚡</span>
+                    <span style="display:inline-flex; align-items:center;" aria-hidden="true">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                      </svg>
+                    </span>
                     <span>Zero Waiting Time Guarantee</span>
                   </div>
                   <p style="font-size: 0.84rem; color: #555; margin: 0; line-height: 1.5;">
@@ -220,7 +229,13 @@ export function renderCheckoutPage(appInstance) {
                   ${coupon ? `
                     <div class="flex justify-between items-center text-sm" style="color: #278838; font-weight: 700;">
                       <div class="flex items-center gap-1.5">
-                        <span>🏷️ ${coupon.code}</span>
+                        <span style="display:inline-flex; align-items:center; gap:0.35rem;">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                          </svg>
+                          ${coupon.code}
+                        </span>
                         <span class="text-xs text-neutral-500">(${coupon.label})</span>
                       </div>
                       <button
@@ -355,17 +370,27 @@ export function renderOrderVaultHtml(order) {
           <div class="no-print flex flex-wrap gap-3 justify-center items-center mb-6">
             <button
               class="tamyiz-hero-btn-primary"
-              style="padding: 0.75rem 1.6rem; font-size: 0.82rem;"
+              style="padding: 0.75rem 1.6rem; font-size: 0.82rem; display:inline-flex; align-items:center; gap:0.4rem;"
               onclick="window.print()"
             >
-              <span>🖨 Print Invoice</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>Print Invoice</span>
             </button>
             <button
               class="tamyiz-btn-nav-outline"
-              style="padding: 0.75rem 1.6rem; font-size: 0.82rem;"
+              style="padding: 0.75rem 1.6rem; font-size: 0.82rem; display:inline-flex; align-items:center; gap:0.4rem;"
               onclick="window.tamyizApp.downloadInvoice('${order.orderId}')"
             >
-              <span>⬇ Download Invoice</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download Invoice</span>
             </button>
             <a
               href="https://wa.me/${siteConfig.whatsappNumber}?text=Hello%20TAMYIZ,%20I%20just%20completed%20Order%20${order.orderId}%20and%20would%20like%20my%20receipt%20confirmation."
@@ -374,7 +399,7 @@ export function renderOrderVaultHtml(order) {
               class="tamyiz-btn-nav-outline"
               style="padding: 0.75rem 1.4rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; color: #278838; border-color: #278838;"
             >
-              <span>💬 WhatsApp Confirmation ↗</span>
+              <span>WhatsApp Confirmation ↗</span>
             </a>
             <button
               class="tamyiz-btn-nav-outline"

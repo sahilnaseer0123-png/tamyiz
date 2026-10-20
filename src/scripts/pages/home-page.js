@@ -50,12 +50,11 @@ export function renderHomePage(appInstance) {
                 <picture class="w-full flex items-start justify-center">
                   <source srcset="/assets/images/tamyiz-logo-transparent.png" type="image/png" />
                   <img
-                    src="/assets/images/tamyiz-logo.png"
+                    src="/assets/images/tamyiz-logo-transparent.png"
                     alt="TAMYIZ Horizon Emblem"
                     class="tamyiz-hero-logo-img mix-blend-multiply"
                     loading="eager"
                     fetchpriority="high"
-                    style="mix-blend-mode: multiply; -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%); mask-image: linear-gradient(to bottom, black 85%, transparent 100%);"
                   />
                 </picture>
               </div>
@@ -71,32 +70,53 @@ export function renderHomePage(appInstance) {
       </section>
 
       <!-- 2. BRAND PROMISE / VALUE STRIP -->
-      <div class="tamyiz-promise-strip py-12 md:py-16 px-6">
+      <div class="tamyiz-promise-strip py-6 md:py-8 px-6">
         <div class="container mx-auto px-6">
           <div class="tamyiz-promise-grid">
             <div class="tamyiz-promise-item">
-              <span class="tamyiz-promise-icon">⚡</span>
+              <span class="tamyiz-promise-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </span>
               <div>
                 <strong>Instant Digital Delivery</strong>
                 <p>Unlocked immediately on-screen &amp; dispatched to email/WhatsApp</p>
               </div>
             </div>
             <div class="tamyiz-promise-item">
-              <span class="tamyiz-promise-icon">📐</span>
+              <span class="tamyiz-promise-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 22h20"></path>
+                  <path d="M3 22L19 6a3 3 0 0 0-4.24-4.24L2 14.5V22z"></path>
+                  <path d="M7 17l2-2"></path>
+                  <path d="M10 14l2-2"></path>
+                  <path d="M13 11l2-2"></path>
+                </svg>
+              </span>
               <div>
                 <strong>Architectural Precision</strong>
                 <p>Swiss typographic layouts, 300DPI plates &amp; Notion formulas</p>
               </div>
             </div>
             <div class="tamyiz-promise-item">
-              <span class="tamyiz-promise-icon">♾️</span>
+              <span class="tamyiz-promise-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18.178 8c5.096 0 5.096 8 0 8-2.67 0-4.67-2.67-6.178-5.333C10.5 8 8.5 8 5.822 8c-5.096 0-5.096 8 0 8 2.67 0 4.67-2.67 6.178-5.333C13.5 16 15.5 16 18.178 16z"></path>
+                </svg>
+              </span>
               <div>
                 <strong>Lifetime Updates</strong>
                 <p>All future revisions and upgraded templates included free</p>
               </div>
             </div>
             <div class="tamyiz-promise-item">
-              <span class="tamyiz-promise-icon">🛡️</span>
+              <span class="tamyiz-promise-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <path d="M9 12l2 2 4-4"></path>
+                </svg>
+              </span>
               <div>
                 <strong>Atelier Guarantee</strong>
                 <p>100% personal &amp; commercial single-operator license</p>
@@ -246,7 +266,14 @@ export function renderHomePage(appInstance) {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
               <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-                <span class="matrix-icon" style="font-size:1.5rem;">📄</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color:var(--color-black);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                  </svg>
+                </span>
                 <div>
                   <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Interactive PDF</h4>
                   <span class="matrix-sub" style="font-size:0.75rem; color:#888;">300DPI Retina Vector Edition</span>
@@ -263,7 +290,13 @@ export function renderHomePage(appInstance) {
 
             <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
               <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-                <span class="matrix-icon" style="font-size:1.5rem;">📱</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color:var(--color-black);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2"></line>
+                    <line x1="8" y1="6" x2="16" y2="6"></line>
+                  </svg>
+                </span>
                 <div>
                   <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Kindle &amp; EPUB 3</h4>
                   <span class="matrix-sub" style="font-size:0.75rem; color:#888;">Reflowable E-Ink &amp; Mobile</span>
@@ -274,13 +307,20 @@ export function renderHomePage(appInstance) {
               </p>
               <div class="matrix-compatibility-tags" style="display:flex; flex-wrap:wrap; gap:0.4rem;">
                 <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Kindle Scribe/Paperwhite ✓</span>
-                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Google Books ✓</span>
+                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Google Play Books ✓</span>
               </div>
             </div>
 
             <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
               <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-                <span class="matrix-icon" style="font-size:1.5rem;">⚡</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color:var(--color-red);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                  </svg>
+                </span>
                 <div>
                   <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Notion &amp; Figma</h4>
                   <span class="matrix-sub" style="font-size:0.75rem; color:#888;">1-Click Duplication Vault</span>
@@ -303,7 +343,7 @@ export function renderHomePage(appInstance) {
         <div class="container">
           <div style="text-align: center; max-width: 680px; margin: 0 auto 3.5rem auto;">
             <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red); text-transform: uppercase; letter-spacing: 0.12em;">Inside The Atelier</span>
-            <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; margin-top: 0.4rem; text-transform: uppercase;">Early Reader Notes.</h2>
+            <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; margin-top: 0.4rem; text-transform: uppercase;">Early Reader Notes</h2>
             <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem; line-height: 1.5;">
               Reflections on writing clarity, Swiss typographic discipline, and architectural philosophy from verified readers and design leaders.
             </p>
@@ -386,12 +426,14 @@ export function renderProductCardHtml(p, appInstance) {
           ${hasVariants ? `
             <div class="tamyiz-size-selector-wrap" onclick="event.stopPropagation()">
               <div class="tamyiz-size-selector-label">
-                <span>${p.variants.type || 'Format'}:</span>
+                <span>FORMAT:</span>
                 <span style="color: var(--color-black); font-weight: 800;" id="size-label-${p.id}">${currentSelectedOption}</span>
               </div>
-              <div class="tamyiz-size-pills-row">
+              <div class="tamyiz-size-pills-row" role="group" aria-label="Format selection">
                 ${p.variants.options.map(opt => `
-                  <button class="tamyiz-size-pill-btn ${opt === currentSelectedOption ? 'active' : ''}" onclick="window.tamyizApp.selectProductSize('${p.id}', '${opt}', this)">
+                  <button class="tamyiz-size-pill-btn ${opt === currentSelectedOption ? 'active' : ''}" 
+                          aria-pressed="${opt === currentSelectedOption ? 'true' : 'false'}"
+                          onclick="window.tamyizApp.selectProductSize('${p.id}', '${opt}', this)">
                     ${opt}
                   </button>
                 `).join('')}

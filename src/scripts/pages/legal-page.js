@@ -186,7 +186,28 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
               `).join('')}
             </div>
 
-            <div class="mt-14 pt-8 border-t border-neutral-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-mono text-neutral-600">
+            <!-- INDIAN PAYMENT GATEWAY & STATUTORY KYC COMPLIANCE DISCLOSURE -->
+            <div class="mt-12 p-6 sm:p-7 bg-neutral-50 border border-neutral-300 rounded text-xs font-mono text-neutral-700 leading-relaxed">
+              <div class="font-bold text-black uppercase tracking-wider text-sm mb-3 pb-2 border-b border-neutral-200">
+                Registered Atelier Headquarters &amp; Regulatory Compliance Information
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <div class="mb-1.5"><strong class="text-black">Operating Entity:</strong> TAMYIZ™ Digital Publishing &amp; Systems Architecture Atelier</div>
+                  <div class="mb-1.5"><strong class="text-black">Studio Address:</strong> Sopore, Kashmir 193201, India</div>
+                  <div class="mb-1.5"><strong class="text-black">Geographic Coordinates:</strong> 34.28° N, 74.46° E (Himalayan Valley Base)</div>
+                  <div><strong class="text-black">Co-Founders:</strong> Basit (Ethics &amp; Research) &amp; Sahil (Systems &amp; Architecture)</div>
+                </div>
+                <div>
+                  <div class="mb-1.5"><strong class="text-black">Direct Concierge Email:</strong> <a href="mailto:tamyiz.co@gmail.com" class="underline text-black font-bold">tamyiz.co@gmail.com</a></div>
+                  <div class="mb-1.5"><strong class="text-black">Phone &amp; WhatsApp:</strong> <a href="tel:+919541722379" class="underline text-black font-bold">+91 95417 22379</a> (10:00–19:00 IST)</div>
+                  <div class="mb-1.5"><strong class="text-black">Delivery SLA:</strong> Instantaneous on-screen unlock + email dispatch within 60 seconds</div>
+                  <div><strong class="text-black">Refund Protocol:</strong> 100% replacement for corrupted files; 7-day refund if reader incompatibility cannot be resolved</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-10 pt-8 border-t border-neutral-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-mono text-neutral-600">
               <div>
                 Questions regarding protocols? Concierge: 
                 <a href="mailto:${siteConfig.conciergeEmail}" class="text-black font-bold underline ml-1">${siteConfig.conciergeEmail}</a>

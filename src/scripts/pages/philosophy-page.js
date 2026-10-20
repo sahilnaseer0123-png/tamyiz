@@ -126,7 +126,14 @@ export function renderPhilosophyPage(appInstance) {
             <!-- Format 1: Interactive PDF -->
             <div class="tamyiz-matrix-card">
               <div class="matrix-card-header">
-                <span class="matrix-icon">📄</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                  </svg>
+                </span>
                 <div>
                   <h4>Interactive PDF</h4>
                   <span class="matrix-sub">300DPI Retina Print Edition</span>
@@ -146,7 +153,13 @@ export function renderPhilosophyPage(appInstance) {
             <!-- Format 2: EPUB 3 Standard -->
             <div class="tamyiz-matrix-card">
               <div class="matrix-card-header">
-                <span class="matrix-icon">📱</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2"></line>
+                    <line x1="8" y1="6" x2="16" y2="6"></line>
+                  </svg>
+                </span>
                 <div>
                   <h4>EPUB 3 Standard</h4>
                   <span class="matrix-sub">Fluid Mobile Typography</span>
@@ -166,7 +179,12 @@ export function renderPhilosophyPage(appInstance) {
             <!-- Format 3: Kindle EPUB / Scribe -->
             <div class="tamyiz-matrix-card">
               <div class="matrix-card-header">
-                <span class="matrix-icon">📖</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                </span>
                 <div>
                   <h4>Kindle EPUB / Scribe</h4>
                   <span class="matrix-sub">E-Ink Contrast Tuned</span>
@@ -186,7 +204,11 @@ export function renderPhilosophyPage(appInstance) {
             <!-- Format 4: Notion Systems -->
             <div class="tamyiz-matrix-card">
               <div class="matrix-card-header">
-                <span class="matrix-icon">🗂️</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </span>
                 <div>
                   <h4>Notion Operating Systems</h4>
                   <span class="matrix-sub">1-Click Duplication</span>
@@ -206,7 +228,13 @@ export function renderPhilosophyPage(appInstance) {
             <!-- Format 5: Figma UI Kits -->
             <div class="tamyiz-matrix-card">
               <div class="matrix-card-header">
-                <span class="matrix-icon">🎨</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                    <path d="M2 12h20"></path>
+                  </svg>
+                </span>
                 <div>
                   <h4>Figma &amp; Design Kits</h4>
                   <span class="matrix-sub">Auto-Layout 5.0 Components</span>
@@ -226,7 +254,11 @@ export function renderPhilosophyPage(appInstance) {
             <!-- Format 6: All-Access Vault -->
             <div class="tamyiz-matrix-card" style="border-color: var(--color-black); background: #FFFFFF;">
               <div class="matrix-card-header">
-                <span class="matrix-icon">⚡</span>
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color:var(--color-red);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                  </svg>
+                </span>
                 <div>
                   <h4>All-Access Lifetime Vault</h4>
                   <span class="matrix-sub">Digital Atelier License</span>

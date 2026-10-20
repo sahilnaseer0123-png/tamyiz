@@ -96,12 +96,16 @@ export class TamyizUnifiedApp {
 
     // Parse category from query param if available
     const searchStr = rawQuery ? `?${rawQuery}` : window.location.search;
-    if (searchStr) {
+    if (searchStr && (cleanPath === '/editions' || cleanPath === '')) {
       const params = new URLSearchParams(searchStr);
       const cat = params.get('category') || params.get('cat');
       if (cat) {
         this.activeCategory = (cat === 'ui-ux' ? 'design' : cat);
+      } else {
+        this.activeCategory = 'all';
       }
+    } else if (cleanPath === '/editions') {
+      this.activeCategory = 'all';
     }
 
     if (cleanPath === '' || cleanPath === '/') {
@@ -189,8 +193,8 @@ export class TamyizUnifiedApp {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
-    // Render if template changed or if on editions with category filter
-    if (previousPage !== this.currentPage || this.currentPage === 'editions') {
+    // Render if template changed or if on editions, legal tabs, or edition detail
+    if (previousPage !== this.currentPage || this.currentPage === 'editions' || this.currentPage === 'legal' || this.currentPage === 'edition') {
       this.renderCurrentPage();
     } else {
       this.updateActiveNavIndicators();
@@ -378,7 +382,11 @@ export class TamyizUnifiedApp {
         <!-- Free digital shipping tracker -->
         <div class="tamyiz-shipping-tracker">
           <div class="tamyiz-shipping-msg">
-            <span style="color: #278838; font-weight: 800;">⚡</span>
+            <span style="color: #278838; font-weight: 800; display: inline-flex; align-items: center;" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </span>
             <span id="shipping-msg-text" style="color: #278838; font-weight: 700;">Instant Digital Dispatch: FREE On All Editions</span>
           </div>
           <div class="tamyiz-shipping-progress-bg">
@@ -456,7 +464,7 @@ export class TamyizUnifiedApp {
               <p>
                 "Tamyiz" translates to distinction. Designed for those who stand apart.<br/>
                 Digital Publishing &amp; Design Systems Studio: Sopore, Kashmir 193201, India.<br/>
-                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener" style="color: var(--color-red); font-weight: 700;">${siteConfig.phone}</a>
+                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red); font-weight: 700;">${siteConfig.phone}</a>
               </p>
             </div>
 
@@ -490,7 +498,7 @@ export class TamyizUnifiedApp {
                 <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/license')">Atelier Guarantee &amp; License</a></li>
                 <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/privacy')">Privacy &amp; Data Security</a></li>
                 <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/terms')">Terms of Service</a></li>
-                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener" style="color: #278838; font-weight: 700;">WhatsApp Concierge ↗</a></li>
+                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #278838; font-weight: 700;">WhatsApp Concierge ↗</a></li>
               </ul>
             </div>
           </div>
@@ -777,9 +785,11 @@ export class TamyizUnifiedApp {
     // 1. Update all matching product cards across Home, Editions, and Related lists
     const cards = document.querySelectorAll(`[id="card-${productId}"]`);
     cards.forEach(card => {
-      // Update active pill
+      // Update active pill and aria-pressed
       card.querySelectorAll('.tamyiz-size-pill-btn').forEach(b => {
-        b.classList.toggle('active', b.textContent.trim() === size);
+        const isSelected = b.textContent.trim() === size;
+        b.classList.toggle('active', isSelected);
+        b.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
       });
       // Update format label
       const label = card.querySelector(`#size-label-${productId}`);
@@ -823,6 +833,11 @@ export class TamyizUnifiedApp {
     // 2. Update PDP Price & Button
     const pdpLabel = document.getElementById('pdp-selected-size-label');
     if (pdpLabel) pdpLabel.textContent = size;
+    document.querySelectorAll('#pdp-size-pills .tamyiz-size-pill-btn, .tamyiz-pdp-sizes .tamyiz-size-pill-btn').forEach(b => {
+      const isSelected = b.textContent.trim() === size;
+      b.classList.toggle('active', isSelected);
+      b.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
     const pdpPriceEl = document.getElementById('pdp-price');
     if (pdpPriceEl) pdpPriceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
     const pdpOrigPriceEl = document.getElementById('pdp-orig-price');
@@ -840,6 +855,11 @@ export class TamyizUnifiedApp {
     }
 
     // 3. Update Modal Price & Button (if open)
+    document.querySelectorAll('#modal-preview-size-pills .tamyiz-size-pill-btn, .tamyiz-preview-modal .tamyiz-size-pill-btn').forEach(b => {
+      const isSelected = b.textContent.trim() === size;
+      b.classList.toggle('active', isSelected);
+      b.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
     const modalPriceEl = document.getElementById(`modal-price-${productId}`);
     if (modalPriceEl) modalPriceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
     const modalBuyBtn = document.getElementById(`modal-buy-btn-${productId}`);
@@ -944,7 +964,13 @@ export class TamyizUnifiedApp {
     if (store.cart.length === 0) {
       container.innerHTML = `
         <div class="tamyiz-cart-empty-state">
-          <div style="font-size: 2.25rem; margin-bottom: 0.75rem; color: #BBB;">🛍️</div>
+          <div style="margin-bottom: 0.75rem; display: flex; justify-content: center; align-items: center;" aria-hidden="true">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#BBBBBB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+          </div>
           <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.4rem;">
             Your Bag Is Empty
           </div>
