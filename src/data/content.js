@@ -75,6 +75,8 @@ export const testimonials = [
     author: "Zaid Khan",
     location: "Bangalore",
     rating: 5,
+    productId: "tmz-dig-001",
+    slug: "tamyiz-monograph-01-the-architecture-of-distinction",
     product: "TAMYIZ Monograph 01: The Architecture of Distinction",
     text: "Monograph 01 reads like an intimate studio monograph combined with deep philosophical depth. The breakdown of cognitive architecture and rigorous design theory gave me an entirely new perspective on intellectual clarity. Essential reading.",
     date: "Verified Reader • 1 week ago"
@@ -84,6 +86,8 @@ export const testimonials = [
     author: "Aarav Singhania",
     location: "Mumbai",
     rating: 5,
+    productId: "tmz-dig-002",
+    slug: "the-solo-creator-and-digital-craft-playbook",
     product: "The Solo Creator & Digital Craft Playbook",
     text: "Most digital creator guides are superficial fluff. The Solo Creator Playbook is pure tactical engineering. The Notion kit and workflow architecture alone saved me months of trial and error. Easily worth 10x the price.",
     date: "Verified Reader • 2 weeks ago"
@@ -93,6 +97,8 @@ export const testimonials = [
     author: "Meera Nambiar",
     location: "New Delhi",
     rating: 5,
+    productId: "tmz-dig-008",
+    slug: "tamyiz-swiss-grid-and-luxury-portfolio-ui-kit",
     product: "TAMYIZ Swiss Grid & Luxury Portfolio UI Kit 2026",
     text: "The Swiss typography scales and grid rules in the 2026 UI Kit are flawless. It is rare to see an Indian studio commit to this level of uncompromising aesthetic precision. Inspiring from cover to cover.",
     date: "Verified Reader • 3 weeks ago"

@@ -21,7 +21,8 @@ const AVAILABLE_COUPONS = {
 
 class Store {
   constructor() {
-    this.cart = this.load(STORAGE_KEYS.CART, []);
+    const rawCart = this.load(STORAGE_KEYS.CART, []);
+    this.cart = Array.isArray(rawCart) ? rawCart : [];
     this.wishlist = this.load(STORAGE_KEYS.WISHLIST, ['tmz-001', 'tmz-008']);
     this.user = this.load(STORAGE_KEYS.USER, {
       isLoggedIn: true,
@@ -227,7 +228,7 @@ class Store {
 
     const couponData = AVAILABLE_COUPONS[cleanCode];
     if (!couponData) {
-      this.showToast(`Invalid code "${cleanCode}". Try DISTINCT10`, 'error');
+      this.showToast(`Invalid promo or atelier code "${cleanCode}". Please verify and try again.`, 'error');
       return false;
     }
 

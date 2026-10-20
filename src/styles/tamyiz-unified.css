@@ -154,51 +154,35 @@ img {
 
 .tamyiz-header-brand-desktop {
   display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
 }
 
 .tamyiz-header-brand-mobile {
   display: none;
 }
 
-.tamyiz-header-brand-top {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-sub);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+.tamyiz-header-brand-desktop .tamyiz-top-meta {
   color: #555555;
+  font-family: var(--font-sub);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  font-weight: 700;
   text-transform: uppercase;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
 
-.tamyiz-top-meta {
-  color: #555555;
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
-  font-weight: 700;
-}
-
-.tamyiz-header-brand-scrolled {
+.tamyiz-header-brand-desktop .tamyiz-header-brand-title {
   font-family: var(--font-brand);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   font-weight: 900;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--color-black);
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   line-height: 1;
-  position: absolute;
-  left: 0;
-  opacity: 0;
-  transform: translateY(6px);
-  pointer-events: none;
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
 
@@ -206,18 +190,6 @@ img {
   color: var(--color-red);
   margin-left: 0.05em;
   font-weight: 900;
-}
-
-.tamyiz-header.is-scrolled .tamyiz-header-brand-top {
-  opacity: 0;
-  transform: translateY(-6px);
-  pointer-events: none;
-}
-
-.tamyiz-header.is-scrolled .tamyiz-header-brand-scrolled {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
 }
 
 .tamyiz-header-nav {
@@ -613,8 +585,8 @@ img {
   justify-content: center;
   z-index: 2;
   mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 60%, rgba(0, 0, 0, 0.8) 80%, transparent 100%);
-  mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 60%, rgba(0, 0, 0, 0.8) 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
 
 .tamyiz-hero-dome-cropper {
@@ -627,6 +599,9 @@ img {
   align-items: flex-start;
   justify-content: center;
   line-height: 0;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
 
 .tamyiz-hero-dome-cropper picture {
@@ -643,6 +618,9 @@ img {
   display: block;
   object-fit: contain;
   object-position: top center;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
   filter: drop-shadow(0 -8px 24px rgba(0, 0, 0, 0.05)) drop-shadow(0 0 24px rgba(225, 37, 27, 0.12));
   animation: tamyiz-dome-ambient-glow 5s ease-in-out infinite alternate;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
@@ -705,14 +683,14 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 24px rgba(220, 38, 38, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.25);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
   text-decoration: none;
 }
 
 .tamyiz-whatsapp-fab:hover {
   transform: scale(1.08);
-  box-shadow: 0 14px 30px -4px rgba(225, 37, 27, 0.35);
+  box-shadow: 0 8px 30px rgba(220, 38, 38, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.4);
 }
 
 @media (max-width: 639px) {
@@ -1830,15 +1808,15 @@ img {
 }
 
 .tamyiz-header-menu-btn {
-  display: none;
+  display: inline-flex;
   background: none;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 9999px;
-  padding: 0.5rem 0.85rem;
-  min-height: 44px;
-  min-width: 44px;
+  padding: 0.45rem 0.85rem;
+  min-height: 38px;
+  min-width: 38px;
   font-family: var(--font-sub);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1847,19 +1825,14 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  transition: all 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
 }
 
 .tamyiz-header-menu-btn:hover {
   background: var(--color-black);
   color: #FFFFFF;
   border-color: var(--color-black);
-}
-
-@media (max-width: 1023px) {
-  .tamyiz-header-menu-btn {
-    display: inline-flex;
-  }
 }
 
 .tamyiz-header-nav-btn {
@@ -1996,6 +1969,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-decoration: none;
 }
 
 .tamyiz-mobile-cat-btn:hover,

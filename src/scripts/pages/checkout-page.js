@@ -236,7 +236,7 @@ export function renderCheckoutPage(appInstance) {
                       <input
                         type="text"
                         id="checkout-coupon-input"
-                        placeholder="Coupon code (DISTINCT10)"
+                        placeholder="ENTER PROMO OR ATELIER CODE"
                         class="tamyiz-coupon-input flex-1"
                         style="text-transform: uppercase;"
                         onkeydown="if(event.key==='Enter'){ event.preventDefault(); window.tamyizApp.applyCouponFromCheckout(); }"

@@ -52,9 +52,10 @@ export function renderHomePage(appInstance) {
                   <img
                     src="/assets/images/tamyiz-logo.png"
                     alt="TAMYIZ Horizon Emblem"
-                    class="tamyiz-hero-logo-img"
+                    class="tamyiz-hero-logo-img mix-blend-multiply"
                     loading="eager"
                     fetchpriority="high"
+                    style="mix-blend-mode: multiply; -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%); mask-image: linear-gradient(to bottom, black 85%, transparent 100%);"
                   />
                 </picture>
               </div>
@@ -319,7 +320,18 @@ export function renderHomePage(appInstance) {
                 </div>
                 <div style="border-top: 1px solid var(--color-border); padding-top: 1rem; font-size: 0.82rem;">
                   <strong>${t.author}</strong> — ${t.location}
-                  <div style="color: var(--color-grey); font-size: 0.75rem; margin-top: 0.2rem;">${t.product}</div>
+                  <div style="margin-top: 0.35rem;">
+                    <button 
+                      onclick="window.tamyizApp.openProductPreview('${t.productId || 'tmz-dig-001'}')" 
+                      class="tamyiz-testimonial-product-link hover:text-black hover:underline cursor-pointer transition-colors text-left font-semibold text-black"
+                      style="background: none; border: none; padding: 0; font-family: var(--font-sub); font-size: 0.76rem; font-weight: 700; text-decoration: underline; color: #111; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;"
+                      title="Inspect ${t.product}"
+                      aria-label="Inspect ${t.product}"
+                    >
+                      <span>${t.product}</span>
+                      <span style="color: var(--color-red); text-decoration: none;">↗</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             `).join('')}
@@ -350,7 +362,7 @@ export function renderProductCardHtml(p, appInstance) {
     <div class="tamyiz-product-card flex flex-col h-full" id="card-${p.id}">
       <div class="tamyiz-product-thumb" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">
         <img src="${p.images[0]}" alt="${p.name}" class="tamyiz-img-primary" loading="lazy" />
-        <img src="${p.images[1] || p.images[0]}" alt="${p.name} preview" class="tamyiz-img-hover" loading="lazy" />
+        <img src="${p.images[1] || p.images[0]}" alt="" aria-hidden="true" class="tamyiz-img-hover" loading="lazy" />
 
         <span class="tamyiz-badge-digital">${p.badge}</span>
 
