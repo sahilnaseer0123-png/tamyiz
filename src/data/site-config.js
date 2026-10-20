@@ -12,9 +12,9 @@ export const siteConfig = {
   founded: "Late 2025",
   
   // Concierge & Support
-  email: "concierge@tamyiz.in",
-  conciergeEmail: "concierge@tamyiz.in",
-  supportEmail: "support@tamyiz.in",
+  email: "tamyiz.co@gmail.com",
+  conciergeEmail: "tamyiz.co@gmail.com",
+  supportEmail: "tamyiz.co@gmail.com",
   phone: "+91 98765 43210",
   whatsappNumber: "919876543210",
   whatsappUrl: "https://wa.me/919876543210?text=Hello%20TAMYIZ%20Concierge,%20I%20have%20an%20inquiry%20regarding%20your%20digital%20publications.",
@@ -30,9 +30,9 @@ export const siteConfig = {
       image: "/assets/images/founders/basit.jpg",
       quote: "Modern media is designed for disposable dopamine; our publications are designed to be studied, annotated, and preserved.",
       socials: {
-        linkedin: "https://linkedin.com/in/basit-tamyiz",
-        x: "https://x.com/basit_tamyiz",
-        instagram: "https://instagram.com/basit_tamyiz"
+        instagram: "https://www.instagram.com/abbasitlone?exln=bjNrbjFjeHhvbXVi",
+        linkedin: "https://www.linkedin.com/in/basit-najadi-93944a445",
+        x: "https://x.com/Najadifbfw"
       }
     },
     sahil: {

@@ -3,7 +3,7 @@ export const brandInfo = {
   tagline: "Be Distinct.",
   subtext: "Products made for people who stand apart.",
   origin: "Sopore, Kashmir, India",
-  email: "concierge@tamyiz.in",
+  email: "tamyiz.co@gmail.com",
   phone: "+91 98765 43210",
   whatsappNumber: "919876543210",
   address: "TAMYIZ Atelier, Sopore, Kashmir 193201, India",
@@ -25,9 +25,9 @@ export const foundersData = {
       bio: "A technologist with deep specialization in Islamic scholarship, research, and ethical philosophy. Basit ensures every TAMYIZ digital publication and design framework adheres to timeless principles of distinction, honesty, and intellectual rigor.",
       quote: "True distinction is rooted in timeless principles. We engineer digital publications and design systems with intellectual depth and ethical honesty.",
       socials: {
-        instagram: "https://instagram.com/tamyiz.basit",
-        linkedin: "https://linkedin.com/in/basit-tamyiz",
-        x: "https://x.com/basit_tmz"
+        instagram: "https://www.instagram.com/abbasitlone?exln=bjNrbjFjeHhvbXVi",
+        linkedin: "https://www.linkedin.com/in/basit-najadi-93944a445",
+        x: "https://x.com/Najadifbfw"
       }
     },
     {

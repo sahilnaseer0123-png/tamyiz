@@ -123,9 +123,9 @@ export function renderAtelierPage(appInstance) {
                 </div>
 
                 <div class="tamyiz-founder-socials flex flex-wrap gap-2 mt-4">
-                  <a href="${basit.socials.linkedin}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">LinkedIn ↗</a>
-                  <a href="${basit.socials.x}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
-                  <a href="${basit.socials.instagram}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">Instagram ↗</a>
+                  <a href="${basit.socials.instagram}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">Instagram ↗</a>
+                  <a href="${basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">LinkedIn ↗</a>
+                  <a href="${basit.socials.x}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
                 </div>
               </div>
             </div>
@@ -154,9 +154,9 @@ export function renderAtelierPage(appInstance) {
                 </div>
 
                 <div class="tamyiz-founder-socials flex flex-wrap gap-2 mt-4">
-                  <a href="${sahil.socials.linkedin}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">LinkedIn ↗</a>
-                  <a href="${sahil.socials.x}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
-                  <a href="${sahil.socials.instagram}" target="_blank" rel="noopener" class="tamyiz-founder-social-link">Instagram ↗</a>
+                  <a href="${sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">Instagram ↗</a>
+                  <a href="${sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">LinkedIn ↗</a>
+                  <a href="${sahil.socials.x}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@
 
 import { products } from '../../data/products.js';
 import { foundersData, testimonials } from '../../data/content.js';
+import { siteConfig } from '../../data/site-config.js';
 import { store } from '../store.js';
 
 export function renderHomePage(appInstance) {
@@ -206,6 +207,11 @@ export function renderHomePage(appInstance) {
                 <div class="tamyiz-founder-mini-label">
                   <strong>BASIT</strong>
                   <span>Islamic Studies &amp; Ethics</span>
+                  <div class="tamyiz-mini-socials flex gap-2 mt-1.5" style="font-family: var(--font-sub); font-size: 0.65rem; font-weight: 700;">
+                    <a href="${siteConfig.founders.basit.socials.instagram}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">Instagram ↗</a>
+                    <a href="${siteConfig.founders.basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">LinkedIn ↗</a>
+                    <a href="${siteConfig.founders.basit.socials.x}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">X ↗</a>
+                  </div>
                 </div>
               </div>
               <div class="tamyiz-founder-mini-portrait">
@@ -213,6 +219,11 @@ export function renderHomePage(appInstance) {
                 <div class="tamyiz-founder-mini-label">
                   <strong>SAHIL</strong>
                   <span>Full-Stack Architecture</span>
+                  <div class="tamyiz-mini-socials flex gap-2 mt-1.5" style="font-family: var(--font-sub); font-size: 0.65rem; font-weight: 700;">
+                    <a href="${siteConfig.founders.sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">Instagram ↗</a>
+                    <a href="${siteConfig.founders.sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">LinkedIn ↗</a>
+                    <a href="${siteConfig.founders.sahil.socials.x}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">X ↗</a>
+                  </div>
                 </div>
               </div>
             </div>
