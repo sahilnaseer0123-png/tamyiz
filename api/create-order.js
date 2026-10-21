@@ -21,7 +21,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { items, email, phone, coupon } = req.body || {};
+    const { items, email, phone, coupon, couponCode } = req.body || {};
+    const appliedCoupon = coupon || couponCode;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Atelier bag contains no valid items.' });
@@ -37,7 +38,7 @@ export default async function handler(req, res) {
     }
 
     // Server-Side Strict Price Verification
-    const orderCalc = calculateOrderTotal(items, coupon);
+    const orderCalc = calculateOrderTotal(items, appliedCoupon);
 
     const hasRazorpayKeys = Boolean(
       process.env.RAZORPAY_KEY_ID &&

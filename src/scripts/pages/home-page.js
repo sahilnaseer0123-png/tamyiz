@@ -18,7 +18,7 @@ export function renderHomePage(appInstance) {
   return `
     <div class="tamyiz-page-home">
       <!-- 1. HIGH-IMPACT EDITORIAL HERO SECTION -->
-      <section class="tamyiz-hero-section" id="hero">
+      <section class="tamyiz-hero-section py-6 sm:py-12" id="hero">
         <div class="tamyiz-hero-container">
           <div class="tamyiz-hero-editorial-stack">
             <div class="tamyiz-hero-badge-pill">
@@ -44,15 +44,15 @@ export function renderHomePage(appInstance) {
           </div>
 
           <!-- Unbounded Horizon Installation -->
-          <div class="tamyiz-hero-sculpture-wrap" id="hero-3d-wrap">
-            <div class="tamyiz-hero-horizon-assembly">
-              <div class="tamyiz-hero-dome-cropper">
+          <div class="tamyiz-hero-sculpture-wrap mx-auto" id="hero-3d-wrap">
+            <div class="tamyiz-hero-horizon-assembly mx-auto">
+              <div class="tamyiz-hero-dome-cropper mx-auto">
                 <picture class="w-full flex items-start justify-center">
                   <source srcset="/assets/images/tamyiz-globe-horizon.png" type="image/png" />
                   <img
                     src="/assets/images/tamyiz-globe-horizon.png"
                     alt="TAMYIZ Horizon Emblem"
-                    class="tamyiz-hero-logo-img"
+                    class="tamyiz-hero-logo-img mx-auto"
                     loading="eager"
                     fetchpriority="high"
                   />
@@ -60,7 +60,7 @@ export function renderHomePage(appInstance) {
               </div>
 
               <!-- Subtle 1px full-width Horizon Line -->
-              <div class="tamyiz-horizon-line"></div>
+              <div class="tamyiz-horizon-line mx-auto"></div>
 
               <!-- Live Horizon Sparks Engine Canvas -->
               <canvas id="tamyiz-logo-sparks-canvas" class="tamyiz-hero-sparks-canvas" aria-hidden="true"></canvas>

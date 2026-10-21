@@ -287,8 +287,8 @@ export class TamyizUnifiedApp {
             </a>
           </div>
 
-          <!-- Mobile Centered Brand Mark (visible on < 1024px, hidden on desktop) -->
-          <a href="/" class="tamyiz-header-brand-mobile" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')" aria-label="TAMYIZ Home">
+          <!-- Mobile Centered Brand Mark (Force-hidden on mobile screens <= 768px) -->
+          <a href="/" class="tamyiz-header-brand-mobile hidden md:flex" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')" aria-label="TAMYIZ Home">
             <span class="tamyiz-header-doom-mark" aria-hidden="true">
               <img src="/assets/images/tamyiz-logo-transparent.png" alt="" class="tamyiz-header-doom-img" />
             </span>
@@ -1498,7 +1498,7 @@ export class TamyizUnifiedApp {
           items: store.cart,
           email,
           phone,
-          couponCode: store.appliedCoupon ? store.appliedCoupon.code : null
+          couponCode: (store.coupon ? store.coupon.code : null)
         })
       });
 
@@ -1935,7 +1935,7 @@ export class TamyizUnifiedApp {
           items: store.cart,
           email,
           phone,
-          couponCode: store.appliedCoupon ? store.appliedCoupon.code : null
+          couponCode: (store.coupon ? store.coupon.code : null)
         })
       });
 
@@ -2149,14 +2149,18 @@ export class TamyizUnifiedApp {
         email: result.email || '',
         phone: result.phone || ''
       },
-      items: downloads.map(dl => ({
-        name: dl.name,
-        variant: dl.variant,
-        downloadUrl: dl.downloadUrl,
-        actionLabel: dl.actionLabel,
-        specs: dl.specs,
-        image: '/assets/images/products/' + (dl.productId.replace('tmz-dig-', '')) + '.jpg'
-      }))
+      items: downloads.map(dl => {
+        const prod = findProductBySlugOrId(dl.productId);
+        const prodImage = (prod && prod.images && prod.images[0]) || '/assets/images/tamyiz-logo.png';
+        return {
+          name: dl.name,
+          variant: dl.variant,
+          downloadUrl: dl.downloadUrl,
+          actionLabel: dl.actionLabel,
+          specs: dl.specs,
+          image: prodImage
+        };
+      })
     };
 
     // 1. Clear cart state & storage
