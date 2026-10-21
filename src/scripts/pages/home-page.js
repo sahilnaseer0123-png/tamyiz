@@ -42,6 +42,30 @@ export function renderHomePage(appInstance) {
               <span class="tamyiz-hero-spec-tag">INSTANT DIGITAL ACCESS • PDF, EPUB &amp; NOTION SYSTEMS</span>
             </div>
           </div>
+
+          <!-- Unbounded Horizon Installation -->
+          <div class="tamyiz-hero-sculpture-wrap mx-auto" id="hero-3d-wrap">
+            <div class="tamyiz-hero-horizon-assembly mx-auto">
+              <div class="tamyiz-hero-dome-cropper mx-auto">
+                <picture class="w-full flex items-start justify-center">
+                  <source srcset="/assets/images/tamyiz-globe-horizon.png" type="image/png" />
+                  <img
+                    src="/assets/images/tamyiz-globe-horizon.png"
+                    alt="TAMYIZ Horizon Emblem"
+                    class="tamyiz-hero-logo-img mx-auto"
+                    loading="eager"
+                    fetchpriority="high"
+                  />
+                </picture>
+              </div>
+
+              <!-- Subtle 1px full-width Horizon Line -->
+              <div class="tamyiz-horizon-line mx-auto"></div>
+
+              <!-- Live Horizon Sparks Engine Canvas -->
+              <canvas id="tamyiz-logo-sparks-canvas" class="tamyiz-hero-sparks-canvas" aria-hidden="true"></canvas>
+            </div>
+          </div>
         </div>
       </section>
 
