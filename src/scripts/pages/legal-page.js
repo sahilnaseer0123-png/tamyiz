@@ -15,109 +15,105 @@ export const legalDocs = {
     slug: 'delivery-protocol',
     code: 'POL-01',
     title: 'Instant Digital Delivery Protocol',
-    subtitle: 'Zero Shipping Delays. Cryptographic Tokenized Access Vault.',
+    subtitle: 'Shipping & Delivery Policy // 100% Digital Fulfilment (0–2 Minutes SLA)',
     lastUpdated: 'October 2026',
     sections: [
       {
-        heading: '01. Instantaneous Fulfillment Engine',
-        content: `All TAMYIZ digital publications, architectural monographs, Notion workspaces, and design systems are 100% digital products delivered immediately upon payment authorization. There are zero physical shipping lead times, customs barriers, or courier delays.
-
-Immediately upon transaction clearance through our 256-bit encrypted gateway, your order session transitions to your personal Order Confirmation & Download Vault (TAMYIZ-ORD-XXXX).`
+        heading: '01. Nature of Goods & Zero Physical Shipping',
+        content: `All TAMYIZ™ catalog products are 100% digital assets: editorial monographs (Retina 300DPI vector PDF, reflowable EPUB 3, Kindle EPUB), Notion operating workspaces, and Figma UI/UX design systems. Zero physical manufacturing, postal dispatch, or courier shipping is required.`
       },
       {
-        heading: '02. Redundant Triple-Channel Dispatch',
-        content: `To eliminate delivery failure risks, access credentials and files are simultaneously routed via three redundant channels:
-1. On-Screen Download Vault: Direct one-click download buttons on your order confirmation screen.
-2. Verified Email Dispatch: A permanent cryptographic link sent to your specified email address within 60 seconds.
-3. WhatsApp Concierge Backup: An automated WhatsApp confirmation message with transaction hash and vault recovery link.`
+        heading: '02. Delivery Timeline (Instantaneous 0–2 Minutes SLA)',
+        content: `Digital fulfillment is instantaneous (0–2 minutes) upon transaction verification. Immediately upon payment authorization through our 256-bit encrypted gateway, your session transitions to the on-screen ATELIER DISPATCH COMPLETE — EDITION UNLOCKED chamber with one-click direct download and duplication vault buttons.
+Simultaneously, a redundant permanent cryptographic download receipt is dispatched to your registered Email Address and WhatsApp mobile number.`
       },
       {
-        heading: '03. Formats & File Integrity',
-        content: `All publications are packaged as DRM-free, high-resolution vector PDF (300DPI architectural layout) and reflowable EPUB 3 (optimized for Apple Books, Amazon Kindle, and Remarkable). Notion systems include verified workspace duplication URLs. Design systems include Figma community links and clean code zip archives.`
+        heading: '03. Concierge Escalation Protocol',
+        content: `If digital delivery is delayed beyond 10 minutes due to aggressive recipient email spam filters or telecommunication gateway latency, buyers may contact our direct WhatsApp Concierge (+91 95417 22379) or email tamyiz.co@gmail.com quoting their Transaction Reference ID for immediate manual file dispatch within 1 hour.`
       },
       {
-        heading: '04. Lifetime Free Revision Upgrades',
-        content: `Purchasing any TAMYIZ edition entitles the single-operator licensee to all future errata fixes, revised editions, upgraded Notion formulas, and refreshed Figma design token updates for life at zero additional charge.`
+        heading: '04. Lifetime Free Digital Updates & Errata',
+        content: `All digital edition licenses include perpetual, complimentary access to future edition revisions, errata corrections, Notion formula upgrades, and Figma component updates at zero additional fee.`
       }
     ]
   },
   'license': {
     slug: 'license',
     code: 'POL-02',
-    title: 'Atelier Guarantee & License Terms',
-    subtitle: 'Single-Operator Autonomy & Intellectual Property Protection.',
+    title: 'Atelier Guarantee & License Policy',
+    subtitle: 'Refund, Cancellation & Commercial License Protocol',
     lastUpdated: 'October 2026',
     sections: [
       {
-        heading: '01. Personal & Single-Operator Commercial Grant',
-        content: `Upon acquisition, TAMYIZ Studio grants you a non-exclusive, perpetual, worldwide license to download, read, study, and apply the methodologies, Notion database architectures, and UI/UX component libraries across personal and commercial client projects.`
+        heading: '01. Perpetual Single-Operator Commercial License Grant',
+        content: `Upon purchase clearance, TAMYIZ Studio grants you a perpetual, non-exclusive, worldwide single-operator personal and commercial license.
+You are permitted to apply the frameworks, deploy the Notion operating systems across your personal or freelance business, and use the Figma UI Kit components in unlimited client and commercial web applications.
+Redistribution, reselling, sub-licensing, torrenting, or public sharing of raw PDF, EPUB, Notion duplication URLs, or Figma source files is strictly prohibited under the Copyright Act, 1957.`
       },
       {
-        heading: '02. Scope of Commercial Application',
-        content: `You MAY:
-• Deploy the Notion systems inside your own business, agency, or single-operator consultancy.
-• Use the Swiss UI Kit components to build client websites, SaaS products, and digital interfaces.
-• Print personal reference copies of the monographs for your private study desk.
-
-You MAY NOT:
-• Resell, sub-license, redistribute, share, torrent, or upload the raw files, PDFs, EPUBs, or Figma templates to public repositories or shared drives.
-• Claim authorship of the written architectural essays, original philosophies, or TAMYIZ brand assets.`
+        heading: '02. Refund & Cancellation Terms for Digital Assets',
+        content: `Because all TAMYIZ™ editions are delivered instantaneously as DRM-free digital files and duplicable workspace templates, completed digital sales are final once unlocked on screen or dispatched.`
       },
       {
-        heading: '03. 7-Day Compatibility Guarantee',
-        content: `If an acquired edition fails to open on your verified hardware reader (Apple Books, Amazon Kindle, Notion app, or Figma desktop) and our concierge cannot resolve the technical incompatibility within 48 hours, we will issue a full 100% refund without friction.`
+        heading: '03. Statutory Exceptions (7-Day Resolution Window)',
+        content: `A full replacement or 100% refund is unconditionally guaranteed within 7 days of purchase under the following circumstances:
+• Duplicate transactions or duplicate UPI debits resulting from payment gateway network timeouts.
+• Corrupted archive files or defective template duplication links that cannot be resolved by TAMYIZ engineering within 24 hours of notification.`
+      },
+      {
+        heading: '04. Settlement & Refund Processing Timeline',
+        content: `Approved refunds are initiated through our payment gateway within 48 hours of verification and credited back to the original source account (UPI, Credit/Debit Card, or NetBanking) within 5–7 business days in accordance with Indian banking clearing standards.`
       }
     ]
   },
   'privacy': {
     slug: 'privacy',
     code: 'POL-03',
-    title: 'Privacy & Data Security Architecture',
-    subtitle: 'Zero Telemetry Selling. Minimal Necessary Data Collection.',
+    title: 'Privacy & Data Security Policy',
+    subtitle: 'DPDP Act India Compliant Architecture // Zero Telemetry Selling',
     lastUpdated: 'October 2026',
     sections: [
       {
-        heading: '01. Philosophy of Data Minimization',
-        content: `In alignment with our Swiss and Himalayan minimalist philosophy, TAMYIZ Studio collects only the absolute minimum data required to deliver your digital purchases, authenticate licensed updates, and provide direct concierge support. We do NOT run tracking pixels, intrusive behavioral fingerprinting, or ad-retargeting cookies.`
+        heading: '01. Data Minimization & DPDP Act India Compliance',
+        content: `In compliance with the Digital Personal Data Protection (DPDP) Act of India and international data protection standards, TAMYIZ collects only the absolute minimum data required to execute digital fulfillment, authenticate lifetime edition updates, and furnish concierge assistance.
+We collect strictly: Buyer Full Name, Dispatch Email Address, WhatsApp Mobile Number, and Payment Reference ID.`
       },
       {
-        heading: '02. Information We Process',
-        content: `• Customer Name & Email: For generating personalized order license vaults and sending download receipts.
-• WhatsApp / Phone Number: Used solely for backup delivery dispatch and opt-in order status alerts.
-• Transaction Metadata: Amount, currency, and payment reference token (we NEVER store credit card numbers, CVVs, or UPI PINs on our servers).`
+        heading: '02. Payment Gateway Security Architecture',
+        content: `TAMYIZ™ operates zero-knowledge financial handling. We NEVER store, process, or view credit/debit card numbers, CVV codes, or UPI PINs on our servers. All transactions are routed directly through PCI-DSS Level 1 certified Indian payment gateways (Razorpay) utilizing 256-bit TLS encryption.`
       },
       {
-        heading: '03. Payment Gateway Compliance',
-        content: `All financial transactions are processed through Level 1 PCI-DSS certified payment processors (e.g. Razorpay, Stripe, Cashfree) using 256-bit end-to-end SSL/TLS encryption. Your financial credentials never touch our application memory.`
-      },
-      {
-        heading: '04. Rights Under Indian & International Law',
-        content: `You retain the right to request full erasure of your contact record from our active mailing list at any time by contacting our concierge at ${siteConfig.conciergeEmail}.`
+        heading: '03. Data Protection, Zero Third-Party Sharing & Erasure Rights',
+        content: `We never sell, rent, monetize, or disclose your contact coordinates to advertising networks, data brokers, or third parties.
+Users retain the perpetual right to request complete data erasure or access to their digital purchase records at any time by contacting tamyiz.co@gmail.com.`
       }
     ]
   },
   'terms': {
     slug: 'terms',
     code: 'POL-04',
-    title: 'Terms of Service & Atelier Agreement',
-    subtitle: 'Legal Framework Governing TAMYIZ Digital Operations.',
+    title: 'Terms of Service & Merchant Notice',
+    subtitle: 'Terms & Conditions + Merchant Legal Notice',
     lastUpdated: 'October 2026',
     sections: [
       {
-        heading: '01. Acceptance of Terms',
-        content: `By accessing the TAMYIZ platform (tamyiz.in), browsing curated editions, or acquiring digital assets, you legally accept and agree to be bound by these Terms of Service and our Atelier Guarantee.`
+        heading: '01. Operating Entity & Registered Atelier Headquarters',
+        content: `TAMYIZ™ (tamyiz.in) is operated by TAMYIZ™ Digital Publishing & Design Systems Studio, headquartered in Sopore, Jammu & Kashmir 193201, India.
+Co-Founded by Basit Majeed (Security & Academic Research) and Sahil (AI/ML & Architecture).`
       },
       {
-        heading: '02. Digital Product Nature & Refund Protocol',
-        content: `Because digital downloads are instantly accessible and non-returnable once files are dispatched, orders are final upon payment, subject only to our 7-Day Technical Compatibility Guarantee. Corrupted download archives will be reissued immediately with renewed cryptographic tokens upon concierge request.`
+        heading: '02. Official Merchant Support Channels',
+        content: `Official customer support and statutory compliance inquiries:
+• Electronic Mail: tamyiz.co@gmail.com
+• WhatsApp Concierge: +91 95417 22379 (Available Monday–Saturday, 10:00–19:00 IST)`
       },
       {
-        heading: '03. Intellectual Property Rights',
-        content: `TAMYIZ™, the T• monogram seal, all text, architectural monograph contents, graphic illustrations, code snippets, and custom typography pairings are the proprietary intellectual property of TAMYIZ Studio (Sopore, Kashmir). Unauthorized commercial re-syndication will be prosecuted under the Copyright Act, 1957 and international copyright treaties.`
+        heading: '03. Pricing & Lifetime Update Entitlements',
+        content: `All prices are listed and billed in Indian Rupees (INR / ₹) inclusive of applicable digital taxes. Digital edition purchases grant irrevocable single-user access including all asynchronous version updates, errata sheets, and revised format deliverables.`
       },
       {
-        heading: '04. Governing Law & Jurisdiction',
-        content: `These terms shall be governed by and construed in accordance with the laws of Jammu & Kashmir, India. Any disputes arising in connection with this studio shall be subject to the exclusive jurisdiction of the competent courts in Sopore / Baramulla, Jammu & Kashmir.`
+        heading: '04. Governing Law & Dispute Resolution',
+        content: `These terms and all digital transactions are governed exclusively by the laws of India. Any legal disputes arising in connection with TAMYIZ™ shall be subject to the exclusive jurisdiction of the competent courts in Sopore / Baramulla, Jammu & Kashmir, India.`
       }
     ]
   }

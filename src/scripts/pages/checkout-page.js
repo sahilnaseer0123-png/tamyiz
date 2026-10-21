@@ -355,12 +355,15 @@ export function renderOrderVaultHtml(order) {
                 </div>
 
                 <div class="mt-4 sm:mt-0">
-                  <button
+                  <a
+                    href="${item.downloadUrl || '#'}"
+                    ${item.downloadUrl ? 'target="_blank" rel="noopener noreferrer"' : ''}
                     class="tamyiz-btn-download-vault"
-                    onclick="window.tamyizApp.triggerDownloadSim('${item.name}')"
+                    style="display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; text-decoration: none;"
+                    ${!item.downloadUrl ? `onclick="event.preventDefault(); window.tamyizApp.triggerDownloadSim('${item.name}')"` : ''}
                   >
-                    <span>Download Edition</span>
-                  </button>
+                    <span>${item.actionLabel || 'Download Edition ↗'}</span>
+                  </a>
                 </div>
               </div>
             `).join('')}

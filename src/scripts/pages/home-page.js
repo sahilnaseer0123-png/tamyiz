@@ -366,7 +366,7 @@ export function renderProductCardHtml(p, appInstance) {
   }
 
   return `
-    <div class="tamyiz-product-card flex flex-col h-full" id="card-${p.id}">
+    <div class="tamyiz-product-card flex flex-col h-full" id="card-${p.id}" data-product-card="${p.id}">
       <div class="tamyiz-product-thumb" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">
         <img src="${p.images[0]}" alt="${p.name}" class="tamyiz-img-primary" loading="lazy" />
         <img src="${p.images[1] || p.images[0]}" alt="" aria-hidden="true" class="tamyiz-img-hover" loading="lazy" />
@@ -392,14 +392,15 @@ export function renderProductCardHtml(p, appInstance) {
 
           ${hasVariants ? `
             <div class="tamyiz-size-selector-wrap" onclick="event.stopPropagation()">
-              <div class="tamyiz-size-selector-label">
-                <span>FORMAT:</span>
-                <span style="color: var(--color-black); font-weight: 800;" id="size-label-${p.id}">${currentSelectedOption}</span>
+              <div class="tamyiz-size-selector-label font-mono text-[11px] uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                <span class="text-gray-500 font-semibold">FORMAT:</span>
+                <span style="color: var(--color-black); font-weight: 800;" id="size-label-${p.id}" class="tamyiz-size-label">${currentSelectedOption}</span>
               </div>
               <div class="tamyiz-size-pills-row" role="group" aria-label="Format selection">
                 ${p.variants.options.map(opt => `
                   <button class="tamyiz-size-pill-btn ${opt === currentSelectedOption ? 'active' : ''}" 
                           aria-pressed="${opt === currentSelectedOption ? 'true' : 'false'}"
+                          data-variant="${opt}"
                           onclick="window.tamyizApp.selectProductSize('${p.id}', '${opt}', this)">
                     ${opt}
                   </button>

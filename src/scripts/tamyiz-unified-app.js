@@ -23,7 +23,7 @@ import { renderProductDetailPage } from './pages/product-detail-page.js';
 import { renderPhilosophyPage } from './pages/philosophy-page.js';
 import { renderAtelierPage } from './pages/atelier-page.js';
 import { renderCheckoutPage } from './pages/checkout-page.js';
-import { renderLegalPage } from './pages/legal-page.js';
+import { renderLegalPage, legalDocs } from './pages/legal-page.js';
 
 export class TamyizUnifiedApp {
   constructor() {
@@ -331,8 +331,8 @@ export class TamyizUnifiedApp {
               <li><a href="/editions" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions')">The Editions <span>→</span></a></li>
               <li><a href="/#philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars &amp; Philosophy <span>→</span></a></li>
               <li><a href="/#origin" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin &amp; Founders <span>→</span></a></li>
-              <li><a href="/#format-guide" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#format-guide')">Digital Format Guide <span>→</span></a></li>
-              <li><a href="/checkout" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/checkout')" style="color: var(--color-red); font-weight: 700;">Instant Checkout <span>→</span></a></li>
+              <li><a href="/#format-guide" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">Digital Format Guide <span>→</span></a></li>
+              <li><a href="#cart" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red); font-weight: 700;">Instant Checkout <span>→</span></a></li>
             </ul>
           </div>
 
@@ -357,11 +357,11 @@ export class TamyizUnifiedApp {
           <div>
             <div class="tamyiz-mobile-nav-group-title">Customer Care</div>
             <ul class="tamyiz-footer-links">
-              <li><a href="/#format-guide" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#format-guide')">Digital Format &amp; Template Guide</a></li>
-              <li><a href="/legal/delivery-protocol" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/legal/delivery-protocol')">Instant Digital Delivery Protocol</a></li>
-              <li><a href="/legal/license" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/legal/license')">Atelier Guarantee &amp; License</a></li>
-              <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/legal/privacy')">Privacy &amp; Data Security</a></li>
-              <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/legal/terms')">Terms of Service</a></li>
+              <li><a href="/#format-guide" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">Digital Format &amp; Template Guide</a></li>
+              <li><a href="/legal/delivery-protocol" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Digital Delivery Protocol</a></li>
+              <li><a href="/legal/license" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('license')">Atelier Guarantee &amp; License</a></li>
+              <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
+              <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
               <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #278838; font-weight: 700;">WhatsApp Concierge (${siteConfig.phone}) ↗</a></li>
             </ul>
           </div>
@@ -396,45 +396,71 @@ export class TamyizUnifiedApp {
 
         <!-- Cart drawer footer (Hidden on empty cart) -->
         <div class="tamyiz-drawer-foot" id="cart-foot-container" style="display: none;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
-            <span>Subtotal</span>
-            <strong id="cart-subtotal">₹0</strong>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-family: monospace; font-size: 0.78rem; text-transform: uppercase;">
+            <span style="color: #666;">Subtotal</span>
+            <strong id="cart-subtotal" style="color: #000;">₹0</strong>
           </div>
 
-          <div id="cart-discount-row" style="display: none; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.88rem; color: #278838;">
+          <div id="cart-discount-row" style="display: none; justify-content: space-between; margin-bottom: 0.4rem; font-family: monospace; font-size: 0.78rem; text-transform: uppercase; color: #278838;">
             <span id="cart-discount-label">Coupon Discount</span>
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
               <strong id="cart-discount-val">-₹0</strong>
-              <button onclick="window.tamyizApp.removeCoupon()" style="background: none; border: none; color: #888; font-size: 0.75rem; cursor: pointer;" title="Remove coupon">✕</button>
+              <button onclick="window.tamyizApp.removeCoupon()" style="background: none; border: none; color: #888; font-size: 0.72rem; cursor: pointer;" title="Remove coupon">✕</button>
             </div>
           </div>
 
-          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
-            <span>Digital Delivery</span>
-            <span id="cart-shipping" style="color: #278838; font-weight: 700;">FREE (INSTANT)</span>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-family: monospace; font-size: 0.78rem; text-transform: uppercase;">
+            <span style="color: #666;">Instant Digital Dispatch</span>
+            <span id="cart-shipping" style="color: #278838; font-weight: 800;">FREE</span>
           </div>
 
-          <div style="display: flex; justify-content: space-between; margin: 0.8rem 0 1.25rem 0; font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
-            <span>Total Payable</span>
+          <div style="display: flex; justify-content: space-between; margin: 0.6rem 0 0.8rem 0; font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; border-top: 1px solid var(--color-border); padding-top: 0.6rem;">
+            <span>TOTAL</span>
             <span id="cart-total">₹0</span>
           </div>
 
-          <div style="display: flex; gap: 0.5rem; margin-bottom: 0.4rem;">
-            <input type="text" id="coupon-input" placeholder="ENTER PROMO OR ATELIER CODE" style="flex-grow: 1; padding: 0.65rem 0.85rem; border: 1px solid var(--color-border); border-radius: 4px; text-transform: uppercase; font-size: 16px;" onkeydown="if(event.key==='Enter') window.tamyizApp.applyCoupon();" />
-            <button id="btn-apply-drawer-coupon" style="background: var(--color-black); color: #FFF; padding: 0 1.1rem; border-radius: 4px; font-size: 0.75rem; font-weight: 800; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase; transition: transform 0.1s ease, background 0.2s ease;" onclick="window.tamyizApp.applyCoupon()">Apply</button>
+          <!-- Promo code row -->
+          <div style="display: flex; gap: 0.4rem; margin-bottom: 0.4rem;">
+            <input type="text" id="coupon-input" placeholder="PROMO / ATELIER CODE" style="flex-grow: 1; padding: 0.55rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0; text-transform: uppercase; font-family: monospace; font-size: 14px;" onkeydown="if(event.key==='Enter') window.tamyizApp.applyCoupon();" />
+            <button id="btn-apply-drawer-coupon" style="background: var(--color-black); color: #FFF; padding: 0 0.95rem; border-radius: 0; font-family: monospace; font-size: 0.72rem; font-weight: 800; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase;" onclick="window.tamyizApp.applyCoupon()">Apply</button>
           </div>
-          <div id="drawer-coupon-feedback" style="display: none; font-size: 0.75rem; margin-bottom: 0.85rem; font-weight: 600;"></div>
+          <div id="drawer-coupon-feedback" style="display: none; font-size: 0.72rem; font-family: monospace; margin-bottom: 0.6rem; font-weight: 600;"></div>
 
-          <button class="tamyiz-btn-quick-add" style="background: var(--color-red); font-size: 0.88rem; padding: 0.95rem; border: none;" onclick="window.tamyizApp.closeCart(); window.tamyizApp.navigateTo('/checkout');">
-            Proceed to Checkout →
-          </button>
+          <!-- Buyer Dispatch Form -->
+          <div class="tamyiz-bag-dispatch-section">
+            <div class="tamyiz-dispatch-section-header">
+              <span>Instant Digital Dispatch Coordinates</span>
+              <span class="required-tag">Required *</span>
+            </div>
+            
+            <div class="tamyiz-dispatch-input-row" style="margin-bottom: 0.6rem;">
+              <label class="tamyiz-form-label-mono" for="bag-dispatch-email">DISPATCH EMAIL ADDRESS *</label>
+              <input type="email" id="bag-dispatch-email" class="tamyiz-dispatch-input" placeholder="name@domain.com" autocomplete="email" required oninput="window.tamyizApp.validateDispatchField('email')" />
+              <div id="bag-email-error" class="tamyiz-input-error-msg" style="display: none;">Valid email required for digital files dispatch</div>
+            </div>
 
-          <div class="tamyiz-trust-bar">
+            <div class="tamyiz-dispatch-input-row" style="margin-bottom: 0.6rem;">
+              <label class="tamyiz-form-label-mono" for="bag-dispatch-phone">WHATSAPP NUMBER (+91) *</label>
+              <input type="tel" id="bag-dispatch-phone" class="tamyiz-dispatch-input" placeholder="9541722379 or +91..." autocomplete="tel" required oninput="window.tamyizApp.validateDispatchField('phone')" />
+              <div id="bag-phone-error" class="tamyiz-input-error-msg" style="display: none;">Valid 10-digit mobile or international number required</div>
+            </div>
+
+            <div style="font-family: monospace; font-size: 0.64rem; color: #666; line-height: 1.4; margin-bottom: 0.75rem;">
+              ● DRM-FREE DOWNLOAD VAULT UNLOCKED IMMEDIATELY ON SCREEN + BACKUP DISPATCHED VIA EMAIL &amp; WHATSAPP
+            </div>
+
+            <!-- Primary Checkout CTA -->
+            <button id="btn-bag-checkout" class="tamyiz-btn-checkout-primary" onclick="window.tamyizApp.handleBagCheckout()">
+              <span id="btn-checkout-label">PROCEED TO UPI / CARD CHECKOUT • ₹0 →</span>
+            </button>
+          </div>
+
+          <div class="tamyiz-trust-bar" style="margin-top: 0.75rem;">
             <span>Instant UPI</span>
             <span class="tamyiz-trust-bar-dot">•</span>
             <span>Cards</span>
             <span class="tamyiz-trust-bar-dot">•</span>
-            <span>Direct Download Vault</span>
+            <span>Direct Vault Access</span>
           </div>
         </div>
       </aside>
@@ -445,22 +471,21 @@ export class TamyizUnifiedApp {
       <!-- 3. GLOBAL FOOTER -->
       <footer class="tamyiz-footer" id="contact">
         <div class="container">
-          <div class="tamyiz-trust-bar" style="margin-bottom: 3.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.78rem; color: #BBB;">
+          <div class="tamyiz-trust-bar tamyiz-footer-trust-bar">
             <span>Instant Digital Access</span>
             <span class="tamyiz-trust-bar-dot">•</span>
-            <span>PDF, EPUB &amp; Notion Systems</span>
+            <span>PDF, EPUB &amp; Notion</span>
             <span class="tamyiz-trust-bar-dot">•</span>
             <span>UPI &amp; Instant Download</span>
             <span class="tamyiz-trust-bar-dot">•</span>
-            <span>Lifetime Digital Updates</span>
+            <span>Lifetime Updates</span>
           </div>
 
           <div class="tamyiz-footer-grid">
             <div class="tamyiz-footer-brand">
               <h3>TAMYIZ™</h3>
               <p>
-                "Tamyiz" translates to distinction. Designed for those who stand apart.<br/>
-                Digital Publishing &amp; Design Systems Studio: Sopore, Kashmir 193201, India.<br/>
+                Digital Publishing &amp; Design Systems Studio. Crafted in Sopore, Kashmir 193201.<br/>
                 Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red); font-weight: 700;">${siteConfig.phone}</a>
               </p>
             </div>
@@ -470,42 +495,41 @@ export class TamyizUnifiedApp {
               <ul class="tamyiz-footer-links">
                 <li><a href="/" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a></li>
                 <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">The Editions</a></li>
-                <li><a href="/#philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars &amp; Philosophy</a></li>
-                <li><a href="/#origin" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin &amp; Founders</a></li>
-                <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Digital Format Guide</a></li>
-                <li><a href="/checkout" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/checkout')" style="color: var(--color-red); font-weight: 700;">Instant Checkout →</a></li>
+                <li><a href="/#philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars</a></li>
+                <li><a href="/#origin" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin</a></li>
+                <li><a href="#cart" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red); font-weight: 700;">Instant Checkout →</a></li>
               </ul>
             </div>
 
             <div class="tamyiz-footer-col">
               <h4>Digital Editions</h4>
               <ul class="tamyiz-footer-links">
-                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">All Digital Editions (8)</a></li>
+                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">All Editions (8)</a></li>
                 <li><a href="/editions?category=ebooks" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=ebooks')">E-Books &amp; Monographs</a></li>
-                <li><a href="/editions?category=notion" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=notion')">Notion &amp; Productivity Templates</a></li>
-                <li><a href="/editions?category=ui-ux" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=ui-ux')">UI/UX &amp; Design Systems</a></li>
+                <li><a href="/editions?category=notion" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=notion')">Notion Workspaces</a></li>
+                <li><a href="/editions?category=ui-ux" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=ui-ux')">UI/UX &amp; Design Kits</a></li>
               </ul>
             </div>
 
-            <div class="tamyiz-footer-col">
-              <h4>Customer Care</h4>
+            <div class="tamyiz-footer-col tamyiz-footer-col-full-mobile">
+              <h4>Customer Care &amp; Compliance</h4>
               <ul class="tamyiz-footer-links">
-                <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Digital Format &amp; Template Guide</a></li>
-                <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/delivery-protocol')">Instant Digital Delivery Protocol</a></li>
-                <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/license')">Atelier Guarantee &amp; License</a></li>
-                <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/privacy')">Privacy &amp; Data Security</a></li>
-                <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/terms')">Terms of Service</a></li>
+                <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.scrollToFormatGuide()">Format &amp; Template Guide</a></li>
+                <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Delivery Protocol</a></li>
+                <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('license')">Atelier Guarantee &amp; License</a></li>
+                <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
+                <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
                 <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #278838; font-weight: 700;">WhatsApp Concierge ↗</a></li>
               </ul>
             </div>
           </div>
 
-          <div class="tamyiz-footer-bottom pb-28 md:pb-14">
+          <div class="tamyiz-footer-bottom">
             <div>
-              &copy; ${new Date().getFullYear()} TAMYIZ Digital Publishing &amp; Design Systems Studio. Crafted in Sopore, Kashmir.
+              &copy; ${new Date().getFullYear()} TAMYIZ™ Studio • Sopore, Kashmir 193201
             </div>
             <div>
-              Engineered with High-Contrast Monospace Precision.
+              High-Contrast Monospace Digital Craft.
             </div>
           </div>
         </div>
@@ -780,7 +804,7 @@ export class TamyizUnifiedApp {
     }
 
     // 1. Update all matching product cards across Home, Editions, and Related lists
-    const cards = document.querySelectorAll(`[id="card-${productId}"]`);
+    const cards = document.querySelectorAll(`[id="card-${productId}"], [data-product-card="${productId}"]`);
     cards.forEach(card => {
       // Update active pill and aria-pressed
       card.querySelectorAll('.tamyiz-size-pill-btn').forEach(b => {
@@ -789,24 +813,24 @@ export class TamyizUnifiedApp {
         b.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
       });
       // Update format label
-      const label = card.querySelector(`#size-label-${productId}`);
+      const label = card.querySelector(`#size-label-${productId}, .tamyiz-size-label`);
       if (label) label.textContent = size;
       // Update displayed price
-      const priceEl = card.querySelector(`#price-${productId}`);
+      const priceEl = card.querySelector(`#price-${productId}, .tamyiz-price-cur`);
       if (priceEl) priceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
       // Update strikethrough original price
-      const origPriceEl = card.querySelector(`#orig-price-${productId}`);
+      const origPriceEl = card.querySelector(`#orig-price-${productId}, .tamyiz-price-orig`);
       if (origPriceEl) {
         origPriceEl.textContent = origPrice ? `₹${origPrice.toLocaleString('en-IN')}` : '';
         origPriceEl.style.display = origPrice ? 'inline' : 'none';
       }
       // Update aria pricing
-      const pricingContainer = card.querySelector(`#pricing-${productId}`);
+      const pricingContainer = card.querySelector(`#pricing-${productId}, .tamyiz-product-pricing`);
       if (pricingContainer) {
         pricingContainer.setAttribute('aria-label', `Price: ₹${price.toLocaleString('en-IN')}${origPrice ? `, original price ₹${origPrice.toLocaleString('en-IN')}` : ''}`);
       }
       // Update CTA button label
-      const quickBtn = card.querySelector(`#btn-quick-${productId}`);
+      const quickBtn = card.querySelector(`#btn-quick-${productId}, .tamyiz-btn-quick-add`);
       if (quickBtn) {
         quickBtn.innerHTML = `Instant Access • ₹${price.toLocaleString('en-IN')}`;
       }
@@ -830,25 +854,25 @@ export class TamyizUnifiedApp {
     // 2. Update PDP Price & Button
     const pdpLabel = document.getElementById('pdp-selected-size-label');
     if (pdpLabel) pdpLabel.textContent = size;
-    document.querySelectorAll('#pdp-size-pills .tamyiz-size-pill-btn, .tamyiz-pdp-sizes .tamyiz-size-pill-btn').forEach(b => {
+    document.querySelectorAll('#pdp-size-pills .tamyiz-size-pill-btn, .tamyiz-pdp-sizes .tamyiz-size-pill-btn, .tamyiz-pdp-format-pill').forEach(b => {
       const isSelected = b.textContent.trim() === size;
       b.classList.toggle('active', isSelected);
       b.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     });
-    const pdpPriceEl = document.getElementById('pdp-price');
+    const pdpPriceEl = document.getElementById('pdp-price') || document.querySelector('.tamyiz-pdp-price-cur');
     if (pdpPriceEl) pdpPriceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
-    const pdpOrigPriceEl = document.getElementById('pdp-orig-price');
+    const pdpOrigPriceEl = document.getElementById('pdp-orig-price') || document.querySelector('.tamyiz-pdp-price-orig');
     if (pdpOrigPriceEl) {
       pdpOrigPriceEl.textContent = origPrice ? `₹${origPrice.toLocaleString('en-IN')}` : '';
       pdpOrigPriceEl.style.display = origPrice ? 'inline' : 'none';
     }
-    const pdpAddBtn = document.getElementById('pdp-add-btn');
+    const pdpAddBtn = document.getElementById('pdp-add-btn') || document.querySelector('.tamyiz-pdp-btn-add');
     if (pdpAddBtn) {
-      pdpAddBtn.innerHTML = `<span>Add to Bag</span><span>•</span><span>₹${price.toLocaleString('en-IN')}</span>`;
+      pdpAddBtn.innerHTML = `<span>Add to Bag • Instant Access</span><span>•</span><span>₹${price.toLocaleString('en-IN')}</span>`;
     }
-    const pdpBuyBtn = document.getElementById('pdp-buy-btn');
+    const pdpBuyBtn = document.getElementById('pdp-buy-btn') || document.querySelector('.tamyiz-pdp-btn-buy-now');
     if (pdpBuyBtn) {
-      pdpBuyBtn.innerHTML = `<span>Buy Now</span><span>•</span><span>₹${price.toLocaleString('en-IN')} →</span>`;
+      pdpBuyBtn.innerHTML = `<span>Buy Now • Direct Checkout →</span>`;
     }
 
     // 3. Update Modal Price & Button (if open)
@@ -861,7 +885,7 @@ export class TamyizUnifiedApp {
     if (modalPriceEl) modalPriceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
     const modalBuyBtn = document.getElementById(`modal-buy-btn-${productId}`);
     if (modalBuyBtn) {
-      modalBuyBtn.innerHTML = `Add to Bag • ₹${price.toLocaleString('en-IN')} →`;
+      modalBuyBtn.innerHTML = `UNLOCK FULL EDITION • ₹${price.toLocaleString('en-IN')} →`;
     }
   }
 
@@ -880,6 +904,10 @@ export class TamyizUnifiedApp {
 
     store.addToCart(product, selectedVariant, 1, price, origPrice);
     this.openCart();
+    setTimeout(() => {
+      const emailInput = document.getElementById('bag-dispatch-email');
+      if (emailInput && !emailInput.value) emailInput.focus();
+    }, 250);
   }
 
   buyNowDirect(id) {
@@ -961,20 +989,20 @@ export class TamyizUnifiedApp {
     if (store.cart.length === 0) {
       container.innerHTML = `
         <div class="tamyiz-cart-empty-state">
-          <div style="margin-bottom: 0.75rem; display: flex; justify-content: center; align-items: center;" aria-hidden="true">
-            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#BBBBBB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <div class="tamyiz-cart-empty-icon" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
           </div>
-          <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.4rem;">
-            Your Bag Is Empty
+          <div class="tamyiz-cart-empty-title">
+            Your Atelier Bag Is Empty
           </div>
-          <p style="font-size: 0.82rem; color: var(--color-grey); text-align: center; max-width: 240px; margin-bottom: 1.5rem; line-height: 1.5;">
-            Explore our architectural e-books, Notion systems, and Swiss UI kits.
+          <p class="tamyiz-cart-empty-desc">
+            Explore our architectural e-books, Notion systems, and Swiss UI kits to activate instant digital dispatch.
           </p>
-          <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.closeCart(); window.tamyizApp.navigateTo('/#editions')">
+          <button class="tamyiz-btn-explore-artifacts" onclick="window.tamyizApp.closeCart(); window.tamyizApp.scrollToEditions()">
             Explore Digital Editions →
           </button>
         </div>
@@ -987,13 +1015,14 @@ export class TamyizUnifiedApp {
 
     // Lock digital quantities to 1: clean single license display with direct remove button
     container.innerHTML = store.cart.map(item => `
-      <div class="tamyiz-cart-item">
+      <div class="tamyiz-cart-item" data-cart-id="${item.cartItemId}">
         <img src="${item.image}" alt="${item.name}" class="tamyiz-cart-thumb" />
         <div class="tamyiz-cart-info">
           <div class="tamyiz-cart-name">${item.name}</div>
-          <div class="tamyiz-cart-size">Format: <strong>${item.variant}</strong> • Single License</div>
+          <div class="tamyiz-cart-size">FORMAT: <strong>${item.variant}</strong> • 1x Single License</div>
           <div class="tamyiz-cart-row" style="margin-top: 0.35rem;">
             <span class="tamyiz-cart-price" style="font-size: 1.05rem; font-weight: 800; color: #000;">₹${item.price.toLocaleString('en-IN')}</span>
+            ${item.originalPrice ? `<span style="font-size: 0.8rem; color: #888; text-decoration: line-through; margin-left: 0.4rem;">₹${item.originalPrice.toLocaleString('en-IN')}</span>` : ''}
           </div>
         </div>
         <button class="tamyiz-cart-del" onclick="window.tamyizApp.removeFromBag('${item.cartItemId}')" title="Remove item from bag">✕</button>
@@ -1003,8 +1032,9 @@ export class TamyizUnifiedApp {
     // Update Totals
     const subtotalEl = document.getElementById('cart-subtotal');
     const totalEl = document.getElementById('cart-total');
+    const totalAmount = store.getTotal();
     if (subtotalEl) subtotalEl.textContent = `₹${store.getSubtotal().toLocaleString('en-IN')}`;
-    if (totalEl) totalEl.textContent = `₹${store.getTotal().toLocaleString('en-IN')}`;
+    if (totalEl) totalEl.textContent = `₹${totalAmount.toLocaleString('en-IN')}`;
 
     // Coupon discount row
     const discountRow = document.getElementById('cart-discount-row');
@@ -1018,6 +1048,29 @@ export class TamyizUnifiedApp {
         discountRow.style.display = 'none';
       }
     }
+
+    // Update primary CTA button text with total
+    const checkoutBtnLabel = document.getElementById('btn-checkout-label');
+    const checkoutBtn = document.getElementById('btn-bag-checkout');
+    if (checkoutBtnLabel) {
+      checkoutBtnLabel.textContent = `PROCEED TO UPI / CARD CHECKOUT • ₹${totalAmount.toLocaleString('en-IN')} →`;
+    } else if (checkoutBtn) {
+      checkoutBtn.innerHTML = `PROCEED TO UPI / CARD CHECKOUT • ₹${totalAmount.toLocaleString('en-IN')} →`;
+    }
+
+    // Restore saved buyer coordinates if fields are empty
+    try {
+      const emailInput = document.getElementById('bag-dispatch-email');
+      const phoneInput = document.getElementById('bag-dispatch-phone');
+      if (emailInput && !emailInput.value) {
+        const savedEmail = localStorage.getItem('tamyiz_buyer_email');
+        if (savedEmail) emailInput.value = savedEmail;
+      }
+      if (phoneInput && !phoneInput.value) {
+        const savedPhone = localStorage.getItem('tamyiz_buyer_phone');
+        if (savedPhone) phoneInput.value = savedPhone;
+      }
+    } catch (_) {}
   }
 
   removeFromBag(cartItemId) {
@@ -1133,7 +1186,11 @@ export class TamyizUnifiedApp {
 
     store.addToCart(product, selectedVariant, 1, price, origPrice);
     this.closeProductPreview();
-    this.navigateTo('/checkout');
+    this.openCart();
+    setTimeout(() => {
+      const emailInput = document.getElementById('bag-dispatch-email');
+      if (emailInput && !emailInput.value) emailInput.focus();
+    }, 250);
   }
 
   renderPreviewModalContent() {
@@ -1298,7 +1355,7 @@ export class TamyizUnifiedApp {
             ${origPrice ? `<span style="font-size: 0.88rem; color: #999; text-decoration: line-through; margin-left: 0.35rem;">₹${origPrice.toLocaleString('en-IN')}</span>` : ''}
           </div>
           <button class="tamyiz-btn-quick-add" id="modal-buy-btn-${product.id}" style="background: var(--color-red); font-size: 0.84rem; padding: 0.85rem 1.4rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickBuyFromModal('${product.id}')">
-            Add to Bag • ₹${price.toLocaleString('en-IN')} →
+            UNLOCK FULL EDITION • ₹${price.toLocaleString('en-IN')} →
           </button>
         </div>
       </div>
@@ -1379,10 +1436,11 @@ export class TamyizUnifiedApp {
     }
   }
 
-  // Checkout Actions
-  submitCheckout() {
+  // Dedicated Checkout Actions
+  async submitCheckout() {
     if (store.cart.length === 0) {
-      store.showToast('Your atelier bag is empty.', 'error');
+      store.showToast('Your atelier bag is empty. Please select an edition.', 'error');
+      this.navigateTo('/editions');
       return;
     }
 
@@ -1404,30 +1462,55 @@ export class TamyizUnifiedApp {
       emailInput?.focus();
       return;
     }
-    if (!phone || phone.replace(/\D/g, '').length < 8) {
-      store.showToast('Please enter a valid WhatsApp number for backup delivery.', 'error');
+    const cleanDigits = phone.replace(/\D/g, '');
+    if (!phone || cleanDigits.length < 8) {
+      store.showToast('Please enter a valid WhatsApp number for instant delivery archiving.', 'error');
       phoneInput?.focus();
       return;
     }
 
-    const payment = document.querySelector('input[name="checkout-payment"]:checked')?.value || 'upi';
+    // Persist buyer coordinates in localStorage
+    localStorage.setItem('tamyiz_buyer_name', name);
+    localStorage.setItem('tamyiz_buyer_email', email);
+    localStorage.setItem('tamyiz_buyer_phone', phone);
 
-    const order = store.createOrder({
-      address: {
-        name,
-        email,
-        phone,
-        city: "Instant Digital Dispatch",
-        state: "Online",
-        pincode: "193201"
-      },
-      paymentMethod: payment.toUpperCase()
-    });
+    const submitBtn = document.querySelector('.tamyiz-btn-submit-order');
+    const submitLabel = document.getElementById('checkout-submit-label');
+    if (submitBtn) submitBtn.disabled = true;
+    if (submitLabel) submitLabel.textContent = 'CREATING SECURE ORDER...';
 
-    this.confirmedOrder = order;
-    store.showToast('Order confirmed! Access unlocked in Digital Vault.', 'success');
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    this.renderCurrentPage();
+    try {
+      const response = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: store.cart,
+          email,
+          phone,
+          couponCode: store.appliedCoupon ? store.appliedCoupon.code : null
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `Server responded with ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.mode === 'razorpay') {
+        this.launchRazorpayCheckout(data, email, phone);
+      } else if (data.mode === 'atelier_sandbox') {
+        this.openSandboxModal(data, email, phone);
+      } else {
+        throw new Error('Unsupported checkout protocol response.');
+      }
+    } catch (err) {
+      console.error('TAMYIZ Dedicated Checkout Error:', err);
+      store.showToast(err.message || 'Payment initiation failed. Please check your network and try again.', 'error');
+      if (submitBtn) submitBtn.disabled = false;
+      if (submitLabel) submitLabel.textContent = 'Pay & Access Editions →';
+    }
   }
 
   applyCouponFromCheckout() {
@@ -1691,8 +1774,618 @@ export class TamyizUnifiedApp {
     }, 700);
   }
 
-  // Policy Modal
+  // ==========================================
+  // Navigation & Smooth Scroll Helpers
+  // ==========================================
+  handleInstantCheckoutNav() {
+    this.closeMobileMenu();
+    this.openCart();
+    if (store.cart.length === 0) {
+      store.showToast('Your atelier bag is currently empty. Please select an edition.', 'info');
+      setTimeout(() => {
+        this.scrollToEditions();
+      }, 400);
+    } else {
+      setTimeout(() => {
+        const emailInput = document.getElementById('bag-dispatch-email');
+        if (emailInput) emailInput.focus();
+      }, 250);
+    }
+  }
+
+  scrollToEditions() {
+    this.closeMobileMenu();
+    if (this.currentPage !== 'home') {
+      this.navigateTo('/#editions');
+    } else {
+      const el = document.getElementById('editions');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }
+
+  scrollToFormatGuide() {
+    this.closeMobileMenu();
+    if (this.currentPage !== 'home') {
+      this.navigateTo('/#format-guide');
+    } else {
+      const el = document.getElementById('format-guide');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }
+
+  // ==========================================
+  // Buyer Dispatch Form Validation
+  // ==========================================
+  validateDispatchField(field) {
+    if (field === 'email') {
+      const emailInput = document.getElementById('bag-dispatch-email');
+      const errorDiv = document.getElementById('bag-email-error');
+      if (!emailInput) return true;
+      const val = emailInput.value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      if (errorDiv) errorDiv.style.display = (val && !valid) ? 'block' : 'none';
+      emailInput.classList.toggle('has-error', Boolean(val && !valid));
+      return valid;
+    }
+    if (field === 'phone') {
+      const phoneInput = document.getElementById('bag-dispatch-phone');
+      const errorDiv = document.getElementById('bag-phone-error');
+      if (!phoneInput) return true;
+      const val = phoneInput.value.trim();
+      const digits = val.replace(/\D/g, '');
+      const valid = digits.length >= 10;
+      if (errorDiv) errorDiv.style.display = (val && !valid) ? 'block' : 'none';
+      phoneInput.classList.toggle('has-error', Boolean(val && !valid));
+      return valid;
+    }
+    return true;
+  }
+
+  validateDispatchInputs() {
+    const emailInput = document.getElementById('bag-dispatch-email');
+    const phoneInput = document.getElementById('bag-dispatch-phone');
+    const emailError = document.getElementById('bag-email-error');
+    const phoneError = document.getElementById('bag-phone-error');
+
+    const email = emailInput?.value?.trim() || '';
+    const phone = phoneInput?.value?.trim() || '';
+    const phoneDigits = phone.replace(/\D/g, '');
+
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const phoneValid = phoneDigits.length >= 10;
+
+    if (emailInput) {
+      emailInput.classList.toggle('has-error', !emailValid);
+      if (emailError) emailError.style.display = !emailValid ? 'block' : 'none';
+    }
+    if (phoneInput) {
+      phoneInput.classList.toggle('has-error', !phoneValid);
+      if (phoneError) phoneError.style.display = !phoneValid ? 'block' : 'none';
+    }
+
+    if (!emailValid) {
+      store.showToast('Please enter a valid email address for instant digital file dispatch.', 'error');
+      emailInput?.focus();
+      return { valid: false };
+    }
+    if (!phoneValid) {
+      store.showToast('Please enter a valid 10-digit WhatsApp number (+91) for order confirmation.', 'error');
+      phoneInput?.focus();
+      return { valid: false };
+    }
+
+    try {
+      localStorage.setItem('tamyiz_buyer_email', email);
+      localStorage.setItem('tamyiz_buyer_phone', phone);
+    } catch (_) {}
+
+    return { valid: true, email, phone };
+  }
+
+  restoreCheckoutButton() {
+    const btn = document.getElementById('btn-bag-checkout');
+    const label = document.getElementById('btn-checkout-label');
+    if (btn) btn.disabled = false;
+    const totalAmount = store.getTotal();
+    if (label) {
+      label.textContent = `PROCEED TO UPI / CARD CHECKOUT • ₹${totalAmount.toLocaleString('en-IN')} →`;
+    } else if (btn) {
+      btn.innerHTML = `PROCEED TO UPI / CARD CHECKOUT • ₹${totalAmount.toLocaleString('en-IN')} →`;
+    }
+  }
+
+  // ==========================================
+  // Checkout & Serverless Order Creation
+  // ==========================================
+  async handleBagCheckout() {
+    if (store.cart.length === 0) {
+      store.showToast('Your atelier bag is empty. Please select an edition.', 'error');
+      this.scrollToEditions();
+      return;
+    }
+
+    const { valid, email, phone } = this.validateDispatchInputs();
+    if (!valid) return;
+
+    const btn = document.getElementById('btn-bag-checkout');
+    const label = document.getElementById('btn-checkout-label');
+    if (btn) btn.disabled = true;
+    if (label) label.textContent = 'CREATING SECURE ORDER...';
+
+    try {
+      const response = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: store.cart,
+          email,
+          phone,
+          couponCode: store.appliedCoupon ? store.appliedCoupon.code : null
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `Server responded with ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.mode === 'razorpay') {
+        this.launchRazorpayCheckout(data, email, phone);
+      } else if (data.mode === 'atelier_sandbox') {
+        this.openSandboxModal(data, email, phone);
+      } else {
+        throw new Error('Unsupported checkout protocol response.');
+      }
+    } catch (err) {
+      console.error('TAMYIZ Order Creation Failure:', err);
+      store.showToast(err.message || 'Payment initiation failed. Please check your network and try again.', 'error');
+      this.restoreCheckoutButton();
+    }
+  }
+
+  launchRazorpayCheckout(orderData, email, phone) {
+    const initiateRazorpay = () => {
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency || 'INR',
+        name: 'TAMYIZ™',
+        description: 'Instant Digital Dispatch // Atelier Editions',
+        image: '/assets/images/tamyiz-logo.png',
+        order_id: orderData.orderId,
+        handler: (response) => {
+          this.verifyAndUnlockPayment({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            mode: 'razorpay',
+            items: store.cart,
+            email,
+            phone
+          });
+        },
+        prefill: {
+          email,
+          contact: phone
+        },
+        notes: {
+          dispatch_email: email,
+          dispatch_whatsapp: phone
+        },
+        theme: {
+          color: '#000000'
+        },
+        modal: {
+          ondismiss: () => {
+            this.restoreCheckoutButton();
+          }
+        }
+      };
+
+      try {
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', (failResp) => {
+          console.error('Razorpay payment failed:', failResp);
+          store.showToast(failResp.error?.description || 'Payment was cancelled or rejected.', 'error');
+          this.restoreCheckoutButton();
+        });
+        rzp.open();
+      } catch (err) {
+        console.error('Razorpay instantiation failed:', err);
+        store.showToast('Could not open Razorpay checkout modal. Launching sandbox verification.', 'info');
+        this.openSandboxModal(orderData, email, phone);
+      }
+    };
+
+    if (window.Razorpay) {
+      initiateRazorpay();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => initiateRazorpay();
+      script.onerror = () => {
+        store.showToast('Razorpay script could not be loaded. Launching sandbox approval.', 'info');
+        this.openSandboxModal(orderData, email, phone);
+      };
+      document.head.appendChild(script);
+    }
+  }
+
+  openSandboxModal(orderData, email, phone) {
+    const totalINR = orderData.amount ? (orderData.amount / 100) : store.getTotal();
+    const orderId = orderData.orderId || ('order_sandbox_' + Date.now());
+
+    this.openModalContent(`
+      <div class="tamyiz-sandbox-modal" role="dialog" aria-modal="true">
+        <div class="tamyiz-sandbox-head">
+          <div class="tamyiz-sandbox-pill-tag">
+            <span class="tamyiz-sandbox-dot"></span>
+            <span>TAMYIZ™ UPI / CARD INSTANT VERIFICATION</span>
+          </div>
+          <button style="background:none; border:none; font-size:1.25rem; cursor:pointer; padding: 0.2rem;" onclick="window.tamyizApp.closeSandboxModal()" aria-label="Close modal">✕</button>
+        </div>
+
+        <div class="tamyiz-sandbox-meta">
+          <div>ORDER REFERENCE: <strong>#${orderId}</strong></div>
+          <div>TOTAL PAYABLE: <strong>₹${totalINR.toLocaleString('en-IN')}</strong> (FREE INSTANT DISPATCH)</div>
+          <div>DISPATCH COORDINATES: <strong>${email}</strong> • <strong>${phone}</strong></div>
+          <div style="color: #666; font-size: 0.72rem; margin-top: 0.35rem; line-height: 1.4;">
+            NOTICE: Smart Atelier Sandbox Active (No live Razorpay keys configured in environment). Test the complete purchase-to-unlock fulfillment lifecycle with one click.
+          </div>
+        </div>
+
+        <div style="font-family: monospace; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.6rem; color: #000;">
+          SELECT INSTANT APPROVAL PROTOCOL:
+        </div>
+
+        <div class="tamyiz-sandbox-methods">
+          <label class="tamyiz-sandbox-method-label is-checked">
+            <input type="radio" name="sandbox-method" value="upi" checked />
+            <span>⚡ 1-Click Instant UPI Settlement (GPay / PhonePe / Paytm / BHIM)</span>
+          </label>
+          <label class="tamyiz-sandbox-method-label">
+            <input type="radio" name="sandbox-method" value="card" />
+            <span>💳 Instant Credit / Debit Card Clearance (Visa / Mastercard / RuPay)</span>
+          </label>
+          <label class="tamyiz-sandbox-method-label">
+            <input type="radio" name="sandbox-method" value="netbanking" />
+            <span>🏛 NetBanking Direct Authorization</span>
+          </label>
+        </div>
+
+        <button id="btn-sandbox-approve" class="tamyiz-btn-checkout-primary" style="background: #278838; border-color: #278838;" onclick="window.tamyizApp.confirmSandboxPayment('${orderId}', '${email}', '${phone}')">
+          SIMULATE 1-CLICK UPI CLEARANCE (₹${totalINR.toLocaleString('en-IN')}) →
+        </button>
+
+        <div style="text-align: center; margin-top: 0.75rem;">
+          <button style="background:none; border:none; color:#777; font-family:monospace; font-size:0.72rem; text-decoration:underline; cursor:pointer;" onclick="window.tamyizApp.closeSandboxModal()">
+            Cancel and Return to Bag
+          </button>
+        </div>
+      </div>
+    `);
+  }
+
+  closeSandboxModal() {
+    this.closeModal();
+    this.restoreCheckoutButton();
+  }
+
+  async confirmSandboxPayment(orderId, email, phone) {
+    const approveBtn = document.getElementById('btn-sandbox-approve');
+    if (approveBtn) {
+      approveBtn.disabled = true;
+      approveBtn.textContent = 'VERIFYING CRYPTOGRAPHIC TOKEN...';
+    }
+
+    const payload = {
+      razorpay_order_id: orderId,
+      razorpay_payment_id: 'pay_sandbox_' + Date.now(),
+      razorpay_signature: 'sandbox_verified_signature',
+      mode: 'atelier_sandbox',
+      items: store.cart,
+      email,
+      phone
+    };
+
+    await this.verifyAndUnlockPayment(payload);
+  }
+
+  async verifyAndUnlockPayment(payload) {
+    try {
+      const response = await fetch('/api/verify-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `Payment verification failed (${response.status})`);
+      }
+
+      const result = await response.json();
+      if (result.verified) {
+        this.onPaymentSuccess(result);
+      } else {
+        throw new Error('Payment verification signature mismatch.');
+      }
+    } catch (err) {
+      console.error('Payment Verification Failure:', err);
+      store.showToast(err.message || 'Payment verification failed.', 'error');
+      this.restoreCheckoutButton();
+    }
+  }
+
+  onPaymentSuccess(result) {
+    const downloads = result.downloads || [];
+    const paymentId = result.paymentId || ('PAY-TMZ-' + Date.now());
+    const orderId = result.orderId || ('TMZ-' + Date.now());
+
+    this.confirmedOrder = {
+      orderId,
+      referenceId: result.referenceId || paymentId,
+      paymentId,
+      date: new Date(result.timestamp || Date.now()).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+      total: (result.amount ? Math.round(result.amount / 100) : (result.totalINR || store.getTotal())),
+      shippingAddress: {
+        email: result.email || '',
+        phone: result.phone || ''
+      },
+      items: downloads.map(dl => ({
+        name: dl.name,
+        variant: dl.variant,
+        downloadUrl: dl.downloadUrl,
+        actionLabel: dl.actionLabel,
+        specs: dl.specs,
+        image: '/assets/images/products/' + (dl.productId.replace('tmz-dig-', '')) + '.jpg'
+      }))
+    };
+
+    // 1. Clear cart state & storage
+    store.clearCart();
+    this.closeCart();
+    this.restoreCheckoutButton();
+
+    if (this.currentPage === 'checkout') {
+      this.renderCurrentPage();
+    }
+
+    // 2. Open ATELIER DISPATCH COMPLETE — EDITION UNLOCKED modal
+    const formattedDate = new Date(result.timestamp || Date.now()).toLocaleString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+    const whatsappUrl = this.generateWhatsAppLogUrl(result);
+
+    this.openModalContent(`
+      <div class="tamyiz-unlock-modal" role="dialog" aria-modal="true">
+        <div class="tamyiz-unlock-head">
+          <div class="tamyiz-unlock-badge">
+            <span style="color: #278838; font-size: 1.1rem; line-height: 1;">●</span>
+            <span>EDITION UNLOCKED // INSTANT DIGITAL DISPATCH</span>
+          </div>
+          <button style="background:none; border:none; font-size:1.25rem; cursor:pointer; padding: 0.2rem;" onclick="window.tamyizApp.closeModal()" aria-label="Close modal">✕</button>
+        </div>
+
+        <div class="tamyiz-unlock-meta-box">
+          <div>TRANSACTION REF: <strong>${paymentId}</strong></div>
+          <div>ORDER IDENTIFIER: <strong>#${orderId}</strong></div>
+          <div>DISPATCH EMAIL: <strong>${result.email}</strong></div>
+          <div>WHATSAPP LOG: <strong>${result.phone}</strong></div>
+          <div>TIMESTAMP: <strong>${formattedDate}</strong></div>
+          <div>STATUS: <strong style="color: #278838;">PAID &amp; PERPETUAL LICENSE ISSUED</strong></div>
+        </div>
+
+        <div style="font-family: monospace; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.6rem; color: #000; letter-spacing: 0.05em;">
+          UNLOCKED DIGITAL ASSETS &amp; DUPLICATION VAULT:
+        </div>
+
+        <div class="tamyiz-unlocked-items-list" style="margin-bottom: 1.25rem;">
+          ${downloads.map(dl => `
+            <div class="tamyiz-vault-item-card">
+              <div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; color: #000;">
+                  ${dl.name}
+                </div>
+                <div style="font-family: monospace; font-size: 0.72rem; color: #555; margin-top: 0.25rem;">
+                  FORMAT: <strong>${dl.variant}</strong> • Single-Operator Lifetime License
+                </div>
+              </div>
+              <a href="${dl.downloadUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-btn-vault-dl" download>
+                <span>DOWNLOAD / DUPLICATE EDITION ↗</span>
+              </a>
+            </div>
+          `).join('')}
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem;">
+          <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-btn-whatsapp-sync">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            <span>DISPATCH COPY TO MY WHATSAPP ↗</span>
+          </a>
+
+          <button class="tamyiz-btn-checkout-primary" style="background: #FFFFFF; color: #000000; border: 1px solid #000000;" onclick="window.tamyizApp.downloadTaxInvoiceFromPayment('${paymentId}')">
+            <span>PRINT / SAVE OFFICIAL TAX INVOICE ↗</span>
+          </button>
+        </div>
+
+        <div style="text-align: center;">
+          <button style="background:none; border:none; font-family:monospace; font-size:0.74rem; font-weight:700; text-transform:uppercase; text-decoration:underline; cursor:pointer;" onclick="window.tamyizApp.closeModal(); window.tamyizApp.navigateTo('/editions');">
+            Return to Atelier Catalog →
+          </button>
+        </div>
+      </div>
+    `);
+
+    store.showToast('Order confirmed! Access unlocked in Digital Vault.', 'success');
+  }
+
+  generateWhatsAppLogUrl(result) {
+    const downloads = result.downloads || [];
+    const itemsText = downloads.map((d, i) => `${i + 1}. ${d.name} [${d.variant}]`).join('\n');
+    const msg = `TAMYIZ™ Order Archive Log:\n` +
+      `Order Ref: #${result.orderId || 'TMZ'}\n` +
+      `Payment ID: ${result.paymentId || 'PAY'}\n` +
+      `Dispatch Email: ${result.email}\n` +
+      `WhatsApp: ${result.phone}\n` +
+      `Unlocked Editions:\n${itemsText}\n` +
+      `Timestamp: ${new Date(result.timestamp || Date.now()).toISOString()}\n` +
+      `Atelier Sopore, Kashmir 193201`;
+    return `https://wa.me/919541722379?text=${encodeURIComponent(msg)}`;
+  }
+
+  downloadTaxInvoiceFromPayment(paymentId) {
+    const orderData = this.confirmedOrder ? {
+      orderId: this.confirmedOrder.orderId || 'TMZ-' + Date.now(),
+      date: new Date(this.confirmedOrder.timestamp || Date.now()).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+      total: this.confirmedOrder.downloads ? this.confirmedOrder.downloads.reduce((acc, d) => acc + (d.price || 0), 0) : 499,
+      subtotal: this.confirmedOrder.downloads ? this.confirmedOrder.downloads.reduce((acc, d) => acc + (d.price || 0), 0) : 499,
+      discount: 0,
+      items: (this.confirmedOrder.downloads || []).map(d => ({
+        name: d.name,
+        variant: d.variant,
+        price: d.price || 499
+      })),
+      shippingAddress: {
+        fullName: 'Valued Patron',
+        email: this.confirmedOrder.email || '—',
+        phone: this.confirmedOrder.phone || siteConfig.phone
+      }
+    } : null;
+
+    if (orderData) {
+      this.confirmedOrder = orderData;
+    }
+    this.downloadInvoice(paymentId || 'TMZ-INSTANT');
+  }
+
+  // ==========================================
+  // Legal & Customer Care Modal System
+  // ==========================================
+  openLegalModal(tabKey = 'delivery-protocol') {
+    const validKey = legalDocs[tabKey] ? tabKey : 'delivery-protocol';
+    this.openModalContent(this.renderLegalModalContent(validKey));
+  }
+
+  switchLegalModalTab(tabKey) {
+    const validKey = legalDocs[tabKey] ? tabKey : 'delivery-protocol';
+    const content = document.getElementById('tamyiz-modal-content');
+    if (content) {
+      content.innerHTML = `
+        <button style="position: absolute; top: 1.25rem; right: 1.25rem; font-size: 1.25rem; background: none; border: none; cursor: pointer; padding: 0.25rem; color: var(--color-black);" onclick="window.tamyizApp.closeModal()" aria-label="Close modal">✕</button>
+        ${this.renderLegalModalContent(validKey)}
+      `;
+    }
+  }
+
+  renderLegalModalContent(activeKey) {
+    const doc = legalDocs[activeKey] || legalDocs['delivery-protocol'];
+    const tabs = [
+      { key: 'delivery-protocol', label: 'Delivery Protocol', code: '01' },
+      { key: 'license', label: 'Atelier License', code: '02' },
+      { key: 'privacy', label: 'Privacy & Security', code: '03' },
+      { key: 'terms', label: 'Terms of Service', code: '04' }
+    ];
+
+    return `
+      <div class="tamyiz-legal-modal-box" role="dialog" aria-modal="true">
+        <div class="tamyiz-legal-modal-head">
+          <div>
+            <div style="font-family: monospace; font-size: 0.7rem; font-weight: 800; color: var(--color-red); letter-spacing: 0.1em; text-transform: uppercase;">
+              TAMYIZ™ STATUTORY &amp; ATELIER PROTOCOLS // ${doc.code}
+            </div>
+            <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; text-transform: uppercase; margin: 0.25rem 0 0.15rem 0; color: #000;">
+              ${doc.title}
+            </h3>
+            <p style="font-size: 0.78rem; color: #666; font-family: monospace; margin: 0;">
+              ${doc.subtitle}
+            </p>
+          </div>
+          <button style="background:none; border:none; font-size:1.25rem; cursor:pointer; padding: 0.25rem; line-height: 1;" onclick="window.tamyizApp.closeModal()" aria-label="Close modal">✕</button>
+        </div>
+
+        <div class="tamyiz-legal-tabs-row">
+          ${tabs.map(t => `
+            <button class="tamyiz-legal-tab-btn ${t.key === activeKey ? 'active' : ''}" onclick="window.tamyizApp.switchLegalModalTab('${t.key}')">
+              <span>${t.code}</span> ${t.label}
+            </button>
+          `).join('')}
+        </div>
+
+        <div class="tamyiz-legal-modal-body" style="margin-bottom: 1.5rem;">
+          ${doc.sections.map(sec => `
+            <div class="tamyiz-legal-section-item">
+              <div class="tamyiz-legal-section-title">${sec.heading}</div>
+              <div class="tamyiz-legal-section-text">
+                <p>${sec.content.replace(/\n/g, '<br/>')}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Indian Payment Gateway & Statutory KYC Compliance Box -->
+        <div class="tamyiz-legal-contact-footer">
+          <div style="font-weight: 800; text-transform: uppercase; margin-bottom: 0.35rem; color: #000;">
+            Registered Atelier Headquarters &amp; Statutory KYC Notice
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.5rem; font-size: 0.72rem;">
+            <div>
+              <strong>Operating Entity:</strong> TAMYIZ™ Digital Publishing &amp; Design Systems Studio<br/>
+              <strong>Headquarters:</strong> Sopore, Jammu &amp; Kashmir 193201, India<br/>
+              <strong>Co-Founders:</strong> Basit Majeed &amp; Sahil
+            </div>
+            <div>
+              <strong>Email:</strong> <a href="mailto:tamyiz.co@gmail.com" style="text-decoration: underline; color: #000;">tamyiz.co@gmail.com</a><br/>
+              <strong>WhatsApp Concierge:</strong> <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #000;">+91 95417 22379</a><br/>
+              <strong>Settlement &amp; Refund:</strong> 7-day resolution window • 5–7 business days settlement
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.25rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 0.75rem;">
+          <span style="font-family: monospace; font-size: 0.68rem; color: #888;">
+            DPDP ACT &amp; CONSUMER PROTECTION COMPLIANT
+          </span>
+          <button class="tamyiz-btn-vault-dl" style="padding: 0.45rem 1rem; font-size: 0.7rem;" onclick="window.tamyizApp.closeModal()">
+            Close Protocol Modal
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  // Legacy Policy Modal fallback
   openPolicyModal(policyKey) {
+    if (policyKey === 'shipping' || policyKey === 'delivery') {
+      this.openLegalModal('delivery-protocol');
+      return;
+    }
+    if (policyKey === 'refund' || policyKey === 'cancellation') {
+      this.openLegalModal('license');
+      return;
+    }
+    if (policyKey === 'privacy') {
+      this.openLegalModal('privacy');
+      return;
+    }
+    if (policyKey === 'terms') {
+      this.openLegalModal('terms');
+      return;
+    }
+
     const policy = policies[policyKey];
     if (!policy) return;
 

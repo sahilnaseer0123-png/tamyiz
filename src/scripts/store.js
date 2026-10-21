@@ -4,7 +4,8 @@
  */
 
 const STORAGE_KEYS = {
-  CART: 'tamyiz_cart_v1',
+  CART: 'tamyiz_atelier_bag',
+  LEGACY_CART: 'tamyiz_cart_v1',
   WISHLIST: 'tamyiz_wishlist_v1',
   USER: 'tamyiz_user_v1',
   ORDERS: 'tamyiz_orders_v1',
@@ -21,8 +22,11 @@ const AVAILABLE_COUPONS = {
 
 class Store {
   constructor() {
-    const rawCart = this.load(STORAGE_KEYS.CART, []);
+    const rawCart = this.load(STORAGE_KEYS.CART, null) || this.load(STORAGE_KEYS.LEGACY_CART, []);
     this.cart = Array.isArray(rawCart) ? rawCart : [];
+    if (this.cart.length > 0) {
+      this.save(STORAGE_KEYS.CART, this.cart);
+    }
     this.wishlist = this.load(STORAGE_KEYS.WISHLIST, ['tmz-001', 'tmz-008']);
     this.user = this.load(STORAGE_KEYS.USER, {
       isLoggedIn: true,
