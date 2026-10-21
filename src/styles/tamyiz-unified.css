@@ -238,15 +238,40 @@ img {
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-brand);
-    font-size: 1rem; /* text-base */
+    font-size: 0.95rem;
     font-weight: 900;
-    letter-spacing: 0.15em; /* tracking-[0.15em] */
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-black);
     text-decoration: none;
     align-items: center;
     white-space: nowrap;
     z-index: 10;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  }
+
+  /* When at the top of the Home/Hero page on mobile, HIDE the header brand so TAMYIZ is never shown twice */
+  .tamyiz-header.is-home-page:not(.is-scrolled) .tamyiz-header-brand-mobile {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translate(-50%, -6px) !important;
+  }
+
+  /* When scrolled down past the hero on the Home page, smoothly reveal it */
+  .tamyiz-header.is-home-page.is-scrolled .tamyiz-header-brand-mobile {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translate(-50%, 0) !important;
+  }
+
+  /* On all other pages (/editions, /philosophy, etc.), header brand is always visible */
+  .tamyiz-header:not(.is-home-page) .tamyiz-header-brand-mobile {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translate(-50%, 0) !important;
   }
 }
 
@@ -1929,6 +1954,25 @@ img {
   background: var(--color-black);
   color: #FFFFFF;
   border-color: var(--color-black);
+}
+
+.tamyiz-menu-text-mobile {
+  display: none;
+}
+
+@media (max-width: 639px) {
+  .tamyiz-menu-text-desktop {
+    display: none !important;
+  }
+  .tamyiz-menu-text-mobile {
+    display: inline !important;
+  }
+  .tamyiz-header-menu-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.68rem;
+    min-height: 36px;
+    gap: 0.35rem;
+  }
 }
 
 .tamyiz-header-nav-btn {

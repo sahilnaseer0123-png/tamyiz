@@ -252,7 +252,7 @@ export class TamyizUnifiedApp {
     const header = document.getElementById('navbar');
     if (!header) return;
     const update = () => {
-      if (window.scrollY >= 120) {
+      if (window.scrollY >= 70) {
         header.classList.add('is-scrolled');
       } else {
         header.classList.remove('is-scrolled');
@@ -269,7 +269,7 @@ export class TamyizUnifiedApp {
 
     app.innerHTML = `
       <!-- 1. FULL-WIDTH STICKY GLASSMORPHISM HEADER -->
-      <header class="tamyiz-header" id="navbar">
+      <header class="tamyiz-header is-home-page" id="navbar">
         <div class="tamyiz-header-inner">
           <div class="tamyiz-header-left">
             <button class="tamyiz-header-menu-btn" onclick="window.tamyizApp.toggleMobileMenu()" aria-label="Open Navigation Index Drawer">
@@ -277,7 +277,8 @@ export class TamyizUnifiedApp {
                 <line x1="3" y1="8" x2="21" y2="8"></line>
                 <line x1="3" y1="16" x2="21" y2="16"></line>
               </svg>
-              <span>INDEX / MENU</span>
+              <span class="tamyiz-menu-text-desktop">INDEX / MENU</span>
+              <span class="tamyiz-menu-text-mobile">MENU</span>
             </button>
 
             <!-- Desktop Left Brand (EST. 2025 • SOPORE Hallmark) -->
@@ -286,7 +287,7 @@ export class TamyizUnifiedApp {
             </a>
           </div>
 
-          <!-- Mobile Centered Brand Mark (visible on < 1024px, hidden on desktop) -->
+          <!-- Mobile Centered Brand Mark (visible on < 1024px, hidden on desktop; hidden on home hero until scrolled) -->
           <a href="/" class="tamyiz-header-brand-mobile" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')" aria-label="TAMYIZ Home">
             TAMYIZ<span class="tamyiz-brand-dot text-red-600">•</span>
           </a>
@@ -559,7 +560,14 @@ export class TamyizUnifiedApp {
   // Render active page inside #main-content
   renderCurrentPage() {
     const mainEl = document.getElementById('main-content');
+    const header = document.getElementById('navbar');
     if (!mainEl) return;
+
+    // Synchronize page state for styling (e.g. hiding duplicate hero brand in header)
+    document.body.dataset.page = this.currentPage;
+    if (header) {
+      header.classList.toggle('is-home-page', this.currentPage === 'home');
+    }
 
     // Clean up 3D and sparks if moving away from home
     if (this.currentPage !== 'home') {
