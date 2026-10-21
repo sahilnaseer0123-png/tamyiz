@@ -223,27 +223,34 @@ export function renderHomePage(appInstance) {
             </div>
 
             <div class="tamyiz-founders-teaser-duo">
-              <div class="tamyiz-founder-mini-portrait">
-                <img src="/assets/images/founders/basit.jpg" alt="Basit Majeed — Co-Founder" loading="lazy" />
-                <div class="tamyiz-founder-mini-label">
-                  <strong>BASIT MAJEED</strong>
-                  <span>Security &amp; Research</span>
-                  <div class="tamyiz-mini-socials flex gap-2 mt-1.5" style="font-family: var(--font-sub); font-size: 0.65rem; font-weight: 700;">
-                    <a href="${siteConfig.founders.basit.socials.instagram}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">Instagram ↗</a>
-                    <a href="${siteConfig.founders.basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">LinkedIn ↗</a>
-                    <a href="${siteConfig.founders.basit.socials.x}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">X ↗</a>
+              <!-- Basit Mini Card -->
+              <div class="tamyiz-founder-mini-card">
+                <div class="tamyiz-founder-mini-portrait">
+                  <img src="/assets/images/founders/basit.jpg" alt="Basit Majeed — Co-Founder" loading="lazy" />
+                </div>
+                <div class="tamyiz-founder-mini-info">
+                  <strong class="tamyiz-founder-mini-name">BASIT MAJEED</strong>
+                  <span class="tamyiz-founder-mini-role">Security &amp; Research</span>
+                  <div class="tamyiz-mini-socials">
+                    <a href="${siteConfig.founders.basit.socials.instagram}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Instagram ↗</a>
+                    <a href="${siteConfig.founders.basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">LinkedIn ↗</a>
+                    <a href="${siteConfig.founders.basit.socials.x}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">X ↗</a>
                   </div>
                 </div>
               </div>
-              <div class="tamyiz-founder-mini-portrait">
-                <img src="/assets/images/founders/sahil.jpg" alt="Sahil — Co-Founder" loading="lazy" />
-                <div class="tamyiz-founder-mini-label">
-                  <strong>SAHIL</strong>
-                  <span>AI/ML &amp; Build</span>
-                  <div class="tamyiz-mini-socials flex gap-2 mt-1.5" style="font-family: var(--font-sub); font-size: 0.65rem; font-weight: 700;">
-                    <a href="${siteConfig.founders.sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">Instagram ↗</a>
-                    <a href="${siteConfig.founders.sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">LinkedIn ↗</a>
-                    <a href="${siteConfig.founders.sahil.socials.x}" target="_blank" rel="noopener noreferrer" style="color: #FFF; text-decoration: underline; opacity: 0.9;" onclick="event.stopPropagation();">X ↗</a>
+
+              <!-- Sahil Mini Card -->
+              <div class="tamyiz-founder-mini-card">
+                <div class="tamyiz-founder-mini-portrait">
+                  <img src="/assets/images/founders/sahil.jpg" alt="Sahil — Co-Founder" loading="lazy" />
+                </div>
+                <div class="tamyiz-founder-mini-info">
+                  <strong class="tamyiz-founder-mini-name">SAHIL</strong>
+                  <span class="tamyiz-founder-mini-role">AI/ML &amp; Build</span>
+                  <div class="tamyiz-mini-socials">
+                    <a href="${siteConfig.founders.sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Instagram ↗</a>
+                    <a href="${siteConfig.founders.sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">LinkedIn ↗</a>
+                    <a href="${siteConfig.founders.sahil.socials.x}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">X ↗</a>
                   </div>
                 </div>
               </div>

@@ -3351,7 +3351,14 @@ img {
 .tamyiz-founders-teaser-duo {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.tamyiz-founder-mini-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .tamyiz-founder-mini-portrait {
@@ -3359,7 +3366,14 @@ img {
   aspect-ratio: 4/5;
   border-radius: 4px;
   overflow: hidden;
-  background: var(--color-black);
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.4s ease, border-color 0.4s ease;
+}
+
+.tamyiz-founder-mini-card:hover .tamyiz-founder-mini-portrait {
+  transform: translateY(-3px);
+  border-color: rgba(225, 37, 27, 0.4);
 }
 
 .tamyiz-founder-mini-portrait img {
@@ -3367,32 +3381,60 @@ img {
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tamyiz-founder-mini-label {
-  position: absolute;
-  bottom: 0.6rem;
-  left: 0.6rem;
-  right: 0.6rem;
-  background: rgba(11, 11, 11, 0.88);
-  backdrop-filter: blur(6px);
-  padding: 0.35rem 0.6rem;
-  border-radius: 2px;
-  color: #FFFFFF;
+.tamyiz-founder-mini-card:hover .tamyiz-founder-mini-portrait img {
+  transform: scale(1.03);
+}
+
+.tamyiz-founder-mini-info {
   display: flex;
   flex-direction: column;
+  gap: 0.2rem;
+  padding: 0 0.15rem;
 }
 
-.tamyiz-founder-mini-label strong {
+.tamyiz-founder-mini-name {
   font-family: var(--font-display);
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 900;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  color: #FFFFFF;
+  text-transform: uppercase;
 }
 
-.tamyiz-founder-mini-label span {
-  font-size: 0.62rem;
-  color: #CCC;
+.tamyiz-founder-mini-role {
+  font-family: var(--font-sub);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.tamyiz-mini-socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  margin-top: 0.35rem;
+  font-family: var(--font-sub);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.tamyiz-mini-socials a {
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0.85;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.tamyiz-mini-socials a:hover {
+  opacity: 1;
+  color: var(--color-red);
 }
 
 /* ==========================================================================
