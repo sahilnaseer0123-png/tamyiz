@@ -32,7 +32,7 @@ export function renderEditionsPage(appInstance) {
       <section id="editions-catalog" class="tamyiz-section py-10 md:py-16 scroll-mt-24" style="background: var(--color-offwhite);">
         <div class="container">
           <!-- Category Filter Tabs -->
-          <div class="tamyiz-filter-pills flex overflow-x-auto whitespace-nowrap gap-2 pt-3 pb-2 -mx-4 px-4 no-scrollbar sm:flex-wrap sm:mx-0 sm:px-0">
+          <div class="tamyiz-filter-pills flex overflow-x-auto whitespace-nowrap gap-2.5 pt-8 pb-3 -mx-4 px-4 no-scrollbar sm:flex-wrap sm:mx-0 sm:px-0">
             <button class="tamyiz-filter-pill ${appInstance.activeCategory === 'all' ? 'active' : ''}" onclick="window.tamyizApp.filterCategory('all', this)">
               All Digital Editions (8)
             </button>
