@@ -236,7 +236,7 @@ img {
     display: inline-flex !important;
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) !important;
     font-family: var(--font-brand);
     font-size: 0.95rem;
     font-weight: 900;
@@ -245,33 +245,36 @@ img {
     color: var(--color-black);
     text-decoration: none;
     align-items: center;
+    gap: 0.45rem;
     white-space: nowrap;
     z-index: 10;
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-  }
-
-  /* When at the top of the Home/Hero page on mobile, HIDE the header brand so TAMYIZ is never shown twice */
-  .tamyiz-header.is-home-page:not(.is-scrolled) .tamyiz-header-brand-mobile {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transform: translate(-50%, -6px) !important;
-  }
-
-  /* When scrolled down past the hero on the Home page, smoothly reveal it */
-  .tamyiz-header.is-home-page.is-scrolled .tamyiz-header-brand-mobile {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
-    transform: translate(-50%, 0) !important;
   }
 
-  /* On all other pages (/editions, /philosophy, etc.), header brand is always visible */
-  .tamyiz-header:not(.is-home-page) .tamyiz-header-brand-mobile {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translate(-50%, 0) !important;
+  .tamyiz-header-doom-mark {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .tamyiz-header-doom-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.45));
+    border-radius: 50%;
+  }
+
+  .tamyiz-header-brand-text {
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0.12em;
   }
 }
 
@@ -422,47 +425,7 @@ img {
   }
 }
 
-@media (max-width: 639px) {
-  .tamyiz-hero-section {
-    padding-top: 5.5rem;
-    padding-bottom: 2.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
 
-  .tamyiz-hero-giant-title {
-    font-size: clamp(2.2rem, 10.5vw, 3.8rem) !important;
-    letter-spacing: 0.10em !important;
-  }
-
-  .tamyiz-hero-actions {
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-    gap: 0.85rem;
-  }
-
-  .tamyiz-hero-btn-primary {
-    width: 100%;
-    justify-content: center;
-    padding: 1rem 1.5rem;
-    min-height: 48px;
-    font-size: 0.85rem;
-  }
-
-  .tamyiz-hero-spec-tag {
-    font-size: 0.72rem;
-    text-align: center;
-    letter-spacing: 0.05em;
-  }
-
-  .tamyiz-hero-sculpture-wrap {
-    max-width: 280px;
-    width: 100%;
-    margin-top: 1.5rem;
-    margin-bottom: 0;
-  }
-}
 
 .tamyiz-hero-editorial-stack {
   position: relative;
@@ -738,12 +701,202 @@ img {
   box-shadow: 0 8px 30px rgba(220, 38, 38, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.4);
 }
 
-@media (max-width: 639px) {
+/* ==========================================================================
+   MOBILE HERO REDESIGN (@media (max-width: 768px))
+   Strictly mobile-only, desktop layout 100% untouched.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Soften dark grey left/right edge vignette for clean, spacious atmosphere */
+  .tamyiz-hero-section {
+    padding-top: 5rem !important;
+    padding-bottom: 2rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    min-height: auto !important;
+    background: radial-gradient(circle at 50% 32%, #FFFFFF 0%, #FAF9F7 65%, #F4F3EF 100%) !important;
+    border-bottom: 1px solid var(--color-border) !important;
+  }
+
+  .tamyiz-hero-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 1.25rem !important; /* Pulled closer to hero text stack, no empty gap */
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  .tamyiz-hero-editorial-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  /* 1. Top Badge: Compact, centered single-line outline pill (NOT a giant black bar) */
+  .tamyiz-hero-badge-pill {
+    width: fit-content !important;
+    margin: 0 auto !important;
+    padding: 6px 14px !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    letter-spacing: 0.08em !important;
+    white-space: nowrap !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    color: #1A1A1A !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+
+  .tamyiz-hero-badge-dot {
+    width: 5px !important;
+    height: 5px !important;
+    background: var(--color-red) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 6px var(--color-red) !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* 2. Center-Align "TAMYIZ" & Tighten Typography */
+  .tamyiz-hero-giant-title {
+    text-align: center !important;
+    margin: 14px auto 10px auto !important;
+    font-size: clamp(2.4rem, 11vw, 3.6rem) !important;
+    letter-spacing: 0.12em !important;
+    font-weight: 900 !important;
+    line-height: 0.95 !important;
+    width: 100% !important;
+    display: block !important;
+  }
+
+  .tamyiz-hero-subheadline {
+    font-size: 14.5px !important;
+    line-height: 1.5 !important;
+    max-width: 310px !important;
+    width: 100% !important;
+    margin: 0 auto 22px auto !important;
+    text-align: center !important;
+    color: #4A4A48 !important;
+    font-weight: 450 !important;
+  }
+
+  /* 3. Refine Primary CTA: The ONLY solid black pill in the hero */
+  .tamyiz-hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    gap: 0 !important;
+    margin: 0 auto !important;
+  }
+
+  .tamyiz-hero-btn-primary {
+    width: auto !important;
+    min-width: 230px !important;
+    max-width: 260px !important;
+    height: 48px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    margin: 0 auto 14px auto !important;
+    padding: 0 1.5rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: var(--color-black) !important;
+    color: #FFFFFF !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  .tamyiz-hero-btn-primary:hover {
+    background: var(--color-red) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .tamyiz-hero-spec-tag {
+    font-size: 9.5px !important;
+    letter-spacing: 0.06em !important;
+    text-align: center !important;
+    color: #71716E !important;
+    margin: 0 auto !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
+    display: block !important;
+  }
+
+  /* 4. Red Doom Sphere: Centered at bottom, pulled up closer to text */
+  .tamyiz-hero-sculpture-wrap {
+    width: 100% !important;
+    max-width: 310px !important;
+    margin: 0.75rem auto 0 auto !important;
+    min-height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .tamyiz-hero-sculpture-wrap::before {
+    width: 85% !important;
+    height: 85% !important;
+    filter: blur(36px) !important;
+  }
+
+  .tamyiz-hero-horizon-assembly {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+  }
+
+  .tamyiz-hero-dome-cropper {
+    width: 100% !important;
+    max-width: 310px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+  }
+
+  .tamyiz-hero-dome-cropper .tamyiz-hero-logo-img {
+    width: 100% !important;
+    max-width: 310px !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto !important;
+    object-position: top center !important;
+  }
+
+  .tamyiz-horizon-line {
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  .tamyiz-hero-sparks-canvas {
+    top: -20px !important;
+    left: -10px !important;
+    width: calc(100% + 20px) !important;
+    height: calc(100% + 25px) !important;
+  }
+
+  /* Floating WhatsApp Button on Mobile */
   .tamyiz-whatsapp-fab {
-    bottom: 1.5rem; /* bottom-6 */
-    right: 1.5rem; /* right-6 */
-    width: 48px;
-    height: 48px;
+    bottom: 20px !important;
+    right: 16px !important;
+    transform: scale(0.9) !important;
+    transform-origin: bottom right !important;
   }
 }
 
@@ -1147,6 +1300,8 @@ img {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
   margin-bottom: 2rem;
 }
 
@@ -1156,7 +1311,10 @@ img {
     overflow-x: auto;
     white-space: nowrap;
     gap: 0.5rem;
-    padding-bottom: 0.5rem;
+    margin-top: 0.75rem;
+    padding-top: 1rem;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
     margin-left: -1rem;
     margin-right: -1rem;
     padding-left: 1rem;
@@ -3137,12 +3295,66 @@ img {
 /* ==========================================================================
    MOBILE-FIRST ARCHITECTURE: RESPONSIVE UTILITIES & SPACING
    ========================================================================== */
+.tamyiz-section {
+  padding-top: 3.5rem;
+  padding-bottom: 4rem;
+}
+
+@media (max-width: 639px) {
+  .tamyiz-section {
+    padding-top: 2.25rem;
+    padding-bottom: 3rem;
+  }
+}
+
+#editions-catalog {
+  padding-top: 3.5rem !important;
+}
+
+@media (max-width: 639px) {
+  #editions-catalog {
+    padding-top: 2.25rem !important;
+  }
+}
+
+.py-8 {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+.py-10 {
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
+}
+
+.py-12 {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+}
+
 .py-14 {
   padding-top: 3.5rem !important;
   padding-bottom: 3.5rem !important;
 }
 
+.py-16 {
+  padding-top: 4rem !important;
+  padding-bottom: 4rem !important;
+}
+
 @media (min-width: 768px) {
+  .md\:py-12 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  .md\:py-16 {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+  .md\:py-20 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
   .md\:py-24 {
     padding-top: 6rem !important;
     padding-bottom: 6rem !important;

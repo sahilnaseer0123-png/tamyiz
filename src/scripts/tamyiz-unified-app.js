@@ -287,9 +287,12 @@ export class TamyizUnifiedApp {
             </a>
           </div>
 
-          <!-- Mobile Centered Brand Mark (visible on < 1024px, hidden on desktop; hidden on home hero until scrolled) -->
+          <!-- Mobile Centered Brand Mark (visible on < 1024px, hidden on desktop) -->
           <a href="/" class="tamyiz-header-brand-mobile" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')" aria-label="TAMYIZ Home">
-            TAMYIZ<span class="tamyiz-brand-dot text-red-600">•</span>
+            <span class="tamyiz-header-doom-mark" aria-hidden="true">
+              <img src="/assets/images/tamyiz-logo-transparent.png" alt="" class="tamyiz-header-doom-img" />
+            </span>
+            <span class="tamyiz-header-brand-text">TAMYIZ</span>
           </a>
 
           <!-- Desktop Centered Navigation with Active States -->
