@@ -409,78 +409,26 @@ img {
    ========================================================================== */
 .tamyiz-hero-section {
   position: relative;
-  min-height: auto;
+  width: 100%;
   display: flex;
   align-items: center;
-  padding: 3rem 2.5rem 1.75rem 2.5rem;
+  padding: 0 !important;
   overflow: hidden;
-  background: radial-gradient(circle at 60% 45%, #FFFFFF 0%, #F5F5F3 55%, #ECECE8 100%);
+  background: #F5F5F3 !important;
   border-bottom: 1px solid var(--color-border);
 }
 
 @media (min-width: 1024px) {
   .tamyiz-hero-section {
-    min-height: calc(76vh - 4rem);
-    padding: 3.25rem 2.5rem 1.75rem 2.5rem;
+    padding: 0 !important;
+    background: #F5F5F3 !important;
   }
 }
 
 .tamyiz-hero-container {
-  max-width: 1360px;
   width: 100%;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
-  gap: 2.5rem;
   position: relative;
   z-index: 10;
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .tamyiz-hero-section {
-    padding-top: 6rem; /* pt-24 */
-    padding-bottom: 3rem; /* pb-12 */
-    padding-left: 1rem;
-    padding-right: 1rem;
-    min-height: auto;
-  }
-
-  .tamyiz-hero-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 2.5rem;
-  }
-
-  .tamyiz-hero-editorial-stack {
-    align-items: center;
-    text-align: center;
-    max-width: 100%;
-  }
-
-  .tamyiz-hero-subheadline {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    font-size: 1.05rem;
-  }
-
-  .tamyiz-hero-giant-title {
-    font-size: clamp(2.35rem, 11vw, 5.5rem) !important;
-    letter-spacing: 0.12em !important;
-    text-align: center;
-    margin-bottom: 1rem;
-    word-break: break-word;
-  }
-
-  .tamyiz-hero-sculpture-wrap {
-    max-width: 360px;
-    width: 100%;
-    margin: 1.5rem auto 0 auto;
-    min-height: auto;
-  }
 }
 
 
@@ -527,31 +475,22 @@ img {
 
 .tamyiz-hero-giant-title {
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 8vw, 7.5rem);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: -0.04em;
-  line-height: 0.92;
   color: var(--color-black);
-  margin: 0 0 1.25rem 0;
   user-select: none;
 }
 
 .tamyiz-hero-subheadline {
   font-family: var(--font-body);
-  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   font-weight: 500;
   color: #3A3A38;
-  line-height: 1.55;
-  margin-bottom: 2rem;
-  max-width: 540px;
 }
 
 .tamyiz-hero-actions {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .tamyiz-hero-btn-primary {
@@ -580,10 +519,8 @@ img {
 
 .tamyiz-hero-spec-tag {
   font-family: var(--font-sub);
-  font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
   color: var(--color-grey);
 }
 
@@ -591,30 +528,27 @@ img {
 .tamyiz-hero-sculpture-wrap {
   position: relative;
   width: 100%;
-  max-width: 500px;
-  min-height: 220px;
+  max-width: 520px;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: visible;
-  margin: 0 auto;
+  margin: 0;
 }
 
 @media (min-width: 1280px) {
   .tamyiz-hero-sculpture-wrap {
     max-width: 540px;
-    min-height: 240px;
   }
 }
-
 
 /* Open, borderless ambient atmospheric glow */
 .tamyiz-hero-sculpture-wrap::before {
   content: '';
   position: absolute;
   top: 50%;
-  left: 55%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
   height: 90%;
@@ -662,10 +596,9 @@ img {
 
 .tamyiz-hero-dome-cropper {
   width: 100%;
-  max-width: 520px;
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   line-height: 0;
   overflow: visible;
@@ -674,17 +607,16 @@ img {
 .tamyiz-hero-dome-cropper picture {
   width: 100%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
 }
 
 .tamyiz-hero-dome-cropper .tamyiz-hero-logo-img {
   width: 100%;
-  max-width: 520px;
   height: auto;
   display: block;
   object-fit: contain;
-  object-position: top center;
+  object-position: center;
   mix-blend-mode: multiply;
   filter: drop-shadow(0 -8px 24px rgba(0, 0, 0, 0.05)) drop-shadow(0 0 26px rgba(225, 37, 27, 0.16));
   animation: tamyiz-dome-ambient-glow 5s ease-in-out infinite alternate;
@@ -764,223 +696,40 @@ img {
    Strictly mobile-only, desktop layout 100% untouched.
    ========================================================================== */
 @media (max-width: 768px) {
-  /* Tight, compact mobile hero section (py-6) without excessive vertical dead space */
   .tamyiz-hero-section {
-    padding-top: 1.25rem !important;
-    padding-bottom: 1.25rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    min-height: auto !important;
-    background: radial-gradient(circle at 50% 32%, #FFFFFF 0%, #FAF9F7 65%, #F4F3EF 100%) !important;
+    padding: 0 !important;
+    background: #F5F5F3 !important;
     border-bottom: 1px solid var(--color-border) !important;
     overflow: hidden !important;
   }
 
-  .tamyiz-hero-container {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: 0.25rem !important; /* Ultra-tight gap pulling Red Doom sphere directly up to CTA text */
-    max-width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .tamyiz-hero-editorial-stack {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  /* 1. "EDITION 01" Pill Badge: Compact and centered */
   .tamyiz-hero-badge-pill {
-    width: fit-content !important;
-    margin: 0 auto 4px auto !important;
-    padding: 4px 10px !important;
-    font-size: 9px !important;
-    line-height: 1 !important;
-    letter-spacing: 0.08em !important;
-    white-space: nowrap !important;
-    background: #FFFFFF !important;
-    border: 1px solid rgba(0, 0, 0, 0.12) !important;
-    color: #1A1A1A !important;
-    border-radius: 9999px !important;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 5px !important;
+    margin-bottom: 1.5rem !important;
   }
 
-  .tamyiz-hero-badge-dot {
-    width: 5px !important;
-    height: 5px !important;
-    background: var(--color-red) !important;
-    border-radius: 50% !important;
-    box-shadow: 0 0 6px var(--color-red) !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* 2. Main "TAMYIZ" Heading: Untouched, perfectly centered with tight vertical rhythm */
   .tamyiz-hero-giant-title {
-    text-align: center !important;
-    margin: 2px auto 4px auto !important;
-    font-size: clamp(2.3rem, 11vw, 3.4rem) !important;
-    letter-spacing: 0.12em !important;
-    font-weight: 900 !important;
-    line-height: 0.95 !important;
-    width: 100% !important;
-    display: block !important;
+    margin-bottom: 1.5rem !important;
   }
 
-  /* 3. Subtitle Description Paragraph: Tightened margins */
   .tamyiz-hero-subheadline {
-    font-size: 13px !important;
-    line-height: 1.4 !important;
-    max-width: 320px !important;
-    width: 100% !important;
-    margin: 0 auto 8px auto !important;
-    text-align: center !important;
-    color: #4A4A48 !important;
-    font-weight: 450 !important;
-  }
-
-  /* 4. Primary CTA Button & "INSTANT DIGITAL ACCESS" Spec Tag */
-  .tamyiz-hero-actions {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    gap: 0 !important;
-    margin: 0 auto !important;
+    margin-bottom: 2rem !important;
   }
 
   .tamyiz-hero-btn-primary {
-    width: auto !important;
-    min-width: 200px !important;
-    max-width: 240px !important;
-    height: 42px !important;
-    font-size: 11px !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.08em !important;
-    margin: 0 auto 4px auto !important;
-    padding: 0 1.35rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 6px !important;
-    background: var(--color-black) !important;
-    color: #FFFFFF !important;
-    border-radius: 9999px !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16) !important;
-  }
-
-  .tamyiz-hero-btn-primary:hover {
-    background: var(--color-red) !important;
-    transform: translateY(-1px) !important;
-  }
-
-  .tamyiz-hero-spec-tag {
-    font-size: 8.5px !important;
-    letter-spacing: 0.05em !important;
-    text-align: center !important;
-    color: #71716E !important;
-    margin: 0 auto 0 auto !important;
-    white-space: nowrap !important;
-    max-width: 100% !important;
-    display: block !important;
-  }
-
-  /* 5. Red Doom Sphere Graphic & Particle Horizon: Pulled up closer to CTA, strictly centered horizontally */
-  .tamyiz-hero-sculpture-wrap {
-    width: 100% !important;
-    max-width: 280px !important;
-    margin-top: -0.15rem !important; /* Pull up directly below INSTANT DIGITAL ACCESS text, removing empty void */
-    margin-bottom: 0 !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    min-height: auto !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: relative !important;
-    overflow: visible !important;
-  }
-
-  .tamyiz-hero-sculpture-wrap::before {
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 80% !important;
-    height: 80% !important;
-    filter: blur(28px) !important;
-  }
-
-  .tamyiz-hero-horizon-assembly {
-    width: 100% !important;
-    max-width: 280px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    position: relative !important;
-  }
-
-  .tamyiz-hero-dome-cropper {
-    width: 100% !important;
-    max-width: 280px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .tamyiz-hero-dome-cropper picture {
-    width: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .tamyiz-hero-dome-cropper .tamyiz-hero-logo-img {
-    width: 100% !important;
-    max-width: 280px !important;
-    height: auto !important;
-    display: block !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    object-position: top center !important;
-  }
-
-  .tamyiz-horizon-line {
-    width: 100% !important;
-    max-width: 280px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin-bottom: 1.25rem !important;
   }
 
   .tamyiz-hero-sparks-canvas {
     position: absolute !important;
-    top: -15px !important;
+    top: -20px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    width: calc(100% + 20px) !important;
-    height: calc(100% + 20px) !important;
+    width: calc(100% + 30px) !important;
+    height: calc(100% + 30px) !important;
     pointer-events: none !important;
   }
 
-  /* 6. Floating WhatsApp Button on Mobile: Compact and safely clear of Red Doom graphic */
+  /* Floating WhatsApp Button on Mobile: Compact and safely clear */
   .tamyiz-whatsapp-fab {
     bottom: max(14px, env(safe-area-inset-bottom)) !important;
     right: max(14px, env(safe-area-inset-right)) !important;
@@ -997,35 +746,34 @@ img {
 .tamyiz-promise-strip {
   background: var(--color-black);
   color: #FFFFFF;
-  padding: 1.75rem 1.5rem;
+  padding: 0 !important;
   box-sizing: border-box;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
   .tamyiz-promise-strip {
-    padding: 2.25rem 1.5rem;
+    padding: 0 !important;
   }
 }
 
 .tamyiz-promise-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem 1.5rem;
   align-items: flex-start;
+  width: 100%;
 }
 
 .tamyiz-promise-item {
   display: flex;
   align-items: flex-start;
   gap: 1.15rem;
-  padding: 0.5rem 1.25rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
   min-width: 0;
   box-sizing: border-box;
+  border-right: none !important;
 }
 
 .tamyiz-promise-item:last-child {
-  border-right: none;
+  border-right: none !important;
 }
 
 .tamyiz-promise-item strong {
@@ -3600,12 +3348,100 @@ img {
   grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
 }
 
+.max-w-7xl {
+  max-width: 80rem !important;
+}
+
+.min-h-\[calc\(100vh-210px\)\] {
+  min-height: calc(100vh - 210px) !important;
+}
+
+.px-6 {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
 .gap-2 { gap: 0.5rem !important; }
 .gap-3 { gap: 0.75rem !important; }
 .gap-4 { gap: 1rem !important; }
 .gap-5 { gap: 1.25rem !important; }
 .gap-6 { gap: 1.5rem !important; }
 .gap-8 { gap: 2rem !important; }
+.gap-10 { gap: 2.5rem !important; }
+
+.items-start {
+  align-items: flex-start !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-6xl {
+  font-size: 3.75rem !important;
+  line-height: 1 !important;
+}
+
+.font-black {
+  font-weight: 900 !important;
+}
+
+.tracking-tight {
+  letter-spacing: -0.025em !important;
+}
+
+.leading-\[0\.95\] {
+  line-height: 0.95 !important;
+}
+
+.text-lg {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+}
+
+.leading-\[1\.55\] {
+  line-height: 1.55 !important;
+}
+
+.max-w-\[540px\] {
+  max-width: 540px !important;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem !important;
+}
+
+.text-\[11px\] {
+  font-size: 11px !important;
+}
+
+.tracking-\[0\.16em\] {
+  letter-spacing: 0.16em !important;
+}
+
+.uppercase {
+  text-transform: uppercase !important;
+}
+
+.max-w-\[460px\] {
+  max-width: 460px !important;
+}
+
+.scale-105 {
+  transform: scale(1.05) !important;
+}
+
+.object-contain {
+  object-fit: contain !important;
+}
+
+.mix-blend-multiply {
+  mix-blend-mode: multiply !important;
+}
+
+.pr-20 {
+  padding-right: 5rem !important;
+}
 
 @media (min-width: 640px) {
   .sm\:grid-cols-2 {
@@ -3631,11 +3467,23 @@ img {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+  .sm\:px-10 {
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+  }
   .sm\:p-8 {
     padding: 2rem !important;
   }
   .sm\:text-sm {
     font-size: 0.875rem !important;
+  }
+  .sm\:text-xl {
+    font-size: 1.25rem !important;
+    line-height: 1.75rem !important;
+  }
+  .sm\:text-7xl {
+    font-size: 4.5rem !important;
+    line-height: 1 !important;
   }
   .sm\:max-w-md {
     max-width: 28rem !important;
@@ -3667,6 +3515,26 @@ img {
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }
+  .lg\:grid-cols-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+  .lg\:col-span-7 {
+    grid-column: span 7 / span 7 !important;
+  }
+  .lg\:col-span-5 {
+    grid-column: span 5 / span 5 !important;
+  }
+  .lg\:gap-12 {
+    gap: 3rem !important;
+  }
+  .lg\:px-14 {
+    padding-left: 3.5rem !important;
+    padding-right: 3.5rem !important;
+  }
+  .lg\:py-20 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
   .lg\:flex {
     display: flex !important;
   }
@@ -3676,8 +3544,44 @@ img {
   .lg\:text-left {
     text-align: left !important;
   }
+  .lg\:justify-end {
+    justify-content: flex-end !important;
+  }
+  .lg\:text-\[88px\] {
+    font-size: 88px !important;
+    line-height: 0.95 !important;
+  }
+  .lg\:text-\[21px\] {
+    font-size: 21px !important;
+  }
   .lg\:max-w-\[500px\] {
     max-width: 500px !important;
+  }
+  .lg\:max-w-\[520px\] {
+    max-width: 520px !important;
+  }
+  .lg\:scale-110 {
+    transform: scale(1.1) !important;
+  }
+  .lg\:pr-28 {
+    padding-right: 7rem !important;
+  }
+  .lg\:px-8 {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  .first\:lg\:pl-0:first-child {
+    padding-left: 0 !important;
+  }
+  .last\:lg\:pr-0:last-child {
+    padding-right: 0 !important;
+  }
+  .lg\:divide-x > :not([hidden]) ~ :not([hidden]) {
+    border-left-width: 1px !important;
+    border-left-style: solid !important;
+  }
+  .lg\:divide-neutral-800 > :not([hidden]) ~ :not([hidden]) {
+    border-left-color: #262626 !important;
   }
 }
 

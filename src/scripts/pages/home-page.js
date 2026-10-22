@@ -18,62 +18,67 @@ export function renderHomePage(appInstance) {
   return `
     <div class="tamyiz-page-home">
       <!-- 1. HIGH-IMPACT EDITORIAL HERO SECTION -->
-      <section class="tamyiz-hero-section py-6 sm:py-12" id="hero">
-        <div class="tamyiz-hero-container">
-          <div class="tamyiz-hero-editorial-stack">
-            <div class="tamyiz-hero-badge-pill">
-              <span class="tamyiz-hero-badge-dot"></span>
-              <span>EDITION 01 • DIGITAL PUBLICATIONS &amp; TEMPLATES</span>
-            </div>
-
-            <h1 class="tamyiz-hero-giant-title">
-              TAMYIZ
-            </h1>
-
-            <p class="tamyiz-hero-subheadline">
-              Authoritative e-books, Notion operating systems, and architectural design templates. Crafted in Sopore, Kashmir.
-            </p>
-
-            <div class="tamyiz-hero-actions">
-              <button class="tamyiz-hero-btn-primary" onclick="window.tamyizApp.navigateTo('/editions')">
-                <span>EXPLORE EDITIONS</span>
-                <span>↓</span>
-              </button>
-              <span class="tamyiz-hero-spec-tag">INSTANT DIGITAL ACCESS • PDF, EPUB &amp; NOTION SYSTEMS</span>
-            </div>
-          </div>
-
-          <!-- Unbounded Horizon Installation -->
-          <div class="tamyiz-hero-sculpture-wrap mx-auto" id="hero-3d-wrap">
-            <div class="tamyiz-hero-horizon-assembly mx-auto">
-              <div class="tamyiz-hero-dome-cropper mx-auto">
-                <picture class="w-full flex items-start justify-center">
-                  <source srcset="/assets/images/tamyiz-globe-horizon.png" type="image/png" />
-                  <img
-                    src="/assets/images/tamyiz-globe-horizon.png"
-                    alt="TAMYIZ Horizon Emblem"
-                    class="tamyiz-hero-logo-img mx-auto"
-                    loading="eager"
-                    fetchpriority="high"
-                  />
-                </picture>
+      <section class="tamyiz-hero-section" id="hero">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 py-12 lg:py-20 min-h-[calc(100vh-210px)] flex items-center w-full">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center w-full">
+            <!-- Left Column: Typography & CTA Rhythm -->
+            <div class="lg:col-span-7 flex flex-col items-start text-left tamyiz-hero-editorial-stack">
+              <div class="tamyiz-hero-badge-pill mb-6">
+                <span class="tamyiz-hero-badge-dot"></span>
+                <span>EDITION 01 • DIGITAL PUBLICATIONS &amp; TEMPLATES</span>
               </div>
 
-              <!-- Subtle 1px full-width Horizon Line -->
-              <div class="tamyiz-horizon-line mx-auto"></div>
+              <h1 class="tamyiz-hero-giant-title text-6xl sm:text-7xl lg:text-[88px] font-black tracking-tight leading-[0.95] mb-6">
+                TAMYIZ
+              </h1>
 
-              <!-- Live Horizon Sparks Engine Canvas -->
-              <canvas id="tamyiz-logo-sparks-canvas" class="tamyiz-hero-sparks-canvas" aria-hidden="true"></canvas>
+              <p class="tamyiz-hero-subheadline text-lg sm:text-xl lg:text-[21px] leading-[1.55] max-w-[540px] mb-8">
+                Authoritative e-books, Notion operating systems, and architectural design templates. Crafted in Sopore, Kashmir.
+              </p>
+
+              <div class="tamyiz-hero-actions flex flex-col items-start">
+                <button class="tamyiz-hero-btn-primary mb-5" onclick="window.tamyizApp.navigateTo('/editions')">
+                  <span>EXPLORE EDITIONS</span>
+                  <span>↓</span>
+                </button>
+                <span class="tamyiz-hero-spec-tag text-[11px] tracking-[0.16em] uppercase">INSTANT DIGITAL ACCESS • PDF, EPUB &amp; NOTION SYSTEMS</span>
+              </div>
+            </div>
+
+            <!-- Right Column: Horizon Emblem Artwork -->
+            <div class="lg:col-span-5 flex justify-center lg:justify-end items-center w-full" id="hero-3d-wrap">
+              <div class="tamyiz-hero-sculpture-wrap flex items-center justify-center relative w-full">
+                <div class="tamyiz-hero-horizon-assembly relative flex flex-col items-center justify-center w-full">
+                  <div class="tamyiz-hero-dome-cropper flex items-center justify-center w-full">
+                    <picture class="w-full flex items-center justify-center">
+                      <source srcset="/assets/images/tamyiz-globe-horizon.png" type="image/png" />
+                      <img
+                        src="/assets/images/tamyiz-globe-horizon.png"
+                        alt="TAMYIZ Horizon Emblem"
+                        class="tamyiz-hero-logo-img w-full max-w-[460px] lg:max-w-[520px] scale-105 lg:scale-110 object-contain mix-blend-multiply"
+                        loading="eager"
+                        fetchpriority="high"
+                      />
+                    </picture>
+                  </div>
+
+                  <!-- Subtle 1px full-width Horizon Line -->
+                  <div class="tamyiz-horizon-line mx-auto"></div>
+
+                  <!-- Live Horizon Sparks Engine Canvas -->
+                  <canvas id="tamyiz-logo-sparks-canvas" class="tamyiz-hero-sparks-canvas" aria-hidden="true"></canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- 2. BRAND PROMISE / VALUE STRIP -->
-      <div class="tamyiz-promise-strip py-6 md:py-8 px-6">
-        <div class="container mx-auto px-6">
-          <div class="tamyiz-promise-grid">
-            <div class="tamyiz-promise-item">
+      <div class="tamyiz-promise-strip w-full">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 py-8 pr-20 lg:pr-28">
+          <div class="tamyiz-promise-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-neutral-800 gap-8 lg:gap-0 items-start w-full">
+            <div class="tamyiz-promise-item lg:px-8 first:lg:pl-0 last:lg:pr-0">
               <span class="tamyiz-promise-icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
@@ -84,7 +89,7 @@ export function renderHomePage(appInstance) {
                 <p>Unlocked immediately on-screen &amp; dispatched to email/WhatsApp</p>
               </div>
             </div>
-            <div class="tamyiz-promise-item">
+            <div class="tamyiz-promise-item lg:px-8 first:lg:pl-0 last:lg:pr-0">
               <span class="tamyiz-promise-icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M2 22h20"></path>
@@ -99,7 +104,7 @@ export function renderHomePage(appInstance) {
                 <p>Swiss typographic layouts, 300DPI plates &amp; Notion formulas</p>
               </div>
             </div>
-            <div class="tamyiz-promise-item">
+            <div class="tamyiz-promise-item lg:px-8 first:lg:pl-0 last:lg:pr-0">
               <span class="tamyiz-promise-icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M18.178 8c5.096 0 5.096 8 0 8-2.67 0-4.67-2.67-6.178-5.333C10.5 8 8.5 8 5.822 8c-5.096 0-5.096 8 0 8 2.67 0 4.67-2.67 6.178-5.333C13.5 16 15.5 16 18.178 16z"></path>
@@ -110,7 +115,7 @@ export function renderHomePage(appInstance) {
                 <p>All future revisions and upgraded templates included free</p>
               </div>
             </div>
-            <div class="tamyiz-promise-item">
+            <div class="tamyiz-promise-item lg:px-8 first:lg:pl-0 last:lg:pr-0">
               <span class="tamyiz-promise-icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
