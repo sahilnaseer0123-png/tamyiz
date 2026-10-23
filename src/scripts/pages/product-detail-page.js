@@ -31,7 +31,7 @@ export function renderProductDetailPage(slug, appInstance) {
   const related = getRelatedProducts(product.id, 3);
   const activeImgIndex = appInstance.activePdpImageIndex || 0;
   const currentImg = product.images[activeImgIndex] || product.images[0];
-  const hasSample = Boolean(product.sampleExcerpt || product.tableOfContents);
+  const hasSample = Boolean(product.sampleExcerpt || (product.tableOfContents && product.tableOfContents.length));
 
   return `
     <div class="tamyiz-page-pdp">
@@ -94,8 +94,8 @@ export function renderProductDetailPage(slug, appInstance) {
                 <div class="tamyiz-pdp-sample-box mt-8">
                   <div class="tamyiz-pdp-sample-head">
                     <div>
-                      <span class="tamyiz-sample-kicker">Interactive Atelier Preview</span>
-                      <h3 class="tamyiz-sample-title">Read Sample Chapter &amp; Excerpt</h3>
+                      <span class="tamyiz-sample-kicker">${product.sampleExcerpt ? 'Interactive Atelier Preview' : 'Inside the book'}</span>
+                      <h3 class="tamyiz-sample-title">${product.sampleExcerpt ? 'Read Sample Chapter &amp; Excerpt' : 'Chapters'}</h3>
                     </div>
                     <button class="tamyiz-sample-toggle-btn" id="sample-toggle-btn" onclick="window.tamyizApp.toggleSampleViewer()">
                       <span id="sample-toggle-text">Expand Preview</span>

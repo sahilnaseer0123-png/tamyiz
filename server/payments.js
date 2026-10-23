@@ -1,3 +1,5 @@
+import { loadCatalog, findById } from './catalog.js';
+
 /**
  * TAMYIZ™ payments: prices, coupons, Razorpay orders and verification, download links, receipt email.
  *
@@ -10,78 +12,10 @@
  *   the payment belongs to that order and is authorized/captured for the full amount.
  * - What gets unlocked comes from the Razorpay order (written there at creation), never from the browser.
  * - The sandbox simulator (no real payment) only runs when TAMYIZ_SANDBOX is "true". Never set it in production.
- * - Only released products can be ordered: RELEASED_PRODUCTS lists their ids (comma-separated) or "all".
- *   Unset means nothing is for sale yet ("coming soon"); keep it in step with `available` in src/data/products.js.
+ * - Prices and what can be bought come from the catalogue in KV (server/catalog.js), managed on /admin.
+ *   Only ebooks with status "on-sale" can be ordered.
+ * - Downloads are signed links (/api/download/...), valid for a year, given only after verification.
  */
-
-// Authoritative Server-Side Product Catalog & Variant Pricing Map
-// Prevents client-side price tampering
-export const CATALOG_PRICES = {
-  "tmz-dig-001": {
-    name: "TAMYIZ Monograph 01: The Architecture of Distinction",
-    variants: {
-      "PDF + EPUB Bundle": { price: 499 },
-      "Kindle EPUB": { price: 399 }
-    },
-    defaultVariant: "PDF + EPUB Bundle"
-  },
-  "tmz-dig-002": {
-    name: "The Solo Creator & Digital Craft Playbook",
-    variants: {
-      "PDF + Checklists": { price: 699 },
-      "EPUB": { price: 499 }
-    },
-    defaultVariant: "PDF + Checklists"
-  },
-  "tmz-dig-003": {
-    name: "Ethical Technology & Deep Research: The Student's Compendium",
-    variants: {
-      "PDF + EPUB": { price: 449 },
-      "Annotated Edition": { price: 599 }
-    },
-    defaultVariant: "PDF + EPUB"
-  },
-  "tmz-dig-004": {
-    name: "Zero-to-One Digital Product Launch Blueprint",
-    variants: {
-      "PDF + Checklists": { price: 549 },
-      "EPUB": { price: 449 }
-    },
-    defaultVariant: "PDF + Checklists"
-  },
-  "tmz-dig-005": {
-    name: "TAMYIZ Second Brain & Deep Work Notion OS",
-    variants: {
-      "Notion Duplicate Link + Guide": { price: 799 },
-      "Team License": { price: 1499 }
-    },
-    defaultVariant: "Notion Duplicate Link + Guide"
-  },
-  "tmz-dig-006": {
-    name: "Freelance Atelier & Client Portal Notion Workspace",
-    variants: {
-      "Notion Template + Invoice Kit": { price: 899 },
-      "Studio Multi-Client Pack": { price: 1599 }
-    },
-    defaultVariant: "Notion Template + Invoice Kit"
-  },
-  "tmz-dig-007": {
-    name: "Academic Research & Literature Tracker Notion Matrix",
-    variants: {
-      "Notion Template + Zotero Guide": { price: 399 },
-      "Student Edition": { price: 299 }
-    },
-    defaultVariant: "Notion Template + Zotero Guide"
-  },
-  "tmz-dig-008": {
-    name: "TAMYIZ Swiss Grid & Luxury Portfolio UI Kit 2026",
-    variants: {
-      "Figma + Tailwind Code": { price: 999 },
-      "Figma Only": { price: 699 }
-    },
-    defaultVariant: "Figma + Tailwind Code"
-  }
-};
 
 // Verified Coupon Codes
 export const VALID_COUPONS = {
@@ -95,33 +29,26 @@ export const VALID_COUPONS = {
 /**
  * Validates cart items and computes strict server-side price in INR & paise
  */
-export function calculateOrderTotal(items, couponCode = null) {
+export function calculateOrderTotal(items, couponCode = null, catalog = []) {
   if (!Array.isArray(items) || items.length === 0) {
     throw new Error("Cart contains no valid items");
   }
 
   let subtotal = 0;
   const validatedItems = [];
+  const seen = new Set();
 
   for (const item of items) {
-    const prodId = item.productId || item.id;
-    const catProd = CATALOG_PRICES[prodId];
+    const prodId = String(item.productId || item.id || '');
+    if (seen.has(prodId)) continue; // one copy of an ebook is enough
+    seen.add(prodId);
+    const catProd = findById(catalog, prodId);
     if (!catProd) {
-      throw new Error(`Invalid catalog product: ${prodId}`);
+      throw new Error('One of the items in your bag is no longer available. Please remove it and try again.');
     }
-
-    const selectedVariant = item.variant || item.size || catProd.defaultVariant;
-    const variantData = catProd.variants[selectedVariant] || Object.values(catProd.variants)[0];
-
-    const price = variantData.price;
+    const price = catProd.price;
     subtotal += price;
-
-    validatedItems.push({
-      productId: prodId,
-      name: catProd.name,
-      variant: selectedVariant,
-      price: price
-    });
+    validatedItems.push({ productId: prodId, name: catProd.name, variant: 'PDF', price, status: catProd.status });
   }
 
   // Calculate discount if coupon provided
@@ -149,178 +76,52 @@ export function calculateOrderTotal(items, couponCode = null) {
   };
 }
 
-/**
- * Resolves purchased item to downloadable asset / Notion duplication link
- */
-export function resolveDownloadLink(productId, variant, env = {}) {
-  const normVar = String(variant || '').toLowerCase();
+/** Secret used to sign download links. Sandbox-only fallback so local testing works without keys. */
+function downloadSecret(env) {
+  if (env.DOWNLOAD_SECRET) return String(env.DOWNLOAD_SECRET);
+  if (env.RAZORPAY_KEY_SECRET) return String(env.RAZORPAY_KEY_SECRET);
+  if (sandboxEnabled(env)) return 'tamyiz-sandbox-only';
+  return null;
+}
 
-  switch (productId) {
-    case 'tmz-dig-001':
-      if (normVar.includes('kindle')) {
-        return {
-          productId,
-          name: "TAMYIZ Monograph 01: The Architecture of Distinction",
-          variant: "Kindle EPUB",
-          formatType: "ebook",
-          downloadUrl: env.URL_MONOGRAPH_EPUB || "https://assets.tamyiz.in/downloads/tamyiz-monograph-01-kindle.epub",
-          actionLabel: "Download Kindle EPUB ↗",
-          specs: "Kindle KFX/EPUB 3 • Reflowable • DRM-Free"
-        };
-      }
-      return {
-        productId,
-        name: "TAMYIZ Monograph 01: The Architecture of Distinction",
-        variant: "PDF + EPUB Bundle",
-        formatType: "ebook",
-        downloadUrl: env.URL_MONOGRAPH_BUNDLE || "https://assets.tamyiz.in/downloads/tamyiz-monograph-01-bundle.zip",
-        actionLabel: "Download PDF + EPUB Bundle (ZIP) ↗",
-        specs: "140 Pages • 300DPI Retina Vector PDF + EPUB • DRM-Free"
-      };
+const DOWNLOAD_DAYS = 365;
 
-    case 'tmz-dig-002':
-      if (normVar.includes('epub')) {
-        return {
-          productId,
-          name: "The Solo Creator & Digital Craft Playbook",
-          variant: "EPUB Edition",
-          formatType: "ebook",
-          downloadUrl: env.URL_PLAYBOOK_EPUB || "https://assets.tamyiz.in/downloads/solo-creator-playbook.epub",
-          actionLabel: "Download EPUB Edition ↗",
-          specs: "88 Pages • Mobile & Tablet Optimized EPUB"
-        };
-      }
-      return {
-        productId,
-        name: "The Solo Creator & Digital Craft Playbook",
-        variant: "PDF + Checklists Bundle",
-        formatType: "ebook",
-        downloadUrl: env.URL_PLAYBOOK_PDF || "https://assets.tamyiz.in/downloads/solo-creator-playbook-worksheets.zip",
-        actionLabel: "Download PDF + Interactive Checklists (ZIP) ↗",
-        specs: "Tactical PDF Guide + 12 Interactive Creator Worksheets"
-      };
+/** A private download link for one paid ebook: /api/download/<id>?p=<payment>&e=<expiry>&s=<signature>. */
+export async function signDownload(env, productId, paymentId, now = Date.now()) {
+  const secret = downloadSecret(env);
+  if (!secret) throw new Error('Downloads are not set up (no signing secret).');
+  const exp = Math.floor(now / 1000) + DOWNLOAD_DAYS * 86400;
+  const sig = await hmacSha256Hex(secret, `dl|${productId}|${paymentId}|${exp}`);
+  return `/api/download/${encodeURIComponent(productId)}?p=${encodeURIComponent(paymentId)}&e=${exp}&s=${sig}`;
+}
 
-    case 'tmz-dig-003':
-      if (normVar.includes('annotated')) {
-        return {
-          productId,
-          name: "Ethical Technology & Deep Research: The Student's Compendium",
-          variant: "Annotated Edition",
-          formatType: "ebook",
-          downloadUrl: env.URL_COMPENDIUM_ANNOTATED || "https://assets.tamyiz.in/downloads/ethical-tech-annotated.pdf",
-          actionLabel: "Download Annotated Research PDF ↗",
-          specs: "110 Pages • Classical Citations & Epistemology Notes"
-        };
-      }
-      return {
-        productId,
-        name: "Ethical Technology & Deep Research: The Student's Compendium",
-        variant: "PDF + EPUB Bundle",
-        formatType: "ebook",
-        downloadUrl: env.URL_COMPENDIUM_BUNDLE || "https://assets.tamyiz.in/downloads/ethical-tech-compendium-bundle.zip",
-        actionLabel: "Download PDF + EPUB Bundle ↗",
-        specs: "Vector PDF + Reflowable EPUB 3 Edition"
-      };
+export async function checkDownload(env, productId, paymentId, exp, sig) {
+  const secret = downloadSecret(env);
+  if (!secret || !paymentId || !exp || !sig) return false;
+  if (Number(exp) < Math.floor(Date.now() / 1000)) return false;
+  const expected = await hmacSha256Hex(secret, `dl|${productId}|${paymentId}|${exp}`);
+  return timingSafeEqual(expected, sig);
+}
 
-    case 'tmz-dig-004':
-      if (normVar.includes('epub')) {
-        return {
-          productId,
-          name: "Zero-to-One Digital Product Launch Blueprint",
-          variant: "EPUB Edition",
-          formatType: "ebook",
-          downloadUrl: env.URL_BLUEPRINT_EPUB || "https://assets.tamyiz.in/downloads/zero-to-one-blueprint.epub",
-          actionLabel: "Download EPUB Edition ↗",
-          specs: "94 Pages • Kindle & Smartphone Reflowable"
-        };
-      }
-      return {
-        productId,
-        name: "Zero-to-One Digital Product Launch Blueprint",
-        variant: "PDF + Launch Checklists",
-        formatType: "ebook",
-        downloadUrl: env.URL_BLUEPRINT_PDF || "https://assets.tamyiz.in/downloads/zero-to-one-blueprint-bundle.zip",
-        actionLabel: "Download Blueprint PDF + Checklists (ZIP) ↗",
-        specs: "94 Pages • 12 Launch Day Tactical Spreadsheets Included"
-      };
-
-    case 'tmz-dig-005':
-      return {
-        productId,
-        name: "TAMYIZ Second Brain & Deep Work Notion OS",
-        variant: variant || "Notion Duplicate Link + Guide",
-        formatType: "notion",
-        downloadUrl: env.URL_NOTION_SECONDBRAIN || "https://tamyiz.notion.site/TAMYIZ-Second-Brain-Deep-Work-OS-2026-duplicate-v1",
-        actionLabel: "Duplicate Notion Workspace (1-Click) ↗",
-        specs: "PARA Framework • Daily Focus Cockpit • Free & Plus Notion Compatible"
-      };
-
-    case 'tmz-dig-006':
-      return {
-        productId,
-        name: "Freelance Atelier & Client Portal Notion Workspace",
-        variant: variant || "Notion Template + Invoice Kit",
-        formatType: "notion",
-        downloadUrl: env.URL_NOTION_CLIENTPORTAL || "https://tamyiz.notion.site/TAMYIZ-Freelance-Atelier-Client-Portal-duplicate-v1",
-        actionLabel: "Duplicate Client Portal Notion System ↗",
-        specs: "Interactive Milestone Kanban • Proposal Decks • Tax Invoice Calculator"
-      };
-
-    case 'tmz-dig-007':
-      if (normVar.includes('student')) {
-        return {
-          productId,
-          name: "Academic Research & Literature Tracker Notion Matrix",
-          variant: "Student Edition",
-          formatType: "notion",
-          downloadUrl: env.URL_NOTION_STUDENT || "https://tamyiz.notion.site/TAMYIZ-Academic-Research-Student-duplicate-v1",
-          actionLabel: "Duplicate Student Notion Matrix ↗",
-          specs: "Thesis Drafting Outliner • Citation Tags • Student License"
-        };
-      }
-      return {
-        productId,
-        name: "Academic Research & Literature Tracker Notion Matrix",
-        variant: "Notion Template + Zotero Guide",
-        formatType: "notion",
-        downloadUrl: env.URL_NOTION_MATRIX || "https://tamyiz.notion.site/TAMYIZ-Academic-Research-Literature-Matrix-duplicate-v1",
-        actionLabel: "Duplicate Full Research Notion Matrix ↗",
-        specs: "Literature Review Matrix • Zotero Sync Documentation Guide"
-      };
-
-    case 'tmz-dig-008':
-      if (normVar.includes('figma only')) {
-        return {
-          productId,
-          name: "TAMYIZ Swiss Grid & Luxury Portfolio UI Kit 2026",
-          variant: "Figma Only",
-          formatType: "figma",
-          downloadUrl: env.URL_FIGMA_UI_KIT || "https://www.figma.com/community/file/13298492026/tamyiz-swiss-grid-design-system",
-          actionLabel: "Open Figma Community Design File ↗",
-          specs: "50+ Swiss Grid Components • Syne & Inter Typography Pairing Tokens"
-        };
-      }
-      return {
-        productId,
-        name: "TAMYIZ Swiss Grid & Luxury Portfolio UI Kit 2026",
-        variant: "Figma + Tailwind Code",
-        formatType: "figma",
-        downloadUrl: env.URL_FIGMA_UI_KIT_CODE || "https://github.com/tamyiz/swiss-grid-ui-kit-tailwind",
-        actionLabel: "Access Figma File + Tailwind Codebase ↗",
-        specs: "Figma File (.fig) + Clean Tailwind / CSS Production Components"
-      };
-
-    default:
-      return {
-        productId,
-        name: "TAMYIZ Digital Edition",
-        variant: variant || "Standard",
-        formatType: "download",
-        downloadUrl: "https://assets.tamyiz.in/downloads/tamyiz-archive-dispatch.zip",
-        actionLabel: "Download Digital Archive ↗",
-        specs: "DRM-Free Single-Operator License"
-      };
-  }
+/** GET /api/download/<id>: streams the PDF to someone holding a valid signed link. */
+export async function handleDownload(request, env, productId) {
+  const u = new URL(request.url);
+  const ok = await checkDownload(env, productId, u.searchParams.get('p'), u.searchParams.get('e'), u.searchParams.get('s'));
+  if (!ok) return json({ error: 'This download link is not valid or has expired. Message us on WhatsApp with your order reference.' }, 403);
+  if (!env.TAMYIZ_STORE) return json({ error: 'Storage is not connected.' }, 503);
+  const product = findById(await loadCatalog(env), productId);
+  const { value, metadata } = await env.TAMYIZ_STORE.getWithMetadata(`file:${productId}`, 'stream');
+  if (!value) return json({ error: 'The file is missing. Message us on WhatsApp and we will send it.' }, 404);
+  const filename = `${(product && product.slug) || productId}.pdf`;
+  return new Response(value, {
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Cache-Control': 'private, no-store',
+      'X-Content-Type-Options': 'nosniff',
+      ...(metadata && metadata.size ? { 'Content-Length': String(metadata.size) } : {}),
+    },
+  });
 }
 
 /**
@@ -436,12 +237,9 @@ export function json(data, status = 200) {
 
 const NOT_RELEASED = 'This edition is not out yet. Message us on WhatsApp (+91 95417 22379) to pre-order and we will tell you the day it is ready.';
 
-/** Products from this list that are not for sale yet (RELEASED_PRODUCTS: "all", or ids separated by commas). */
-export function unreleased(items, env = {}) {
-  const setting = String(env.RELEASED_PRODUCTS || '').trim();
-  if (setting === 'all') return [];
-  const released = new Set(setting.split(',').map((s) => s.trim()).filter(Boolean));
-  return [...new Set(items.map((i) => i.productId).filter((id) => !released.has(id)))];
+/** Ids of ordered items that are not on sale. */
+export function notOnSale(items) {
+  return [...new Set(items.filter((i) => i.status !== 'on-sale').map((i) => i.productId))];
 }
 
 export function hasRazorpayKeys(env) {
@@ -520,11 +318,12 @@ export async function handleCreateOrder(request, env, fetchImpl = fetch) {
   const contact = cleanContact(email, phone);
   if (contact.error) return json({ error: contact.error }, 400);
 
+  const catalog = await loadCatalog(env);
   let order;
-  try { order = calculateOrderTotal(items, coupon || couponCode); }
+  try { order = calculateOrderTotal(items, coupon || couponCode, catalog); }
   catch (err) { return json({ error: err.message }, 400); }
 
-  const notYet = unreleased(order.items, env);
+  const notYet = notOnSale(order.items);
   if (notYet.length) return json({ error: NOT_RELEASED, productIds: notYet }, 409);
 
   if (hasRazorpayKeys(env)) {
@@ -620,7 +419,6 @@ export async function handleVerifyPayment(request, env, fetchImpl = fetch) {
     mode = 'atelier_sandbox';
     paidItems = Array.isArray(body.items) ? body.items.map((i) => ({ productId: i.productId || i.id, variant: i.variant || i.size })) : [];
     if (paidItems.length === 0) return json({ error: 'Missing items for digital fulfillment' }, 400);
-    if (unreleased(paidItems, env).length) return json({ error: NOT_RELEASED }, 409);
   } else {
     return json({ error: PAYMENTS_OFF }, 503);
   }
@@ -633,11 +431,27 @@ export async function handleVerifyPayment(request, env, fetchImpl = fetch) {
   const referenceId = 'TAMYIZ-ORD-' + Date.now().toString(36).toUpperCase() + [...refBytes].map((b) => b.toString(36)).join('').toUpperCase().slice(0, 6);
   const paymentId = razorpay_payment_id || `pay_sandbox_${Date.now()}`;
   const orderId = razorpay_order_id || `order_sandbox_${Date.now()}`;
-  // Prices for the receipt screen, from the server catalog. Total = what Razorpay charged (or the sandbox total).
-  const priced = calculateOrderTotal(paidItems);
+  // Prices for the receipt screen, from the catalogue. Total = what Razorpay charged (or the sandbox total).
+  const catalog = await loadCatalog(env);
+  let priced;
+  try { priced = calculateOrderTotal(paidItems, null, catalog); }
+  catch { return json({ error: 'Your payment went through, but an item could not be found. Message us on WhatsApp with this payment ID: ' + paymentId }, 409); }
+  // Sandbox (no real money) may only unlock ebooks that are on sale. A real, verified Razorpay payment is
+  // always delivered, even if the ebook was switched off after the order was placed.
+  if (mode === 'atelier_sandbox' && notOnSale(priced.items).length) return json({ error: NOT_RELEASED }, 409);
   const amountPaise = mode === 'razorpay' ? Number(paidOrderAmount) : priced.amountPaise;
   const totalINR = Math.round(amountPaise / 100);
-  const downloads = paidItems.map((i, n) => ({ ...resolveDownloadLink(i.productId, i.variant, env), price: priced.items[n].price }));
+  const origin = new URL(request.url).origin;
+  const downloads = await Promise.all(priced.items.map(async (i) => ({
+    productId: i.productId,
+    name: i.name,
+    variant: 'PDF',
+    formatType: 'ebook',
+    downloadUrl: origin + (await signDownload(env, i.productId, paymentId)),
+    actionLabel: 'Download PDF ↗',
+    specs: 'PDF e-book • DRM-free',
+    price: i.price,
+  })));
 
   if (cleanEmail.includes('@')) {
     await sendReceiptEmail({ email: cleanEmail, phone: cleanPhone, orderId, referenceId, items: paidItems, downloads }, env)

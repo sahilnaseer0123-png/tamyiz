@@ -1,4 +1,5 @@
-// Runs after `vite build`. Writes one HTML file per page (same app, page-specific <head>), a 404 page and the sitemap.
+// Runs after `vite build`. Writes one HTML file per fixed page (same app, page-specific <head>) and a 404 page.
+// Ebook pages (/edition/<slug>) are made live on Cloudflare by functions/edition/[slug].js.
 // Cloudflare Pages serves dist/editions.html at /editions and dist/404.html (status 404) for any unknown address.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -9,7 +10,8 @@ const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const SEO_BLOCK = /<!-- seo:[\s\S]*?<!-- \/seo -->/;
 if (!SEO_BLOCK.test(template)) throw new Error('index.html is missing the <!-- seo --> ... <!-- /seo --> block');
 
-const render = (meta) => template.replace(SEO_BLOCK, headTags(meta).trimStart());
+// The markers stay in the output: functions/edition/[slug].js swaps them for a product's tags on Cloudflare.
+const render = (meta) => template.replace(SEO_BLOCK, `<!-- seo: per page -->\n${headTags(meta)}\n  <!-- /seo -->`);
 const fileFor = (urlPath) => (urlPath === '/' ? 'index.html' : urlPath.slice(1) + '.html');
 
 const written = [];
@@ -24,12 +26,5 @@ for (const { page, slug } of allPages()) {
 fs.writeFileSync(path.join(dist, 'legal.html'), render(pageMeta('legal', 'delivery-protocol')));
 fs.writeFileSync(path.join(dist, '404.html'), render(pageMeta('notfound')));
 
-const urls = written
-  .filter((m) => !m.noindex)
-  .map((m) => `  <url><loc>${SITE_URL}${m.path}</loc></url>`)
-  .join('\n');
-fs.writeFileSync(
-  path.join(dist, 'sitemap.xml'),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
-);
-console.log(`build-pages: ${written.length} pages + legal.html + 404.html + sitemap.xml`);
+// sitemap.xml is made live by functions/sitemap.xml.js (it includes the ebooks added on /admin).
+console.log(`build-pages: ${written.length} pages + legal.html + 404.html`);

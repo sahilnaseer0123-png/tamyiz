@@ -6098,3 +6098,6 @@ img {
 
 /* "Coming soon" tag on product pages (same pill, neutral colours). */
 .tamyiz-tag-soon { background: #F1F1EF; color: #3A3A3A; }
+
+/* The card's second button is a link to the product page. */
+a.tamyiz-btn-preview-trigger { display: flex; align-items: center; justify-content: center; text-decoration: none; }

@@ -1,0 +1,19 @@
+// /edition/<slug> on Cloudflare: the app page with that ebook's title, description and cover as the share preview.
+// Ebooks live in KV (added on /admin), so these pages can't be prebuilt.
+import { loadCatalog, findBySlug, publicProduct } from '../../server/catalog.js';
+import { headTags, productMeta } from '../../src/data/seo.js';
+
+const SEO_BLOCK = /<!-- seo:[\s\S]*?<!-- \/seo -->/;
+const HTML = { 'Content-Type': 'text/html; charset=utf-8' };
+
+export async function onRequestGet({ request, env, params }) {
+  const rec = findBySlug(await loadCatalog(env), params.slug);
+  if (!rec || rec.status === 'draft') {
+    // Any unknown address returns the site's 404 page.
+    const nf = await env.ASSETS.fetch(new URL('/__not-found__', request.url));
+    return new Response(await nf.text(), { status: 404, headers: HTML });
+  }
+  const shell = await (await env.ASSETS.fetch(new URL('/', request.url))).text();
+  const html = shell.replace(SEO_BLOCK, `<!-- seo: per page -->\n${headTags(productMeta(publicProduct(rec)))}\n  <!-- /seo -->`);
+  return new Response(html, { headers: { ...HTML, 'Cache-Control': 'public, max-age=60' } });
+}

@@ -5,6 +5,7 @@
 
 import { products } from '../../data/products.js';
 import { renderProductCardHtml } from './home-page.js';
+import { siteConfig } from '../../data/site-config.js';
 
 export function renderEditionsPage(appInstance) {
   const filteredList = appInstance.getFilteredAndSortedProducts();
@@ -31,21 +32,8 @@ export function renderEditionsPage(appInstance) {
       <!-- CATALOG CONTROLS & PRODUCT GRID -->
       <section id="editions-catalog" class="tamyiz-section py-10 md:py-16 scroll-mt-24" style="background: var(--color-offwhite);">
         <div class="container">
-          <!-- Category Filter Tabs -->
-          <div class="tamyiz-filter-pills flex overflow-x-auto whitespace-nowrap gap-2.5 pt-8 pb-3 -mx-4 px-4 no-scrollbar sm:flex-wrap sm:mx-0 sm:px-0">
-            <button class="tamyiz-filter-pill ${appInstance.activeCategory === 'all' ? 'active' : ''}" onclick="window.tamyizApp.filterCategory('all', this)">
-              All Digital Editions (8)
-            </button>
-            <button class="tamyiz-filter-pill ${appInstance.activeCategory === 'ebooks' ? 'active' : ''}" onclick="window.tamyizApp.filterCategory('ebooks', this)">
-              E-Books &amp; Monographs
-            </button>
-            <button class="tamyiz-filter-pill ${appInstance.activeCategory === 'notion' ? 'active' : ''}" onclick="window.tamyizApp.filterCategory('notion', this)">
-              Notion &amp; Productivity Templates
-            </button>
-            <button class="tamyiz-filter-pill ${appInstance.activeCategory === 'design' ? 'active' : ''}" onclick="window.tamyizApp.filterCategory('design', this)">
-              UI/UX &amp; Design Systems
-            </button>
-          </div>
+          <!-- Every product is an e-book for now, so no category tabs. -->
+          <div style="height: 1.5rem;"></div>
 
           <!-- Live Search & Sorting Toolbar -->
           <div class="tamyiz-collection-toolbar flex flex-col sm:flex-row gap-3 w-full">
@@ -91,7 +79,19 @@ export function renderEditionsPage(appInstance) {
           <!-- Product Grid (Rule 4: Equal-Height Cards) -->
           <h2 class="sr-only">All editions</h2>
           <div class="tamyiz-product-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-8" id="product-grid">
-            ${filteredList.length === 0 ? `
+            ${products.length === 0 ? `
+              <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem; background: #FFFFFF; border: 1px dashed var(--color-border); border-radius: 6px;">
+                <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">
+                  First e-books on the way
+                </div>
+                <p style="color: var(--color-grey); font-size: 0.95rem; margin: 0 auto 1.5rem; max-width: 30rem;">
+                  We are writing them now. Message us on WhatsApp and we will tell you the day the first one is out.
+                </p>
+                <a class="tamyiz-btn-nav-outline" href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-flex;">
+                  Tell me when it's out ↗
+                </a>
+              </div>
+            ` : filteredList.length === 0 ? `
               <div style="grid-column: 1 / -1; text-align: center; padding: 4.5rem 1.5rem; background: #FFFFFF; border: 1px dashed var(--color-border); border-radius: 6px;">
                 <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">
                   No Editions Found

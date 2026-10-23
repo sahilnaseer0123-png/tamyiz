@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin | TAMYIZ™</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    :root {
+      --ink: #0B0B0B; --paper: #F4F4F2; --card: #FFFFFF; --line: #DCDCD8; --muted: #5F5F5A;
+      --red: #C41E15; --green: #1E7B2E; --amber: #8A5A00;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.5; }
+    header { background: var(--ink); color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; position: sticky; top: 0; z-index: 5; }
+    header b { letter-spacing: 3px; font-size: 18px; }
+    header small { color: #B5B5B0; display: block; letter-spacing: 1px; font-size: 12px; }
+    main { max-width: 860px; margin: 0 auto; padding: 20px 16px 80px; }
+    h1 { font-size: 24px; margin: 4px 0 16px; }
+    h2 { font-size: 19px; margin: 0 0 12px; }
+    .card { background: var(--card); border-radius: 14px; padding: 18px; margin-bottom: 14px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+    button, .btn { font: inherit; font-weight: 700; border-radius: 999px; padding: 12px 20px; min-height: 44px; border: 2px solid var(--ink); background: var(--ink); color: #fff; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    button.ghost, .btn.ghost { background: transparent; color: var(--ink); }
+    header button.ghost { color: #fff; border-color: #fff; padding: 8px 16px; min-height: 40px; }
+    button.danger { background: transparent; color: var(--red); border-color: var(--red); }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    label { display: block; font-weight: 700; margin: 16px 0 6px; }
+    label .hint, .hint { font-weight: 400; color: var(--muted); font-size: 14px; }
+    input[type=text], input[type=number], input[type=password], textarea { width: 100%; font: inherit; font-size: 16px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); }
+    input:focus, textarea:focus, button:focus-visible, .btn:focus-visible { outline: 3px solid #2563EB; outline-offset: 2px; }
+    textarea { min-height: 120px; resize: vertical; }
+    input[type=file] { font: inherit; width: 100%; padding: 10px; border: 1.5px dashed var(--line); border-radius: 10px; background: #FAFAF8; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+    @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+    fieldset { border: 0; padding: 0; margin: 16px 0 0; }
+    legend { font-weight: 700; margin-bottom: 6px; }
+    .choices { display: grid; gap: 8px; }
+    .choice { display: flex; gap: 10px; align-items: flex-start; border: 1.5px solid var(--line); border-radius: 10px; padding: 12px; margin: 0; font-weight: 400; cursor: pointer; }
+    .choice input { margin-top: 4px; width: 18px; height: 18px; }
+    .choice b { display: block; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .msg { border-radius: 10px; padding: 12px 14px; margin: 12px 0; font-weight: 600; }
+    .msg.error { background: #FDECEA; color: #8B1A12; }
+    .msg.ok { background: #E7F4EA; color: #14532D; }
+    .msg.warn { background: #FFF4DB; color: #6B4500; }
+    .list { display: grid; gap: 12px; }
+    .item { display: grid; grid-template-columns: 72px 1fr; gap: 14px; align-items: start; }
+    .item img, .item .noimg { width: 72px; height: 96px; object-fit: cover; border-radius: 8px; background: #E9E9E5; display: block; }
+    .item h3 { font-size: 17px; margin: 0 0 4px; overflow-wrap: anywhere; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .chip { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 13px; font-weight: 700; margin-right: 6px; }
+    .chip.draft { background: #ECECE8; color: #3A3A36; }
+    .chip.soon { background: #FFF4DB; color: var(--amber); }
+    .chip.on-sale { background: #E7F4EA; color: var(--green); }
+    .item .actions { margin-top: 10px; }
+    .item .actions button, .item .actions .btn { padding: 8px 16px; min-height: 44px; font-size: 15px; }
+    .preview { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+    .preview img { width: 60px; height: 80px; object-fit: cover; border-radius: 6px; }
+    progress { width: 100%; height: 10px; margin-top: 12px; }
+    .empty { text-align: center; color: var(--muted); padding: 28px 10px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><b>TAMYIZ™</b><small>ADMIN</small></div>
+    <button type="button" class="ghost" id="logout" hidden>Log out</button>
+  </header>
+
+  <main>
+    <!-- Log in -->
+    <section id="login-view" class="card" hidden>
+      <h1>Log in</h1>
+      <form id="login-form">
+        <label for="password">Admin password</label>
+        <input type="password" id="password" autocomplete="current-password" required />
+        <div id="login-msg" role="alert"></div>
+        <div class="actions"><button type="submit">Log in</button></div>
+      </form>
+    </section>
+
+    <!-- Your ebooks -->
+    <section id="list-view" hidden>
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <h1>Your e-books</h1>
+        <button type="button" id="add">+ Add an e-book</button>
+      </div>
+      <div id="list-msg" role="status"></div>
+      <div id="list" class="list"></div>
+    </section>
+
+    <!-- Add / edit -->
+    <section id="form-view" class="card" hidden>
+      <h1 id="form-title">Add an e-book</h1>
+      <form id="book-form" novalidate>
+        <label for="f-name">Title *</label>
+        <input type="text" id="f-name" name="name" maxlength="140" required />
+
+        <label for="f-tagline">One-line summary <span class="hint">(shown under the title)</span></label>
+        <input type="text" id="f-tagline" name="tagline" maxlength="200" />
+
+        <div class="row">
+          <div>
+            <label for="f-price">Price in ₹ *</label>
+            <input type="number" id="f-price" name="price" min="1" max="100000" step="1" inputmode="numeric" required />
+          </div>
+          <div>
+            <label for="f-pages">Pages <span class="hint">(optional)</span></label>
+            <input type="number" id="f-pages" name="pages" min="1" max="5000" step="1" inputmode="numeric" />
+          </div>
+        </div>
+
+        <label for="f-description">Description <span class="hint">(what the reader gets)</span></label>
+        <textarea id="f-description" name="description" maxlength="5000"></textarea>
+
+        <label for="f-contents">Chapters <span class="hint">(one per line, optional)</span></label>
+        <textarea id="f-contents" name="contents" maxlength="4000" style="min-height:90px"></textarea>
+
+        <label for="f-cover">Cover image <span class="hint">(JPG, PNG or WebP; portrait looks best)</span></label>
+        <input type="file" id="f-cover" accept="image/jpeg,image/png,image/webp" />
+        <div class="preview" id="cover-preview" hidden><img alt="Cover preview" id="cover-img" /><span class="hint" id="cover-note"></span></div>
+
+        <label for="f-pdf">E-book PDF <span class="hint">(up to 25 MB)</span></label>
+        <input type="file" id="f-pdf" accept="application/pdf,.pdf" />
+        <div class="hint" id="pdf-note"></div>
+
+        <fieldset>
+          <legend>Status</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="status" value="draft" checked /><span><b>Draft</b><span class="hint">Only you can see it here.</span></span></label>
+            <label class="choice"><input type="radio" name="status" value="soon" /><span><b>Coming soon</b><span class="hint">In the shop with a "Pre-order on WhatsApp" button.</span></span></label>
+            <label class="choice"><input type="radio" name="status" value="on-sale" /><span><b>On sale</b><span class="hint">People can buy and download it. Needs the PDF.</span></span></label>
+          </div>
+        </fieldset>
+
+        <div id="form-msg" role="alert"></div>
+        <progress id="progress" max="100" value="0" hidden></progress>
+        <div class="actions">
+          <button type="submit" id="save">Save</button>
+          <button type="button" class="ghost" id="cancel">Cancel</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="/src/admin/admin.js"></script>
+</body>
+</html>

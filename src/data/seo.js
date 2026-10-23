@@ -8,23 +8,23 @@ export const SITE_URL = 'https://tamyiz.pages.dev';
 const BRAND = 'TAMYIZ™';
 const DEFAULT_IMAGE = '/og/tamyiz.jpg';
 const DEFAULT_DESCRIPTION =
-  'E-books, Notion templates and design kits by TAMYIZ™. First editions coming soon.';
+  'Practical e-books by TAMYIZ™, delivered as instant PDF downloads.';
 
 const STATIC_PAGES = {
   home: {
     path: '/',
-    title: `${BRAND} | E-books, Notion templates and design kits`,
+    title: `${BRAND} | Practical e-books, instant download`,
     description: DEFAULT_DESCRIPTION,
   },
   editions: {
     path: '/editions',
     title: `All editions | ${BRAND}`,
-    description: `All ${products.length} TAMYIZ™ editions: e-books, Notion templates and a Figma UI kit.`,
+    description: 'All TAMYIZ™ e-books: practical guides you can download the moment you buy.',
   },
   philosophy: {
     path: '/philosophy',
     title: `Philosophy and format guide | ${BRAND}`,
-    description: 'How TAMYIZ™ editions are made, and which file formats work on which device (PDF, EPUB, Kindle, Notion, Figma).',
+    description: 'How TAMYIZ™ e-books are made, and how to read them on your phone, tablet, laptop or Kindle.',
   },
   atelier: {
     path: '/atelier',
@@ -45,20 +45,29 @@ const STATIC_PAGES = {
   },
 };
 
-export const ogImageFor = (product) => `/og/${product.slug}.jpg`;
+/** Product text arrives HTML-escaped (see server/catalog.js); turn it back into plain text. */
+export const unescapeText = (s) => String(s ?? '').replace(/&(amp|lt|gt|quot|#39);/g, (_, e) => ({ amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" })[e]);
+
+/** Meta for one product page (also used by functions/edition/[slug].js on Cloudflare). */
+export function productMeta(escaped) {
+  const product = { ...escaped, name: unescapeText(escaped.name), tagline: unescapeText(escaped.tagline) };
+  const tagline = product.tagline ? `${product.tagline.replace(/[.\s]+$/, '')}. ` : '';
+  return {
+    path: `/edition/${product.slug}`,
+    title: `${product.name} | ${BRAND}`,
+    description: `${tagline}E-book, ₹${product.price}, ${product.available ? 'instant PDF download' : 'coming soon, pre-order on WhatsApp'}.`,
+    image: product.images && product.images[0] ? product.images[0] : DEFAULT_IMAGE,
+    imageSize: null, // covers come in any size
+    product,
+  };
+}
 
 /** Meta for one page. `page` and `slug` are what the router's parseRoute() returns. */
 export function pageMeta(page, slug) {
   if (page === 'edition') {
     const product = products.find((p) => p.slug === slug || p.id.toLowerCase() === slug);
     if (!product) return { ...STATIC_PAGES.notfound, image: DEFAULT_IMAGE };
-    return {
-      path: `/edition/${product.slug}`,
-      title: `${product.name} | ${BRAND}`,
-      description: `${product.tagline}. ${product.category}, ₹${product.price}, ${product.available ? 'instant digital download' : 'coming soon, pre-order on WhatsApp'}.`,
-      image: ogImageFor(product),
-      product,
-    };
+    return productMeta(product);
   }
   if (page === 'legal') {
     const doc = legalDocs[slug] || legalDocs['delivery-protocol'];
@@ -107,7 +116,7 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 /** The <head> tags for one page, as HTML (between the <!-- seo --> markers in index.html). */
 export function headTags(meta) {
   const url = meta.path ? SITE_URL + meta.path : null;
-  const image = SITE_URL + meta.image;
+  const image = /^https?:/.test(meta.image) ? meta.image : SITE_URL + meta.image;
   const tags = [
     `<title>${esc(meta.title)}</title>`,
     `<meta name="description" content="${esc(meta.description)}" />`,
@@ -119,8 +128,8 @@ export function headTags(meta) {
     `<meta property="og:description" content="${esc(meta.description)}" />`,
     url ? `<meta property="og:url" content="${url}" />` : '',
     `<meta property="og:image" content="${image}" />`,
-    `<meta property="og:image:width" content="1200" />`,
-    `<meta property="og:image:height" content="630" />`,
+    meta.imageSize === null ? '' : `<meta property="og:image:width" content="1200" />`,
+    meta.imageSize === null ? '' : `<meta property="og:image:height" content="630" />`,
     `<meta property="og:locale" content="en_IN" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${esc(meta.title)}" />`,

@@ -1,0 +1,47 @@
+/**
+ * Every /api/* address in one place. Cloudflare runs it through functions/api/[[path]].js;
+ * the local Vite server runs it through vite.config.js, so both behave the same.
+ */
+import { json, handleCreateOrder, handleVerifyPayment, handleDownload } from './payments.js';
+import { handleAdmin } from './admin.js';
+import { publicCatalog } from './catalog.js';
+
+async function cover(env, id, request) {
+  if (!env.TAMYIZ_STORE) return new Response('Not found', { status: 404 });
+  const { value, metadata } = await env.TAMYIZ_STORE.getWithMetadata(`cover:${id}`, 'arrayBuffer');
+  if (!value) return new Response('Not found', { status: 404 });
+  const versioned = new URL(request.url).searchParams.has('v');
+  return new Response(value, {
+    headers: {
+      'Content-Type': (metadata && metadata.type) || 'image/jpeg',
+      // Each upload gets a new ?v=, so a versioned address can be cached for a long time.
+      'Cache-Control': versioned ? 'public, max-age=31536000, immutable' : 'public, max-age=300',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  });
+}
+
+export async function route(request, env, fetchImpl = fetch) {
+  const path = new URL(request.url).pathname.replace(/\/+$/, '');
+  const method = request.method;
+  const rest = path.replace(/^\/api\/?/, '');
+
+  if (rest.startsWith('admin/')) return handleAdmin(request, env, rest.slice(6));
+
+  if (rest === 'products' && method === 'GET') {
+    const products = await publicCatalog(env);
+    return new Response(JSON.stringify({ products }), {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' }, // new e-books show on the next page load
+    });
+  }
+  let m = rest.match(/^cover\/([a-z0-9-]{3,40})$/);
+  if (m && method === 'GET') return cover(env, m[1], request);
+  m = rest.match(/^download\/([a-z0-9-]{3,40})$/);
+  if (m && method === 'GET') return handleDownload(request, env, m[1]);
+
+  if (rest === 'create-order' || rest === 'verify-payment') {
+    if (method !== 'POST') return json({ error: 'Method Not Allowed. Use POST.' }, 405);
+    return rest === 'create-order' ? handleCreateOrder(request, env, fetchImpl) : handleVerifyPayment(request, env, fetchImpl);
+  }
+  return json({ error: 'Not found.' }, 404);
+}

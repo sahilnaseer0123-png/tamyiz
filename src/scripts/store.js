@@ -25,9 +25,7 @@ const AVAILABLE_COUPONS = {
 class Store {
   constructor() {
     const rawCart = this.load(STORAGE_KEYS.CART, null) || this.load(STORAGE_KEYS.LEGACY_CART, []);
-    // Only items that can be bought right now (a product may have been switched back to "coming soon").
-    this.cart = (Array.isArray(rawCart) ? rawCart : []).filter((i) => isAvailable(findProductBySlugOrId(i.productId || i.id)));
-    this.save(STORAGE_KEYS.CART, this.cart);
+    this.cart = Array.isArray(rawCart) ? rawCart : [];
     this.wishlist = this.load(STORAGE_KEYS.WISHLIST, []);
     this.user = this.load(STORAGE_KEYS.USER, { isLoggedIn: false });
     this.orders = this.load(STORAGE_KEYS.ORDERS, []);
@@ -68,6 +66,13 @@ class Store {
         console.error("Store listener error:", err);
       }
     });
+  }
+
+  /** After the ebooks load: drop bag items that can't be bought now (removed, or back to "coming soon"). */
+  pruneUnavailable() {
+    const before = this.cart.length;
+    this.cart = this.cart.filter((i) => isAvailable(findProductBySlugOrId(i.productId || i.id)));
+    if (this.cart.length !== before || this.load(STORAGE_KEYS.CART, null) === null) this.save(STORAGE_KEYS.CART, this.cart);
   }
 
   // Cart operations

@@ -13,7 +13,7 @@
 import { TamyizLogoSparks } from './tamyiz-logo-sparks.js';
 import { pageMeta, SITE_URL } from '../data/seo.js';
 import { renderNotFoundPage } from './pages/not-found-page.js';
-import { products, findProductBySlugOrId, isAvailable, anyAvailable, buyLabel } from '../data/products.js';
+import { products, loadProducts, findProductBySlugOrId, isAvailable, anyAvailable, buyLabel } from '../data/products.js';
 import { foundersData, brandInfo, policies } from '../data/content.js';
 import { siteConfig, preorderWhatsAppUrl } from '../data/site-config.js';
 import { store } from './store.js';
@@ -26,7 +26,9 @@ import { renderAtelierPage } from './pages/atelier-page.js';
 import { renderCheckoutPage } from './pages/checkout-page.js';
 import { renderLegalPage, legalDocs } from './pages/legal-page.js';
 
-export class TamyizUnifiedApp {
+export const escapeText = (v) => String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+class TamyizUnifiedApp {
   constructor() {
     this.currentPage = 'home';
     this.currentSlug = null;
@@ -46,9 +48,13 @@ export class TamyizUnifiedApp {
     this.init();
   }
 
-  init() {
+  async init() {
     // 0. Expose global store instance for inline HTML event reliability
     window.store = store;
+
+    // Ebooks come from /admin (Cloudflare storage). Load them before drawing anything that lists them.
+    await loadProducts();
+    store.pruneUnavailable();
 
     // 1. Initial shell render (Header, Drawer, Shell, Footer, Modals)
     this.renderShell();
@@ -70,7 +76,7 @@ export class TamyizUnifiedApp {
     const params = new URLSearchParams(window.location.search);
     const catParam = params.get('category') || params.get('cat');
     if (catParam) {
-      this.activeCategory = (catParam === 'ui-ux' ? 'design' : catParam);
+      this.activeCategory = 'all';
     }
   }
 
@@ -101,7 +107,7 @@ export class TamyizUnifiedApp {
       const params = new URLSearchParams(searchStr);
       const cat = params.get('category') || params.get('cat');
       if (cat) {
-        this.activeCategory = (cat === 'ui-ux' ? 'design' : cat);
+        this.activeCategory = 'all'; // every product is an e-book for now
       } else {
         this.activeCategory = 'all';
       }
@@ -334,19 +340,10 @@ export class TamyizUnifiedApp {
           </div>
 
           <div>
-            <div class="tamyiz-mobile-nav-group-title">Digital Editions Categories</div>
+            <div class="tamyiz-mobile-nav-group-title">The Shop</div>
             <div class="tamyiz-mobile-cat-grid">
               <a href="/editions" class="tamyiz-mobile-cat-btn" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions')">
-                <span>All Digital Editions (8)</span> <span>→</span>
-              </a>
-              <a href="/editions?category=ebooks" class="tamyiz-mobile-cat-btn" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions?category=ebooks')">
-                <span>E-Books &amp; Monographs</span> <span>→</span>
-              </a>
-              <a href="/editions?category=notion" class="tamyiz-mobile-cat-btn" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions?category=notion')">
-                <span>Notion &amp; Productivity Templates</span> <span>→</span>
-              </a>
-              <a href="/editions?category=ui-ux" class="tamyiz-mobile-cat-btn" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions?category=ui-ux')">
-                <span>UI/UX &amp; Design Systems</span> <span>→</span>
+                <span>All e-books${products.length ? ` (${products.length})` : ''}</span> <span>→</span>
               </a>
             </div>
           </div>
@@ -502,10 +499,7 @@ export class TamyizUnifiedApp {
             <div class="tamyiz-footer-col">
               <h3>Digital Editions</h3>
               <ul class="tamyiz-footer-links">
-                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">All Editions (8)</a></li>
-                <li><a href="/editions?category=ebooks" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=ebooks')">E-Books &amp; Monographs</a></li>
-                <li><a href="/editions?category=notion" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=notion')">Notion Workspaces</a></li>
-                <li><a href="/editions?category=ui-ux" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=ui-ux')">UI/UX &amp; Design Kits</a></li>
+                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">All e-books${products.length ? ` (${products.length})` : ''}</a></li>
               </ul>
             </div>
 
@@ -734,12 +728,7 @@ export class TamyizUnifiedApp {
 
   getCollectionStatusText() {
     const count = this.getFilteredAndSortedProducts().length;
-    let catLabel = 'All Digital Editions (8)';
-    if (this.activeCategory === 'ebooks') catLabel = 'E-Books & Monographs';
-    if (this.activeCategory === 'notion') catLabel = 'Notion & Productivity Templates';
-    if (this.activeCategory === 'design') catLabel = 'UI/UX & Design Systems';
-
-    const searchPart = this.searchQuery ? ` matching "${this.searchQuery}"` : '';
+    const searchPart = this.searchQuery ? ` matching "${escapeText(this.searchQuery)}"` : '';
     const hasFilter = this.searchQuery || this.activeCategory !== 'all' || this.sortBy !== 'featured';
 
     const clearButton = hasFilter
@@ -747,7 +736,7 @@ export class TamyizUnifiedApp {
       : '';
 
     return `
-      <span>Showing ${count} of ${products.length} Digital Editions (${catLabel}${searchPart})</span>
+      <span>Showing ${count} of ${products.length} e-book${products.length === 1 ? '' : 's'}${searchPart}</span>
       ${clearButton}
     `;
   }
@@ -2222,7 +2211,7 @@ export class TamyizUnifiedApp {
           <div>DISPATCH EMAIL: <strong>${result.email}</strong></div>
           <div>WHATSAPP LOG: <strong>${result.phone}</strong></div>
           <div>TIMESTAMP: <strong>${formattedDate}</strong></div>
-          <div>STATUS: <strong style="color: #1E7B2E;">PAID &amp; PERPETUAL LICENSE ISSUED</strong></div>
+          <div>STATUS: <strong style="color: #1E7B2E;">PAID</strong></div>
         </div>
 
         <div style="font-family: monospace; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.6rem; color: #000; letter-spacing: 0.05em;">
@@ -2252,7 +2241,7 @@ export class TamyizUnifiedApp {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
             </svg>
-            <span>DISPATCH COPY TO MY WHATSAPP ↗</span>
+            <span>SEND MY ORDER DETAILS TO TAMYIZ ON WHATSAPP ↗</span>
           </a>
 
           <button class="tamyiz-btn-checkout-primary" style="background: #FFFFFF; color: #000000; border: 1px solid #000000;" onclick="window.tamyizApp.downloadTaxInvoiceFromPayment('${paymentId}')">

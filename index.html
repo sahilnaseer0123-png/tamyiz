@@ -14,6 +14,9 @@
   <link rel="icon" type="image/png" sizes="256x256" href="/assets/images/tamyiz-logo-256.png" />
   <link rel="apple-touch-icon" href="/assets/images/tamyiz-logo-256.png" />
 
+  <!-- The shop's e-books: start fetching while the app code downloads -->
+  <link rel="preload" href="/api/products" as="fetch" crossorigin="anonymous" />
+
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/src/styles/tamyiz-unified.css" />
 </head>

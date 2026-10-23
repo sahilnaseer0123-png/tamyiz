@@ -1,47 +1,49 @@
 import { defineConfig, loadEnv } from 'vite';
-import { handleCreateOrder, handleVerifyPayment } from './server/payments.js';
+import { route } from './server/router.js';
+import { devKV } from './server/dev-kv.js';
 
-// Local dev only: answers /api/create-order and /api/verify-payment with the same code Cloudflare runs
-// (functions/api/* -> server/payments.js). Settings come from .env (never committed), e.g. TAMYIZ_SANDBOX=true.
-function paymentsApi(env) {
-  const routes = { '/api/create-order': handleCreateOrder, '/api/verify-payment': handleVerifyPayment };
-
+// Local dev only: answers /api/* with the same code Cloudflare runs (functions/api/[[path]].js -> server/router.js).
+// Settings come from .env (never committed), e.g. TAMYIZ_SANDBOX=true, ADMIN_PASSWORD=... .
+// Uploaded ebooks are kept in .local-store/ (git-ignored) instead of Cloudflare KV.
+function api(env) {
   const middleware = (req, res, next) => {
-    const path = (req.url || '').split('?')[0];
-    const handler = routes[path];
-    if (!handler) return next();
-    if (req.method !== 'POST') {
-      res.statusCode = 405;
-      res.setHeader('Content-Type', 'application/json');
-      return res.end(JSON.stringify({ error: 'Method Not Allowed. Use POST.' }));
-    }
-    let body = '';
-    req.on('data', (chunk) => { body += chunk; });
+    if (!(req.url || '').startsWith('/api/')) return next();
+    const chunks = [];
+    req.on('data', (c) => chunks.push(c));
     req.on('end', async () => {
       try {
-        const request = new Request(`http://localhost${req.url}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
-        const response = await handler(request, env);
+        const hasBody = !['GET', 'HEAD'].includes(req.method);
+        const request = new Request(`http://localhost${req.url}`, {
+          method: req.method,
+          headers: req.headers,
+          body: hasBody ? Buffer.concat(chunks) : undefined,
+          duplex: 'half',
+        });
+        const response = await route(request, env);
         res.statusCode = response.status;
         response.headers.forEach((value, key) => res.setHeader(key, value));
-        res.end(await response.text());
+        res.end(Buffer.from(await response.arrayBuffer()));
       } catch (err) {
-        console.error('Local payments API error:', err);
+        console.error('Local API error:', err);
         res.statusCode = 500;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ error: err.message || 'Internal Server Error' }));
       }
     });
   };
-
   return {
-    name: 'tamyiz-payments-api',
+    name: 'tamyiz-api',
     configureServer(server) { server.middlewares.use(middleware); },
     configurePreviewServer(server) { server.middlewares.use(middleware); },
   };
 }
 
-export default defineConfig(({ mode }) => ({
-  plugins: [paymentsApi(loadEnv(mode, process.cwd(), ''))],
-  server: { port: 5173 },
-  preview: { port: 4173 },
-}));
+export default defineConfig(({ mode }) => {
+  const env = { ...loadEnv(mode, process.cwd(), ''), TAMYIZ_STORE: devKV('.local-store') };
+  return {
+    plugins: [api(env)],
+    server: { port: 5173 },
+    preview: { port: 4173 },
+    build: { rollupOptions: { input: { main: 'index.html', admin: 'admin.html' } } },
+  };
+});

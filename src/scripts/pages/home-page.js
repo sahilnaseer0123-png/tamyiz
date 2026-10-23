@@ -9,11 +9,8 @@ import { siteConfig } from '../../data/site-config.js';
 import { store } from '../store.js';
 
 export function renderHomePage(appInstance) {
-  // 3 featured products
-  const featuredIds = ['tmz-dig-001', 'tmz-dig-004', 'tmz-dig-007'];
-  const featuredProducts = featuredIds
-    .map(id => products.find(p => p.id === id))
-    .filter(Boolean);
+  // Newest 3 ebooks (the list from /admin is newest first)
+  const featuredProducts = products.slice(0, 3);
 
   return `
     <div class="tamyiz-page-home">
@@ -139,23 +136,34 @@ export function renderHomePage(appInstance) {
               <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Curated Publications // Edition 01</span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase;">Featured Editions</h2>
             </div>
-            <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/editions')">
-              <span>View All 8 Digital Editions</span>
+            ${products.length > 3 ? `<button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/editions')">
+              <span>View all ${products.length} e-books</span>
               <span>→</span>
-            </button>
+            </button>` : ''}
           </div>
 
           <!-- 3-Card Equal-Height Grid -->
           <div class="tamyiz-product-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
-            ${featuredProducts.map(p => renderProductCardHtml(p, appInstance)).join('')}
+            ${featuredProducts.length ? featuredProducts.map(p => renderProductCardHtml(p, appInstance)).join('') : `
+              <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem; background: #FFFFFF; border: 1px dashed var(--color-border); border-radius: 6px;">
+                <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">
+                  First e-books on the way
+                </div>
+                <p style="color: var(--color-grey); font-size: 0.95rem; margin: 0 auto 1.5rem; max-width: 30rem;">
+                  We are writing them now. Message us on WhatsApp and we will tell you the day the first one is out.
+                </p>
+                <a class="tamyiz-btn-nav-outline" href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-flex;">
+                  Tell me when it's out ↗
+                </a>
+              </div>`}
           </div>
 
-          <div style="text-align: center; margin-top: 3.5rem;">
+          ${products.length > 3 ? `<div style="text-align: center; margin-top: 3.5rem;">
             <button class="tamyiz-btn-primary-large" onclick="window.tamyizApp.navigateTo('/editions')">
-              <span>EXPLORE ALL 8 DIGITAL EDITIONS &amp; SYSTEMS</span>
+              <span>SEE ALL ${products.length} E-BOOKS</span>
               <span>→</span>
             </button>
-          </div>
+          </div>` : ''}
         </div>
       </section>
 
@@ -419,9 +427,9 @@ export function renderProductCardHtml(p, appInstance) {
           <button class="tamyiz-btn-quick-add" id="btn-quick-${p.id}" style="background: var(--color-red); font-size: 0.82rem; padding: 0.82rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickAddToCart('${p.id}')">
             ${buyLabel(p, currentPrice, 'card')}
           </button>
-          <button class="tamyiz-btn-preview-trigger" onclick="event.stopPropagation(); window.tamyizApp.openProductPreview('${p.id}')">
-            <span>Preview Edition ↗</span>
-          </button>
+          <a class="tamyiz-btn-preview-trigger" href="/edition/${slug}" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/edition/${slug}')">
+            <span>See what's inside →</span>
+          </a>
         </div>
       </div>
     </div>

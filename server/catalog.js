@@ -1,0 +1,139 @@
+/**
+ * TAMYIZ™ catalogue: the ebooks you add on /admin, kept in Cloudflare KV (binding `TAMYIZ_STORE`).
+ *
+ * KV keys
+ *   products        JSON list of every ebook record (one key, so the shop needs one read per visit)
+ *   cover:<id>      cover image bytes  (metadata: { type })
+ *   file:<id>       the PDF bytes      (metadata: { type, name, size })
+ *
+ * Status of an ebook
+ *   draft    only visible on /admin
+ *   soon     in the shop as "Coming soon" (WhatsApp pre-order)
+ *   on-sale  can be bought; needs a PDF. The payment server only sells "on-sale" ebooks.
+ */
+
+export const STATUSES = ['draft', 'soon', 'on-sale'];
+export const MAX_PDF_BYTES = 25 * 1024 * 1024; // Cloudflare KV limit per value (25 MiB)
+export const MAX_COVER_BYTES = 2 * 1024 * 1024;
+
+const KEY_LIST = 'products';
+
+export function store(env) {
+  const kv = env && env.TAMYIZ_STORE;
+  if (!kv) throw new StoreMissing();
+  return kv;
+}
+
+export class StoreMissing extends Error {
+  constructor() {
+    super('Storage is not connected yet. In Cloudflare: Pages project → Settings → Bindings → add KV namespace "TAMYIZ_STORE".');
+    this.status = 503;
+  }
+}
+
+/** Every ebook record (newest first). No storage connected = an empty shop. */
+export async function loadCatalog(env) {
+  if (!env || !env.TAMYIZ_STORE) return [];
+  const list = await env.TAMYIZ_STORE.get(KEY_LIST, 'json');
+  return Array.isArray(list) ? list : [];
+}
+
+export async function saveCatalog(env, list) {
+  await store(env).put(KEY_LIST, JSON.stringify(list));
+}
+
+export const findById = (list, id) => list.find((p) => p.id === id);
+export const findBySlug = (list, slug) => list.find((p) => p.slug === String(slug || '').toLowerCase());
+
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+/** What the shop (and anyone) may see: no drafts, no file keys. Text is HTML-escaped (the shop draws with innerHTML). */
+export function publicProduct(p) {
+  const cover = p.coverType ? `/api/cover/${p.id}?v=${p.updatedAt}` : '/og/tamyiz.jpg';
+  const specs = [{ label: 'Format', value: 'PDF e-book, instant download after payment' }];
+  if (p.pages) specs.push({ label: 'Pages', value: `${p.pages}` });
+  specs.push({ label: 'Reads on', value: 'Phone, tablet, laptop, Kindle (send-to-Kindle), Apple Books' });
+  return {
+    id: p.id,
+    slug: p.slug,
+    name: esc(p.name),
+    tagline: esc(p.tagline || ''),
+    description: esc(p.description || ''),
+    category: 'E-Books',
+    categoryCode: 'ebooks',
+    price: p.price,
+    badge: 'E-BOOK',
+    isDigital: true,
+    available: p.status === 'on-sale',
+    status: p.status,
+    images: [cover],
+    tableOfContents: Array.isArray(p.contents) ? p.contents.map(esc) : [],
+    specifications: specs,
+    fileSpecs: `PDF e-book${p.pages ? ` • ${p.pages} pages` : ''} • Instant download`,
+    highlights: [],
+    relatedIds: [],
+    updatedAt: p.updatedAt,
+  };
+}
+
+export async function publicCatalog(env) {
+  return (await loadCatalog(env)).filter((p) => p.status !== 'draft').map(publicProduct);
+}
+
+// ---------------------------------------------------------------------------
+// Validation of what /admin sends
+// ---------------------------------------------------------------------------
+
+const clean = (v, max) => String(v ?? '').replace(/\r/g, '').trim().slice(0, max);
+
+export function slugify(s) {
+  return String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'ebook';
+}
+
+/** Turns form fields into a clean record update. Throws an Error with a plain-English message. */
+export function readFields(form) {
+  const name = clean(form.get('name'), 140);
+  if (name.length < 3) throw new Error('Give the ebook a title (at least 3 characters).');
+  const price = Number(clean(form.get('price'), 10));
+  if (!Number.isInteger(price) || price < 1 || price > 100000) throw new Error('Price must be a whole number of rupees between 1 and 1,00,000.');
+  const pagesRaw = clean(form.get('pages'), 6);
+  const pages = pagesRaw ? Number(pagesRaw) : null;
+  if (pagesRaw && (!Number.isInteger(pages) || pages < 1 || pages > 5000)) throw new Error('Pages must be a whole number (or leave it empty).');
+  const status = clean(form.get('status'), 10) || 'draft';
+  if (!STATUSES.includes(status)) throw new Error('Unknown status.');
+  const contents = clean(form.get('contents'), 4000).split('\n').map((l) => l.trim()).filter(Boolean).slice(0, 40);
+  return {
+    name,
+    tagline: clean(form.get('tagline'), 200),
+    description: clean(form.get('description'), 5000),
+    price,
+    pages,
+    contents,
+    status,
+  };
+}
+
+/** Real file type from the first bytes (never trust the file name or the browser's claim). */
+export function sniff(bytes) {
+  const b = new Uint8Array(bytes.slice(0, 12));
+  const ascii = (from, to) => String.fromCharCode(...b.slice(from, to));
+  if (ascii(0, 5) === '%PDF-') return 'application/pdf';
+  if (b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return 'image/jpeg';
+  if (b[0] === 0x89 && ascii(1, 4) === 'PNG') return 'image/png';
+  if (ascii(0, 4) === 'RIFF' && ascii(8, 12) === 'WEBP') return 'image/webp';
+  return null;
+}
+
+export function newId() {
+  const r = crypto.getRandomValues(new Uint8Array(4));
+  return 'eb-' + [...r].map((x) => x.toString(16).padStart(2, '0')).join('');
+}
+
+/** A slug nobody else uses (adds -2, -3 ... if needed). */
+export function uniqueSlug(list, wanted, ownId) {
+  const base = slugify(wanted);
+  let slug = base;
+  for (let n = 2; list.some((p) => p.slug === slug && p.id !== ownId); n++) slug = `${base}-${n}`;
+  return slug;
+}
