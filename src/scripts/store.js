@@ -305,15 +305,25 @@ class Store {
       container = document.createElement('div');
       container.id = 'tamyiz-toast-container';
       container.className = 'tamyiz-toast-container';
+      // Screen readers announce new messages.
+      container.setAttribute('role', 'status');
+      container.setAttribute('aria-live', 'polite');
       document.body.appendChild(container);
+    }
+
+    // The same message again (e.g. the button pressed twice) replaces the old one instead of stacking.
+    for (const old of container.querySelectorAll('.tamyiz-toast')) {
+      if (old.querySelector('.toast-message')?.textContent === String(message)) old.remove();
     }
 
     const toast = document.createElement('div');
     toast.className = `tamyiz-toast tamyiz-toast-${type}`;
-    toast.innerHTML = `
-      <span class="toast-dot ${type === 'success' ? 'toast-dot-red' : ''}"></span>
-      <span class="toast-message">${message}</span>
-    `;
+    const dot = document.createElement('span');
+    dot.className = `toast-dot ${type === 'success' ? 'toast-dot-red' : ''}`;
+    const text = document.createElement('span');
+    text.className = 'toast-message';
+    text.textContent = String(message); // text, not HTML: messages can contain server or product text
+    toast.append(dot, text);
 
     container.appendChild(toast);
 
@@ -327,7 +337,7 @@ class Store {
       setTimeout(() => {
         if (toast.parentElement) toast.parentElement.removeChild(toast);
       }, 300);
-    }, 3200);
+    }, Math.min(8000, Math.max(3200, String(message).length * 60))); // longer messages stay long enough to read
   }
 }
 
