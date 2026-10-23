@@ -14,6 +14,9 @@ sold with Razorpay and delivered as download / duplicate links.
 - Settings (Cloudflare: project → Settings → Variables and secrets; locally `.dev.vars` for wrangler or `.env` for Vite,
   both git-ignored): `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` (secret), `RESEND_API_KEY` (secret, optional receipts),
   `RECEIPT_FROM` (optional, a verified Resend sender), `URL_*` download links (see `.env.example`), `TAMYIZ_SANDBOX`.
+- Deploys stop silently if Cloudflare loses access to this repo (yellow "disconnected" banner in the Pages project).
+  Fix: GitHub → Settings → Applications → Cloudflare Workers and Pages → Configure → Repository access must list
+  BOTH tamyiz and eternal-polyclinic → Save. (Happened 23 Oct 2026.)
 - Tests: `npm test` (node test runner, `tests/`). Run before every push. `npm run cf:dev` runs the built site on
   Cloudflare's runtime locally (wrangler).
 
