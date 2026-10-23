@@ -3,6 +3,8 @@
  * Handles Cart, Wishlist, Coupons, Orders, and Toast Notifications with localStorage persistence.
  */
 
+import { findProductBySlugOrId, isAvailable } from '../data/products.js';
+
 const STORAGE_KEYS = {
   CART: 'tamyiz_atelier_bag',
   LEGACY_CART: 'tamyiz_cart_v1',
@@ -23,47 +25,12 @@ const AVAILABLE_COUPONS = {
 class Store {
   constructor() {
     const rawCart = this.load(STORAGE_KEYS.CART, null) || this.load(STORAGE_KEYS.LEGACY_CART, []);
-    this.cart = Array.isArray(rawCart) ? rawCart : [];
-    if (this.cart.length > 0) {
-      this.save(STORAGE_KEYS.CART, this.cart);
-    }
-    this.wishlist = this.load(STORAGE_KEYS.WISHLIST, ['tmz-001', 'tmz-008']);
-    this.user = this.load(STORAGE_KEYS.USER, {
-      isLoggedIn: true,
-      name: "Basit Khan",
-      email: "tamyiz.co@gmail.com",
-      phone: "+91 95417 22379"
-    });
-    this.orders = this.load(STORAGE_KEYS.ORDERS, [
-      {
-        orderId: "TMZ-89241",
-        date: "14 Oct 2026",
-        items: [
-          {
-            name: "TAMYIZ Monograph 01: The Horizon of Distinction",
-            variant: "Interactive PDF + EPUB",
-            price: 899,
-            quantity: 1,
-            image: "/assets/images/products/book-monograph-01.webp"
-          }
-        ],
-        subtotal: 899,
-        shipping: 0,
-        discount: 90,
-        total: 809,
-        status: "Access Vault Active",
-        carrier: "Instant Digital Dispatch",
-        trackingId: "DIGITAL-TOKEN-98214",
-        shippingAddress: {
-          name: "Basit Khan",
-          address: "TAMYIZ Digital Atelier",
-          city: "Sopore",
-          state: "Jammu & Kashmir",
-          pincode: "193201",
-          phone: "+91 95417 22379"
-        }
-      }
-    ]);
+    // Only items that can be bought right now (a product may have been switched back to "coming soon").
+    this.cart = (Array.isArray(rawCart) ? rawCart : []).filter((i) => isAvailable(findProductBySlugOrId(i.productId || i.id)));
+    this.save(STORAGE_KEYS.CART, this.cart);
+    this.wishlist = this.load(STORAGE_KEYS.WISHLIST, []);
+    this.user = this.load(STORAGE_KEYS.USER, { isLoggedIn: false });
+    this.orders = this.load(STORAGE_KEYS.ORDERS, []);
     this.coupon = this.load(STORAGE_KEYS.COUPON, null);
     this.listeners = [];
   }
@@ -105,6 +72,7 @@ class Store {
 
   // Cart operations
   addToCart(product, variantOption, quantity = 1, customPrice = null, customOriginalPrice = null) {
+    if (!isAvailable(product)) return;
     const variant = variantOption || (product.variants ? product.variants.options[0] : "Standard");
     const cartItemId = `${product.id}-${variant}`;
     

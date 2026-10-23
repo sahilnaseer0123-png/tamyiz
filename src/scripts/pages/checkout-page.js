@@ -58,7 +58,7 @@ export function renderCheckoutPage(appInstance) {
             <span class="tamyiz-page-badge">SECURE 256-BIT ENCRYPTED DIGITAL CHECKOUT</span>
             <h1 class="tamyiz-page-title">Instant Digital Dispatch</h1>
             <p class="tamyiz-page-description">
-              Files are unlocked on-screen immediately upon payment, with permanent redundant copies sent to your verified email and WhatsApp.
+              Files unlock on screen as soon as the payment is confirmed, and the links are emailed to you.
             </p>
           </div>
         </div>
@@ -413,7 +413,7 @@ export function renderOrderVaultHtml(order) {
             </button>
           </div>
 
-          <!-- OFFICIAL PRINTABLE SWISS DIGITAL TAX INVOICE -->
+          <!-- PRINTABLE RECEIPT -->
           <div class="tamyiz-invoice-card" id="tamyiz-printable-invoice">
             <div class="tamyiz-invoice-header">
               <div class="tamyiz-invoice-brand">

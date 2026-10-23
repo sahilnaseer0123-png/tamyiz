@@ -13,7 +13,7 @@ export const brandInfo = {
 
 export const foundersData = {
   headline: "Two tech founders. One vision.",
-  subheadline: "Born in Sopore, Kashmir. Blending ethical philosophy, software engineering, and architectural precision.",
+  subheadline: "Blending ethical philosophy, software engineering, and architectural precision.",
   founders: [
     {
       id: "basit",
@@ -47,7 +47,7 @@ export const foundersData = {
     }
   ],
   story: {
-    origin: "In late 2025 in Sopore, Kashmir, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Ethical Hacking & Research, and Sahil in Artificial Intelligence, Machine Learning & Systems Architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.",
+    origin: "In late 2025, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Ethical Hacking & Research, and Sahil in Artificial Intelligence, Machine Learning & Systems Architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.",
     mission: "To bring distinct, uncompromising quality products to everyone who refuses to blend into the background.",
     values: [
       {
@@ -58,7 +58,7 @@ export const foundersData = {
       {
         title: "Swiss Editorial Precision",
         tag: "02",
-        description: "Built in Sopore, Kashmir—combining timeless philosophy with modern Swiss typography and clean digital templates."
+        description: "Combining timeless philosophy with modern Swiss typography and clean digital templates."
       },
       {
         title: "Instant Frictionless Systems",

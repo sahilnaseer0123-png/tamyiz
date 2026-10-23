@@ -13,7 +13,7 @@ export function renderPhilosophyPage(appInstance) {
         <div class="container">
           <div class="tamyiz-page-header-inner">
             <span class="tamyiz-page-badge">
-              ATELIER MANIFESTO // SOPORE, KASHMIR
+              ATELIER MANIFESTO // EST. 2025
             </span>
             <h1 class="tamyiz-page-title">
               Philosophy &amp; Format Guide
@@ -46,7 +46,7 @@ export function renderPhilosophyPage(appInstance) {
                 <span class="tamyiz-pillar-tag">Doctrine of Subtraction</span>
                 <h3 class="tamyiz-pillar-heading">Intellectual Depth</h3>
                 <p class="tamyiz-pillar-body">
-                  True distinction begins with refusal: the refusal to publish shallow summaries, rehashed platitudes, or unverified opinions. Every TAMYIZ e-book and monograph represents months of primary synthesis, academic rigor, and real-world operational testing in Sopore.
+                  True distinction begins with refusal: the refusal to publish shallow summaries, rehashed platitudes, or unverified opinions. Every TAMYIZ e-book and monograph is built on primary research, careful synthesis and real-world testing.
                 </p>
                 <div class="tamyiz-pillar-specs-grid">
                   <div class="pillar-spec">

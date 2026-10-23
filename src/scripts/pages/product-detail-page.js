@@ -3,7 +3,7 @@
  * Route: /edition/:slug
  */
 
-import { findProductBySlugOrId, getRelatedProducts } from '../../data/products.js';
+import { findProductBySlugOrId, getRelatedProducts, isAvailable, buyLabel } from '../../data/products.js';
 import { renderProductCardHtml } from './home-page.js';
 
 export function renderProductDetailPage(slug, appInstance) {
@@ -70,7 +70,7 @@ export function renderProductDetailPage(slug, appInstance) {
                   class="tamyiz-pdp-main-img"
                   loading="eager"
                 />
-                <span class="tamyiz-pdp-badge-pill">${product.badge}</span>
+                <span class="tamyiz-pdp-badge-pill">${isAvailable(product) ? product.badge : `COMING SOON • ${product.badge}`}</span>
               </div>
 
               <!-- Thumbnail Gallery / Toggle -->
@@ -156,12 +156,12 @@ export function renderProductDetailPage(slug, appInstance) {
               <div class="tamyiz-pdp-details-card">
                 <div class="flex items-center justify-between gap-3 mb-2">
                   <span class="tamyiz-pdp-cat">${product.category}</span>
-                  <span class="tamyiz-tag-dispatch" style="display:inline-flex; align-items:center; gap:0.35rem;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  ${isAvailable(product) ? `<span class="tamyiz-tag-dispatch" style="display:inline-flex; align-items:center; gap:0.35rem;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                     </svg>
                     INSTANT DISPATCH
-                  </span>
+                  </span>` : `<span class="tamyiz-tag-dispatch tamyiz-tag-soon">COMING SOON</span>`}
                 </div>
 
                 <h1 class="tamyiz-pdp-title">${product.name}</h1>
@@ -177,7 +177,7 @@ export function renderProductDetailPage(slug, appInstance) {
                   ` : ''}
                 </div>
                 <div class="tamyiz-pdp-tax-note">
-                  Inclusive of all taxes • Instant PDF / EPUB / Notion dispatch to your email
+                  ${isAvailable(product) ? 'Final price, no extra charges • Download link on screen and by email' : 'Coming soon • Pre-order on WhatsApp and we will message you the day it is ready. Details may change before release.'}
                 </div>
 
                 <!-- Format Selection Pills -->
@@ -213,17 +213,15 @@ export function renderProductDetailPage(slug, appInstance) {
                     class="tamyiz-pdp-btn-add"
                     onclick="window.tamyizApp.quickAddToCart('${product.id}')"
                   >
-                    <span>Add to Bag • Instant Access</span>
-                    <span>•</span>
-                    <span>₹${product.price.toLocaleString('en-IN')}</span>
+                    ${buyLabel(product, product.price, 'pdp')}
                   </button>
 
-                  <button
+                  ${isAvailable(product) ? `<button
                     class="tamyiz-pdp-btn-buy-now"
                     onclick="window.tamyizApp.buyNowDirect('${product.id}')"
                   >
                     <span>Buy Now • Direct Checkout →</span>
-                  </button>
+                  </button>` : ''}
                 </div>
 
                 <!-- Trust Guarantee List -->
@@ -234,7 +232,7 @@ export function renderProductDetailPage(slug, appInstance) {
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                       </svg>
                     </span>
-                    <span>Instant on-screen download + redundant copies to email and WhatsApp.</span>
+                    <span>Download link on screen right after payment, plus a copy by email.</span>
                   </div>
                   <div class="tamyiz-guarantee-item">
                     <span style="display:inline-flex; align-items:center;" aria-hidden="true">

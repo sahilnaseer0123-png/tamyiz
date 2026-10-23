@@ -10,13 +10,11 @@ export const products = [
     category: "E-Books & Monographs",
     categoryCode: "ebooks",
     price: 499,
-    originalPrice: 999,
-    badge: "BESTSELLER • 140-PAGE E-BOOK",
-    isBestSeller: true,
+    badge: "E-BOOK",
+    isBestSeller: false,
     isNew: false,
     isDigital: true,
-    rating: 5.0,
-    reviewsCount: 54,
+    available: false, // true = files are ready and it can be bought
     images: [
       "/assets/images/products/book-monograph-01.webp",
       "/assets/images/products/book-monograph-01-sample.webp"
@@ -25,15 +23,15 @@ export const products = [
       type: "Format",
       options: ["PDF + EPUB Bundle", "Kindle EPUB"],
       prices: {
-        "PDF + EPUB Bundle": { price: 499, originalPrice: 999 },
-        "Kindle EPUB": { price: 399, originalPrice: 799 }
+        "PDF + EPUB Bundle": { price: 499 },
+        "Kindle EPUB": { price: 399 }
       }
     },
     colors: ["Obsidian / Signal Red"],
-    description: "An uncompromising 140-page editorial monograph examining the intersection of architectural minimalism, Himalayan textile heritage, and high-density garment engineering. Authored by the TAMYIZ atelier in Sopore, Kashmir. Includes detailed pattern studies, fabric density analysis, and the philosophy of distinction in an age of mass commoditization.",
+    description: "An uncompromising 140-page editorial monograph examining the intersection of architectural minimalism, Himalayan textile heritage, and high-density garment engineering. Includes detailed pattern studies, fabric density analysis, and the philosophy of distinction in an age of mass commoditization.",
     specifications: [
       { label: "Format", value: "Instant Digital Download (PDF + EPUB bundle)" },
-      { label: "Pagination", value: "140 Pages (Retina Full-Color Architectural Layouts)" },
+      { label: "Pagination", value: "Planned: about 140 pages (Retina Full-Color Architectural Layouts)" },
       { label: "Typography", value: "Swiss Asymmetric Grid / Print-Ready 300DPI" },
       { label: "Reader Support", value: "Apple Books, Kindle, Adobe Acrobat, iPad, Android" },
       { label: "Delivery", value: "Instant download link + permanent email backup" },
@@ -46,7 +44,7 @@ export const products = [
       "Chapter 04: The Tactile Archive — Micro-Details & Particle Identity",
       "Chapter 05: Building For Distinction — The TAMYIZ Manifesto"
     ],
-    fileSpecs: "Instant PDF & EPUB Download • 140 Pages • Mobile & Kindle Optimized • Lifetime Updates",
+    fileSpecs: "Instant PDF & EPUB Download • About 140 pages (planned) • Mobile & Kindle Optimized • Lifetime Updates",
     sampleExcerpt: {
       chapter: "Chapter 01 / The Monolith Silhouette",
       subtitle: "Geometry, Form & Drapery",
@@ -56,7 +54,7 @@ export const products = [
     relatedIds: ["tmz-dig-002", "tmz-dig-008"],
     highlights: [
       "Instant PDF & EPUB download sent immediately upon order",
-      "140 pages of deep editorial, pattern engineering, and philosophy",
+      "About 140 planned pages of deep editorial, pattern engineering, and philosophy",
       "Includes high-resolution printable book plates",
       "Lifetime updates and revised digital editions included"
     ]
@@ -69,13 +67,11 @@ export const products = [
     category: "E-Books & Monographs",
     categoryCode: "ebooks",
     price: 699,
-    originalPrice: 1299,
     badge: "E-BOOK + WORKBOOK",
-    isBestSeller: true,
+    isBestSeller: false,
     isNew: true,
     isDigital: true,
-    rating: 4.9,
-    reviewsCount: 42,
+    available: false, // true = files are ready and it can be bought
     images: [
       "/assets/images/products/book-playbook-02.webp",
       "/assets/images/products/book-playbook-02-sample.webp"
@@ -84,8 +80,8 @@ export const products = [
       type: "Format",
       options: ["PDF + Checklists", "EPUB"],
       prices: {
-        "PDF + Checklists": { price: 699, originalPrice: 1299 },
-        "EPUB": { price: 499, originalPrice: 899 }
+        "PDF + Checklists": { price: 699 },
+        "EPUB": { price: 499 }
       }
     },
     colors: ["Titanium / Signal Red"],
@@ -105,7 +101,7 @@ export const products = [
       "Chapter 04: Operations & Supply — From Zero to Frictionless Commerce",
       "Chapter 05: Audience Architecture — Cultivating Resolute Collectors"
     ],
-    fileSpecs: "Instant PDF + Interactive Workbook • 88 Pages • Actionable Checklists • Lifetime Access",
+    fileSpecs: "Instant PDF + Interactive Workbook • About 88 pages (planned) • Actionable Checklists • Lifetime Access",
     sampleExcerpt: {
       chapter: "Chapter 02 / System Architecture",
       subtitle: "Workflow Integration & Visual Language",
@@ -128,13 +124,11 @@ export const products = [
     category: "E-Books & Monographs",
     categoryCode: "ebooks",
     price: 449,
-    originalPrice: 899,
-    badge: "RESEARCH MONOGRAPH • 110 PAGES",
+    badge: "RESEARCH MONOGRAPH",
     isBestSeller: false,
     isNew: true,
     isDigital: true,
-    rating: 5.0,
-    reviewsCount: 38,
+    available: false, // true = files are ready and it can be bought
     images: [
       "/assets/images/products/book-research-compendium-03.webp",
       "/assets/images/products/book-monograph-01-sample.webp"
@@ -143,14 +137,14 @@ export const products = [
       type: "Format",
       options: ["PDF + EPUB", "Annotated Edition"],
       prices: {
-        "PDF + EPUB": { price: 449, originalPrice: 899 },
-        "Annotated Edition": { price: 599, originalPrice: 1199 }
+        "PDF + EPUB": { price: 449 },
+        "Annotated Edition": { price: 599 }
       }
     },
     colors: ["Slate Black / Red Foil"],
-    description: "Authored from our Sopore atelier with deep roots in Islamic scholarship and modern computational systems. A 110-page master guide for students, researchers, and technologists on cultivating intellectual depth, navigating AI ethics, and synthesizing enduring knowledge systems.",
+    description: "Written with deep roots in Islamic scholarship and modern computational systems. A 110-page master guide for students, researchers, and technologists on cultivating intellectual depth, navigating AI ethics, and synthesizing enduring knowledge systems.",
     specifications: [
-      { label: "Pagination", value: "110 Pages (Annotated with Classical Citations)" },
+      { label: "Pagination", value: "Planned: about 110 pages (Annotated with Classical Citations)" },
       { label: "Format", value: "Vector PDF + Reflowable EPUB + Kindle KFX" },
       { label: "Curriculum", value: "Islamic Epistemology, Ethical Tech Boundaries, Synthesis" },
       { label: "Delivery", value: "Instant Direct Download + Email Delivery" },
@@ -163,7 +157,7 @@ export const products = [
       "Chapter 04: Primary Source Verification & Synthesis",
       "Chapter 05: The Long View — Building Enduring Intellectual Capital"
     ],
-    fileSpecs: "Instant PDF & EPUB Download • 110 Pages • Academic Citations Included • Lifetime Updates",
+    fileSpecs: "Instant PDF & EPUB Download • About 110 pages (planned) • Academic Citations Included • Lifetime Updates",
     sampleExcerpt: {
       chapter: "Chapter 01 / Epistemic Discipline",
       subtitle: "Beyond Algorithmic Fluff",
@@ -186,13 +180,11 @@ export const products = [
     category: "E-Books & Monographs",
     categoryCode: "ebooks",
     price: 549,
-    originalPrice: 1099,
     badge: "FOUNDER'S E-BOOK GUIDE",
     isBestSeller: false,
     isNew: true,
     isDigital: true,
-    rating: 4.8,
-    reviewsCount: 31,
+    available: false, // true = files are ready and it can be bought
     images: [
       "/assets/images/products/book-launch-blueprint-04.webp",
       "/assets/images/products/book-playbook-02-sample.webp"
@@ -201,14 +193,14 @@ export const products = [
       type: "Format",
       options: ["PDF + Checklists", "EPUB"],
       prices: {
-        "PDF + Checklists": { price: 549, originalPrice: 1099 },
-        "EPUB": { price: 449, originalPrice: 899 }
+        "PDF + Checklists": { price: 549 },
+        "EPUB": { price: 449 }
       }
     },
     colors: ["Industrial Charcoal / Signal Red"],
     description: "A battle-tested 94-page tactical guide covering luxury brand positioning, high-converting minimal checkout UX, pricing psychology in Indian Rupees & Global Currencies, and zero-ad organic distribution.",
     specifications: [
-      { label: "Pagination", value: "94 Pages of Dense, Tactical Guidance" },
+      { label: "Pagination", value: "Planned: about 94 pages of Dense, Tactical Guidance" },
       { label: "Deliverable", value: "Interactive PDF + EPUB + 12 Launch Day Checklists" },
       { label: "Core Topics", value: "Pre-Launch Teasers, Pricing Psychology, Frictionless UX" },
       { label: "Delivery", value: "Instant Download & WhatsApp Link Backup" },
@@ -221,7 +213,7 @@ export const products = [
       "Chapter 04: Frictionless Single-Page Checkout Architecture",
       "Chapter 05: Launch Day Mechanics & Retaining Lifetime Collectors"
     ],
-    fileSpecs: "Instant PDF & EPUB Download • 94 Pages • 12 Launch Day Checklists Included",
+    fileSpecs: "Instant PDF & EPUB Download • About 94 pages (planned) • 12 Launch Day Checklists Included",
     sampleExcerpt: {
       chapter: "Chapter 03 / Luxury Positioning & Pricing",
       subtitle: "The Architecture of Perceived Value",
@@ -248,13 +240,11 @@ export const products = [
     category: "Notion & Productivity Templates",
     categoryCode: "notion",
     price: 799,
-    originalPrice: 1499,
     badge: "NOTION TEMPLATE SYSTEM",
-    isBestSeller: true,
+    isBestSeller: false,
     isNew: true,
     isDigital: true,
-    rating: 5.0,
-    reviewsCount: 67,
+    available: false, // true = files are ready and it can be bought
     images: [
       "/assets/images/products/notion-second-brain-05.webp",
       "/assets/images/products/notion-second-brain-05.webp"
@@ -263,8 +253,8 @@ export const products = [
       type: "License",
       options: ["Notion Duplicate Link + Guide", "Team License"],
       prices: {
-        "Notion Duplicate Link + Guide": { price: 799, originalPrice: 1499 },
-        "Team License": { price: 1499, originalPrice: 2999 }
+        "Notion Duplicate Link + Guide": { price: 799 },
+        "Team License": { price: 1499 }
       }
     },
     colors: ["Obsidian Dark Mode"],
@@ -307,13 +297,11 @@ export const products = [
     category: "Notion & Productivity Templates",
     categoryCode: "notion",
     price: 899,
-    originalPrice: 1699,
     badge: "CREATOR TEMPLATE",
     isBestSeller: false,
     isNew: true,
     isDigital: true,
-    rating: 4.9,
-    reviewsCount: 28,
+    available: false, // true = files are ready and it can be bought
     images: [
       "/assets/images/products/notion-client-portal-06.webp",
       "/assets/images/products/notion-client-portal-06.webp"
@@ -322,8 +310,8 @@ export const products = [
       type: "Format",
       options: ["Notion Template + Invoice Kit", "Studio Multi-Client Pack"],
       prices: {
-        "Notion Template + Invoice Kit": { price: 899, originalPrice: 1699 },
-        "Studio Multi-Client Pack": { price: 1599, originalPrice: 2999 }
+        "Notion Template + Invoice Kit": { price: 899 },
+        "Studio Multi-Client Pack": { price: 1599 }
       }
     },
     colors: ["Architectural Dark Slate"],
@@ -365,13 +353,11 @@ export const products = [
     category: "Notion & Productivity Templates",
     categoryCode: "notion",
     price: 399,
-    originalPrice: 799,
     badge: "STUDY & RESEARCH TEMPLATE",
     isBestSeller: false,
     isNew: true,
     isDigital: true,
-    rating: 4.9,
-    reviewsCount: 35,
+    available: false, // true = files are ready and it can be bought
     images: [
       "/assets/images/products/notion-research-tracker-07.webp",
       "/assets/images/products/notion-research-tracker-07.webp"
@@ -380,8 +366,8 @@ export const products = [
       type: "Format",
       options: ["Notion Template + Zotero Guide", "Student Edition"],
       prices: {
-        "Notion Template + Zotero Guide": { price: 399, originalPrice: 799 },
-        "Student Edition": { price: 299, originalPrice: 599 }
+        "Notion Template + Zotero Guide": { price: 399 },
+        "Student Edition": { price: 299 }
       }
     },
     colors: ["Deep Charcoal / Minimalist Red"],
@@ -426,13 +412,11 @@ export const products = [
     category: "UI/UX & Design Systems",
     categoryCode: "design",
     price: 999,
-    originalPrice: 1999,
     badge: "FIGMA + TAILWIND TEMPLATE",
-    isBestSeller: true,
+    isBestSeller: false,
     isNew: true,
     isDigital: true,
-    rating: 5.0,
-    reviewsCount: 46,
+    available: false, // true = files are ready and it can be bought
     images: [
       "/assets/images/products/figma-ui-kit-08.webp",
       "/assets/images/products/book-specbook-03-sample.webp"
@@ -441,8 +425,8 @@ export const products = [
       type: "Format",
       options: ["Figma + Tailwind Code", "Figma Only"],
       prices: {
-        "Figma + Tailwind Code": { price: 999, originalPrice: 1999 },
-        "Figma Only": { price: 699, originalPrice: 1399 }
+        "Figma + Tailwind Code": { price: 999 },
+        "Figma Only": { price: 699 }
       }
     },
     colors: ["Swiss Red / Matte Obsidian"],
@@ -501,6 +485,23 @@ export function getRelatedProducts(productOrId, count = 2) {
 
   // Fallback: items from other categories
   return products.filter(p => p.id !== prod.id).slice(0, count);
+}
+
+/** A product can be bought only when its files exist and are ready to deliver (`available: true`). */
+export const isAvailable = (p) => Boolean(p && p.available);
+export const anyAvailable = () => products.some(isAvailable);
+
+/** Button text for a product's main action, in each place it appears. */
+export function buyLabel(p, price, where) {
+  const inr = `₹${Number(price).toLocaleString('en-IN')}`;
+  if (!isAvailable(p)) {
+    return { card: 'Pre-order on WhatsApp', pdp: '<span>Pre-order on WhatsApp</span>', modal: 'PRE-ORDER ON WHATSAPP →' }[where];
+  }
+  return {
+    card: `Instant Access • ${inr}`,
+    pdp: `<span>Add to Bag • Instant Access</span><span>•</span><span>${inr}</span>`,
+    modal: `UNLOCK FULL EDITION • ${inr} →`
+  }[where];
 }
 
 export function getDigitalProducts() {

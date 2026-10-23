@@ -10,6 +10,8 @@
  *   the payment belongs to that order and is authorized/captured for the full amount.
  * - What gets unlocked comes from the Razorpay order (written there at creation), never from the browser.
  * - The sandbox simulator (no real payment) only runs when TAMYIZ_SANDBOX is "true". Never set it in production.
+ * - Only released products can be ordered: RELEASED_PRODUCTS lists their ids (comma-separated) or "all".
+ *   Unset means nothing is for sale yet ("coming soon"); keep it in step with `available` in src/data/products.js.
  */
 
 // Authoritative Server-Side Product Catalog & Variant Pricing Map
@@ -18,64 +20,64 @@ export const CATALOG_PRICES = {
   "tmz-dig-001": {
     name: "TAMYIZ Monograph 01: The Architecture of Distinction",
     variants: {
-      "PDF + EPUB Bundle": { price: 499, originalPrice: 999 },
-      "Kindle EPUB": { price: 399, originalPrice: 799 }
+      "PDF + EPUB Bundle": { price: 499 },
+      "Kindle EPUB": { price: 399 }
     },
     defaultVariant: "PDF + EPUB Bundle"
   },
   "tmz-dig-002": {
     name: "The Solo Creator & Digital Craft Playbook",
     variants: {
-      "PDF + Checklists": { price: 699, originalPrice: 1299 },
-      "EPUB": { price: 499, originalPrice: 899 }
+      "PDF + Checklists": { price: 699 },
+      "EPUB": { price: 499 }
     },
     defaultVariant: "PDF + Checklists"
   },
   "tmz-dig-003": {
     name: "Ethical Technology & Deep Research: The Student's Compendium",
     variants: {
-      "PDF + EPUB": { price: 449, originalPrice: 899 },
-      "Annotated Edition": { price: 599, originalPrice: 1199 }
+      "PDF + EPUB": { price: 449 },
+      "Annotated Edition": { price: 599 }
     },
     defaultVariant: "PDF + EPUB"
   },
   "tmz-dig-004": {
     name: "Zero-to-One Digital Product Launch Blueprint",
     variants: {
-      "PDF + Checklists": { price: 549, originalPrice: 1099 },
-      "EPUB": { price: 449, originalPrice: 899 }
+      "PDF + Checklists": { price: 549 },
+      "EPUB": { price: 449 }
     },
     defaultVariant: "PDF + Checklists"
   },
   "tmz-dig-005": {
     name: "TAMYIZ Second Brain & Deep Work Notion OS",
     variants: {
-      "Notion Duplicate Link + Guide": { price: 799, originalPrice: 1499 },
-      "Team License": { price: 1499, originalPrice: 2999 }
+      "Notion Duplicate Link + Guide": { price: 799 },
+      "Team License": { price: 1499 }
     },
     defaultVariant: "Notion Duplicate Link + Guide"
   },
   "tmz-dig-006": {
     name: "Freelance Atelier & Client Portal Notion Workspace",
     variants: {
-      "Notion Template + Invoice Kit": { price: 899, originalPrice: 1699 },
-      "Studio Multi-Client Pack": { price: 1599, originalPrice: 2999 }
+      "Notion Template + Invoice Kit": { price: 899 },
+      "Studio Multi-Client Pack": { price: 1599 }
     },
     defaultVariant: "Notion Template + Invoice Kit"
   },
   "tmz-dig-007": {
     name: "Academic Research & Literature Tracker Notion Matrix",
     variants: {
-      "Notion Template + Zotero Guide": { price: 399, originalPrice: 799 },
-      "Student Edition": { price: 299, originalPrice: 599 }
+      "Notion Template + Zotero Guide": { price: 399 },
+      "Student Edition": { price: 299 }
     },
     defaultVariant: "Notion Template + Zotero Guide"
   },
   "tmz-dig-008": {
     name: "TAMYIZ Swiss Grid & Luxury Portfolio UI Kit 2026",
     variants: {
-      "Figma + Tailwind Code": { price: 999, originalPrice: 1999 },
-      "Figma Only": { price: 699, originalPrice: 1399 }
+      "Figma + Tailwind Code": { price: 999 },
+      "Figma Only": { price: 699 }
     },
     defaultVariant: "Figma + Tailwind Code"
   }
@@ -400,7 +402,7 @@ export async function sendReceiptEmail({ email, phone, orderId, referenceId, ite
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: env.RECEIPT_FROM || 'TAMYIZ Atelier <orders@tamyiz.in>',
+        from: env.RECEIPT_FROM || 'TAMYIZ <onboarding@resend.dev>',
         to: [toEmail],
         subject: `TAMYIZ™ Order Unlocked // Ref: ${referenceId}`,
         html
@@ -430,6 +432,16 @@ const JSON_HEADERS = {
 
 export function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: JSON_HEADERS });
+}
+
+const NOT_RELEASED = 'This edition is not out yet. Message us on WhatsApp (+91 95417 22379) to pre-order and we will tell you the day it is ready.';
+
+/** Products from this list that are not for sale yet (RELEASED_PRODUCTS: "all", or ids separated by commas). */
+export function unreleased(items, env = {}) {
+  const setting = String(env.RELEASED_PRODUCTS || '').trim();
+  if (setting === 'all') return [];
+  const released = new Set(setting.split(',').map((s) => s.trim()).filter(Boolean));
+  return [...new Set(items.map((i) => i.productId).filter((id) => !released.has(id)))];
 }
 
 export function hasRazorpayKeys(env) {
@@ -511,6 +523,9 @@ export async function handleCreateOrder(request, env, fetchImpl = fetch) {
   let order;
   try { order = calculateOrderTotal(items, coupon || couponCode); }
   catch (err) { return json({ error: err.message }, 400); }
+
+  const notYet = unreleased(order.items, env);
+  if (notYet.length) return json({ error: NOT_RELEASED, productIds: notYet }, 409);
 
   if (hasRazorpayKeys(env)) {
     let notes;
@@ -605,6 +620,7 @@ export async function handleVerifyPayment(request, env, fetchImpl = fetch) {
     mode = 'atelier_sandbox';
     paidItems = Array.isArray(body.items) ? body.items.map((i) => ({ productId: i.productId || i.id, variant: i.variant || i.size })) : [];
     if (paidItems.length === 0) return json({ error: 'Missing items for digital fulfillment' }, 400);
+    if (unreleased(paidItems, env).length) return json({ error: NOT_RELEASED }, 409);
   } else {
     return json({ error: PAYMENTS_OFF }, 503);
   }

@@ -16,7 +16,7 @@ export function renderAtelierPage(appInstance) {
         <div class="container">
           <div class="tamyiz-page-header-inner">
             <span class="tamyiz-page-badge">
-              ATELIER ORIGIN // ${siteConfig.coordinates} • SOPORE, KASHMIR
+              ATELIER ORIGIN // EST. 2025
             </span>
             <h1 class="tamyiz-page-title">
               Atelier Origin &amp; Architects
@@ -28,23 +28,23 @@ export function renderAtelierPage(appInstance) {
         </div>
       </section>
 
-      <!-- THE SOPORE STORY & MANIFESTO -->
+      <!-- THE STORY & MANIFESTO -->
       <section class="tamyiz-section py-14 md:py-24" style="background: #FFFFFF;">
         <div class="container">
           <div class="tamyiz-origin-story-grid">
             <div class="tamyiz-origin-text-col">
               <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
-                The Sopore Manifesto
+                The TAMYIZ Manifesto
               </span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase; line-height: 1.15; margin-bottom: 1.5rem;">
                 Rooted in Solitude. Engineered for the World.
               </h2>
               <div class="tamyiz-manifesto-paragraphs">
                 <p>
-                  In late 2025 in Sopore, Kashmir, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Systems Security &amp; Research, and Sahil in Artificial Intelligence, Machine Learning &amp; Systems Architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.
+                  In late 2025, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Systems Security &amp; Research, and Sahil in Artificial Intelligence, Machine Learning &amp; Systems Architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.
                 </p>
                 <p>
-                  The Arabic root of <em>Tamyiz</em> (تمييز) denotes the capacity to distinguish, to elevate, and to discern between the superfluous and the essential. Surrounded by the serene waters of the Jhelum and the alpine majesty of northern Kashmir, we established a quiet atelier that treats e-books, Notion operating frameworks, and UI systems with the permanence of classical architecture.
+                  The Arabic root of <em>Tamyiz</em> (تمييز) denotes the capacity to distinguish, to elevate, and to discern between the superfluous and the essential. We set up a quiet atelier that treats e-books, Notion operating frameworks, and UI systems with the permanence of classical architecture.
                 </p>
                 <p>
                   We believe that the future of independent work belongs to solitary craftspeople and focused thinkers who value intellectual depth over vanity metrics. Every release is our contribution to that standard.
@@ -71,12 +71,12 @@ export function renderAtelierPage(appInstance) {
               <div class="tamyiz-origin-photo-frame">
                 <img 
                   src="${siteConfig.atelierStudioImage}" 
-                  alt="FIG. 01 — TAMYIZ Sopore Research Atelier Drafting Desk" 
+                  alt="FIG. 01 — TAMYIZ research desk" 
                   class="tamyiz-origin-photo object-cover" 
                   loading="eager"
                 />
                 <div class="tamyiz-origin-photo-caption">
-                  <span>FIG. 01 — SOPORE RESEARCH ATELIER</span>
+                  <span>FIG. 01 — RESEARCH ATELIER</span>
                   <span>EST. 2025</span>
                 </div>
               </div>

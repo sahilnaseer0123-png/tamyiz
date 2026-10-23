@@ -3,6 +3,13 @@
  * Single source of truth for contact details, social channels, coordinates, and brand metadata.
  */
 
+/** WhatsApp link with a pre-order message for one product (used while it is "coming soon"). */
+export function preorderWhatsAppUrl(productName, variant) {
+  const fmt = variant && variant !== 'Standard' ? ` (${variant})` : '';
+  const text = `Hello TAMYIZ, I'd like to pre-order: ${productName}${fmt}. Please message me when it's ready.`;
+  return `https://wa.me/919541722379?text=${encodeURIComponent(text)}`;
+}
+
 export const siteConfig = {
   brandName: "TAMYIZ™",
   brandMonogram: "T•",

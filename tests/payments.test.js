@@ -2,12 +2,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handleCreateOrder, handleVerifyPayment, hmacSha256Hex, timingSafeEqual,
+  unreleased, handleCreateOrder, handleVerifyPayment, hmacSha256Hex, timingSafeEqual,
   itemsToNotes, notesToItems, calculateOrderTotal
 } from '../server/payments.js';
 
 const post = (body) => new Request('http://x/api', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-const LIVE = { RAZORPAY_KEY_ID: 'rzp_test_abc', RAZORPAY_KEY_SECRET: 'shh-secret' };
+const LIVE = { RAZORPAY_KEY_ID: 'rzp_test_abc', RAZORPAY_KEY_SECRET: 'shh-secret', RELEASED_PRODUCTS: 'all' };
 const buyer = { email: 'a@b.co', phone: '9876543210' };
 const cart = [{ productId: 'tmz-dig-007', variant: 'Student Edition' }]; // ₹299
 
@@ -32,7 +32,7 @@ function fakeRazorpay() {
 }
 
 test('no keys and no sandbox: checkout is refused with a clear message (no free downloads)', async () => {
-  const r = await handleCreateOrder(post({ items: cart, ...buyer }), {});
+  const r = await handleCreateOrder(post({ items: cart, ...buyer }), { RELEASED_PRODUCTS: 'all' });
   assert.equal(r.status, 503);
   assert.match((await r.json()).error, /WhatsApp/);
   const v = await handleVerifyPayment(post({ mode: 'atelier_sandbox', items: cart, ...buyer }), {});
@@ -95,7 +95,7 @@ test('gateway error never falls back to the free sandbox', async () => {
 });
 
 test('sandbox only when TAMYIZ_SANDBOX=true (for local testing)', async () => {
-  const env = { TAMYIZ_SANDBOX: 'true' };
+  const env = { TAMYIZ_SANDBOX: 'true', RELEASED_PRODUCTS: 'all' };
   const o = await (await handleCreateOrder(post({ items: cart, ...buyer }), env)).json();
   assert.equal(o.mode, 'atelier_sandbox');
   const v = await (await handleVerifyPayment(post({ items: cart, ...buyer }), env)).json();
@@ -134,4 +134,27 @@ test('verification returns prices for the receipt screen', async () => {
   assert.equal(res.subtotalINR, 299);
   assert.equal(res.discountINR, 45);
   assert.equal(res.downloads[0].price, 299);
+});
+
+test('coming soon: nothing can be ordered until it is released, even with real keys or the sandbox', async () => {
+  const rz = fakeRazorpay();
+  for (const env of [{ RAZORPAY_KEY_ID: 'rzp_test_abc', RAZORPAY_KEY_SECRET: 'shh-secret' }, { TAMYIZ_SANDBOX: 'true' }, {}]) {
+    const r = await handleCreateOrder(post({ items: cart, ...buyer }), env, rz.fetchImpl);
+    assert.equal(r.status, 409);
+    assert.match((await r.json()).error, /WhatsApp/);
+  }
+  assert.equal(Object.keys(rz.orders).length, 0, 'no Razorpay order is created');
+  const v = await handleVerifyPayment(post({ items: cart, ...buyer }), { TAMYIZ_SANDBOX: 'true' });
+  assert.equal(v.status, 409);
+});
+
+test('released products can be ordered one at a time', async () => {
+  const rz = fakeRazorpay();
+  const env = { ...LIVE, RELEASED_PRODUCTS: 'tmz-dig-007, tmz-dig-001' };
+  assert.equal((await handleCreateOrder(post({ items: cart, ...buyer }), env, rz.fetchImpl)).status, 200);
+  const mixed = [...cart, { productId: 'tmz-dig-008', variant: 'Figma Only' }];
+  const r = await handleCreateOrder(post({ items: mixed, ...buyer }), env, rz.fetchImpl);
+  assert.equal(r.status, 409);
+  assert.deepEqual((await r.json()).productIds, ['tmz-dig-008']);
+  assert.deepEqual(unreleased([{ productId: 'x' }], { RELEASED_PRODUCTS: 'all' }), []);
 });

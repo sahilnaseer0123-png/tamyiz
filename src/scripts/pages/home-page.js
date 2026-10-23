@@ -3,13 +3,13 @@
  * Route: /
  */
 
-import { products } from '../../data/products.js';
+import { products, isAvailable, anyAvailable, buyLabel } from '../../data/products.js';
 import { foundersData } from '../../data/content.js';
 import { siteConfig } from '../../data/site-config.js';
 import { store } from '../store.js';
 
 export function renderHomePage(appInstance) {
-  // 3 Bestseller Spotlight products
+  // 3 featured products
   const featuredIds = ['tmz-dig-001', 'tmz-dig-004', 'tmz-dig-007'];
   const featuredProducts = featuredIds
     .map(id => products.find(p => p.id === id))
@@ -33,7 +33,7 @@ export function renderHomePage(appInstance) {
               </h1>
 
               <p class="tamyiz-hero-subheadline text-lg sm:text-xl lg:text-[21px] leading-[1.55] max-w-[540px] mb-8">
-                Authoritative e-books, Notion operating systems, and architectural design templates. Crafted in Sopore, Kashmir.
+                Authoritative e-books, Notion operating systems, and architectural design templates.
               </p>
 
               <div class="tamyiz-hero-actions flex flex-col items-start">
@@ -41,7 +41,7 @@ export function renderHomePage(appInstance) {
                   <span>EXPLORE EDITIONS</span>
                   <span>↓</span>
                 </button>
-                <span class="tamyiz-hero-spec-tag text-[11px] tracking-[0.16em] uppercase">INSTANT DIGITAL ACCESS • PDF, EPUB &amp; NOTION SYSTEMS</span>
+                <span class="tamyiz-hero-spec-tag text-[11px] tracking-[0.16em] uppercase">${anyAvailable() ? 'INSTANT DIGITAL ACCESS • PDF, EPUB &amp; NOTION SYSTEMS' : 'FIRST EDITIONS COMING SOON • PRE-ORDER ON WHATSAPP'}</span>
               </div>
             </div>
 
@@ -131,12 +131,12 @@ export function renderHomePage(appInstance) {
         </div>
       </div>
 
-      <!-- 3. FEATURED CURATED EDITIONS (BESTSELLERS SPOTLIGHT) -->
+      <!-- 3. FEATURED CURATED EDITIONS -->
       <section id="editions" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite);">
         <div class="container">
           <div class="tamyiz-shop-header" style="align-items: flex-end; margin-bottom: 2.5rem;">
             <div>
-              <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Curated Publications // Bestsellers</span>
+              <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Curated Publications // Edition 01</span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase;">Featured Editions</h2>
             </div>
             <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/editions')">
@@ -166,7 +166,7 @@ export function renderHomePage(appInstance) {
             <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Atelier Philosophy</span>
             <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; line-height: 1.1;">The Three Pillars of Distinction</h2>
             <p style="color: #666; font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.55;">
-              Every publication, Notion system, and design framework is guided by three non-negotiable principles engineered in Sopore, Kashmir.
+              Every publication, Notion system, and design framework is guided by three non-negotiable principles.
             </p>
           </div>
 
@@ -211,7 +211,7 @@ export function renderHomePage(appInstance) {
           <div class="tamyiz-founders-teaser-card">
             <div class="tamyiz-founders-teaser-content">
               <span style="font-family: var(--font-sub); font-size: 0.78rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
-                Atelier Origin // Sopore, Kashmir
+                Atelier Origin // Est. 2025
               </span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; line-height: 1.15; margin-bottom: 1rem;">
                 Architects of the Archive
@@ -376,7 +376,7 @@ export function renderProductCardHtml(p, appInstance) {
         <img src="${p.images[0]}" alt="${p.name}" class="tamyiz-img-primary" loading="lazy" />
         <img src="${p.images[1] || p.images[0]}" alt="" aria-hidden="true" class="tamyiz-img-hover" loading="lazy" />
 
-        <span class="tamyiz-badge-digital">${p.badge}</span>
+        <span class="tamyiz-badge-digital">${isAvailable(p) ? p.badge : `COMING SOON • ${p.badge}`}</span>
 
         <button class="tamyiz-btn-wishlist ${store.isInWishlist(p.id) ? 'active' : ''}" data-id="${p.id}" onclick="event.stopPropagation(); window.tamyizApp.toggleWishlist('${p.id}')" aria-label="Wishlist">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="${store.isInWishlist(p.id) ? 'var(--color-red)' : 'none'}" stroke="currentColor" stroke-width="2">
@@ -417,7 +417,7 @@ export function renderProductCardHtml(p, appInstance) {
 
         <div class="tamyiz-card-actions-row">
           <button class="tamyiz-btn-quick-add" id="btn-quick-${p.id}" style="background: var(--color-red); font-size: 0.82rem; padding: 0.82rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickAddToCart('${p.id}')">
-            Instant Access • ₹${currentPrice.toLocaleString('en-IN')}
+            ${buyLabel(p, currentPrice, 'card')}
           </button>
           <button class="tamyiz-btn-preview-trigger" onclick="event.stopPropagation(); window.tamyizApp.openProductPreview('${p.id}')">
             <span>Preview Edition ↗</span>

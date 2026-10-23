@@ -26,9 +26,28 @@ sold with Razorpay and delivered as download / duplicate links.
 - Tests: `npm test` (node test runner, `tests/`). Run before every push. `npm run cf:dev` runs the built site on
   Cloudflare's runtime locally (wrangler).
 
+## Selling: "coming soon" until files exist (24 Oct 2026)
+
+No product files exist yet, so every product is "coming soon": `available: false` in `src/data/products.js`.
+Coming soon = "COMING SOON" badge, main button "Pre-order on WhatsApp" (opens WhatsApp with the product and
+format filled in), no Buy Now, no Bag/Checkout in the header, product schema says PreOrder.
+To start selling ONE product when its file is ready:
+1. Upload the file; set its `URL_*` download link in Cloudflare (see `.env.example`). Test the link.
+2. `available: true` on that product in products.js.
+3. Add its id to `RELEASED_PRODUCTS` in Cloudflare settings (comma-separated, or `all`). The server refuses
+   anything not listed (409), even if the page is tampered with.
+4. Razorpay keys + `RESEND_API_KEY` set (the product page promises the link by email). Push; test one real purchase.
+
+## Honesty rules (decided by Sahil and Basit, 24 Oct 2026)
+
+- No struck-through "was" prices, "SAVE x%", "BESTSELLER", star ratings or review counts until they are real.
+- It is a "Receipt", never a "Tax invoice" (that needs GST registration).
+- Nothing is sent on WhatsApp automatically; never claim it. Page counts stay "planned" until the book exists.
+- Sopore/Kashmir only in legal contact details and receipts, not in brand copy (TAMYIZ is a global brand).
+
 ## Quality baseline (24 Oct 2026, local build)
 
-axe: 0 violations on every page, phone and desktop. Lighthouse mobile: performance 83–87, accessibility 100,
+axe: 0 violations on every page, phone and desktop. Lighthouse mobile: performance 82–93, accessibility 100,
 SEO 100, best practices 100. Touch screens get 44px tap areas (`@media (pointer: coarse)` block at the end of
 tamyiz-unified.css). Don't ship below this.
 
@@ -44,9 +63,8 @@ tamyiz-unified.css). Don't ship below this.
    Without keys and without sandbox, checkout returns a polite 503 pointing buyers to WhatsApp.
 6. Never commit keys. The repo is public.
 
-## Open issues (as of 23 Oct 2026, decisions for Sahil and Basit)
+## Open issues (as of 24 Oct 2026)
 
-- Product ratings and review counts in `src/data/products.js` (e.g. 5.0 from 54 reviews) are not from real customers.
-- "Original" prices shown struck through (e.g. ~~₹999~~ ₹499) are not prices anything was sold at.
-- Download links default to `assets.tamyiz.in` / `tamyiz.notion.site`; they must point at real files before payments go live.
-- The legal page and receipt email name `tamyiz.in`; the live address is https://tamyiz.pages.dev.
+- Download links default to `assets.tamyiz.in` / `tamyiz.notion.site` placeholders; set real ones per product (step 1 above).
+- Receipt emails send from Resend's test sender until `RECEIPT_FROM` is a verified address.
+- Product descriptions, chapter lists and sample excerpts describe planned content; update them as each product is written.

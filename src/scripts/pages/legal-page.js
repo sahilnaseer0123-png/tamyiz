@@ -25,7 +25,7 @@ export const legalDocs = {
       {
         heading: '02. Delivery Timeline (Instantaneous 0–2 Minutes SLA)',
         content: `Digital fulfillment is instantaneous (0–2 minutes) upon transaction verification. Immediately upon payment authorization through our 256-bit encrypted gateway, your session transitions to the on-screen ATELIER DISPATCH COMPLETE — EDITION UNLOCKED chamber with one-click direct download and duplication vault buttons.
-Simultaneously, a redundant permanent cryptographic download receipt is dispatched to your registered Email Address and WhatsApp mobile number.`
+A copy of your download links is also sent to the email address you gave at checkout.`
       },
       {
         heading: '03. Concierge Escalation Protocol',
@@ -97,8 +97,8 @@ Users retain the perpetual right to request complete data erasure or access to t
     lastUpdated: 'October 2026',
     sections: [
       {
-        heading: '01. Operating Entity & Registered Atelier Headquarters',
-        content: `TAMYIZ™ (tamyiz.in) is operated by TAMYIZ™ Digital Publishing & Design Systems Studio, headquartered in Sopore, Jammu & Kashmir 193201, India.
+        heading: '01. Who Runs TAMYIZ',
+        content: `TAMYIZ™ (tamyiz.pages.dev) is run by its co-founders from Sopore, Jammu & Kashmir 193201, India.
 Co-Founded by Basit Majeed (Security & Academic Research) and Sahil (AI/ML & Architecture).`
       },
       {
@@ -182,17 +182,16 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
               `).join('')}
             </div>
 
-            <!-- INDIAN PAYMENT GATEWAY & STATUTORY KYC COMPLIANCE DISCLOSURE -->
+            <!-- BUSINESS CONTACT DETAILS -->
             <div class="mt-12 p-6 sm:p-7 bg-neutral-50 border border-neutral-300 rounded text-xs font-mono text-neutral-700 leading-relaxed">
               <div class="font-bold text-black uppercase tracking-wider text-sm mb-3 pb-2 border-b border-neutral-200">
-                Registered Atelier Headquarters &amp; Regulatory Compliance Information
+                Business Contact Details
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <div class="mb-1.5"><strong class="text-black">Operating Entity:</strong> TAMYIZ™ Digital Publishing &amp; Systems Architecture Atelier</div>
                   <div class="mb-1.5"><strong class="text-black">Studio Address:</strong> Sopore, Kashmir 193201, India</div>
-                  <div class="mb-1.5"><strong class="text-black">Geographic Coordinates:</strong> 34.28° N, 74.46° E (Himalayan Valley Base)</div>
-                  <div><strong class="text-black">Co-Founders:</strong> Basit Majeed (Security &amp; Research) &amp; Sahil (AI/ML &amp; Build)</div>
+                                    <div><strong class="text-black">Co-Founders:</strong> Basit Majeed (Security &amp; Research) &amp; Sahil (AI/ML &amp; Build)</div>
                 </div>
                 <div>
                   <div class="mb-1.5"><strong class="text-black">Direct Concierge Email:</strong> <a href="mailto:tamyiz.co@gmail.com" class="underline text-black font-bold">tamyiz.co@gmail.com</a></div>

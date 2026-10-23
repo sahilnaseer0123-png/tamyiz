@@ -8,18 +8,18 @@ export const SITE_URL = 'https://tamyiz.pages.dev';
 const BRAND = 'TAMYIZ™';
 const DEFAULT_IMAGE = '/og/tamyiz.jpg';
 const DEFAULT_DESCRIPTION =
-  'E-books, Notion templates and design kits by TAMYIZ™, made in Sopore, Kashmir. Instant digital download.';
+  'E-books, Notion templates and design kits by TAMYIZ™. First editions coming soon.';
 
 const STATIC_PAGES = {
   home: {
     path: '/',
-    title: `${BRAND} | E-books, Notion templates and design kits from Sopore, Kashmir`,
+    title: `${BRAND} | E-books, Notion templates and design kits`,
     description: DEFAULT_DESCRIPTION,
   },
   editions: {
     path: '/editions',
     title: `All editions | ${BRAND}`,
-    description: `Browse all ${products.length} TAMYIZ™ editions: e-books, Notion templates and a Figma UI kit. Instant digital download.`,
+    description: `All ${products.length} TAMYIZ™ editions: e-books, Notion templates and a Figma UI kit.`,
   },
   philosophy: {
     path: '/philosophy',
@@ -29,7 +29,7 @@ const STATIC_PAGES = {
   atelier: {
     path: '/atelier',
     title: `About us | ${BRAND}`,
-    description: 'TAMYIZ™ is a small digital publishing studio in Sopore, Kashmir, run by co-founders Basit and Sahil.',
+    description: 'TAMYIZ™ is a small digital publishing studio run by co-founders Basit and Sahil.',
   },
   checkout: {
     path: '/checkout',
@@ -55,7 +55,7 @@ export function pageMeta(page, slug) {
     return {
       path: `/edition/${product.slug}`,
       title: `${product.name} | ${BRAND}`,
-      description: `${product.tagline}. ${product.category}, ₹${product.price}, instant digital download.`,
+      description: `${product.tagline}. ${product.category}, ₹${product.price}, ${product.available ? 'instant digital download' : 'coming soon, pre-order on WhatsApp'}.`,
       image: ogImageFor(product),
       product,
     };
@@ -96,7 +96,7 @@ export function productSchema(product) {
       '@type': 'Offer',
       price: product.price,
       priceCurrency: 'INR',
-      availability: 'https://schema.org/InStock',
+      availability: product.available ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
       url: `${SITE_URL}/edition/${product.slug}`,
     },
   };

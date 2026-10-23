@@ -13,9 +13,9 @@
 import { TamyizLogoSparks } from './tamyiz-logo-sparks.js';
 import { pageMeta, SITE_URL } from '../data/seo.js';
 import { renderNotFoundPage } from './pages/not-found-page.js';
-import { products, findProductBySlugOrId } from '../data/products.js';
+import { products, findProductBySlugOrId, isAvailable, anyAvailable, buyLabel } from '../data/products.js';
 import { foundersData, brandInfo, policies } from '../data/content.js';
-import { siteConfig } from '../data/site-config.js';
+import { siteConfig, preorderWhatsAppUrl } from '../data/site-config.js';
 import { store } from './store.js';
 
 import { renderHomePage } from './pages/home-page.js';
@@ -36,7 +36,7 @@ export class TamyizUnifiedApp {
     this.logoSparks = null;
     this.activeCategory = 'all'; // 'all' | 'ebooks' | 'notion' | 'design'
     this.searchQuery = '';
-    this.sortBy = 'featured'; // 'featured' | 'price-asc' | 'price-desc' | 'rating'
+    this.sortBy = 'featured'; // 'featured' | 'price-asc' | 'price-desc'
     this.selectedSizes = {}; // { [productId]: formatOptionString }
     this.activePdpImageIndex = 0;
     this.mobileMenuOpen = false;
@@ -282,9 +282,9 @@ export class TamyizUnifiedApp {
               <span class="tamyiz-menu-text-mobile">MENU</span>
             </button>
 
-            <!-- Desktop Left Brand (EST. 2025 • SOPORE Hallmark) -->
+            <!-- Desktop Left Brand -->
             <a href="/" class="tamyiz-header-brand tamyiz-header-brand-desktop" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">
-              <span class="tamyiz-top-meta">EST. 2025 • SOPORE</span>
+              <span class="tamyiz-top-meta">EST. 2025</span><span class="sr-only"> · TAMYIZ home</span>
             </a>
           </div>
 
@@ -298,7 +298,7 @@ export class TamyizUnifiedApp {
           </nav>
 
           <div class="tamyiz-header-right">
-            <button class="tamyiz-cart-btn" onclick="window.tamyizApp.openCart()">
+            ${anyAvailable() ? `<button class="tamyiz-cart-btn" onclick="window.tamyizApp.openCart()">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -306,7 +306,7 @@ export class TamyizUnifiedApp {
               </svg>
               <span>Bag</span>
               <span class="tamyiz-cart-badge" id="header-cart-badge">0</span><span class="sr-only"> items</span>
-            </button>
+            </button>` : ''}
           </div>
         </div>
       </header>
@@ -329,7 +329,7 @@ export class TamyizUnifiedApp {
               <li><a href="/#philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars &amp; Philosophy <span>→</span></a></li>
               <li><a href="/#origin" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin &amp; Founders <span>→</span></a></li>
               <li><a href="/#format-guide" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">Digital Format Guide <span>→</span></a></li>
-              <li><a href="#cart" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Instant Checkout <span>→</span></a></li>
+              <li>${anyAvailable() ? `<a href="#cart" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Instant Checkout <span>→</span></a>` : `<a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-mobile-nav-link" style="color: var(--color-red-on-dark); font-weight: 700;">Pre-order on WhatsApp <span>↗</span></a>`}</li>
             </ul>
           </div>
 
@@ -482,7 +482,7 @@ export class TamyizUnifiedApp {
             <div class="tamyiz-footer-brand">
               <h2>TAMYIZ™</h2>
               <p>
-                Digital Publishing &amp; Design Systems Studio. Crafted in Sopore, Kashmir 193201.<br/>
+                Digital Publishing &amp; Design Systems Studio.<br/>
                 Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red-on-dark); font-weight: 700;">${siteConfig.phone}</a>
               </p>
             </div>
@@ -494,7 +494,7 @@ export class TamyizUnifiedApp {
                 <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">The Editions</a></li>
                 <li><a href="/#philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars</a></li>
                 <li><a href="/#origin" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin</a></li>
-                <li><a href="#cart" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Instant Checkout →</a></li>
+                <li>${anyAvailable() ? `<a href="#cart" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Instant Checkout →</a>` : `<a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red-on-dark); font-weight: 700;">Pre-order on WhatsApp ↗</a>`}</li>
               </ul>
             </div>
 
@@ -523,7 +523,7 @@ export class TamyizUnifiedApp {
 
           <div class="tamyiz-footer-bottom">
             <div>
-              &copy; ${new Date().getFullYear()} TAMYIZ™ Studio • Sopore, Kashmir 193201
+              &copy; ${new Date().getFullYear()} TAMYIZ™ Studio
             </div>
             <div>
               High-Contrast Monospace Digital Craft.
@@ -725,8 +725,6 @@ export class TamyizUnifiedApp {
       list.sort((a, b) => a.price - b.price);
     } else if (this.sortBy === 'price-desc') {
       list.sort((a, b) => b.price - a.price);
-    } else if (this.sortBy === 'rating') {
-      list.sort((a, b) => b.rating - a.rating);
     }
 
     return list;
@@ -860,7 +858,7 @@ export class TamyizUnifiedApp {
       // Update CTA button label
       const quickBtn = card.querySelector(`#btn-quick-${productId}, .tamyiz-btn-quick-add`);
       if (quickBtn) {
-        quickBtn.innerHTML = `Instant Access • ₹${price.toLocaleString('en-IN')}`;
+        quickBtn.innerHTML = buyLabel(product, price, 'card');
       }
     });
 
@@ -876,7 +874,7 @@ export class TamyizUnifiedApp {
     }
     const standaloneQuickBtn = document.getElementById(`btn-quick-${productId}`);
     if (standaloneQuickBtn) {
-      standaloneQuickBtn.innerHTML = `Instant Access • ₹${price.toLocaleString('en-IN')}`;
+      standaloneQuickBtn.innerHTML = buyLabel(product, price, 'card');
     }
 
     // 2. Update PDP Price & Button
@@ -896,7 +894,7 @@ export class TamyizUnifiedApp {
     }
     const pdpAddBtn = document.getElementById('pdp-add-btn') || document.querySelector('.tamyiz-pdp-btn-add');
     if (pdpAddBtn) {
-      pdpAddBtn.innerHTML = `<span>Add to Bag • Instant Access</span><span>•</span><span>₹${price.toLocaleString('en-IN')}</span>`;
+      pdpAddBtn.innerHTML = buyLabel(product, price, 'pdp');
     }
     const pdpBuyBtn = document.getElementById('pdp-buy-btn') || document.querySelector('.tamyiz-pdp-btn-buy-now');
     if (pdpBuyBtn) {
@@ -913,13 +911,14 @@ export class TamyizUnifiedApp {
     if (modalPriceEl) modalPriceEl.textContent = `₹${price.toLocaleString('en-IN')}`;
     const modalBuyBtn = document.getElementById(`modal-buy-btn-${productId}`);
     if (modalBuyBtn) {
-      modalBuyBtn.innerHTML = `UNLOCK FULL EDITION • ₹${price.toLocaleString('en-IN')} →`;
+      modalBuyBtn.innerHTML = buyLabel(product, price, 'modal');
     }
   }
 
   quickAddToCart(id) {
     const product = findProductBySlugOrId(id);
     if (!product) return;
+    if (!isAvailable(product)) return this.preorder(product.id);
 
     const hasVariants = product.variants && product.variants.options && product.variants.options.length > 0;
     const selectedVariant = this.selectedSizes[product.id] || (hasVariants ? product.variants.options[0] : "Standard");
@@ -941,6 +940,7 @@ export class TamyizUnifiedApp {
   buyNowDirect(id) {
     const product = findProductBySlugOrId(id);
     if (!product) return;
+    if (!isAvailable(product)) return this.preorder(product.id);
 
     const hasVariants = product.variants && product.variants.options && product.variants.options.length > 0;
     const selectedVariant = this.selectedSizes[product.id] || (hasVariants ? product.variants.options[0] : "Standard");
@@ -954,6 +954,15 @@ export class TamyizUnifiedApp {
     store.addToCart(product, selectedVariant, 1, price, origPrice);
     this.closeCart();
     this.navigateTo('/checkout');
+  }
+
+  // "Coming soon" products: open WhatsApp with a pre-order message naming the product and format.
+  preorder(id) {
+    const product = findProductBySlugOrId(id);
+    if (!product) return;
+    const hasVariants = product.variants && product.variants.options && product.variants.options.length > 0;
+    const variant = this.selectedSizes[product.id] || (hasVariants ? product.variants.options[0] : '');
+    window.open(preorderWhatsAppUrl(product.name, variant), '_blank', 'noopener');
   }
 
   toggleWishlist(id) {
@@ -1202,6 +1211,7 @@ export class TamyizUnifiedApp {
   quickBuyFromModal(productId) {
     const product = findProductBySlugOrId(productId);
     if (!product) return;
+    if (!isAvailable(product)) return this.preorder(product.id);
 
     const hasVariants = product.variants && product.variants.options && product.variants.options.length > 0;
     const selectedVariant = this.selectedSizes[product.id] || (hasVariants ? product.variants.options[0] : "Standard");
@@ -1383,7 +1393,7 @@ export class TamyizUnifiedApp {
             ${origPrice ? `<span style="font-size: 0.88rem; color: #999; text-decoration: line-through; margin-left: 0.35rem;">₹${origPrice.toLocaleString('en-IN')}</span>` : ''}
           </div>
           <button class="tamyiz-btn-quick-add" id="modal-buy-btn-${product.id}" style="background: var(--color-red); font-size: 0.84rem; padding: 0.85rem 1.4rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickBuyFromModal('${product.id}')">
-            UNLOCK FULL EDITION • ₹${price.toLocaleString('en-IN')} →
+            ${buyLabel(product, price, 'modal')}
           </button>
         </div>
       </div>
@@ -1618,7 +1628,7 @@ export class TamyizUnifiedApp {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>TAMYIZ™ — Tax Invoice #${invoiceNumber}</title>
+  <title>TAMYIZ™ — Receipt #${invoiceNumber}</title>
   <style>
     @page { size: A4; margin: 15mm; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #111; margin: 0; padding: 25px; background: #FFF; line-height: 1.5; font-size: 13px; }
@@ -1649,7 +1659,7 @@ export class TamyizUnifiedApp {
       </div>
     </div>
     <div class="meta">
-      <div class="badge">OFFICIAL DIGITAL TAX INVOICE</div>
+      <div class="badge">PAYMENT RECEIPT</div>
       <div><strong>INVOICE:</strong> ${invoiceNumber}</div>
       <div><strong>ORDER ID:</strong> #${order.orderId}</div>
       <div><strong>DATE:</strong> ${invoiceDate}</div>
@@ -2253,7 +2263,7 @@ export class TamyizUnifiedApp {
           </a>
 
           <button class="tamyiz-btn-checkout-primary" style="background: #FFFFFF; color: #000000; border: 1px solid #000000;" onclick="window.tamyizApp.downloadTaxInvoiceFromPayment('${paymentId}')">
-            <span>PRINT / SAVE OFFICIAL TAX INVOICE ↗</span>
+            <span>PRINT / SAVE RECEIPT ↗</span>
           </button>
         </div>
 
@@ -2340,7 +2350,7 @@ export class TamyizUnifiedApp {
         <div class="tamyiz-legal-modal-head">
           <div>
             <div style="font-family: monospace; font-size: 0.7rem; font-weight: 800; color: var(--color-red-ink); letter-spacing: 0.1em; text-transform: uppercase;">
-              TAMYIZ™ STATUTORY &amp; ATELIER PROTOCOLS // ${doc.code}
+              TAMYIZ™ POLICIES // ${doc.code}
             </div>
             <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; text-transform: uppercase; margin: 0.25rem 0 0.15rem 0; color: #000;">
               ${doc.title}
@@ -2371,15 +2381,15 @@ export class TamyizUnifiedApp {
           `).join('')}
         </div>
 
-        <!-- Indian Payment Gateway & Statutory KYC Compliance Box -->
+        <!-- Business contact details -->
         <div class="tamyiz-legal-contact-footer">
           <div style="font-weight: 800; text-transform: uppercase; margin-bottom: 0.35rem; color: #000;">
-            Registered Atelier Headquarters &amp; Statutory KYC Notice
+            Business Contact Details
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.5rem; font-size: 0.72rem;">
             <div>
               <strong>Operating Entity:</strong> TAMYIZ™ Digital Publishing &amp; Design Systems Studio<br/>
-              <strong>Headquarters:</strong> Sopore, Jammu &amp; Kashmir 193201, India<br/>
+              <strong>Address:</strong> Sopore, Jammu &amp; Kashmir 193201, India<br/>
               <strong>Co-Founders:</strong> Basit Majeed &amp; Sahil
             </div>
             <div>
