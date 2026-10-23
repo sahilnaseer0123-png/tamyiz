@@ -83,7 +83,7 @@ tamyiz-unified.css). Don't ship below this.
 
 ## Open issues (as of 24 Oct 2026)
 
-- Cloudflare setup still to do by Sahil: KV namespace + binding `TAMYIZ_STORE`, secret `ADMIN_PASSWORD`. Until then
-  the shop shows "First e-books on the way" and /admin explains what's missing.
+- Cloudflare setup done 24 Oct 2026: KV namespace `tamyiz-store` bound as `TAMYIZ_STORE` (Production), secret
+  `ADMIN_PASSWORD` set by Sahil. Bindings and secrets only apply after a new deployment.
 - Receipt emails send from Resend's test sender until `RECEIPT_FROM` is a verified address.
 - Home/philosophy copy still mentions Notion and Figma formats from the old template.
