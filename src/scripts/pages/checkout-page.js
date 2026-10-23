@@ -83,7 +83,7 @@ export function renderCheckoutPage(appInstance) {
 
                   <div class="space-y-4">
                     <div>
-                      <label class="tamyiz-form-label">Full Name *</label>
+                      <label class="tamyiz-form-label" for="chk-name">Full Name *</label>
                       <input
                         type="text"
                         id="chk-name"
@@ -96,7 +96,7 @@ export function renderCheckoutPage(appInstance) {
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label class="tamyiz-form-label">Email Address (Primary Download) *</label>
+                        <label class="tamyiz-form-label" for="chk-email">Email Address (Primary Download) *</label>
                         <input
                           type="email"
                           id="chk-email"
@@ -107,7 +107,7 @@ export function renderCheckoutPage(appInstance) {
                         />
                       </div>
                       <div>
-                        <label class="tamyiz-form-label">WhatsApp Number (Backup Alert) *</label>
+                        <label class="tamyiz-form-label" for="chk-phone">WhatsApp Number (Backup Alert) *</label>
                         <input
                           type="tel"
                           id="chk-phone"
@@ -227,7 +227,7 @@ export function renderCheckoutPage(appInstance) {
                 <!-- Coupon Section -->
                 <div class="tamyiz-summary-coupon-box">
                   ${coupon ? `
-                    <div class="flex justify-between items-center text-sm" style="color: #278838; font-weight: 700;">
+                    <div class="flex justify-between items-center text-sm" style="color: #1E7B2E; font-weight: 700;">
                       <div class="flex items-center gap-1.5">
                         <span style="display:inline-flex; align-items:center; gap:0.35rem;">
                           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -241,7 +241,7 @@ export function renderCheckoutPage(appInstance) {
                       <button
                         type="button"
                         onclick="window.tamyizApp.removeCouponFromCheckout()"
-                        style="color: var(--color-red); background: none; border: none; cursor: pointer; font-size: 0.75rem; font-weight: 800;"
+                        style="color: var(--color-red-ink); background: none; border: none; cursor: pointer; font-size: 0.75rem; font-weight: 800;"
                       >
                         REMOVE
                       </button>
@@ -276,7 +276,7 @@ export function renderCheckoutPage(appInstance) {
                   </div>
 
                   ${discount > 0 ? `
-                    <div class="flex justify-between text-sm py-1" style="color: #278838;">
+                    <div class="flex justify-between text-sm py-1" style="color: #1E7B2E;">
                       <span>Coupon Discount</span>
                       <strong>−₹${discount.toLocaleString('en-IN')}</strong>
                     </div>
@@ -284,7 +284,7 @@ export function renderCheckoutPage(appInstance) {
 
                   <div class="flex justify-between text-sm py-1">
                     <span class="text-neutral-600">Digital Dispatch</span>
-                    <span style="color: #278838; font-weight: 700;">FREE (INSTANT)</span>
+                    <span style="color: #1E7B2E; font-weight: 700;">FREE (INSTANT)</span>
                   </div>
 
                   <div class="tamyiz-summary-total-row">
@@ -400,7 +400,7 @@ export function renderOrderVaultHtml(order) {
               target="_blank"
               rel="noopener noreferrer"
               class="tamyiz-btn-nav-outline"
-              style="padding: 0.75rem 1.4rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; color: #278838; border-color: #278838;"
+              style="padding: 0.75rem 1.4rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; color: #1E7B2E; border-color: #1E7B2E;"
             >
               <span>WhatsApp Confirmation ↗</span>
             </a>
@@ -433,7 +433,7 @@ export function renderOrderVaultHtml(order) {
                   <div><strong>INVOICE NO:</strong> ${invoiceNumber}</div>
                   <div><strong>ORDER ID:</strong> #${order.orderId}</div>
                   <div><strong>DATE OF ISSUE:</strong> ${currentDateStr}</div>
-                  <div><strong>PAYMENT STATUS:</strong> <span style="color: #278838; font-weight: 800;">PAID (CONFIRMED)</span></div>
+                  <div><strong>PAYMENT STATUS:</strong> <span style="color: #1E7B2E; font-weight: 800;">PAID (CONFIRMED)</span></div>
                 </div>
               </div>
             </div>
@@ -482,7 +482,7 @@ export function renderOrderVaultHtml(order) {
                     <tr>
                       <td>
                         <strong>${item.name}</strong>
-                        <div style="font-size: 0.72rem; color: #777;">Full Single-Seat License Included</div>
+                        <div style="font-size: 0.72rem; color: #6B6B6B;">Full Single-Seat License Included</div>
                       </td>
                       <td>${item.variant || 'Standard Digital Edition'}</td>
                       <td style="text-align: center;">1</td>
@@ -502,18 +502,18 @@ export function renderOrderVaultHtml(order) {
                   <span style="font-weight: 600;">₹${order.subtotal.toLocaleString('en-IN')}</span>
                 </div>
                 ${order.discount ? `
-                  <div class="flex justify-between py-1 text-xs" style="color: var(--color-red);">
+                  <div class="flex justify-between py-1 text-xs" style="color: var(--color-red-ink);">
                     <span>Coupon Discount (${order.coupon?.code || 'APPLIED'}):</span>
                     <span style="font-weight: 700;">−₹${order.discount.toLocaleString('en-IN')}</span>
                   </div>
                 ` : ''}
                 <div class="flex justify-between py-1 text-xs">
                   <span style="color: #666;">Digital Delivery &amp; Storage:</span>
-                  <span style="color: #278838; font-weight: 700;">₹0 (Complimentary)</span>
+                  <span style="color: #1E7B2E; font-weight: 700;">₹0 (Complimentary)</span>
                 </div>
                 <div class="flex justify-between py-2 text-sm font-bold border-t border-black mt-2" style="font-family: var(--font-display);">
                   <span>Total Paid:</span>
-                  <span style="color: var(--color-red);">₹${order.total.toLocaleString('en-IN')}</span>
+                  <span style="color: var(--color-red-ink);">₹${order.total.toLocaleString('en-IN')}</span>
                 </div>
               </div>
             </div>

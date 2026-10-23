@@ -172,9 +172,9 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
             <div class="space-y-10 text-neutral-800">
               ${doc.sections.map(sec => `
                 <div class="legal-section">
-                  <h3 class="text-base sm:text-lg font-bold font-mono tracking-tight text-black mb-3 pb-2 border-b border-neutral-100">
+                  <h2 class="text-base sm:text-lg font-bold font-mono tracking-tight text-black mb-3 pb-2 border-b border-neutral-100">
                     ${sec.heading}
-                  </h3>
+                  </h2>
                   <div class="text-sm sm:text-base leading-relaxed text-neutral-700 whitespace-pre-line font-serif sm:font-sans">
                     ${sec.content}
                   </div>

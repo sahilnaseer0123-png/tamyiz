@@ -8,7 +8,10 @@
      Soft Grey:  #8A8A8A
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Michroma&family=Space+Grotesk:wght@500;600;700;800&family=Syne:wght@800;900&display=swap');
+/* Fonts are self-hosted (no request to Google; faster and private). */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/space-grotesk/wght.css';
+@import '@fontsource-variable/syne/wght.css';
 
 :root {
   --color-black: #0B0B0B;
@@ -16,11 +19,14 @@
   --color-red-hover: #c41e15;
   --color-offwhite: #F4F4F2;
   --color-white: #FFFFFF;
-  --color-grey: #8A8A8A;
-  --font-brand: 'Syne', 'Michroma', -apple-system, sans-serif;
-  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-sub: 'Space Grotesk', -apple-system, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --color-grey: #6B6B6B; /* was #8A8A8A: too faint for small text (WCAG 4.5:1) */
+  --color-red-ink: #C41E15; /* red for small text on light backgrounds */
+  --color-red-on-dark: #FF5A50; /* red for small text on black */
+  --color-grey-on-dark: #9A9A9A;
+  --font-brand: 'Syne Variable', 'Syne', -apple-system, sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sub: 'Space Grotesk Variable', 'Space Grotesk', -apple-system, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Global Reset */
@@ -517,6 +523,30 @@ img {
   box-shadow: 0 12px 30px rgba(225, 37, 27, 0.3);
 }
 
+.tamyiz-hero-btn-secondary {
+  background: transparent;
+  color: var(--color-black);
+  border: 1.5px solid var(--color-black);
+  border-radius: 9999px;
+  padding: 0.8rem 1.9rem;
+  min-height: 44px;
+  font-family: var(--font-sub);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tamyiz-hero-btn-secondary:hover {
+  background: var(--color-black);
+  color: #FFFFFF;
+}
+
 .tamyiz-hero-spec-tag {
   font-family: var(--font-sub);
   font-weight: 700;
@@ -580,7 +610,6 @@ img {
   height: calc(100% + 50px);
   pointer-events: none;
   z-index: 6;
-  overflow: visible;
 }
 
 /* Official TAMYIZ Horizon Installation: Cropped Dome + Horizon Line (Requirement 1) */
@@ -1360,7 +1389,7 @@ img {
 
 .tamyiz-price-orig {
   font-size: 0.88rem;
-  color: #9CA3AF; /* text-gray-400 */
+  color: #6B6B6B;
   text-decoration: line-through;
   text-decoration-thickness: 1.5px;
 }
@@ -1778,7 +1807,7 @@ img {
     margin-bottom: 0.2rem;
   }
 
-  .tamyiz-footer-brand h3,
+  .tamyiz-footer-brand h2,
   .tamyiz-footer-brand-title {
     font-size: 1.2rem !important;
     margin-bottom: 0.3rem !important;
@@ -1791,7 +1820,7 @@ img {
     color: #999999;
   }
 
-  .tamyiz-footer-col h4 {
+  .tamyiz-footer-col h3 {
     font-size: 0.72rem !important;
     margin-bottom: 0.55rem !important;
     letter-spacing: 0.08em;
@@ -1825,7 +1854,7 @@ img {
   }
 }
 
-.tamyiz-footer-brand h3,
+.tamyiz-footer-brand h2,
 .tamyiz-footer-brand-title {
   font-family: var(--font-brand);
   font-size: clamp(1.35rem, 2.2vw, 1.75rem);
@@ -1847,7 +1876,7 @@ img {
   line-height: 1.6;
 }
 
-.tamyiz-footer-col h4 {
+.tamyiz-footer-col h3 {
   font-family: var(--font-sub);
   font-size: 0.85rem;
   font-weight: 700;
@@ -1895,7 +1924,7 @@ img {
   display: flex;
   justify-content: space-between;
   font-size: 0.8rem;
-  color: #666666;
+  color: #9A9A9A;
 }
 
 @media (min-width: 768px) {
@@ -2984,7 +3013,7 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: #278838;
+  color: #1E7B2E;
   font-family: var(--font-sub);
   font-size: 0.74rem;
   font-weight: 800;
@@ -3629,7 +3658,7 @@ img {
   font-family: var(--font-sub);
   font-size: 0.72rem;
   font-weight: 800;
-  color: var(--color-red);
+  color: var(--color-red-on-dark);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   margin-bottom: 0.85rem;
@@ -3908,7 +3937,7 @@ img {
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.1em;
-  color: #278838;
+  color: #1E7B2E;
   background: rgba(39, 136, 56, 0.1);
   padding: 0.25rem 0.6rem;
   border-radius: 9999px;
@@ -4109,7 +4138,7 @@ img {
   font-family: var(--font-sub);
   font-size: 0.68rem;
   font-weight: 800;
-  color: var(--color-red);
+  color: var(--color-red-ink);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   display: block;
@@ -4342,7 +4371,7 @@ img {
   font-size: 1.75rem;
 }
 
-.matrix-card-header h4 {
+.matrix-card-header h3 {
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-weight: 900;
@@ -4388,7 +4417,7 @@ img {
 
 .comp-tag.active {
   background: rgba(39, 136, 56, 0.1);
-  color: #278838;
+  color: #1E7B2E;
 }
 
 /* FAQ Accordion */
@@ -4658,7 +4687,7 @@ img {
   font-family: var(--font-sub);
   font-size: 0.68rem;
   font-weight: 800;
-  color: #278838;
+  color: #1E7B2E;
   background: rgba(39, 136, 56, 0.1);
   padding: 0.2rem 0.5rem;
   border-radius: 2px;
@@ -4860,7 +4889,7 @@ img {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: #278838;
+  background: #1E7B2E;
   color: #FFFFFF;
   display: flex;
   align-items: center;
@@ -4873,7 +4902,7 @@ img {
   font-family: var(--font-sub);
   font-size: 0.75rem;
   font-weight: 800;
-  color: #278838;
+  color: #1E7B2E;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   display: block;
@@ -5311,7 +5340,7 @@ img {
 }
 
 .tamyiz-toast-success {
-  border-left-color: #278838;
+  border-left-color: #1E7B2E;
 }
 
 .toast-dot {
@@ -5328,8 +5357,8 @@ img {
 }
 
 .tamyiz-toast-success .toast-dot {
-  background-color: #278838;
-  box-shadow: 0 0 8px #278838;
+  background-color: #1E7B2E;
+  box-shadow: 0 0 8px #1E7B2E;
 }
 
 /* Coupon Shake Animation */
@@ -6054,3 +6083,15 @@ img {
 }
 
 
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Touch screens: links and small buttons get a 44px tall tap area (desktop layout unchanged). */
+.tamyiz-product-name a, .crumb-link { color: inherit; text-decoration: none; }
+@media (pointer: coarse) {
+  .tamyiz-footer-links { gap: 0; }
+  .tamyiz-footer-links a, .tamyiz-footer-links button { display: inline-flex; align-items: center; min-height: 44px; }
+  .tamyiz-btn-back-link, .crumb-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .tamyiz-founder-social-link, .tamyiz-founder-socials a, .tamyiz-mini-socials a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.25rem; }
+  .tamyiz-product-name a { display: block; padding: 0.35rem 0; }
+}

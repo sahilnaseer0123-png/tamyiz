@@ -18,8 +18,8 @@ export const products = [
     rating: 5.0,
     reviewsCount: 54,
     images: [
-      "/assets/images/products/book-monograph-01.jpg",
-      "/assets/images/products/book-monograph-01-sample.jpg"
+      "/assets/images/products/book-monograph-01.webp",
+      "/assets/images/products/book-monograph-01-sample.webp"
     ],
     variants: {
       type: "Format",
@@ -77,8 +77,8 @@ export const products = [
     rating: 4.9,
     reviewsCount: 42,
     images: [
-      "/assets/images/products/book-playbook-02.jpg",
-      "/assets/images/products/book-playbook-02-sample.jpg"
+      "/assets/images/products/book-playbook-02.webp",
+      "/assets/images/products/book-playbook-02-sample.webp"
     ],
     variants: {
       type: "Format",
@@ -136,8 +136,8 @@ export const products = [
     rating: 5.0,
     reviewsCount: 38,
     images: [
-      "/assets/images/products/book-research-compendium-03.jpg",
-      "/assets/images/products/book-monograph-01-sample.jpg"
+      "/assets/images/products/book-research-compendium-03.webp",
+      "/assets/images/products/book-monograph-01-sample.webp"
     ],
     variants: {
       type: "Format",
@@ -194,8 +194,8 @@ export const products = [
     rating: 4.8,
     reviewsCount: 31,
     images: [
-      "/assets/images/products/book-launch-blueprint-04.jpg",
-      "/assets/images/products/book-playbook-02-sample.jpg"
+      "/assets/images/products/book-launch-blueprint-04.webp",
+      "/assets/images/products/book-playbook-02-sample.webp"
     ],
     variants: {
       type: "Format",
@@ -256,8 +256,8 @@ export const products = [
     rating: 5.0,
     reviewsCount: 67,
     images: [
-      "/assets/images/products/notion-second-brain-05.jpg",
-      "/assets/images/products/notion-second-brain-05.jpg"
+      "/assets/images/products/notion-second-brain-05.webp",
+      "/assets/images/products/notion-second-brain-05.webp"
     ],
     variants: {
       type: "License",
@@ -315,8 +315,8 @@ export const products = [
     rating: 4.9,
     reviewsCount: 28,
     images: [
-      "/assets/images/products/notion-client-portal-06.jpg",
-      "/assets/images/products/notion-client-portal-06.jpg"
+      "/assets/images/products/notion-client-portal-06.webp",
+      "/assets/images/products/notion-client-portal-06.webp"
     ],
     variants: {
       type: "Format",
@@ -373,8 +373,8 @@ export const products = [
     rating: 4.9,
     reviewsCount: 35,
     images: [
-      "/assets/images/products/notion-research-tracker-07.jpg",
-      "/assets/images/products/notion-research-tracker-07.jpg"
+      "/assets/images/products/notion-research-tracker-07.webp",
+      "/assets/images/products/notion-research-tracker-07.webp"
     ],
     variants: {
       type: "Format",
@@ -434,8 +434,8 @@ export const products = [
     rating: 5.0,
     reviewsCount: 46,
     images: [
-      "/assets/images/products/figma-ui-kit-08.jpg",
-      "/assets/images/products/book-specbook-03-sample.jpg"
+      "/assets/images/products/figma-ui-kit-08.webp",
+      "/assets/images/products/book-specbook-03-sample.webp"
     ],
     variants: {
       type: "Format",

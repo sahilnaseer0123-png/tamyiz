@@ -51,9 +51,9 @@ export function renderHomePage(appInstance) {
                 <div class="tamyiz-hero-horizon-assembly relative flex flex-col items-center justify-center w-full">
                   <div class="tamyiz-hero-dome-cropper flex items-center justify-center w-full">
                     <picture class="w-full flex items-center justify-center">
-                      <source srcset="/assets/images/tamyiz-globe-horizon.png" type="image/png" />
+                      <source srcset="/assets/images/tamyiz-globe-horizon.webp" type="image/webp" />
                       <img
-                        src="/assets/images/tamyiz-globe-horizon.png"
+                        src="/assets/images/tamyiz-globe-horizon.webp"
                         alt="TAMYIZ Horizon Emblem"
                         class="tamyiz-hero-logo-img w-full max-w-[460px] lg:max-w-[520px] scale-105 lg:scale-110 object-contain mix-blend-multiply"
                         loading="eager"
@@ -136,7 +136,7 @@ export function renderHomePage(appInstance) {
         <div class="container">
           <div class="tamyiz-shop-header" style="align-items: flex-end; margin-bottom: 2.5rem;">
             <div>
-              <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Curated Publications // Bestsellers</span>
+              <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Curated Publications // Bestsellers</span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase;">Featured Editions</h2>
             </div>
             <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/editions')">
@@ -163,7 +163,7 @@ export function renderHomePage(appInstance) {
       <section id="philosophy" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: #FFFFFF; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
         <div class="container">
           <div style="text-align: center; max-width: 680px; margin: 0 auto 3rem auto;">
-            <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Atelier Philosophy</span>
+            <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Atelier Philosophy</span>
             <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; line-height: 1.1;">The Three Pillars of Distinction</h2>
             <p style="color: #666; font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.55;">
               Every publication, Notion system, and design framework is guided by three non-negotiable principles engineered in Sopore, Kashmir.
@@ -210,7 +210,7 @@ export function renderHomePage(appInstance) {
         <div class="container">
           <div class="tamyiz-founders-teaser-card">
             <div class="tamyiz-founders-teaser-content">
-              <span style="font-family: var(--font-sub); font-size: 0.78rem; font-weight: 700; color: var(--color-red); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
+              <span style="font-family: var(--font-sub); font-size: 0.78rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
                 Atelier Origin // Sopore, Kashmir
               </span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; line-height: 1.15; margin-bottom: 1rem;">
@@ -231,7 +231,7 @@ export function renderHomePage(appInstance) {
               <!-- Basit Mini Card -->
               <div class="tamyiz-founder-mini-card">
                 <div class="tamyiz-founder-mini-portrait">
-                  <img src="/assets/images/founders/basit.jpg" alt="Basit Majeed — Co-Founder" loading="lazy" />
+                  <img src="/assets/images/founders/basit.webp" alt="Basit Majeed — Co-Founder" loading="lazy" />
                 </div>
                 <div class="tamyiz-founder-mini-info">
                   <strong class="tamyiz-founder-mini-name">BASIT MAJEED</strong>
@@ -247,7 +247,7 @@ export function renderHomePage(appInstance) {
               <!-- Sahil Mini Card -->
               <div class="tamyiz-founder-mini-card">
                 <div class="tamyiz-founder-mini-portrait">
-                  <img src="/assets/images/founders/sahil.jpg" alt="Sahil — Co-Founder" loading="lazy" />
+                  <img src="/assets/images/founders/sahil.webp" alt="Sahil — Co-Founder" loading="lazy" />
                 </div>
                 <div class="tamyiz-founder-mini-info">
                   <strong class="tamyiz-founder-mini-name">SAHIL</strong>
@@ -268,7 +268,7 @@ export function renderHomePage(appInstance) {
       <section id="format-guide" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
         <div class="container">
           <div style="text-align: center; max-width: 680px; margin: 0 auto 3rem auto;">
-            <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Digital Standards &amp; Readers</span>
+            <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Digital Standards &amp; Readers</span>
             <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; line-height: 1.1;">Digital Format Guide</h2>
             <p style="color: #666; font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.55;">
               Every publication, Notion workspace, and UI system is engineered for zero DRM friction across Apple, Kindle, and modern web environments.
@@ -287,8 +287,8 @@ export function renderHomePage(appInstance) {
                   </svg>
                 </span>
                 <div>
-                  <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Interactive PDF</h4>
-                  <span class="matrix-sub" style="font-size:0.75rem; color:#888;">300DPI Retina Vector Edition</span>
+                  <h3 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; margin:0;">Interactive PDF</h3>
+                  <span class="matrix-sub" style="font-size:0.75rem; color:#6B6B6B;">300DPI Retina Vector Edition</span>
                 </div>
               </div>
               <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
@@ -310,8 +310,8 @@ export function renderHomePage(appInstance) {
                   </svg>
                 </span>
                 <div>
-                  <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Kindle &amp; EPUB 3</h4>
-                  <span class="matrix-sub" style="font-size:0.75rem; color:#888;">Reflowable E-Ink &amp; Mobile</span>
+                  <h3 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; margin:0;">Kindle &amp; EPUB 3</h3>
+                  <span class="matrix-sub" style="font-size:0.75rem; color:#6B6B6B;">Reflowable E-Ink &amp; Mobile</span>
                 </div>
               </div>
               <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
@@ -325,7 +325,7 @@ export function renderHomePage(appInstance) {
 
             <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
               <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color:var(--color-red);">
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color: var(--color-red-ink);">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7"></rect>
                     <rect x="14" y="3" width="7" height="7"></rect>
@@ -334,8 +334,8 @@ export function renderHomePage(appInstance) {
                   </svg>
                 </span>
                 <div>
-                  <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase;">Notion &amp; Figma</h4>
-                  <span class="matrix-sub" style="font-size:0.75rem; color:#888;">1-Click Duplication Vault</span>
+                  <h3 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; margin:0;">Notion &amp; Figma</h3>
+                  <span class="matrix-sub" style="font-size:0.75rem; color:#6B6B6B;">1-Click Duplication Vault</span>
                 </div>
               </div>
               <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
@@ -388,11 +388,11 @@ export function renderProductCardHtml(p, appInstance) {
       <div class="tamyiz-product-info flex flex-col flex-1 justify-between">
         <div>
           <span class="tamyiz-product-cat">${p.category}</span>
-          <h4 class="tamyiz-product-name" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">${p.name}</h4>
+          <h3 class="tamyiz-product-name"><a href="/edition/${slug}" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/edition/${slug}')">${p.name}</a></h3>
 
           <div class="tamyiz-product-pricing flex items-baseline gap-2" id="pricing-${p.id}" aria-label="Price: ₹${currentPrice.toLocaleString('en-IN')}${currentOrigPrice ? `, original price ₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}">
             <span class="tamyiz-price-cur font-bold text-black" id="price-${p.id}">₹${currentPrice.toLocaleString('en-IN')}</span>
-            <span class="tamyiz-price-orig text-gray-400 line-through" id="orig-price-${p.id}" style="${currentOrigPrice ? '' : 'display:none;'}">${currentOrigPrice ? `₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}</span>
+            <span class="tamyiz-price-orig line-through" id="orig-price-${p.id}" style="${currentOrigPrice ? '' : 'display:none;'}">${currentOrigPrice ? `₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}</span>
           </div>
 
           ${hasVariants ? `

@@ -33,7 +33,7 @@ export function renderAtelierPage(appInstance) {
         <div class="container">
           <div class="tamyiz-origin-story-grid">
             <div class="tamyiz-origin-text-col">
-              <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
+              <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
                 The Sopore Manifesto
               </span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase; line-height: 1.15; margin-bottom: 1.5rem;">
@@ -89,7 +89,7 @@ export function renderAtelierPage(appInstance) {
       <section class="tamyiz-section py-14 md:py-24" style="background: var(--color-offwhite); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
         <div class="container">
           <div style="text-align: center; max-width: 680px; margin: 0 auto 3.5rem auto;">
-            <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red); text-transform: uppercase; letter-spacing: 0.12em;">The Architects</span>
+            <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em;">The Architects</span>
             <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; margin-top: 0.4rem; text-transform: uppercase;">
               Co-Founders &amp; Leads
             </h2>
@@ -111,7 +111,7 @@ export function renderAtelierPage(appInstance) {
               <div class="tamyiz-founder-info">
                 <div class="tamyiz-founder-name-row">
                   <h3 class="tamyiz-founder-title">${basit.name}</h3>
-                  <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red); text-transform: uppercase;">Co-Founder</span>
+                  <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red-ink); text-transform: uppercase;">Co-Founder</span>
                 </div>
 
                 <div class="tamyiz-founder-speciality-pill">${basit.role}</div>
@@ -142,7 +142,7 @@ export function renderAtelierPage(appInstance) {
               <div class="tamyiz-founder-info">
                 <div class="tamyiz-founder-name-row">
                   <h3 class="tamyiz-founder-title">${sahil.name}</h3>
-                  <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red); text-transform: uppercase;">Co-Founder</span>
+                  <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red-ink); text-transform: uppercase;">Co-Founder</span>
                 </div>
 
                 <div class="tamyiz-founder-speciality-pill">${sahil.role}</div>
@@ -169,7 +169,7 @@ export function renderAtelierPage(appInstance) {
         <div class="container">
           <div class="max-w-2xl mx-auto" id="atelier-contact-container">
             <div style="text-align: center; margin-bottom: 2.5rem;">
-              <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Concierge Access</span>
+              <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Concierge Access</span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; margin-top: 0.4rem;">
                 Connect With The Atelier
               </h2>
@@ -181,17 +181,17 @@ export function renderAtelierPage(appInstance) {
             <form class="tamyiz-contact-form" id="atelier-contact-form" onsubmit="event.preventDefault(); window.tamyizApp.handleContactSubmit();">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label class="tamyiz-form-label">Your Name *</label>
+                  <label class="tamyiz-form-label" for="contact-name">Your Name *</label>
                   <input type="text" id="contact-name" required placeholder="Full name" class="tamyiz-form-input" />
                 </div>
                 <div>
-                  <label class="tamyiz-form-label">Email Address *</label>
+                  <label class="tamyiz-form-label" for="contact-email">Email Address *</label>
                   <input type="email" id="contact-email" required placeholder="name@domain.com" class="tamyiz-form-input" />
                 </div>
               </div>
 
               <div class="mb-4">
-                <label class="tamyiz-form-label">Subject *</label>
+                <label class="tamyiz-form-label" for="contact-subject">Subject *</label>
                 <select id="contact-subject" class="tamyiz-form-input">
                   <option value="Product Inquiry">Product Inquiry / Format Compatibility</option>
                   <option value="Enterprise License">Enterprise / Studio Team License</option>
@@ -201,7 +201,7 @@ export function renderAtelierPage(appInstance) {
               </div>
 
               <div class="mb-6">
-                <label class="tamyiz-form-label">Message *</label>
+                <label class="tamyiz-form-label" for="contact-message">Message *</label>
                 <textarea id="contact-message" rows="4" required placeholder="How can the TAMYIZ atelier assist your creative or technical work?" class="tamyiz-form-input" style="border-radius: 8px;"></textarea>
               </div>
 
@@ -211,7 +211,7 @@ export function renderAtelierPage(appInstance) {
                   <span>→</span>
                 </button>
 
-                <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-btn-nav-outline w-full sm:w-auto text-center" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: #278838; border-color: #278838;">
+                <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-btn-nav-outline w-full sm:w-auto text-center" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: #1E7B2E; border-color: #1E7B2E;">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                   </svg>

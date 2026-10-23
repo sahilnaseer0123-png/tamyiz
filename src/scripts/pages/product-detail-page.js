@@ -40,11 +40,11 @@ export function renderProductDetailPage(slug, appInstance) {
         <div class="container">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-4">
             <nav class="tamyiz-breadcrumbs" aria-label="Breadcrumb">
-              <span class="crumb-link" onclick="window.tamyizApp.navigateTo('/')">Home</span>
+              <a href="/" class="crumb-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a>
               <span class="crumb-sep">/</span>
-              <span class="crumb-link" onclick="window.tamyizApp.navigateTo('/editions')">Editions</span>
+              <a href="/editions" class="crumb-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">Editions</a>
               <span class="crumb-sep">/</span>
-              <span class="crumb-link" onclick="window.tamyizApp.filterCategoryAndNavigate('${product.categoryCode}')">${product.category}</span>
+              <a href="/editions" class="crumb-link" onclick="event.preventDefault(); window.tamyizApp.filterCategoryAndNavigate('${product.categoryCode}')">${product.category}</a>
               <span class="crumb-sep">/</span>
               <span class="crumb-current">${product.name}</span>
             </nav>
@@ -257,7 +257,7 @@ export function renderProductDetailPage(slug, appInstance) {
 
                 <!-- Description -->
                 <div class="tamyiz-pdp-description-box">
-                  <h3 class="tamyiz-pdp-desc-heading">Overview &amp; Architecture</h3>
+                  <h2 class="tamyiz-pdp-desc-heading">Overview &amp; Architecture</h2>
                   <p class="tamyiz-pdp-desc">${product.description}</p>
                 </div>
 
@@ -313,7 +313,7 @@ export function renderProductDetailPage(slug, appInstance) {
                       <p style="font-size: 0.84rem; color: #555; line-height: 1.6; margin: 0 0 0.75rem 0;">
                         ${product.careInstructions || "Store downloaded PDF and EPUB files in your preferred cloud reader (Apple Books, Google Play Books, or Kindle). Files are DRM-free for your personal devices with lifetime revision access."}
                       </p>
-                      <p style="font-size: 0.82rem; color: var(--color-red); font-weight: 700; margin: 0;">
+                      <p style="font-size: 0.82rem; color: var(--color-red-ink); font-weight: 700; margin: 0;">
                         100% Satisfaction Guarantee: If you experience any technical format incompatibility, our concierge will personally assist you or provide a full refund.
                       </p>
                     </div>

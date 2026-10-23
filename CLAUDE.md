@@ -7,9 +7,14 @@ sold with Razorpay and delivered as download / duplicate links.
 
 - Vite single-page app (plain JavaScript, no framework) + three.js for the hero. `npm run dev` for local work.
 - Hosting (moved from Vercel 23 Oct 2026): Cloudflare Pages, free plan (Vercel's free plan forbids business sites).
-  Build `npm run build`, output `dist`. Production branch: `main` (Settings → Build → Branch control); pushes to any
-  other branch only make Preview builds. No `404.html` in `dist`, so Cloudflare serves `index.html` for every path
-  (single-page app routing: `/editions`, `/edition/<slug>`, `/checkout` ...). Keep it that way.
+  Build `npm run build` (= `vite build` + `scripts/build-pages.js`), output `dist`. Production branch: `main`
+  (Settings → Build → Branch control); pushes to any other branch only make Preview builds.
+- Pages: `scripts/build-pages.js` writes one HTML file per address (`editions.html`, `edition/<slug>.html`,
+  `legal/<slug>.html` ...) with that page's title, description and share picture from `src/data/seo.js`, plus
+  `sitemap.xml` and `404.html`. Cloudflare answers unknown addresses with a real 404. A NEW route in
+  `parseRoute()` (tamyiz-unified-app.js) must also be added to `allPages()` in seo.js, or it 404s when opened directly.
+- Share pictures: `public/og/` (1200×630 JPG per product + `tamyiz.jpg`). Product photos are WebP in
+  `public/assets/images/products/`; keep new images WebP and under ~150 KB.
 - Server code: Cloudflare Pages Functions in `functions/api/` (`create-order`, `verify-payment`). They are thin; all logic
   is in `server/payments.js`, which the Vite dev server also uses (`vite.config.js`), so local and live behave the same.
 - Settings (Cloudflare: project → Settings → Variables and secrets; locally `.dev.vars` for wrangler or `.env` for Vite,
@@ -20,6 +25,12 @@ sold with Razorpay and delivered as download / duplicate links.
   BOTH tamyiz and eternal-polyclinic → Save. (Happened 23 Oct 2026.)
 - Tests: `npm test` (node test runner, `tests/`). Run before every push. `npm run cf:dev` runs the built site on
   Cloudflare's runtime locally (wrangler).
+
+## Quality baseline (24 Oct 2026, local build)
+
+axe: 0 violations on every page, phone and desktop. Lighthouse mobile: performance 83–87, accessibility 100,
+SEO 100, best practices 100. Touch screens get 44px tap areas (`@media (pointer: coarse)` block at the end of
+tamyiz-unified.css). Don't ship below this.
 
 ## Payment rules (security; do not loosen)
 
@@ -39,4 +50,3 @@ sold with Razorpay and delivered as download / duplicate links.
 - "Original" prices shown struck through (e.g. ~~₹999~~ ₹499) are not prices anything was sold at.
 - Download links default to `assets.tamyiz.in` / `tamyiz.notion.site`; they must point at real files before payments go live.
 - The legal page and receipt email name `tamyiz.in`; the live address is https://tamyiz.pages.dev.
-- Form labels on the checkout page aren't linked to their inputs (screen readers).

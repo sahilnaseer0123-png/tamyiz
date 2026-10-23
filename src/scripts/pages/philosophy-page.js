@@ -29,7 +29,7 @@ export function renderPhilosophyPage(appInstance) {
       <section class="tamyiz-section py-14 md:py-24" style="background: #FFFFFF;">
         <div class="container">
           <div style="text-align: center; max-width: 720px; margin: 0 auto 4rem auto;">
-            <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">The Core Doctrine</span>
+            <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">The Core Doctrine</span>
             <h2 style="font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase; margin-top: 0.5rem; line-height: 1.1;">
               The Three Pillars of Distinction
             </h2>
@@ -112,7 +112,7 @@ export function renderPhilosophyPage(appInstance) {
       <section class="tamyiz-section py-14 md:py-24 scroll-mt-28" style="background: var(--color-offwhite); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); scroll-margin-top: 6rem;" id="formats">
         <div class="container">
           <div style="text-align: center; max-width: 720px; margin: 0 auto 3.5rem auto;">
-            <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Technical Matrix</span>
+            <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Technical Matrix</span>
             <h2 style="font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase; margin-top: 0.5rem; line-height: 1.1;">
               Digital Formats &amp; Device Compatibility
             </h2>
@@ -135,7 +135,7 @@ export function renderPhilosophyPage(appInstance) {
                   </svg>
                 </span>
                 <div>
-                  <h4>Interactive PDF</h4>
+                  <h3>Interactive PDF</h3>
                   <span class="matrix-sub">300DPI Retina Print Edition</span>
                 </div>
               </div>
@@ -161,7 +161,7 @@ export function renderPhilosophyPage(appInstance) {
                   </svg>
                 </span>
                 <div>
-                  <h4>EPUB 3 Standard</h4>
+                  <h3>EPUB 3 Standard</h3>
                   <span class="matrix-sub">Fluid Mobile Typography</span>
                 </div>
               </div>
@@ -186,7 +186,7 @@ export function renderPhilosophyPage(appInstance) {
                   </svg>
                 </span>
                 <div>
-                  <h4>Kindle EPUB / Scribe</h4>
+                  <h3>Kindle EPUB / Scribe</h3>
                   <span class="matrix-sub">E-Ink Contrast Tuned</span>
                 </div>
               </div>
@@ -210,7 +210,7 @@ export function renderPhilosophyPage(appInstance) {
                   </svg>
                 </span>
                 <div>
-                  <h4>Notion Operating Systems</h4>
+                  <h3>Notion Operating Systems</h3>
                   <span class="matrix-sub">1-Click Duplication</span>
                 </div>
               </div>
@@ -236,7 +236,7 @@ export function renderPhilosophyPage(appInstance) {
                   </svg>
                 </span>
                 <div>
-                  <h4>Figma &amp; Design Kits</h4>
+                  <h3>Figma &amp; Design Kits</h3>
                   <span class="matrix-sub">Auto-Layout 5.0 Components</span>
                 </div>
               </div>
@@ -254,13 +254,13 @@ export function renderPhilosophyPage(appInstance) {
             <!-- Format 6: All-Access Vault -->
             <div class="tamyiz-matrix-card" style="border-color: var(--color-black); background: #FFFFFF;">
               <div class="matrix-card-header">
-                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color:var(--color-red);">
+                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color: var(--color-red-ink);">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                   </svg>
                 </span>
                 <div>
-                  <h4>All-Access Lifetime Vault</h4>
+                  <h3>All-Access Lifetime Vault</h3>
                   <span class="matrix-sub">Digital Atelier License</span>
                 </div>
               </div>
@@ -282,7 +282,7 @@ export function renderPhilosophyPage(appInstance) {
       <section class="tamyiz-section py-14 md:py-24" style="background: #FFFFFF;">
         <div class="container">
           <div style="text-align: center; max-width: 680px; margin: 0 auto 3.5rem auto;">
-            <span style="color: var(--color-red); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Concierge Inquiries</span>
+            <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Concierge Inquiries</span>
             <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; margin-top: 0.4rem;">
               Frequently Asked Questions
             </h2>
@@ -306,7 +306,7 @@ export function renderPhilosophyPage(appInstance) {
           </div>
 
           <div style="text-align: center; margin-top: 4rem;">
-            <p style="font-size: 0.9rem; color: #777; margin-bottom: 1.25rem;">
+            <p style="font-size: 0.9rem; color: #6B6B6B; margin-bottom: 1.25rem;">
               Have a custom enterprise licensing or academic research inquiry?
             </p>
             <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/atelier')">

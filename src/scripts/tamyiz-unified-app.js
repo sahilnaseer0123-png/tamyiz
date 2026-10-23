@@ -10,8 +10,9 @@
  *   /checkout      -> Dedicated Instant Digital Checkout Page
  */
 
-import { TamyizHero3D } from './tamyiz-hero-3d.js';
 import { TamyizLogoSparks } from './tamyiz-logo-sparks.js';
+import { pageMeta, SITE_URL } from '../data/seo.js';
+import { renderNotFoundPage } from './pages/not-found-page.js';
 import { products, findProductBySlugOrId } from '../data/products.js';
 import { foundersData, brandInfo, policies } from '../data/content.js';
 import { siteConfig } from '../data/site-config.js';
@@ -135,8 +136,8 @@ export class TamyizUnifiedApp {
       return { page: 'legal', slug, anchor: hash };
     }
 
-    // Default fallback to home
-    return { page: 'home', slug: null, anchor: hash };
+    // Unknown address: a proper "page not found" (the server also answers 404 for it)
+    return { page: 'notfound', slug: null, anchor: hash };
   }
 
   handleLocationChange(isUserNav = true) {
@@ -272,7 +273,7 @@ export class TamyizUnifiedApp {
       <header class="tamyiz-header is-home-page" id="navbar">
         <div class="tamyiz-header-inner">
           <div class="tamyiz-header-left">
-            <button class="tamyiz-header-menu-btn" onclick="window.tamyizApp.toggleMobileMenu()" aria-label="Open Navigation Index Drawer">
+            <button class="tamyiz-header-menu-btn" onclick="window.tamyizApp.toggleMobileMenu()">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                 <line x1="3" y1="8" x2="21" y2="8"></line>
                 <line x1="3" y1="16" x2="21" y2="16"></line>
@@ -282,7 +283,7 @@ export class TamyizUnifiedApp {
             </button>
 
             <!-- Desktop Left Brand (EST. 2025 • SOPORE Hallmark) -->
-            <a href="/" class="tamyiz-header-brand tamyiz-header-brand-desktop" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')" aria-label="TAMYIZ Home">
+            <a href="/" class="tamyiz-header-brand tamyiz-header-brand-desktop" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">
               <span class="tamyiz-top-meta">EST. 2025 • SOPORE</span>
             </a>
           </div>
@@ -297,14 +298,14 @@ export class TamyizUnifiedApp {
           </nav>
 
           <div class="tamyiz-header-right">
-            <button class="tamyiz-cart-btn" onclick="window.tamyizApp.openCart()" aria-label="Open Shopping Bag">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <button class="tamyiz-cart-btn" onclick="window.tamyizApp.openCart()">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <path d="M16 10a4 4 0 0 1-8 0"></path>
               </svg>
               <span>Bag</span>
-              <span class="tamyiz-cart-badge" id="header-cart-badge">0</span>
+              <span class="tamyiz-cart-badge" id="header-cart-badge">0</span><span class="sr-only"> items</span>
             </button>
           </div>
         </div>
@@ -328,7 +329,7 @@ export class TamyizUnifiedApp {
               <li><a href="/#philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars &amp; Philosophy <span>→</span></a></li>
               <li><a href="/#origin" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin &amp; Founders <span>→</span></a></li>
               <li><a href="/#format-guide" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">Digital Format Guide <span>→</span></a></li>
-              <li><a href="#cart" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red); font-weight: 700;">Instant Checkout <span>→</span></a></li>
+              <li><a href="#cart" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Instant Checkout <span>→</span></a></li>
             </ul>
           </div>
 
@@ -358,7 +359,7 @@ export class TamyizUnifiedApp {
               <li><a href="/legal/license" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('license')">Atelier Guarantee &amp; License</a></li>
               <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
               <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
-              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #278838; font-weight: 700;">WhatsApp Concierge (${siteConfig.phone}) ↗</a></li>
+              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #1E7B2E; font-weight: 700;">WhatsApp Concierge (${siteConfig.phone}) ↗</a></li>
             </ul>
           </div>
         </div>
@@ -375,15 +376,15 @@ export class TamyizUnifiedApp {
         <!-- Free digital shipping tracker -->
         <div class="tamyiz-shipping-tracker">
           <div class="tamyiz-shipping-msg">
-            <span style="color: #278838; font-weight: 800; display: inline-flex; align-items: center;" aria-hidden="true">
+            <span style="color: #1E7B2E; font-weight: 800; display: inline-flex; align-items: center;" aria-hidden="true">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
               </svg>
             </span>
-            <span id="shipping-msg-text" style="color: #278838; font-weight: 700;">Instant Digital Dispatch: FREE On All Editions</span>
+            <span id="shipping-msg-text" style="color: #1E7B2E; font-weight: 700;">Instant Digital Dispatch: FREE On All Editions</span>
           </div>
           <div class="tamyiz-shipping-progress-bg">
-            <div class="tamyiz-shipping-progress-fill" style="width: 100%; background: #278838;"></div>
+            <div class="tamyiz-shipping-progress-fill" style="width: 100%; background: #1E7B2E;"></div>
           </div>
         </div>
 
@@ -397,7 +398,7 @@ export class TamyizUnifiedApp {
             <strong id="cart-subtotal" style="color: #000;">₹0</strong>
           </div>
 
-          <div id="cart-discount-row" style="display: none; justify-content: space-between; margin-bottom: 0.4rem; font-family: monospace; font-size: 0.78rem; text-transform: uppercase; color: #278838;">
+          <div id="cart-discount-row" style="display: none; justify-content: space-between; margin-bottom: 0.4rem; font-family: monospace; font-size: 0.78rem; text-transform: uppercase; color: #1E7B2E;">
             <span id="cart-discount-label">Coupon Discount</span>
             <div style="display: flex; align-items: center; gap: 0.4rem;">
               <strong id="cart-discount-val">-₹0</strong>
@@ -407,7 +408,7 @@ export class TamyizUnifiedApp {
 
           <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-family: monospace; font-size: 0.78rem; text-transform: uppercase;">
             <span style="color: #666;">Instant Digital Dispatch</span>
-            <span id="cart-shipping" style="color: #278838; font-weight: 800;">FREE</span>
+            <span id="cart-shipping" style="color: #1E7B2E; font-weight: 800;">FREE</span>
           </div>
 
           <div style="display: flex; justify-content: space-between; margin: 0.6rem 0 0.8rem 0; font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; border-top: 1px solid var(--color-border); padding-top: 0.6rem;">
@@ -479,26 +480,26 @@ export class TamyizUnifiedApp {
 
           <div class="tamyiz-footer-grid">
             <div class="tamyiz-footer-brand">
-              <h3>TAMYIZ™</h3>
+              <h2>TAMYIZ™</h2>
               <p>
                 Digital Publishing &amp; Design Systems Studio. Crafted in Sopore, Kashmir 193201.<br/>
-                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red); font-weight: 700;">${siteConfig.phone}</a>
+                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red-on-dark); font-weight: 700;">${siteConfig.phone}</a>
               </p>
             </div>
 
             <div class="tamyiz-footer-col">
-              <h4>Navigation</h4>
+              <h3>Navigation</h3>
               <ul class="tamyiz-footer-links">
                 <li><a href="/" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a></li>
                 <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">The Editions</a></li>
                 <li><a href="/#philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars</a></li>
                 <li><a href="/#origin" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin</a></li>
-                <li><a href="#cart" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red); font-weight: 700;">Instant Checkout →</a></li>
+                <li><a href="#cart" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Instant Checkout →</a></li>
               </ul>
             </div>
 
             <div class="tamyiz-footer-col">
-              <h4>Digital Editions</h4>
+              <h3>Digital Editions</h3>
               <ul class="tamyiz-footer-links">
                 <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">All Editions (8)</a></li>
                 <li><a href="/editions?category=ebooks" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions?category=ebooks')">E-Books &amp; Monographs</a></li>
@@ -508,14 +509,14 @@ export class TamyizUnifiedApp {
             </div>
 
             <div class="tamyiz-footer-col tamyiz-footer-col-full-mobile">
-              <h4>Customer Care &amp; Compliance</h4>
+              <h3>Customer Care &amp; Compliance</h3>
               <ul class="tamyiz-footer-links">
                 <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.scrollToFormatGuide()">Format &amp; Template Guide</a></li>
                 <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Delivery Protocol</a></li>
                 <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('license')">Atelier Guarantee &amp; License</a></li>
                 <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
                 <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
-                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #278838; font-weight: 700;">WhatsApp Concierge ↗</a></li>
+                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #4CC764; font-weight: 700;">WhatsApp Concierge ↗</a></li>
               </ul>
             </div>
           </div>
@@ -542,11 +543,11 @@ export class TamyizUnifiedApp {
       </div>
 
       <!-- 5. COMPACT WHATSAPP CONCIERGE BUTTON -->
-      <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-whatsapp-fab" aria-label="Chat with TAMYIZ WhatsApp Concierge" title="WhatsApp Concierge">
+      <aside aria-label="WhatsApp chat"><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-whatsapp-fab" aria-label="Chat with TAMYIZ WhatsApp Concierge" title="WhatsApp Concierge">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
         </svg>
-      </a>
+      </a></aside>
     `;
 
     this.renderDrawerItems();
@@ -612,12 +613,32 @@ export class TamyizUnifiedApp {
         break;
 
       default:
-        mainEl.innerHTML = renderHomePage(this);
+        mainEl.innerHTML = renderNotFoundPage();
         break;
     }
 
+    // Tab title, description and share tags for this page (same data the build uses for each page's HTML)
+    this.applyPageMeta();
+
     // Update active nav links in header
     this.updateActiveNavIndicators();
+  }
+
+  applyPageMeta() {
+    let meta = pageMeta(this.currentPage, this.currentSlug);
+    if (this.currentPage === 'edition' && !meta.product) meta = pageMeta('notfound');
+    document.title = meta.title;
+    const set = (selector, attr, value) => {
+      const el = document.head.querySelector(selector);
+      if (el && value) el.setAttribute(attr, value);
+    };
+    set('meta[name="description"]', 'content', meta.description);
+    set('meta[property="og:title"]', 'content', meta.title);
+    set('meta[property="og:description"]', 'content', meta.description);
+    if (meta.path) {
+      set('link[rel="canonical"]', 'href', SITE_URL + meta.path);
+      set('meta[property="og:url"]', 'content', SITE_URL + meta.path);
+    }
   }
 
   updateActiveNavIndicators() {
@@ -652,8 +673,12 @@ export class TamyizUnifiedApp {
   initHero3D() {
     const container = document.getElementById('tamyiz-3d-canvas-container');
     if (container) {
-      if (this.hero3D) this.hero3D.destroy();
-      this.hero3D = new TamyizHero3D(container);
+      // three.js is large, so it is only downloaded when a page actually has the 3D canvas.
+      import('./tamyiz-hero-3d.js').then(({ TamyizHero3D }) => {
+        if (!document.body.contains(container)) return;
+        if (this.hero3D) this.hero3D.destroy();
+        this.hero3D = new TamyizHero3D(container);
+      });
     }
   }
 
@@ -718,7 +743,7 @@ export class TamyizUnifiedApp {
     const hasFilter = this.searchQuery || this.activeCategory !== 'all' || this.sortBy !== 'featured';
 
     const clearButton = hasFilter
-      ? `<button onclick="window.tamyizApp.resetAllFilters()" style="background:none; border:none; color:var(--color-red); font-family:var(--font-sub); font-size:0.75rem; font-weight:800; cursor:pointer; text-decoration:underline;">Reset All Filters</button>`
+      ? `<button onclick="window.tamyizApp.resetAllFilters()" style="background:none; border:none; color: var(--color-red-ink); font-family:var(--font-sub); font-size:0.75rem; font-weight:800; cursor:pointer; text-decoration:underline;">Reset All Filters</button>`
       : '';
 
     return `
@@ -1108,7 +1133,7 @@ export class TamyizUnifiedApp {
       input.value = '';
       if (feedback) {
         feedback.textContent = `✓ Coupon ${val.toUpperCase()} applied!`;
-        feedback.style.color = '#278838';
+        feedback.style.color = '#1E7B2E';
         feedback.style.display = 'block';
       }
     } else {
@@ -1267,7 +1292,7 @@ export class TamyizUnifiedApp {
 
         ${product.highlights && product.highlights.length > 0 ? `
           <div style="margin-top: 1.5rem; background: #F9F9F8; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 4px;">
-            <div style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.08em;">
+            <div style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red-ink); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.08em;">
               Included Assets &amp; Deliverables
             </div>
             <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.82rem; color: #444;">
@@ -1628,7 +1653,7 @@ export class TamyizUnifiedApp {
       <div><strong>INVOICE:</strong> ${invoiceNumber}</div>
       <div><strong>ORDER ID:</strong> #${order.orderId}</div>
       <div><strong>DATE:</strong> ${invoiceDate}</div>
-      <div><strong>STATUS:</strong> <span style="color: #278838; font-weight: 800;">PAID (CONFIRMED)</span></div>
+      <div><strong>STATUS:</strong> <span style="color: #1E7B2E; font-weight: 800;">PAID (CONFIRMED)</span></div>
     </div>
   </div>
 
@@ -1675,7 +1700,7 @@ export class TamyizUnifiedApp {
     ` : ''}
     <div class="totals-row">
       <span style="color: #666;">Digital Delivery:</span>
-      <span style="color: #278838; font-weight: 700;">₹0 (Free)</span>
+      <span style="color: #1E7B2E; font-weight: 700;">₹0 (Free)</span>
     </div>
     <div class="totals-total">
       <span>Total Paid:</span>
@@ -1722,7 +1747,7 @@ export class TamyizUnifiedApp {
     store.showToast(`Downloading files for "${productName}"...`, 'success');
     // Simulated instant file delivery trigger
     const link = document.createElement('a');
-    link.href = '/assets/images/tamyiz-logo.png';
+    link.href = '/assets/images/tamyiz-logo-256.png';
     link.download = `${productName.toLowerCase().replace(/[^a-z0-9]/g, '-')}-tamyiz-edition.png`;
     document.body.appendChild(link);
     link.click();
@@ -1960,7 +1985,7 @@ export class TamyizUnifiedApp {
         currency: orderData.currency || 'INR',
         name: 'TAMYIZ™',
         description: 'Instant Digital Dispatch // Atelier Editions',
-        image: '/assets/images/tamyiz-logo.png',
+        image: '/assets/images/tamyiz-logo-256.png',
         order_id: orderData.orderId,
         handler: (response) => {
           this.verifyAndUnlockPayment({
@@ -2062,7 +2087,7 @@ export class TamyizUnifiedApp {
           </label>
         </div>
 
-        <button id="btn-sandbox-approve" class="tamyiz-btn-checkout-primary" style="background: #278838; border-color: #278838;" onclick="window.tamyizApp.confirmSandboxPayment('${orderId}', '${email}', '${phone}')">
+        <button id="btn-sandbox-approve" class="tamyiz-btn-checkout-primary" style="background: #1E7B2E; border-color: #1E7B2E;" onclick="window.tamyizApp.confirmSandboxPayment('${orderId}', '${email}', '${phone}')">
           SIMULATE 1-CLICK UPI CLEARANCE (₹${totalINR.toLocaleString('en-IN')}) →
         </button>
 
@@ -2145,7 +2170,7 @@ export class TamyizUnifiedApp {
       },
       items: downloads.map(dl => {
         const prod = findProductBySlugOrId(dl.productId);
-        const prodImage = (prod && prod.images && prod.images[0]) || '/assets/images/tamyiz-logo.png';
+        const prodImage = (prod && prod.images && prod.images[0]) || '/assets/images/tamyiz-logo-256.png';
         return {
           name: dl.name,
           variant: dl.variant,
@@ -2182,7 +2207,7 @@ export class TamyizUnifiedApp {
       <div class="tamyiz-unlock-modal" role="dialog" aria-modal="true">
         <div class="tamyiz-unlock-head">
           <div class="tamyiz-unlock-badge">
-            <span style="color: #278838; font-size: 1.1rem; line-height: 1;">●</span>
+            <span style="color: #1E7B2E; font-size: 1.1rem; line-height: 1;">●</span>
             <span>EDITION UNLOCKED // INSTANT DIGITAL DISPATCH</span>
           </div>
           <button style="background:none; border:none; font-size:1.25rem; cursor:pointer; padding: 0.2rem;" onclick="window.tamyizApp.closeModal()" aria-label="Close modal">✕</button>
@@ -2194,7 +2219,7 @@ export class TamyizUnifiedApp {
           <div>DISPATCH EMAIL: <strong>${result.email}</strong></div>
           <div>WHATSAPP LOG: <strong>${result.phone}</strong></div>
           <div>TIMESTAMP: <strong>${formattedDate}</strong></div>
-          <div>STATUS: <strong style="color: #278838;">PAID &amp; PERPETUAL LICENSE ISSUED</strong></div>
+          <div>STATUS: <strong style="color: #1E7B2E;">PAID &amp; PERPETUAL LICENSE ISSUED</strong></div>
         </div>
 
         <div style="font-family: monospace; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.6rem; color: #000; letter-spacing: 0.05em;">
@@ -2314,7 +2339,7 @@ export class TamyizUnifiedApp {
       <div class="tamyiz-legal-modal-box" role="dialog" aria-modal="true">
         <div class="tamyiz-legal-modal-head">
           <div>
-            <div style="font-family: monospace; font-size: 0.7rem; font-weight: 800; color: var(--color-red); letter-spacing: 0.1em; text-transform: uppercase;">
+            <div style="font-family: monospace; font-size: 0.7rem; font-weight: 800; color: var(--color-red-ink); letter-spacing: 0.1em; text-transform: uppercase;">
               TAMYIZ™ STATUTORY &amp; ATELIER PROTOCOLS // ${doc.code}
             </div>
             <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; text-transform: uppercase; margin: 0.25rem 0 0.15rem 0; color: #000;">
@@ -2401,7 +2426,7 @@ export class TamyizUnifiedApp {
 
     this.openModalContent(`
       <div style="padding: 0.5rem 0;">
-        <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red); letter-spacing: 0.12em; text-transform: uppercase;">TAMYIZ™ Protocol</span>
+        <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red-ink); letter-spacing: 0.12em; text-transform: uppercase;">TAMYIZ™ Protocol</span>
         <h2 style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; margin: 0.4rem 0 1rem 0; text-transform: uppercase;">${policy.title}</h2>
         <div style="font-size: 0.92rem; color: #444; line-height: 1.7; white-space: pre-line; margin-bottom: 2rem;">
           ${policy.content}

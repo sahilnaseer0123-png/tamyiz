@@ -21,7 +21,7 @@ export const foundersData = {
       role: "Co-Founder • Security & Research",
       speciality: "Security & Research",
       tagline: "Security & Research",
-      image: "/assets/images/founders/basit.jpg",
+      image: "/assets/images/founders/basit.webp",
       bio: "Basit is the security and research mind behind TAMYIZ. A student at Prince Sattam bin Abdulaziz University, he is focused on cybersecurity and ethical hacking, studying how systems are attacked so they can be built to withstand it. He backs that technical work with disciplined research, reading, and writing, and he keeps learning as emerging technology changes the field. His principle is simple: knowledge carries responsibility, and he applies his toward a safer digital world.",
       quote: "Knowledge carries responsibility, and we apply ours toward building resilient systems and a safer digital world.",
       socials: {
@@ -36,7 +36,7 @@ export const foundersData = {
       role: "Co-Founder • AI/ML & Build",
       speciality: "AI/ML & Build",
       tagline: "AI/ML & Build",
-      image: "/assets/images/founders/sahil.jpg",
+      image: "/assets/images/founders/sahil.webp",
       bio: "Sahil is the engineer behind TAMYIZ. Artificial intelligence and machine learning are his speciality, and they shape how he thinks: every problem is a system, and every system can be made cleaner, faster, and more precise. He leads the studio’s technical direction with one rule, which is that nothing stays unless it earns its place. Rigorous in method, exacting in detail, and uncompromising on quality. If it can be simplified, he simplifies it.",
       quote: "Every problem is a system, and every system can be made cleaner, faster, and more precise. Nothing stays unless it earns its place.",
       socials: {

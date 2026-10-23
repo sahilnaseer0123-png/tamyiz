@@ -44,7 +44,7 @@ class Store {
             variant: "Interactive PDF + EPUB",
             price: 899,
             quantity: 1,
-            image: "/assets/images/products/book-monograph-01.jpg"
+            image: "/assets/images/products/book-monograph-01.webp"
           }
         ],
         subtotal: 899,
