@@ -29,7 +29,7 @@ sold with Razorpay and delivered as private signed download links.
 - The shop loads `/api/products` before drawing (preloaded in index.html); `src/data/products.js` is filled in place.
   Text from /admin is HTML-escaped by the server (`publicProduct`) because the shop draws with innerHTML; seo.js and the
   WhatsApp pre-order message unescape it. The admin page itself only uses textContent.
-- Admin login: Cloudflare secret `ADMIN_PASSWORD` (12+ chars) → signed cookie (HttpOnly, Secure, SameSite=Strict,
+- Admin login: Cloudflare secret `TAMYIZ_ADMIN_PASSWORD` (or `ADMIN_PASSWORD`; 12+ chars) → signed cookie (HttpOnly, Secure, SameSite=Strict,
   Path=/api/admin, 12 h). 10 wrong passwords per IP → 15 min lock. Changes also need header `X-Tamyiz-Admin: 1`.
 - Downloads: after a verified payment, `/api/download/<id>?p=<payment>&e=<expiry>&s=<HMAC>` (1 year), signed with
   `DOWNLOAD_SECRET` or `RAZORPAY_KEY_SECRET`. The PDF is never at a public address. A paid order is delivered even if
@@ -83,7 +83,9 @@ tamyiz-unified.css). Don't ship below this.
 
 ## Open issues (as of 24 Oct 2026)
 
-- Cloudflare setup done 24 Oct 2026: KV namespace `tamyiz-store` bound as `TAMYIZ_STORE` (Production), secret
-  `ADMIN_PASSWORD` set by Sahil. Bindings and secrets only apply after a new deployment.
+- Cloudflare setup 24 Oct 2026: KV namespace `tamyiz-store` bound as `TAMYIZ_STORE` (Production). The first names were
+  saved with a trailing dot ("TAMYIZ_STORE.") and didn't work; names must match exactly. The dashboard then refused
+  "ADMIN_PASSWORD" as already existing while not listing it, so the password secret is `TAMYIZ_ADMIN_PASSWORD`.
+  Bindings and secrets only apply after a new deployment.
 - Receipt emails send from Resend's test sender until `RECEIPT_FROM` is a verified address.
 - Home/philosophy copy still mentions Notion and Figma formats from the old template.

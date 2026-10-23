@@ -32,6 +32,12 @@ function form(fields, files = {}) {
 }
 const save = (e, cookie, f, id = '') => call(e, `/api/admin/products${id ? '/' + id : ''}`, { method: 'POST', headers: authed(cookie), body: f });
 
+test('TAMYIZ_ADMIN_PASSWORD works as the password name too', async () => {
+  const e = { TAMYIZ_STORE: devKV(), TAMYIZ_ADMIN_PASSWORD: PASSWORD };
+  assert.equal((await login(e)).status, 200);
+  assert.equal((await login(e, 'wrong-but-long-enough')).status, 401);
+});
+
 test('admin is closed until a long enough ADMIN_PASSWORD is set', async () => {
   assert.equal((await login(env({ ADMIN_PASSWORD: '' }))).status, 503);
   assert.equal((await login(env({ ADMIN_PASSWORD: 'short' }), 'short')).status, 503);

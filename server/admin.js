@@ -1,7 +1,7 @@
 /**
  * /api/admin/*: the private side of /admin.
  *
- * Login: the password is the Cloudflare secret ADMIN_PASSWORD (12+ characters). A correct password gets a
+ * Login: the password is the Cloudflare secret TAMYIZ_ADMIN_PASSWORD (or ADMIN_PASSWORD; 12+ characters). A correct password gets a
  * signed cookie (HttpOnly, Secure, SameSite=Strict, 12 hours). Changing ADMIN_PASSWORD logs everyone out.
  * Ten wrong passwords from one address lock logins from it for 15 minutes.
  * Every change also needs the header X-Tamyiz-Admin: 1 (pages on other sites can't send it).
@@ -17,7 +17,9 @@ const SESSION_SECONDS = 12 * 60 * 60;
 const MIN_PASSWORD = 12;
 const MAX_FAILS = 10;
 
-const passwordReady = (env) => String(env.ADMIN_PASSWORD || '').length >= MIN_PASSWORD;
+// TAMYIZ_ADMIN_PASSWORD is accepted too: Cloudflare's dashboard once kept a ghost "ADMIN_PASSWORD" it wouldn't show.
+const adminPassword = (env) => String(env.TAMYIZ_ADMIN_PASSWORD || env.ADMIN_PASSWORD || '');
+const passwordReady = (env) => adminPassword(env).length >= MIN_PASSWORD;
 
 async function sha256Hex(s) {
   const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(s)));
@@ -42,7 +44,7 @@ export async function isAdmin(request, env) {
   if (!raw) return false;
   const [exp, sig] = raw.split('.');
   if (!exp || !sig || Number(exp) < Math.floor(Date.now() / 1000)) return false;
-  const expected = await hmacSha256Hex(env.ADMIN_PASSWORD, `admin|${exp}`);
+  const expected = await hmacSha256Hex(adminPassword(env), `admin|${exp}`);
   return timingSafeEqual(expected, sig);
 }
 
@@ -50,7 +52,7 @@ const clientIp = (request) => request.headers.get('CF-Connecting-IP') || 'local'
 
 async function login(request, env) {
   if (!passwordReady(env)) {
-    return json({ error: `Admin password not set. In Cloudflare add the secret ADMIN_PASSWORD (at least ${MIN_PASSWORD} characters).` }, 503);
+    return json({ error: `Admin password not set. In Cloudflare add the secret TAMYIZ_ADMIN_PASSWORD (at least ${MIN_PASSWORD} characters).` }, 503);
   }
   const kv = env.TAMYIZ_STORE;
   const failKey = `login-fail:${clientIp(request)}`;
@@ -60,14 +62,14 @@ async function login(request, env) {
   let body = {};
   try { body = await request.json(); } catch {}
   // Compare hashes, so the comparison takes the same time whatever the password length.
-  const ok = timingSafeEqual(await sha256Hex(body.password || ''), await sha256Hex(env.ADMIN_PASSWORD));
+  const ok = timingSafeEqual(await sha256Hex(body.password || ''), await sha256Hex(adminPassword(env)));
   if (!ok) {
     if (kv) await kv.put(failKey, String(fails + 1), { expirationTtl: 15 * 60 });
     await new Promise((r) => setTimeout(r, 400));
     return json({ error: 'Wrong password.' }, 401);
   }
   const exp = Math.floor(Date.now() / 1000) + SESSION_SECONDS;
-  const sig = await hmacSha256Hex(env.ADMIN_PASSWORD, `admin|${exp}`);
+  const sig = await hmacSha256Hex(adminPassword(env), `admin|${exp}`);
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'Set-Cookie': cookieHeader(`${exp}.${sig}`, SESSION_SECONDS) },
