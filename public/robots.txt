@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tamyiz.in/sitemap.xml
+Sitemap: https://tamyiz.pages.dev/sitemap.xml

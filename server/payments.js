@@ -1,8 +1,16 @@
 /**
- * TAMYIZ™ Serverless Payment & Fulfillment Utilities
+ * TAMYIZ™ payments: prices, coupons, Razorpay orders and verification, download links, receipt email.
+ *
+ * Runs on Cloudflare Pages Functions (functions/api/*) and in the local Vite dev server (vite.config.js).
+ * Settings come in as `env` (Cloudflare: Project → Settings → Variables and secrets), never from the browser.
+ *
+ * Security rules (23 Oct 2026):
+ * - The server decides the payment mode. The browser's "mode" field is ignored.
+ * - With Razorpay keys set, a purchase unlocks only after the signature checks out AND Razorpay confirms
+ *   the payment belongs to that order and is authorized/captured for the full amount.
+ * - What gets unlocked comes from the Razorpay order (written there at creation), never from the browser.
+ * - The sandbox simulator (no real payment) only runs when TAMYIZ_SANDBOX is "true". Never set it in production.
  */
-
-import crypto from 'crypto';
 
 // Authoritative Server-Side Product Catalog & Variant Pricing Map
 // Prevents client-side price tampering
@@ -142,7 +150,7 @@ export function calculateOrderTotal(items, couponCode = null) {
 /**
  * Resolves purchased item to downloadable asset / Notion duplication link
  */
-export function resolveDownloadLink(productId, variant) {
+export function resolveDownloadLink(productId, variant, env = {}) {
   const normVar = String(variant || '').toLowerCase();
 
   switch (productId) {
@@ -153,7 +161,7 @@ export function resolveDownloadLink(productId, variant) {
           name: "TAMYIZ Monograph 01: The Architecture of Distinction",
           variant: "Kindle EPUB",
           formatType: "ebook",
-          downloadUrl: process.env.URL_MONOGRAPH_EPUB || "https://assets.tamyiz.in/downloads/tamyiz-monograph-01-kindle.epub",
+          downloadUrl: env.URL_MONOGRAPH_EPUB || "https://assets.tamyiz.in/downloads/tamyiz-monograph-01-kindle.epub",
           actionLabel: "Download Kindle EPUB ↗",
           specs: "Kindle KFX/EPUB 3 • Reflowable • DRM-Free"
         };
@@ -163,7 +171,7 @@ export function resolveDownloadLink(productId, variant) {
         name: "TAMYIZ Monograph 01: The Architecture of Distinction",
         variant: "PDF + EPUB Bundle",
         formatType: "ebook",
-        downloadUrl: process.env.URL_MONOGRAPH_BUNDLE || "https://assets.tamyiz.in/downloads/tamyiz-monograph-01-bundle.zip",
+        downloadUrl: env.URL_MONOGRAPH_BUNDLE || "https://assets.tamyiz.in/downloads/tamyiz-monograph-01-bundle.zip",
         actionLabel: "Download PDF + EPUB Bundle (ZIP) ↗",
         specs: "140 Pages • 300DPI Retina Vector PDF + EPUB • DRM-Free"
       };
@@ -175,7 +183,7 @@ export function resolveDownloadLink(productId, variant) {
           name: "The Solo Creator & Digital Craft Playbook",
           variant: "EPUB Edition",
           formatType: "ebook",
-          downloadUrl: process.env.URL_PLAYBOOK_EPUB || "https://assets.tamyiz.in/downloads/solo-creator-playbook.epub",
+          downloadUrl: env.URL_PLAYBOOK_EPUB || "https://assets.tamyiz.in/downloads/solo-creator-playbook.epub",
           actionLabel: "Download EPUB Edition ↗",
           specs: "88 Pages • Mobile & Tablet Optimized EPUB"
         };
@@ -185,7 +193,7 @@ export function resolveDownloadLink(productId, variant) {
         name: "The Solo Creator & Digital Craft Playbook",
         variant: "PDF + Checklists Bundle",
         formatType: "ebook",
-        downloadUrl: process.env.URL_PLAYBOOK_PDF || "https://assets.tamyiz.in/downloads/solo-creator-playbook-worksheets.zip",
+        downloadUrl: env.URL_PLAYBOOK_PDF || "https://assets.tamyiz.in/downloads/solo-creator-playbook-worksheets.zip",
         actionLabel: "Download PDF + Interactive Checklists (ZIP) ↗",
         specs: "Tactical PDF Guide + 12 Interactive Creator Worksheets"
       };
@@ -197,7 +205,7 @@ export function resolveDownloadLink(productId, variant) {
           name: "Ethical Technology & Deep Research: The Student's Compendium",
           variant: "Annotated Edition",
           formatType: "ebook",
-          downloadUrl: process.env.URL_COMPENDIUM_ANNOTATED || "https://assets.tamyiz.in/downloads/ethical-tech-annotated.pdf",
+          downloadUrl: env.URL_COMPENDIUM_ANNOTATED || "https://assets.tamyiz.in/downloads/ethical-tech-annotated.pdf",
           actionLabel: "Download Annotated Research PDF ↗",
           specs: "110 Pages • Classical Citations & Epistemology Notes"
         };
@@ -207,7 +215,7 @@ export function resolveDownloadLink(productId, variant) {
         name: "Ethical Technology & Deep Research: The Student's Compendium",
         variant: "PDF + EPUB Bundle",
         formatType: "ebook",
-        downloadUrl: process.env.URL_COMPENDIUM_BUNDLE || "https://assets.tamyiz.in/downloads/ethical-tech-compendium-bundle.zip",
+        downloadUrl: env.URL_COMPENDIUM_BUNDLE || "https://assets.tamyiz.in/downloads/ethical-tech-compendium-bundle.zip",
         actionLabel: "Download PDF + EPUB Bundle ↗",
         specs: "Vector PDF + Reflowable EPUB 3 Edition"
       };
@@ -219,7 +227,7 @@ export function resolveDownloadLink(productId, variant) {
           name: "Zero-to-One Digital Product Launch Blueprint",
           variant: "EPUB Edition",
           formatType: "ebook",
-          downloadUrl: process.env.URL_BLUEPRINT_EPUB || "https://assets.tamyiz.in/downloads/zero-to-one-blueprint.epub",
+          downloadUrl: env.URL_BLUEPRINT_EPUB || "https://assets.tamyiz.in/downloads/zero-to-one-blueprint.epub",
           actionLabel: "Download EPUB Edition ↗",
           specs: "94 Pages • Kindle & Smartphone Reflowable"
         };
@@ -229,7 +237,7 @@ export function resolveDownloadLink(productId, variant) {
         name: "Zero-to-One Digital Product Launch Blueprint",
         variant: "PDF + Launch Checklists",
         formatType: "ebook",
-        downloadUrl: process.env.URL_BLUEPRINT_PDF || "https://assets.tamyiz.in/downloads/zero-to-one-blueprint-bundle.zip",
+        downloadUrl: env.URL_BLUEPRINT_PDF || "https://assets.tamyiz.in/downloads/zero-to-one-blueprint-bundle.zip",
         actionLabel: "Download Blueprint PDF + Checklists (ZIP) ↗",
         specs: "94 Pages • 12 Launch Day Tactical Spreadsheets Included"
       };
@@ -240,7 +248,7 @@ export function resolveDownloadLink(productId, variant) {
         name: "TAMYIZ Second Brain & Deep Work Notion OS",
         variant: variant || "Notion Duplicate Link + Guide",
         formatType: "notion",
-        downloadUrl: process.env.URL_NOTION_SECONDBRAIN || "https://tamyiz.notion.site/TAMYIZ-Second-Brain-Deep-Work-OS-2026-duplicate-v1",
+        downloadUrl: env.URL_NOTION_SECONDBRAIN || "https://tamyiz.notion.site/TAMYIZ-Second-Brain-Deep-Work-OS-2026-duplicate-v1",
         actionLabel: "Duplicate Notion Workspace (1-Click) ↗",
         specs: "PARA Framework • Daily Focus Cockpit • Free & Plus Notion Compatible"
       };
@@ -251,7 +259,7 @@ export function resolveDownloadLink(productId, variant) {
         name: "Freelance Atelier & Client Portal Notion Workspace",
         variant: variant || "Notion Template + Invoice Kit",
         formatType: "notion",
-        downloadUrl: process.env.URL_NOTION_CLIENTPORTAL || "https://tamyiz.notion.site/TAMYIZ-Freelance-Atelier-Client-Portal-duplicate-v1",
+        downloadUrl: env.URL_NOTION_CLIENTPORTAL || "https://tamyiz.notion.site/TAMYIZ-Freelance-Atelier-Client-Portal-duplicate-v1",
         actionLabel: "Duplicate Client Portal Notion System ↗",
         specs: "Interactive Milestone Kanban • Proposal Decks • Tax Invoice Calculator"
       };
@@ -263,7 +271,7 @@ export function resolveDownloadLink(productId, variant) {
           name: "Academic Research & Literature Tracker Notion Matrix",
           variant: "Student Edition",
           formatType: "notion",
-          downloadUrl: process.env.URL_NOTION_STUDENT || "https://tamyiz.notion.site/TAMYIZ-Academic-Research-Student-duplicate-v1",
+          downloadUrl: env.URL_NOTION_STUDENT || "https://tamyiz.notion.site/TAMYIZ-Academic-Research-Student-duplicate-v1",
           actionLabel: "Duplicate Student Notion Matrix ↗",
           specs: "Thesis Drafting Outliner • Citation Tags • Student License"
         };
@@ -273,7 +281,7 @@ export function resolveDownloadLink(productId, variant) {
         name: "Academic Research & Literature Tracker Notion Matrix",
         variant: "Notion Template + Zotero Guide",
         formatType: "notion",
-        downloadUrl: process.env.URL_NOTION_MATRIX || "https://tamyiz.notion.site/TAMYIZ-Academic-Research-Literature-Matrix-duplicate-v1",
+        downloadUrl: env.URL_NOTION_MATRIX || "https://tamyiz.notion.site/TAMYIZ-Academic-Research-Literature-Matrix-duplicate-v1",
         actionLabel: "Duplicate Full Research Notion Matrix ↗",
         specs: "Literature Review Matrix • Zotero Sync Documentation Guide"
       };
@@ -285,7 +293,7 @@ export function resolveDownloadLink(productId, variant) {
           name: "TAMYIZ Swiss Grid & Luxury Portfolio UI Kit 2026",
           variant: "Figma Only",
           formatType: "figma",
-          downloadUrl: process.env.URL_FIGMA_UI_KIT || "https://www.figma.com/community/file/13298492026/tamyiz-swiss-grid-design-system",
+          downloadUrl: env.URL_FIGMA_UI_KIT || "https://www.figma.com/community/file/13298492026/tamyiz-swiss-grid-design-system",
           actionLabel: "Open Figma Community Design File ↗",
           specs: "50+ Swiss Grid Components • Syne & Inter Typography Pairing Tokens"
         };
@@ -295,7 +303,7 @@ export function resolveDownloadLink(productId, variant) {
         name: "TAMYIZ Swiss Grid & Luxury Portfolio UI Kit 2026",
         variant: "Figma + Tailwind Code",
         formatType: "figma",
-        downloadUrl: process.env.URL_FIGMA_UI_KIT_CODE || "https://github.com/tamyiz/swiss-grid-ui-kit-tailwind",
+        downloadUrl: env.URL_FIGMA_UI_KIT_CODE || "https://github.com/tamyiz/swiss-grid-ui-kit-tailwind",
         actionLabel: "Access Figma File + Tailwind Codebase ↗",
         specs: "Figma File (.fig) + Clean Tailwind / CSS Production Components"
       };
@@ -316,10 +324,14 @@ export function resolveDownloadLink(productId, variant) {
 /**
  * Triggers transactional receipt email via Resend REST API if configured
  */
-export async function sendReceiptEmail({ email, phone, orderId, referenceId, items, downloads }) {
-  if (!process.env.RESEND_API_KEY) {
+export async function sendReceiptEmail({ email, phone, orderId, referenceId, items, downloads }, env = {}) {
+  if (!env.RESEND_API_KEY) {
     return false;
   }
+  // Everything below goes into HTML: escape what came from the buyer.
+  const toEmail = String(email);
+  email = escapeHtml(email);
+  phone = escapeHtml(phone);
 
   const itemsHtml = downloads.map(dl => `
     <tr style="border-bottom: 1px solid #EEEEEE;">
@@ -384,12 +396,12 @@ export async function sendReceiptEmail({ email, phone, orderId, referenceId, ite
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'TAMYIZ Atelier <orders@tamyiz.in>',
-        to: [email],
+        from: env.RECEIPT_FROM || 'TAMYIZ Atelier <orders@tamyiz.in>',
+        to: [toEmail],
         subject: `TAMYIZ™ Order Unlocked // Ref: ${referenceId}`,
         html
       })
@@ -399,4 +411,237 @@ export async function sendReceiptEmail({ email, phone, orderId, referenceId, ite
     console.error('Resend email error:', err);
     return false;
   }
+}
+
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+export function escapeHtml(v) {
+  return String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+const JSON_HEADERS = {
+  'Content-Type': 'application/json',
+  // Same-site only: the site's own pages call these. No wildcard origin.
+  'Cache-Control': 'no-store'
+};
+
+export function json(data, status = 200) {
+  return new Response(JSON.stringify(data), { status, headers: JSON_HEADERS });
+}
+
+export function hasRazorpayKeys(env) {
+  return Boolean(
+    env.RAZORPAY_KEY_ID && env.RAZORPAY_KEY_SECRET &&
+    !String(env.RAZORPAY_KEY_ID).includes('YOUR_') && !String(env.RAZORPAY_KEY_SECRET).includes('YOUR_')
+  );
+}
+
+export const sandboxEnabled = (env) => String(env.TAMYIZ_SANDBOX || '').toLowerCase() === 'true';
+
+const PAYMENTS_OFF =
+  "Online payments aren't switched on yet. Message us on WhatsApp (+91 95417 22379) and we'll sort your order.";
+
+/** HMAC-SHA256 as hex, with Web Crypto (works on Cloudflare and Node 18+). */
+export async function hmacSha256Hex(secret, message) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
+  return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** Compares two strings in constant time (no early exit), so the signature can't be guessed byte by byte. */
+export function timingSafeEqual(a, b) {
+  a = String(a); b = String(b);
+  let diff = a.length ^ b.length;
+  for (let i = 0; i < Math.max(a.length, b.length); i++) diff |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0);
+  return diff === 0;
+}
+
+const basicAuth = (env) => 'Basic ' + btoa(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`);
+
+/**
+ * The cart, written into the Razorpay order's notes so verification can read it back from Razorpay.
+ * Format: "productId~variant|productId~variant", split over note keys i0, i1 ... (Razorpay: 256 chars per note).
+ */
+export function itemsToNotes(items) {
+  const flat = items.map((i) => `${i.productId}~${i.variant}`).join('|');
+  const notes = {};
+  for (let k = 0, i = 0; i < flat.length; i += 250, k++) notes[`i${k}`] = flat.slice(i, i + 250);
+  if (Object.keys(notes).length > 12) throw new Error('Too many items in one order. Please split your order.');
+  return notes;
+}
+
+export function notesToItems(notes = {}) {
+  const flat = Object.keys(notes)
+    .filter((k) => /^i\d+$/.test(k))
+    .sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)))
+    .map((k) => notes[k])
+    .join('');
+  if (!flat) return [];
+  return flat.split('|').map((p) => {
+    const [productId, variant] = p.split('~');
+    return { productId, variant };
+  });
+}
+
+function cleanContact(email, phone) {
+  const e = String(email || '').trim().toLowerCase();
+  const p = String(phone || '').replace(/[^0-9+]/g, '');
+  if (!e || !e.includes('@') || !e.includes('.') || e.length > 254) return { error: 'A valid email address is required for digital dispatch.' };
+  if (!p || p.length < 10 || p.length > 16) return { error: 'A valid WhatsApp phone number (minimum 10 digits) is required.' };
+  return { email: e, phone: p };
+}
+
+// ---------------------------------------------------------------------------
+// POST /api/create-order
+// ---------------------------------------------------------------------------
+
+export async function handleCreateOrder(request, env, fetchImpl = fetch) {
+  let body;
+  try { body = await request.json(); } catch { body = {}; }
+  const { items, email, phone, coupon, couponCode } = body || {};
+
+  if (!Array.isArray(items) || items.length === 0) return json({ error: 'Atelier bag contains no valid items.' }, 400);
+  const contact = cleanContact(email, phone);
+  if (contact.error) return json({ error: contact.error }, 400);
+
+  let order;
+  try { order = calculateOrderTotal(items, coupon || couponCode); }
+  catch (err) { return json({ error: err.message }, 400); }
+
+  if (hasRazorpayKeys(env)) {
+    let notes;
+    try { notes = { ...itemsToNotes(order.items), email: contact.email, phone: contact.phone }; }
+    catch (err) { return json({ error: err.message }, 400); }
+
+    const rzpRes = await fetchImpl('https://api.razorpay.com/v1/orders', {
+      method: 'POST',
+      headers: { Authorization: basicAuth(env), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: order.amountPaise, currency: 'INR', receipt: `rcpt_${Date.now()}`, notes })
+    });
+    if (!rzpRes.ok) {
+      console.error('Razorpay order error:', rzpRes.status, await rzpRes.text().catch(() => ''));
+      // Never fall back to the free sandbox when real keys are set.
+      return json({ error: 'The payment gateway is not responding. Please try again in a minute.' }, 502);
+    }
+    const rzp = await rzpRes.json();
+    return json({
+      mode: 'razorpay',
+      orderId: rzp.id,
+      amount: rzp.amount,
+      currency: 'INR',
+      keyId: env.RAZORPAY_KEY_ID,
+      totalINR: order.total,
+      subtotalINR: order.subtotal,
+      discountINR: order.discount,
+      email: contact.email,
+      phone: contact.phone
+    });
+  }
+
+  if (sandboxEnabled(env)) {
+    return json({
+      mode: 'atelier_sandbox',
+      orderId: `order_sandbox_${Date.now()}`,
+      amount: order.amountPaise,
+      currency: 'INR',
+      totalINR: order.total,
+      subtotalINR: order.subtotal,
+      discountINR: order.discount,
+      email: contact.email,
+      phone: contact.phone,
+      isSandbox: true
+    });
+  }
+
+  return json({ error: PAYMENTS_OFF }, 503);
+}
+
+// ---------------------------------------------------------------------------
+// POST /api/verify-payment
+// ---------------------------------------------------------------------------
+
+export async function handleVerifyPayment(request, env, fetchImpl = fetch) {
+  let body;
+  try { body = await request.json(); } catch { body = {}; }
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, email, phone } = body || {};
+
+  let paidItems;
+  let paidOrderAmount;
+  let mode;
+
+  if (hasRazorpayKeys(env)) {
+    mode = 'razorpay';
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return json({ error: 'Incomplete payment details. If you were charged, message us on WhatsApp.' }, 400);
+    }
+    // 1. Signature: proves Razorpay issued this payment for this order.
+    const expected = await hmacSha256Hex(env.RAZORPAY_KEY_SECRET, `${razorpay_order_id}|${razorpay_payment_id}`);
+    if (!timingSafeEqual(expected, razorpay_signature)) {
+      return json({ error: 'Invalid payment signature. Verification failed.' }, 400);
+    }
+    // 2. Ask Razorpay: the payment is for this order, authorized or captured, for the order's full amount.
+    const [payRes, ordRes] = await Promise.all([
+      fetchImpl(`https://api.razorpay.com/v1/payments/${encodeURIComponent(razorpay_payment_id)}`, { headers: { Authorization: basicAuth(env) } }),
+      fetchImpl(`https://api.razorpay.com/v1/orders/${encodeURIComponent(razorpay_order_id)}`, { headers: { Authorization: basicAuth(env) } })
+    ]);
+    if (!payRes.ok || !ordRes.ok) {
+      return json({ error: 'Could not confirm the payment with Razorpay. If you were charged, message us on WhatsApp.' }, 502);
+    }
+    const payment = await payRes.json();
+    const rzpOrder = await ordRes.json();
+    const okStatus = payment.status === 'captured' || payment.status === 'authorized';
+    if (payment.order_id !== razorpay_order_id || !okStatus || Number(payment.amount) !== Number(rzpOrder.amount)) {
+      return json({ error: 'Payment not completed for this order.' }, 400);
+    }
+    // 3. What was paid for comes from the order Razorpay stored, not from the browser.
+    paidItems = notesToItems(rzpOrder.notes);
+    paidOrderAmount = rzpOrder.amount;
+    if (paidItems.length === 0) return json({ error: 'Order has no items. Message us on WhatsApp.' }, 400);
+  } else if (sandboxEnabled(env)) {
+    mode = 'atelier_sandbox';
+    paidItems = Array.isArray(body.items) ? body.items.map((i) => ({ productId: i.productId || i.id, variant: i.variant || i.size })) : [];
+    if (paidItems.length === 0) return json({ error: 'Missing items for digital fulfillment' }, 400);
+  } else {
+    return json({ error: PAYMENTS_OFF }, 503);
+  }
+
+  const contact = cleanContact(email, phone);
+  const cleanEmail = contact.email || String(email || '').trim().toLowerCase();
+  const cleanPhone = contact.phone || String(phone || '').trim();
+
+  const refBytes = crypto.getRandomValues(new Uint8Array(5));
+  const referenceId = 'TAMYIZ-ORD-' + Date.now().toString(36).toUpperCase() + [...refBytes].map((b) => b.toString(36)).join('').toUpperCase().slice(0, 6);
+  const paymentId = razorpay_payment_id || `pay_sandbox_${Date.now()}`;
+  const orderId = razorpay_order_id || `order_sandbox_${Date.now()}`;
+  // Prices for the receipt screen, from the server catalog. Total = what Razorpay charged (or the sandbox total).
+  const priced = calculateOrderTotal(paidItems);
+  const amountPaise = mode === 'razorpay' ? Number(paidOrderAmount) : priced.amountPaise;
+  const totalINR = Math.round(amountPaise / 100);
+  const downloads = paidItems.map((i, n) => ({ ...resolveDownloadLink(i.productId, i.variant, env), price: priced.items[n].price }));
+
+  if (cleanEmail.includes('@')) {
+    await sendReceiptEmail({ email: cleanEmail, phone: cleanPhone, orderId, referenceId, items: paidItems, downloads }, env)
+      .catch((err) => console.error('Email dispatch error (non-blocking):', err));
+  }
+
+  return json({
+    verified: true,
+    mode,
+    referenceId,
+    paymentId,
+    orderId,
+    timestamp: new Date().toISOString(),
+    email: cleanEmail,
+    phone: cleanPhone,
+    itemsCount: paidItems.length,
+    amount: amountPaise,
+    totalINR,
+    subtotalINR: priced.subtotal,
+    discountINR: Math.max(0, priced.subtotal - totalINR),
+    downloads
+  });
 }

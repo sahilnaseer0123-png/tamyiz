@@ -1,45 +1,31 @@
-import { defineConfig } from 'vite';
-import createOrderHandler from './api/create-order.js';
-import verifyPaymentHandler from './api/verify-payment.js';
+import { defineConfig, loadEnv } from 'vite';
+import { handleCreateOrder, handleVerifyPayment } from './server/payments.js';
 
-function serverlessApiMiddleware() {
-  const handleApi = (req, res, next) => {
-    const url = (req.url || '').split('?')[0];
+// Local dev only: answers /api/create-order and /api/verify-payment with the same code Cloudflare runs
+// (functions/api/* -> server/payments.js). Settings come from .env (never committed), e.g. TAMYIZ_SANDBOX=true.
+function paymentsApi(env) {
+  const routes = { '/api/create-order': handleCreateOrder, '/api/verify-payment': handleVerifyPayment };
 
-    if (url === '/api/create-order' && (req.method === 'POST' || req.method === 'OPTIONS')) {
-      return runHandler(createOrderHandler, req, res);
+  const middleware = (req, res, next) => {
+    const path = (req.url || '').split('?')[0];
+    const handler = routes[path];
+    if (!handler) return next();
+    if (req.method !== 'POST') {
+      res.statusCode = 405;
+      res.setHeader('Content-Type', 'application/json');
+      return res.end(JSON.stringify({ error: 'Method Not Allowed. Use POST.' }));
     }
-    if (url === '/api/verify-payment' && (req.method === 'POST' || req.method === 'OPTIONS')) {
-      return runHandler(verifyPaymentHandler, req, res);
-    }
-    next();
-  };
-
-  const runHandler = (handler, req, res) => {
-    let bodyStr = '';
-    req.on('data', chunk => { bodyStr += chunk; });
+    let body = '';
+    req.on('data', (chunk) => { body += chunk; });
     req.on('end', async () => {
       try {
-        req.body = bodyStr ? JSON.parse(bodyStr) : {};
-      } catch {
-        req.body = {};
-      }
-
-      // Emulate Vercel Serverless Response methods
-      res.status = (statusCode) => {
-        res.statusCode = statusCode;
-        return res;
-      };
-      res.json = (data) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(data));
-        return res;
-      };
-
-      try {
-        await handler(req, res);
+        const request = new Request(`http://localhost${req.url}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
+        const response = await handler(request, env);
+        res.statusCode = response.status;
+        response.headers.forEach((value, key) => res.setHeader(key, value));
+        res.end(await response.text());
       } catch (err) {
-        console.error('Serverless local API error:', err);
+        console.error('Local payments API error:', err);
         res.statusCode = 500;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ error: err.message || 'Internal Server Error' }));
@@ -48,22 +34,14 @@ function serverlessApiMiddleware() {
   };
 
   return {
-    name: 'serverless-api-middleware',
-    configureServer(server) {
-      server.middlewares.use(handleApi);
-    },
-    configurePreviewServer(server) {
-      server.middlewares.use(handleApi);
-    }
+    name: 'tamyiz-payments-api',
+    configureServer(server) { server.middlewares.use(middleware); },
+    configurePreviewServer(server) { server.middlewares.use(middleware); },
   };
 }
 
-export default defineConfig({
-  plugins: [serverlessApiMiddleware()],
-  server: {
-    port: 5173,
-  },
-  preview: {
-    port: 4173,
-  },
-});
+export default defineConfig(({ mode }) => ({
+  plugins: [paymentsApi(loadEnv(mode, process.cwd(), ''))],
+  server: { port: 5173 },
+  preview: { port: 4173 },
+}));

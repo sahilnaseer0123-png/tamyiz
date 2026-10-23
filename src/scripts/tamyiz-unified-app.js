@@ -2137,6 +2137,8 @@ export class TamyizUnifiedApp {
       paymentId,
       date: new Date(result.timestamp || Date.now()).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
       total: (result.amount ? Math.round(result.amount / 100) : (result.totalINR || store.getTotal())),
+      subtotal: result.subtotalINR ?? (result.amount ? Math.round(result.amount / 100) : store.getTotal()),
+      discount: result.discountINR ?? 0,
       shippingAddress: {
         email: result.email || '',
         phone: result.phone || ''
@@ -2150,7 +2152,8 @@ export class TamyizUnifiedApp {
           downloadUrl: dl.downloadUrl,
           actionLabel: dl.actionLabel,
           specs: dl.specs,
-          image: prodImage
+          image: prodImage,
+          price: dl.price ?? 0
         };
       })
     };
