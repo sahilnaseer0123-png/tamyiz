@@ -7,7 +7,8 @@ sold with Razorpay and delivered as download / duplicate links.
 
 - Vite single-page app (plain JavaScript, no framework) + three.js for the hero. `npm run dev` for local work.
 - Hosting (moved from Vercel 23 Oct 2026): Cloudflare Pages, free plan (Vercel's free plan forbids business sites).
-  Build `npm run build`, output `dist`. No `404.html` in `dist`, so Cloudflare serves `index.html` for every path
+  Build `npm run build`, output `dist`. Production branch: `main` (Settings → Build → Branch control); pushes to any
+  other branch only make Preview builds. No `404.html` in `dist`, so Cloudflare serves `index.html` for every path
   (single-page app routing: `/editions`, `/edition/<slug>`, `/checkout` ...). Keep it that way.
 - Server code: Cloudflare Pages Functions in `functions/api/` (`create-order`, `verify-payment`). They are thin; all logic
   is in `server/payments.js`, which the Vite dev server also uses (`vite.config.js`), so local and live behave the same.
