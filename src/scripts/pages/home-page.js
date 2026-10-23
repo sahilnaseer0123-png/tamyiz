@@ -376,7 +376,7 @@ export function renderProductCardHtml(p, appInstance) {
         <img src="${p.images[0]}" alt="${p.name}" class="tamyiz-img-primary" loading="lazy" />
         <img src="${p.images[1] || p.images[0]}" alt="" aria-hidden="true" class="tamyiz-img-hover" loading="lazy" />
 
-        <span class="tamyiz-badge-digital">${isAvailable(p) ? p.badge : `COMING SOON • ${p.badge}`}</span>
+        <span class="tamyiz-badge-digital">${isAvailable(p) ? p.badge : 'COMING SOON'}</span>
 
         <button class="tamyiz-btn-wishlist ${store.isInWishlist(p.id) ? 'active' : ''}" data-id="${p.id}" onclick="event.stopPropagation(); window.tamyizApp.toggleWishlist('${p.id}')" aria-label="Wishlist">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="${store.isInWishlist(p.id) ? 'var(--color-red)' : 'none'}" stroke="currentColor" stroke-width="2">
