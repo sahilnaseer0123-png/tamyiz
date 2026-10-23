@@ -174,7 +174,7 @@ export function renderAtelierPage(appInstance) {
                 Connect With The Atelier
               </h2>
               <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem;">
-                Have questions about our digital editions, license customization, or technical support? We answer personally.
+                Questions about an edition, an order or a refund? Write below and it opens in WhatsApp, ready to send. Or email tamyiz.co@gmail.com.
               </p>
             </div>
 
@@ -207,7 +207,7 @@ export function renderAtelierPage(appInstance) {
 
               <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
                 <button type="submit" class="tamyiz-hero-btn-primary w-full sm:w-auto" id="contact-submit-btn">
-                  <span>Send Message</span>
+                  <span>Send via WhatsApp</span>
                   <span>→</span>
                 </button>
 

@@ -38,6 +38,13 @@ To start selling ONE product when its file is ready:
    anything not listed (409), even if the page is tampered with.
 4. Razorpay keys + `RESEND_API_KEY` set (the product page promises the link by email). Push; test one real purchase.
 
+## Razorpay activation (started 24 Oct 2026)
+
+Razorpay checks the site for these pages; give them these addresses:
+About `/atelier` · Contact `/legal/contact` · Pricing `/editions` · Terms `/legal/terms` · Privacy `/legal/privacy` ·
+Refunds `/legal/license` (titled "Refund, Cancellation & License Policy"). Keep them live and named like this.
+The contact form has no mail server: it opens WhatsApp with the message filled in. Never fake a "message received".
+
 ## Honesty rules (decided by Sahil and Basit, 24 Oct 2026)
 
 - No struck-through "was" prices, "SAVE x%", "BESTSELLER", star ratings or review counts until they are real.

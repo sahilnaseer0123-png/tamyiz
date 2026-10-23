@@ -40,8 +40,8 @@ A copy of your download links is also sent to the email address you gave at chec
   'license': {
     slug: 'license',
     code: 'POL-02',
-    title: 'Atelier Guarantee & License Policy',
-    subtitle: 'Refund, Cancellation & Commercial License Protocol',
+    title: 'Refund, Cancellation & License Policy',
+    subtitle: 'Refunds, cancellations and what your purchase lets you do',
     lastUpdated: 'October 2026',
     sections: [
       {
@@ -109,11 +109,33 @@ Co-Founded by Basit Majeed (Security & Academic Research) and Sahil (AI/ML & Arc
       },
       {
         heading: '03. Pricing & Lifetime Update Entitlements',
-        content: `All prices are listed and billed in Indian Rupees (INR / ₹) inclusive of applicable digital taxes. Digital edition purchases grant irrevocable single-user access including all asynchronous version updates, errata sheets, and revised format deliverables.`
+        content: `All prices are in Indian Rupees (₹). The price shown is the full amount you pay; nothing is added at checkout. Digital edition purchases grant irrevocable single-user access including all asynchronous version updates, errata sheets, and revised format deliverables.`
       },
       {
         heading: '04. Governing Law & Dispute Resolution',
         content: `These terms and all digital transactions are governed exclusively by the laws of India. Any legal disputes arising in connection with TAMYIZ™ shall be subject to the exclusive jurisdiction of the competent courts in Sopore / Baramulla, Jammu & Kashmir, India.`
+      }
+    ]
+  },
+  'contact': {
+    slug: 'contact',
+    code: 'POL-05',
+    title: 'Contact Us',
+    subtitle: 'How to reach TAMYIZ about an order, a refund or anything else',
+    lastUpdated: 'October 2026',
+    sections: [
+      {
+        heading: '01. Fastest: WhatsApp',
+        content: `WhatsApp or call +91 95417 22379 (Monday–Saturday, 10:00–19:00 IST). For an order, include the order reference from your receipt.`
+      },
+      {
+        heading: '02. Email',
+        content: `tamyiz.co@gmail.com. We reply within one working day.`
+      },
+      {
+        heading: '03. Business details',
+        content: `TAMYIZ™ is run by its co-founders Basit Majeed and Sahil Naseer.
+Address: Sopore, Jammu & Kashmir 193201, India.`
       }
     ]
   }
@@ -125,9 +147,10 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
 
   const tabList = [
     { slug: 'delivery-protocol', label: 'Delivery Protocol', code: '01' },
-    { slug: 'license', label: 'Atelier License', code: '02' },
+    { slug: 'license', label: 'Refunds & License', code: '02' },
     { slug: 'privacy', label: 'Privacy & Security', code: '03' },
-    { slug: 'terms', label: 'Terms of Service', code: '04' }
+    { slug: 'terms', label: 'Terms of Service', code: '04' },
+    { slug: 'contact', label: 'Contact Us', code: '05' }
   ];
 
   return `

@@ -356,9 +356,10 @@ export class TamyizUnifiedApp {
             <ul class="tamyiz-footer-links">
               <li><a href="/#format-guide" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">Digital Format &amp; Template Guide</a></li>
               <li><a href="/legal/delivery-protocol" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Digital Delivery Protocol</a></li>
-              <li><a href="/legal/license" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('license')">Atelier Guarantee &amp; License</a></li>
+              <li><a href="/legal/license" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('license')">Refund &amp; Cancellation Policy</a></li>
               <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
               <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
+              <li><a href="/legal/contact" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('contact')">Contact Us</a></li>
               <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #1E7B2E; font-weight: 700;">WhatsApp Concierge (${siteConfig.phone}) ↗</a></li>
             </ul>
           </div>
@@ -513,9 +514,10 @@ export class TamyizUnifiedApp {
               <ul class="tamyiz-footer-links">
                 <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.scrollToFormatGuide()">Format &amp; Template Guide</a></li>
                 <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Delivery Protocol</a></li>
-                <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('license')">Atelier Guarantee &amp; License</a></li>
+                <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('license')">Refund &amp; Cancellation Policy</a></li>
                 <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
                 <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
+                <li><a href="/legal/contact" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('contact')">Contact Us</a></li>
                 <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #4CC764; font-weight: 700;">WhatsApp Concierge ↗</a></li>
               </ul>
             </div>
@@ -1796,20 +1798,11 @@ export class TamyizUnifiedApp {
       return;
     }
 
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Sending Message...</span>';
-    }
-
-    setTimeout(() => {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Send Message</span><span>→</span>';
-      }
-      store.showToast(`Thank you, ${name}. Message received by Basit & Sahil. Response within 4 hours.`, 'success');
-      const form = document.getElementById('atelier-contact-form') || document.querySelector('.tamyiz-contact-form');
-      if (form) form.reset();
-    }, 700);
+    // The site has no mail server: the message opens in WhatsApp, ready to send to the founders.
+    const subject = document.getElementById('contact-subject')?.value || '';
+    const text = `Hello TAMYIZ,\n\n${message}\n\n— ${name} (${email})${subject ? `\nTopic: ${subject}` : ''}`;
+    window.open(`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    store.showToast('Your message is ready in WhatsApp. Press send there and we will reply.', 'success');
   }
 
   // ==========================================
@@ -2340,9 +2333,10 @@ export class TamyizUnifiedApp {
     const doc = legalDocs[activeKey] || legalDocs['delivery-protocol'];
     const tabs = [
       { key: 'delivery-protocol', label: 'Delivery Protocol', code: '01' },
-      { key: 'license', label: 'Atelier License', code: '02' },
+      { key: 'license', label: 'Refunds & License', code: '02' },
       { key: 'privacy', label: 'Privacy & Security', code: '03' },
-      { key: 'terms', label: 'Terms of Service', code: '04' }
+      { key: 'terms', label: 'Terms of Service', code: '04' },
+      { key: 'contact', label: 'Contact Us', code: '05' }
     ];
 
     return `
