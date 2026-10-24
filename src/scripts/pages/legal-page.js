@@ -14,8 +14,8 @@ export const legalDocs = {
   'delivery-protocol': {
     slug: 'delivery-protocol',
     code: 'POL-01',
-    title: 'Instant Digital Delivery Protocol',
-    subtitle: 'Shipping & Delivery Policy // 100% Digital Fulfilment (0–2 Minutes SLA)',
+    title: 'Shipping & Delivery Policy',
+    subtitle: 'Every TAMYIZ product is a digital download. Nothing is shipped by post.',
     lastUpdated: 'October 2026',
     sections: [
       {
@@ -50,13 +50,15 @@ Redistribution, reselling, sub-licensing, torrenting, or public sharing of the P
       },
       {
         heading: '02. Refund & Cancellation Terms for Digital Assets',
-        content: `Because all TAMYIZ™ editions are delivered instantaneously as DRM-free digital files and duplicable workspace templates, completed digital sales are final once unlocked on screen or dispatched.`
+        content: `Because all TAMYIZ™ editions are delivered instantly as DRM-free PDF files that can't be returned, completed digital sales are final once the download link has been delivered, except in the cases below.`
       },
       {
-        heading: '03. Statutory Exceptions (7-Day Resolution Window)',
-        content: `A full replacement or 100% refund is unconditionally guaranteed within 7 days of purchase under the following circumstances:
-• Duplicate transactions or duplicate UPI debits resulting from payment gateway network timeouts.
-• Corrupted archive files or defective template duplication links that cannot be resolved by TAMYIZ engineering within 24 hours of notification.`
+        heading: '03. When You Get a Refund (within 7 days)',
+        content: `Tell us within 7 days of purchase and you get a full refund if:
+• You were charged twice for the same order (for example a duplicate UPI debit after a network timeout).
+• You paid but did not get your download link, and we could not deliver it within 24 hours of you telling us.
+• The file is damaged or will not open, and we could not send you a working copy within 24 hours of you telling us.
+To ask for a refund, WhatsApp +91 95417 22379 or email tamyiz.co@gmail.com with your payment ID.`
       },
       {
         heading: '04. Settlement & Refund Processing Timeline',
@@ -68,22 +70,22 @@ Redistribution, reselling, sub-licensing, torrenting, or public sharing of the P
     slug: 'privacy',
     code: 'POL-03',
     title: 'Privacy & Data Security Policy',
-    subtitle: 'DPDP Act India Compliant Architecture // Zero Telemetry Selling',
+    subtitle: 'What we collect, why we collect it, and your rights',
     lastUpdated: 'October 2026',
     sections: [
       {
-        heading: '01. Data Minimization & DPDP Act India Compliance',
-        content: `In compliance with the Digital Personal Data Protection (DPDP) Act of India and international data protection standards, TAMYIZ collects only the minimum data needed to deliver your e-book and help you if something goes wrong.
-We collect strictly: Buyer Full Name, Dispatch Email Address, WhatsApp Mobile Number, and Payment Reference ID.`
+        heading: '01. What We Collect',
+        content: `In line with India's Digital Personal Data Protection (DPDP) Act, TAMYIZ collects only the minimum data needed to deliver your e-book and help you if something goes wrong.
+We collect only: your name, email address, mobile number, and the payment reference from Razorpay.`
       },
       {
-        heading: '02. Payment Gateway Security Architecture',
-        content: `TAMYIZ™ operates zero-knowledge financial handling. We NEVER store, process, or view credit/debit card numbers, CVV codes, or UPI PINs on our servers. All transactions are routed directly through PCI-DSS Level 1 certified Indian payment gateways (Razorpay) utilizing 256-bit TLS encryption.`
+        heading: '02. Payments',
+        content: `Payments are handled by Razorpay, a PCI-DSS certified payment gateway. We never see or store your card number, CVV, UPI PIN or bank login.`
       },
       {
-        heading: '03. Data Protection, Zero Third-Party Sharing & Erasure Rights',
-        content: `We never sell, rent, monetize, or disclose your contact coordinates to advertising networks, data brokers, or third parties.
-Users retain the perpetual right to request complete data erasure or access to their digital purchase records at any time by contacting tamyiz.co@gmail.com.`
+        heading: '03. Sharing and Your Rights',
+        content: `We never sell or rent your details, and we don't share them with advertisers. They are used only to deliver your e-book, send your receipt and help you with your order.
+You can ask to see or delete your details at any time by emailing tamyiz.co@gmail.com.`
       }
     ]
   },
@@ -97,17 +99,17 @@ Users retain the perpetual right to request complete data erasure or access to t
       {
         heading: '01. Who Runs TAMYIZ',
         content: `TAMYIZ™ (tamyiz.pages.dev) is run by its co-founders from Sopore, Jammu & Kashmir 193201, India.
-Co-Founded by Basit Majeed (Security & Academic Research) and Sahil (AI/ML & Architecture).`
+Co-founded by Basit Majeed and Sahil Naseer.`
       },
       {
         heading: '02. Official Merchant Support Channels',
         content: `Official customer support and statutory compliance inquiries:
-• Electronic Mail: tamyiz.co@gmail.com
-• WhatsApp Concierge: +91 95417 22379 (Available Monday–Saturday, 10:00–19:00 IST)`
+• Email: tamyiz.co@gmail.com
+• WhatsApp or phone: +91 95417 22379 (Available Monday–Saturday, 10:00–19:00 IST)`
       },
       {
-        heading: '03. Pricing & Lifetime Update Entitlements',
-        content: `All prices are in Indian Rupees (₹). The price shown is the full amount you pay; nothing is added at checkout. Digital edition purchases grant irrevocable single-user access including all asynchronous version updates, errata sheets, and revised format deliverables.`
+        heading: '03. Prices and What You Get',
+        content: `All prices are in Indian Rupees (₹). The price shown is the full amount you pay; nothing is added at checkout. Each purchase is a personal licence for one person to that e-book (see the Refund, Cancellation & License Policy). If we correct mistakes in a book later, buyers can ask for the corrected file free of charge.`
       },
       {
         heading: '04. Governing Law & Dispute Resolution',
@@ -144,7 +146,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
   const doc = legalDocs[validSlug];
 
   const tabList = [
-    { slug: 'delivery-protocol', label: 'Delivery Protocol', code: '01' },
+    { slug: 'delivery-protocol', label: 'Shipping & Delivery', code: '01' },
     { slug: 'license', label: 'Refunds & License', code: '02' },
     { slug: 'privacy', label: 'Privacy & Security', code: '03' },
     { slug: 'terms', label: 'Terms of Service', code: '04' },
@@ -157,7 +159,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
       <section class="tamyiz-page-header">
         <div class="container">
           <div class="tamyiz-page-header-inner">
-            <span class="tamyiz-page-badge">STUDIO PROTOCOLS // ${doc.code}</span>
+            <span class="tamyiz-page-badge">POLICIES // ${doc.code}</span>
             <h1 class="tamyiz-page-title">${doc.title}</h1>
             <p class="tamyiz-page-description">${doc.subtitle}</p>
           </div>
@@ -186,7 +188,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
         <div class="container max-w-4xl mx-auto px-4 sm:px-6">
           <div class="bg-white border border-neutral-200 p-6 sm:p-10 md:p-14 rounded-lg shadow-sm">
             <div class="flex justify-between items-center pb-6 mb-8 border-b border-neutral-200 text-xs font-mono text-neutral-500">
-              <span>LEGAL REF: ${doc.code} // TAMYIZ STUDIO</span>
+              <span>${doc.code} // TAMYIZ</span>
               <span>EFFECTIVE: ${doc.lastUpdated}</span>
             </div>
 
@@ -210,29 +212,28 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <div class="mb-1.5"><strong class="text-black">Operating Entity:</strong> TAMYIZ™ Digital Publishing &amp; Systems Architecture Atelier</div>
-                  <div class="mb-1.5"><strong class="text-black">Studio Address:</strong> Sopore, Kashmir 193201, India</div>
-                                    <div><strong class="text-black">Co-Founders:</strong> Basit Majeed (Security &amp; Research) &amp; Sahil (AI/ML &amp; Build)</div>
+                  <div class="mb-1.5"><strong class="text-black">Business:</strong> TAMYIZ™, run by Basit Majeed &amp; Sahil Naseer</div>
+                  <div class="mb-1.5"><strong class="text-black">Address:</strong> Sopore, Jammu &amp; Kashmir 193201, India</div>
                 </div>
                 <div>
-                  <div class="mb-1.5"><strong class="text-black">Direct Concierge Email:</strong> <a href="mailto:tamyiz.co@gmail.com" class="underline text-black font-bold">tamyiz.co@gmail.com</a></div>
+                  <div class="mb-1.5"><strong class="text-black">Email:</strong> <a href="mailto:tamyiz.co@gmail.com" class="underline text-black font-bold">tamyiz.co@gmail.com</a></div>
                   <div class="mb-1.5"><strong class="text-black">Phone &amp; WhatsApp:</strong> <a href="tel:+919541722379" class="underline text-black font-bold" style="white-space: nowrap;">+91 95417 22379</a> (10:00–19:00 IST)</div>
-                  <div class="mb-1.5"><strong class="text-black">Delivery SLA:</strong> Instantaneous on-screen unlock + email dispatch within 60 seconds</div>
-                  <div><strong class="text-black">Refund Protocol:</strong> 100% replacement for corrupted files; 7-day refund if reader incompatibility cannot be resolved</div>
+                  <div class="mb-1.5"><strong class="text-black">Delivery:</strong> download link on screen right after payment</div>
+                  <div><strong class="text-black">Refunds:</strong> within 7 days for a double charge, or a file we could not deliver or fix</div>
                 </div>
               </div>
             </div>
 
             <div class="mt-10 pt-8 border-t border-neutral-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-mono text-neutral-600">
               <div>
-                Questions regarding protocols? Concierge: 
+                Questions about this policy? Email 
                 <a href="mailto:${siteConfig.conciergeEmail}" class="text-black font-bold underline ml-1">${siteConfig.conciergeEmail}</a>
               </div>
               <button 
                 class="tamyiz-btn-nav-outline text-xs px-4 py-2"
                 onclick="window.tamyizApp.navigateTo('/editions')"
               >
-                <span>Return to The Editions</span>
+                <span>See the e-books</span>
                 <span>→</span>
               </button>
             </div>

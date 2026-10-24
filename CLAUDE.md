@@ -53,7 +53,9 @@ in the header unless some book is on sale, product schema PreOrder. To sell a bo
 
 Razorpay checks the site for these pages; give them these addresses:
 About `/atelier` · Contact `/legal/contact` · Pricing `/editions` · Terms `/legal/terms` · Privacy `/legal/privacy` ·
-Refunds `/legal/license` (titled "Refund, Cancellation & License Policy"). Keep them live and named like this.
+Refunds `/legal/license` (titled "Refund, Cancellation & License Policy") · Shipping `/legal/delivery-protocol`
+(titled "Shipping & Delivery Policy"; Razorpay asks for a shipping policy even for digital goods). Keep them live and named like this.
+Razorpay also asks for a sample invoice: a sample receipt PDF can be made from `server/payments.js`'s receipt layout.
 The contact form has no mail server: it opens WhatsApp with the message filled in. Never fake a "message received".
 
 ## Honesty rules (decided by Sahil and Basit, 24 Oct 2026)

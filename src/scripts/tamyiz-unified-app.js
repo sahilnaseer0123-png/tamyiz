@@ -352,7 +352,7 @@ class TamyizUnifiedApp {
             <div class="tamyiz-mobile-nav-group-title">Customer Care</div>
             <ul class="tamyiz-footer-links">
               <li><a href="/#format-guide" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">How to read our e-books</a></li>
-              <li><a href="/legal/delivery-protocol" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Digital Delivery Protocol</a></li>
+              <li><a href="/legal/delivery-protocol" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('delivery-protocol')">Shipping &amp; Delivery Policy</a></li>
               <li><a href="/legal/license" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('license')">Refund &amp; Cancellation Policy</a></li>
               <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
               <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
@@ -506,7 +506,7 @@ class TamyizUnifiedApp {
               <h3>Customer Care &amp; Compliance</h3>
               <ul class="tamyiz-footer-links">
                 <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.scrollToFormatGuide()">How to read our e-books</a></li>
-                <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Delivery Protocol</a></li>
+                <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('delivery-protocol')">Shipping &amp; Delivery Policy</a></li>
                 <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('license')">Refund &amp; Cancellation Policy</a></li>
                 <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
                 <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
@@ -2317,7 +2317,7 @@ class TamyizUnifiedApp {
   renderLegalModalContent(activeKey) {
     const doc = legalDocs[activeKey] || legalDocs['delivery-protocol'];
     const tabs = [
-      { key: 'delivery-protocol', label: 'Delivery Protocol', code: '01' },
+      { key: 'delivery-protocol', label: 'Shipping & Delivery', code: '01' },
       { key: 'license', label: 'Refunds & License', code: '02' },
       { key: 'privacy', label: 'Privacy & Security', code: '03' },
       { key: 'terms', label: 'Terms of Service', code: '04' },
@@ -2367,14 +2367,13 @@ class TamyizUnifiedApp {
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.5rem; font-size: 0.72rem;">
             <div>
-              <strong>Operating Entity:</strong> TAMYIZ™ Digital Publishing &amp; Design Systems Studio<br/>
+              <strong>Business:</strong> TAMYIZ™, run by Basit Majeed &amp; Sahil Naseer<br/>
               <strong>Address:</strong> Sopore, Jammu &amp; Kashmir 193201, India<br/>
-              <strong>Co-Founders:</strong> Basit Majeed &amp; Sahil
             </div>
             <div>
               <strong>Email:</strong> <a href="mailto:tamyiz.co@gmail.com" style="text-decoration: underline; color: #000;">tamyiz.co@gmail.com</a><br/>
-              <strong>WhatsApp Concierge:</strong> <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #000; white-space: nowrap;">${siteConfig.phone}</a><br/>
-              <strong>Settlement &amp; Refund:</strong> 7-day resolution window • 5–7 business days settlement
+              <strong>WhatsApp / phone:</strong> <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #000; white-space: nowrap;">${siteConfig.phone}</a><br/>
+              <strong>Refunds:</strong> ask within 7 days • back in your account in 5–7 working days
             </div>
           </div>
         </div>
