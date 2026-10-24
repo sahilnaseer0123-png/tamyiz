@@ -7,6 +7,7 @@ import { products, isAvailable, anyAvailable, buyLabel } from '../../data/produc
 import { foundersData } from '../../data/content.js';
 import { siteConfig } from '../../data/site-config.js';
 import { store } from '../store.js';
+import { principlesSection, formatGuideSection } from './sections.js';
 
 export function renderHomePage(appInstance) {
   // Newest 3 ebooks (the list from /admin is newest first)
@@ -22,7 +23,7 @@ export function renderHomePage(appInstance) {
             <div class="lg:col-span-7 flex flex-col items-start text-left tamyiz-hero-editorial-stack">
               <div class="tamyiz-hero-badge-pill mb-6">
                 <span class="tamyiz-hero-badge-dot"></span>
-                <span>EDITION 01 • DIGITAL PUBLICATIONS &amp; TEMPLATES</span>
+                <span>PRACTICAL E-BOOKS • BY SAHIL &amp; BASIT</span>
               </div>
 
               <h1 class="tamyiz-hero-giant-title text-6xl sm:text-7xl lg:text-[88px] font-black tracking-tight leading-[0.95] mb-6">
@@ -30,15 +31,15 @@ export function renderHomePage(appInstance) {
               </h1>
 
               <p class="tamyiz-hero-subheadline text-lg sm:text-xl lg:text-[21px] leading-[1.55] max-w-[540px] mb-8">
-                Authoritative e-books, Notion operating systems, and architectural design templates.
+                Short, practical e-books on AI and the digital world, written for beginners. Download the PDF and start reading in a minute.
               </p>
 
               <div class="tamyiz-hero-actions flex flex-col items-start">
                 <button class="tamyiz-hero-btn-primary mb-5" onclick="window.tamyizApp.navigateTo('/editions')">
-                  <span>EXPLORE EDITIONS</span>
+                  <span>SEE THE E-BOOKS</span>
                   <span>↓</span>
                 </button>
-                <span class="tamyiz-hero-spec-tag text-[11px] tracking-[0.16em] uppercase">${anyAvailable() ? 'INSTANT DIGITAL ACCESS • PDF, EPUB &amp; NOTION SYSTEMS' : 'FIRST EDITIONS COMING SOON • PRE-ORDER ON WHATSAPP'}</span>
+                <span class="tamyiz-hero-spec-tag text-[11px] tracking-[0.16em] uppercase">${anyAvailable() ? 'INSTANT PDF DOWNLOAD • READ ON ANY DEVICE' : 'FIRST EDITIONS COMING SOON • PRE-ORDER ON WHATSAPP'}</span>
               </div>
             </div>
 
@@ -82,8 +83,8 @@ export function renderHomePage(appInstance) {
                 </svg>
               </span>
               <div>
-                <strong>Instant Digital Delivery</strong>
-                <p>Unlocked immediately on-screen &amp; dispatched to email/WhatsApp</p>
+                <strong>Instant download</strong>
+                <p>Your PDF link appears on screen right after payment, and by email.</p>
               </div>
             </div>
             <div class="tamyiz-promise-item lg:px-8 first:lg:pl-0 last:lg:pr-0">
@@ -97,8 +98,8 @@ export function renderHomePage(appInstance) {
                 </svg>
               </span>
               <div>
-                <strong>Architectural Precision</strong>
-                <p>Swiss typographic layouts, 300DPI plates &amp; Notion formulas</p>
+                <strong>Reads anywhere</strong>
+                <p>Phone, tablet, laptop or Kindle. Nothing to install.</p>
               </div>
             </div>
             <div class="tamyiz-promise-item lg:px-8 first:lg:pl-0 last:lg:pr-0">
@@ -108,8 +109,8 @@ export function renderHomePage(appInstance) {
                 </svg>
               </span>
               <div>
-                <strong>Lifetime Updates</strong>
-                <p>All future revisions and upgraded templates included free</p>
+                <strong>Plain English</strong>
+                <p>Written for beginners, built around real examples.</p>
               </div>
             </div>
             <div class="tamyiz-promise-item lg:px-8 first:lg:pl-0 last:lg:pr-0">
@@ -120,8 +121,8 @@ export function renderHomePage(appInstance) {
                 </svg>
               </span>
               <div>
-                <strong>Atelier Guarantee</strong>
-                <p>100% personal &amp; commercial single-operator license</p>
+                <strong>Real people</strong>
+                <p>Questions? WhatsApp the founders directly.</p>
               </div>
             </div>
           </div>
@@ -133,8 +134,8 @@ export function renderHomePage(appInstance) {
         <div class="container">
           <div class="tamyiz-shop-header" style="align-items: flex-end; margin-bottom: 2.5rem;">
             <div>
-              <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Curated Publications // Edition 01</span>
-              <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase;">Featured Editions</h2>
+              <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">The shop</span>
+              <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase;">Latest e-books</h2>
             </div>
             ${products.length > 3 ? `<button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/editions')">
               <span>View all ${products.length} e-books</span>
@@ -167,51 +168,8 @@ export function renderHomePage(appInstance) {
         </div>
       </section>
 
-      <!-- 4. PHILOSOPHY SNAPSHOT (THE THREE PILLARS) -->
-      <section id="philosophy" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: #FFFFFF; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
-        <div class="container">
-          <div style="text-align: center; max-width: 680px; margin: 0 auto 3rem auto;">
-            <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Atelier Philosophy</span>
-            <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; line-height: 1.1;">The Three Pillars of Distinction</h2>
-            <p style="color: #666; font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.55;">
-              Every publication, Notion system, and design framework is guided by three non-negotiable principles.
-            </p>
-          </div>
-
-          <div class="tamyiz-values-grid grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8" style="margin-top: 0;">
-            <div class="tamyiz-value-card">
-              <div class="tamyiz-value-num">01</div>
-              <h3 class="tamyiz-value-title">Intellectual Depth</h3>
-              <p class="tamyiz-value-desc">
-                We reject content mill superficiality. Every e-book is written with deep philosophical rigor, academic density, and actionable execution frameworks.
-              </p>
-            </div>
-
-            <div class="tamyiz-value-card">
-              <div class="tamyiz-value-num">02</div>
-              <h3 class="tamyiz-value-title">Swiss Editorial Precision</h3>
-              <p class="tamyiz-value-desc">
-                Crafted with brutalist typographic hierarchy, high-contrast monochrome layouts, and 300DPI architectural book plates designed for focused contemplation.
-              </p>
-            </div>
-
-            <div class="tamyiz-value-card">
-              <div class="tamyiz-value-num">03</div>
-              <h3 class="tamyiz-value-title">Instant Frictionless Systems</h3>
-              <p class="tamyiz-value-desc">
-                Zero shipping waits. 1-click Notion duplication links, DRM-free multi-format files (PDF, EPUB, Kindle EPUB), and lifetime async version upgrades.
-              </p>
-            </div>
-          </div>
-
-          <div style="text-align: center; margin-top: 3rem;">
-            <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/#format-guide')">
-              <span>EXPLORE FORMAT &amp; COMPATIBILITY GUIDE</span>
-              <span>→</span>
-            </button>
-          </div>
-        </div>
-      </section>
+      <!-- 4. HOW WE WRITE -->
+${principlesSection({ id: 'philosophy' })}
 
       <!-- 5. ARCHITECTS TEASER (CO-FOUNDERS BANNER) -->
       <section id="origin" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite); border-bottom: 1px solid var(--color-border);">
@@ -219,17 +177,17 @@ export function renderHomePage(appInstance) {
           <div class="tamyiz-founders-teaser-card">
             <div class="tamyiz-founders-teaser-content">
               <span style="font-family: var(--font-sub); font-size: 0.78rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
-                Atelier Origin // Est. 2025
+                About us // Est. 2025
               </span>
               <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; line-height: 1.15; margin-bottom: 1rem;">
-                Architects of the Archive
+                Who makes TAMYIZ
               </h2>
               <p style="font-size: 0.95rem; color: #444; line-height: 1.6; margin-bottom: 1.75rem; max-width: 580px;">
-                Founded in late 2025 by <strong>Basit Majeed</strong> (Security &amp; Research) and <strong>Sahil</strong> (AI/ML &amp; Build). Together, they fuse Himalayan heritage with modern technical precision.
+                Founded in late 2025 by <strong>Basit Majeed</strong> (Security &amp; Research) and <strong>Sahil</strong> (AI/ML &amp; Build). Together they write the practical guides they wish they'd had when they started.
               </p>
               <div class="flex flex-wrap gap-3">
                 <button class="tamyiz-hero-btn-primary" style="padding: 0.85rem 1.75rem; font-size: 0.82rem;" onclick="window.tamyizApp.navigateTo('/atelier')">
-                  <span>Explore Atelier &amp; Story</span>
+                  <span>Our story</span>
                   <span>→</span>
                 </button>
               </div>
@@ -272,91 +230,8 @@ export function renderHomePage(appInstance) {
         </div>
       </section>
 
-      <!-- 5B. FORMAT GUIDE / COMPATIBILITY MATRIX -->
-      <section id="format-guide" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
-        <div class="container">
-          <div style="text-align: center; max-width: 680px; margin: 0 auto 3rem auto;">
-            <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">Digital Standards &amp; Readers</span>
-            <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; line-height: 1.1;">Digital Format Guide</h2>
-            <p style="color: #666; font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.55;">
-              Every publication, Notion workspace, and UI system is engineered for zero DRM friction across Apple, Kindle, and modern web environments.
-            </p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
-              <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color:var(--color-black);">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                  </svg>
-                </span>
-                <div>
-                  <h3 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; margin:0;">Interactive PDF</h3>
-                  <span class="matrix-sub" style="font-size:0.75rem; color:#6B6B6B;">300DPI Retina Vector Edition</span>
-                </div>
-              </div>
-              <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
-                Full-bleed architectural spreads, linked citations, margin notes, and vector typography optimized for iPads and desktop reading.
-              </p>
-              <div class="matrix-compatibility-tags" style="display:flex; flex-wrap:wrap; gap:0.4rem;">
-                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Apple Books ✓</span>
-                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Adobe Acrobat ✓</span>
-              </div>
-            </div>
-
-            <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
-              <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color:var(--color-black);">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
-                    <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2"></line>
-                    <line x1="8" y1="6" x2="16" y2="6"></line>
-                  </svg>
-                </span>
-                <div>
-                  <h3 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; margin:0;">Kindle &amp; EPUB 3</h3>
-                  <span class="matrix-sub" style="font-size:0.75rem; color:#6B6B6B;">Reflowable E-Ink &amp; Mobile</span>
-                </div>
-              </div>
-              <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
-                Compatible with Amazon Kindle Paperwhite/Oasis, Kobo, and smartphones with customizable font sizes, night modes, and whispersync.
-              </p>
-              <div class="matrix-compatibility-tags" style="display:flex; flex-wrap:wrap; gap:0.4rem;">
-                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Kindle Scribe/Paperwhite ✓</span>
-                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Google Play Books ✓</span>
-              </div>
-            </div>
-
-            <div class="tamyiz-matrix-card" style="background:#FFF; padding:1.75rem; border:1px solid var(--color-border); border-radius:4px;">
-              <div class="matrix-card-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-                <span class="matrix-icon" aria-hidden="true" style="display:inline-flex; align-items:center; color: var(--color-red-ink);">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="14" width="7" height="7"></rect>
-                    <rect x="3" y="14" width="7" height="7"></rect>
-                  </svg>
-                </span>
-                <div>
-                  <h3 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; margin:0;">Notion &amp; Figma</h3>
-                  <span class="matrix-sub" style="font-size:0.75rem; color:#6B6B6B;">1-Click Duplication Vault</span>
-                </div>
-              </div>
-              <p class="matrix-desc" style="font-size:0.86rem; color:#555; line-height:1.6; margin-bottom:1rem;">
-                Instant 1-click duplication into your personal Notion workspace (Free &amp; Plus) and full vector components in Figma.
-              </p>
-              <div class="matrix-compatibility-tags" style="display:flex; flex-wrap:wrap; gap:0.4rem;">
-                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Notion App ✓</span>
-                <span class="comp-tag active" style="font-size:0.7rem; background:#F0F0EE; padding:0.25rem 0.5rem; border-radius:2px; font-weight:600;">Figma Desktop/Web ✓</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- 5B. FORMAT GUIDE -->
+${formatGuideSection()}
 
     </div>
   `;
@@ -396,6 +271,7 @@ export function renderProductCardHtml(p, appInstance) {
       <div class="tamyiz-product-info flex flex-col flex-1 justify-between">
         <div>
           <span class="tamyiz-product-cat">${p.category}</span>
+          ${isAvailable(p) ? '' : '<span class="tamyiz-card-status">Coming soon</span>'}
           <h3 class="tamyiz-product-name"><a href="/edition/${slug}" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/edition/${slug}')">${p.name}</a></h3>
 
           <div class="tamyiz-product-pricing flex items-baseline gap-2" id="pricing-${p.id}" aria-label="Price: ₹${currentPrice.toLocaleString('en-IN')}${currentOrigPrice ? `, original price ₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}">

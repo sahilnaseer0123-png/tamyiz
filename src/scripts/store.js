@@ -117,7 +117,7 @@ class Store {
 
     this.save(STORAGE_KEYS.CART, this.cart);
     this.notify('cart_updated', { cart: this.cart });
-    this.showToast(`Added to bag: ${product.name} (${variant})`, 'success');
+    this.showToast(`Added to bag: ${product.name}${variant && variant !== 'Standard' ? ` (${variant})` : ''}`, 'success');
   }
 
   removeFromCart(cartItemId) {
@@ -273,6 +273,8 @@ class Store {
   }
 
   showToast(message, type = 'info') {
+    // Product names come HTML-escaped from the server; the toast uses textContent, so turn them back into plain text.
+    message = String(message).replace(/&(amp|lt|gt|quot|#39);/g, (_, e) => ({ amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" })[e]);
     let container = document.getElementById('tamyiz-toast-container');
     if (!container) {
       container = document.createElement('div');

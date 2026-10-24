@@ -31,7 +31,7 @@ export function renderProductDetailPage(slug, appInstance) {
   const related = getRelatedProducts(product.id, 3);
   const activeImgIndex = appInstance.activePdpImageIndex || 0;
   const currentImg = product.images[activeImgIndex] || product.images[0];
-  const hasSample = Boolean(product.sampleExcerpt || (product.tableOfContents && product.tableOfContents.length));
+  const hasSample = Boolean(product.sampleExcerpt);
 
   return `
     <div class="tamyiz-page-pdp">
@@ -241,7 +241,7 @@ export function renderProductDetailPage(slug, appInstance) {
                         <line x1="12" y1="18" x2="12.01" y2="18"></line>
                       </svg>
                     </span>
-                    <span>DRM-free files compatible with Apple Books, Kindle, and mobile tablets.</span>
+                    <span>DRM-free PDF: reads on phones, tablets, laptops and Kindle.</span>
                   </div>
                   <div class="tamyiz-guarantee-item">
                     <span style="display:inline-flex; align-items:center;" aria-hidden="true">
@@ -249,13 +249,13 @@ export function renderProductDetailPage(slug, appInstance) {
                         <path d="M18.178 8c5.096 0 5.096 8 0 8-2.67 0-4.67-2.67-6.178-5.333C10.5 8 8.5 8 5.822 8c-5.096 0-5.096 8 0 8 2.67 0 4.67-2.67 6.178-5.333C13.5 16 15.5 16 18.178 16z"></path>
                       </svg>
                     </span>
-                    <span>Lifetime free updates whenever new revisions or templates are published.</span>
+                    <span>Questions about the book? WhatsApp us: the authors reply themselves.</span>
                   </div>
                 </div>
 
                 <!-- Description -->
                 <div class="tamyiz-pdp-description-box">
-                  <h2 class="tamyiz-pdp-desc-heading">Overview &amp; Architecture</h2>
+                  <h2 class="tamyiz-pdp-desc-heading">About this book</h2>
                   <p class="tamyiz-pdp-desc">${product.description}</p>
                 </div>
 
@@ -264,25 +264,20 @@ export function renderProductDetailPage(slug, appInstance) {
                   <!-- Accordion 1: What's Inside -->
                   <div class="tamyiz-pdp-acc-item open" id="acc-inside">
                     <button class="tamyiz-pdp-acc-trigger" onclick="window.tamyizApp.toggleAccordion('acc-inside')">
-                      <span>01 / WHAT'S INSIDE (MODULES &amp; CHAPTERS)</span>
+                      <span>01 / WHAT'S INSIDE</span>
                       <span class="tamyiz-pdp-acc-icon">−</span>
                     </button>
                     <div class="tamyiz-pdp-acc-content">
-                      <ul class="tamyiz-acc-bullets">
-                        ${(product.highlights || [
-                          "Complete publication file package (Interactive PDF & EPUB)",
-                          "Detailed blueprints, architectural formulas, and tactical models",
-                          "Full personal & single-operator commercial deployment rights",
-                          "Lifetime async updates and revisions"
-                        ]).map(hl => `<li>${hl}</li>`).join('')}
-                      </ul>
+                      ${(product.tableOfContents && product.tableOfContents.length)
+                        ? `<ol class="tamyiz-acc-bullets tamyiz-acc-chapters">${product.tableOfContents.map((c) => `<li>${c}</li>`).join('')}</ol>`
+                        : `<p style="font-size: 0.88rem; color: #555; margin: 0;">The full chapter list is coming soon. Message us on WhatsApp if you'd like to know more.</p>`}
                     </div>
                   </div>
 
                   <!-- Accordion 2: Technical Format & Compatibility -->
                   <div class="tamyiz-pdp-acc-item" id="acc-compat">
                     <button class="tamyiz-pdp-acc-trigger" onclick="window.tamyizApp.toggleAccordion('acc-compat')">
-                      <span>02 / TECHNICAL FORMAT &amp; COMPATIBILITY</span>
+                      <span>02 / FORMAT &amp; DEVICES</span>
                       <span class="tamyiz-pdp-acc-icon">+</span>
                     </button>
                     <div class="tamyiz-pdp-acc-content">
@@ -304,15 +299,16 @@ export function renderProductDetailPage(slug, appInstance) {
                   <!-- Accordion 3: Lifetime Updates & Atelier License -->
                   <div class="tamyiz-pdp-acc-item" id="acc-license">
                     <button class="tamyiz-pdp-acc-trigger" onclick="window.tamyizApp.toggleAccordion('acc-license')">
-                      <span>03 / LIFETIME UPDATES &amp; ATELIER LICENSE</span>
+                      <span>03 / YOUR COPY &amp; REFUNDS</span>
                       <span class="tamyiz-pdp-acc-icon">+</span>
                     </button>
                     <div class="tamyiz-pdp-acc-content">
-                      <p style="font-size: 0.84rem; color: #555; line-height: 1.6; margin: 0 0 0.75rem 0;">
-                        ${product.careInstructions || "Store downloaded PDF and EPUB files in your preferred cloud reader (Apple Books, Google Play Books, or Kindle). Files are DRM-free for your personal devices with lifetime revision access."}
+                      <p style="font-size: 0.86rem; color: #555; line-height: 1.6; margin: 0 0 0.75rem 0;">
+                        A DRM-free PDF for your own use: keep it on all your devices and print pages for yourself. Please don't share or resell it.
                       </p>
-                      <p style="font-size: 0.82rem; color: var(--color-red-ink); font-weight: 700; margin: 0;">
-                        100% Satisfaction Guarantee: If you experience any technical format incompatibility, our concierge will personally assist you or provide a full refund.
+                      <p style="font-size: 0.86rem; color: #555; line-height: 1.6; margin: 0;">
+                        Problem with the file? WhatsApp us and we'll fix it. Charged twice, or a file we can't fix: full refund within 7 days
+                        (<a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/legal/license')" style="text-decoration: underline;">refund policy</a>).
                       </p>
                     </div>
                   </div>
@@ -321,17 +317,17 @@ export function renderProductDetailPage(slug, appInstance) {
             </div>
           </div>
 
-          <!-- BOTTOM SECTION: COMPLETE YOUR SYSTEM -->
-          <div class="tamyiz-pdp-related-section mt-16 md:mt-24 pt-12 border-t border-gray-200">
+          <!-- BOTTOM SECTION: MORE E-BOOKS (only when there are others) -->
+          ${related.length ? `<div class="tamyiz-pdp-related-section mt-16 md:mt-24 pt-12 border-t border-gray-200">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-8">
               <div>
-                <span class="text-xs uppercase tracking-widest text-red-600 font-bold">The Ecosystem</span>
+                <span class="text-xs uppercase tracking-widest text-red-600 font-bold">Keep reading</span>
                 <h3 class="text-2xl md:text-3xl font-black uppercase font-display tracking-tight mt-1">
-                  Complete Your System
+                  More from TAMYIZ
                 </h3>
               </div>
               <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.navigateTo('/editions')">
-                <span>View Full Catalog</span>
+                <span>All e-books</span>
                 <span>→</span>
               </button>
             </div>
@@ -339,7 +335,7 @@ export function renderProductDetailPage(slug, appInstance) {
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
               ${related.map(r => renderProductCardHtml(r, appInstance)).join('')}
             </div>
-          </div>
+          </div>` : ''}
         </div>
       </section>
     </div>

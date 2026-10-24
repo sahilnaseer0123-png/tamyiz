@@ -19,21 +19,20 @@ export const legalDocs = {
     lastUpdated: 'October 2026',
     sections: [
       {
-        heading: '01. Nature of Goods & Zero Physical Shipping',
-        content: `All TAMYIZ™ catalog products are 100% digital assets: editorial monographs (Retina 300DPI vector PDF, reflowable EPUB 3, Kindle EPUB), Notion operating workspaces, and Figma UI/UX design systems. Zero physical manufacturing, postal dispatch, or courier shipping is required.`
+        heading: '01. What You Receive',
+        content: `Every TAMYIZ™ product is a digital e-book delivered as a PDF file. Nothing is shipped by post.`
       },
       {
-        heading: '02. Delivery Timeline (Instantaneous 0–2 Minutes SLA)',
-        content: `Digital fulfillment is instantaneous (0–2 minutes) upon transaction verification. Immediately upon payment authorization through our 256-bit encrypted gateway, your session transitions to the on-screen ATELIER DISPATCH COMPLETE — EDITION UNLOCKED chamber with one-click direct download and duplication vault buttons.
-A copy of your download links is also sent to the email address you gave at checkout.`
+        heading: '02. When You Receive It',
+        content: `As soon as your payment is confirmed, your download link appears on screen. A copy of the link is also sent to the email address you gave at checkout. Download links stay valid for one year.`
       },
       {
-        heading: '03. Concierge Escalation Protocol',
-        content: `If digital delivery is delayed beyond 10 minutes due to aggressive recipient email spam filters or telecommunication gateway latency, buyers may contact our direct WhatsApp Concierge (+91 95417 22379) or email tamyiz.co@gmail.com quoting their Transaction Reference ID for immediate manual file dispatch within 1 hour.`
+        heading: '03. If Something Goes Wrong',
+        content: `If you paid but don't have your link (check your spam folder first), message us on WhatsApp (+91 95417 22379) or email tamyiz.co@gmail.com with your payment ID, and we'll send the file to you.`
       },
       {
-        heading: '04. Lifetime Free Digital Updates & Errata',
-        content: `All digital edition licenses include perpetual, complimentary access to future edition revisions, errata corrections, Notion formula upgrades, and Figma component updates at zero additional fee.`
+        heading: '04. Corrections',
+        content: `If we fix a mistake in a book after you bought it, message us with your order reference and we'll send you the corrected file at no cost.`
       }
     ]
   },
@@ -45,10 +44,9 @@ A copy of your download links is also sent to the email address you gave at chec
     lastUpdated: 'October 2026',
     sections: [
       {
-        heading: '01. Perpetual Single-Operator Commercial License Grant',
-        content: `Upon purchase clearance, TAMYIZ Studio grants you a perpetual, non-exclusive, worldwide single-operator personal and commercial license.
-You are permitted to apply the frameworks, deploy the Notion operating systems across your personal or freelance business, and use the Figma UI Kit components in unlimited client and commercial web applications.
-Redistribution, reselling, sub-licensing, torrenting, or public sharing of raw PDF, EPUB, Notion duplication URLs, or Figma source files is strictly prohibited under the Copyright Act, 1957.`
+        heading: '01. What Your Purchase Lets You Do',
+        content: `Each purchase is a personal licence for one person. You may keep the PDF on all your own devices, read it as often as you like, and print copies for your own use. You may use what you learn from it in your work.
+Redistribution, reselling, sub-licensing, torrenting, or public sharing of the PDF files or download links is strictly prohibited under the Copyright Act, 1957.`
       },
       {
         heading: '02. Refund & Cancellation Terms for Digital Assets',
@@ -75,7 +73,7 @@ Redistribution, reselling, sub-licensing, torrenting, or public sharing of raw P
     sections: [
       {
         heading: '01. Data Minimization & DPDP Act India Compliance',
-        content: `In compliance with the Digital Personal Data Protection (DPDP) Act of India and international data protection standards, TAMYIZ collects only the absolute minimum data required to execute digital fulfillment, authenticate lifetime edition updates, and furnish concierge assistance.
+        content: `In compliance with the Digital Personal Data Protection (DPDP) Act of India and international data protection standards, TAMYIZ collects only the minimum data needed to deliver your e-book and help you if something goes wrong.
 We collect strictly: Buyer Full Name, Dispatch Email Address, WhatsApp Mobile Number, and Payment Reference ID.`
       },
       {

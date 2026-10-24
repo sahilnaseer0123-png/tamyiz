@@ -63,9 +63,20 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
 - Nothing is sent on WhatsApp automatically; never claim it. Page counts stay "planned" until the book exists.
 - Sopore/Kashmir only in legal contact details and receipts, not in brand copy (TAMYIZ is a global brand).
 
-## Quality baseline (24 Oct 2026, local build)
+## Phone layout and shared content (24 Oct 2026)
 
-axe: 0 violations on every page incl. /admin, phone and desktop. Lighthouse mobile: performance 82–93, accessibility 100,
+- Phones (<640px): one spacing scale in the "PHONES (up to 639px)" blocks at the end of tamyiz-unified.css: sections
+  40px top/bottom, promise strip 2x2, product cards = cover left + details right + buttons below (the cover badge is
+  hidden there; `.tamyiz-card-status` shows "Coming soon" instead). Add phone rules there, not scattered.
+- Covers are portrait 2:3 everywhere (cards, product page, bag thumbnail). The product page reserves the cover's space
+  (no layout shift: keep CLS < 0.1).
+- "How we write" and "Read it anywhere" live once in `src/scripts/pages/sections.js` (home + /philosophy). FAQ in
+  `src/data/content.js`. Everything describes PDF e-books only: no Notion/Figma/EPUB, no "lifetime updates", nothing
+  "sent on WhatsApp".
+
+## Quality baseline (24 Oct 2026, local build, rechecked after the phone pass)
+
+axe: 0 violations on every page incl. /admin, phone and desktop. Lighthouse mobile: performance 91–99, accessibility 100,
 SEO 100, best practices 100. Touch screens get 44px tap areas (`@media (pointer: coarse)` block at the end of
 tamyiz-unified.css). Don't ship below this.
 
@@ -88,4 +99,3 @@ tamyiz-unified.css). Don't ship below this.
   "ADMIN_PASSWORD" as already existing while not listing it, so the password secret is `TAMYIZ_ADMIN_PASSWORD`.
   Bindings and secrets only apply after a new deployment.
 - Receipt emails send from Resend's test sender until `RECEIPT_FROM` is a verified address.
-- Home/philosophy copy still mentions Notion and Figma formats from the old template.

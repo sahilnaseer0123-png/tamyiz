@@ -6101,3 +6101,158 @@ img {
 
 /* The card's second button is a link to the product page. */
 a.tamyiz-btn-preview-trigger { display: flex; align-items: center; justify-content: center; text-decoration: none; }
+
+/* ==========================================================================
+   SECTION HEADINGS (shared sections: sections.js)
+   ========================================================================== */
+.tamyiz-section-head { text-align: center; max-width: 680px; margin: 0 auto 3rem auto; }
+.tamyiz-section-title { font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; line-height: 1.1; margin: 0; }
+.tamyiz-section-sub { color: #555; font-size: 0.95rem; margin: 0.75rem auto 0; line-height: 1.55; max-width: 560px; }
+.tamyiz-section-foot { text-align: center; margin-top: 2.5rem; }
+.tamyiz-section-foot .tamyiz-btn-nav-outline { display: inline-flex; text-decoration: none; }
+.matrix-icon { display: inline-flex; align-items: center; color: var(--color-black); }
+
+/* Book covers are portrait: show them whole (cards, product page, bag). */
+.tamyiz-product-thumb { aspect-ratio: 2 / 3; background: #111; }
+.tamyiz-img-primary, .tamyiz-img-hover { object-position: center top; }
+.tamyiz-pdp-main-img-wrap { aspect-ratio: auto; background: #111; display: flex; justify-content: center; cursor: default; }
+.tamyiz-pdp-main-img { width: 100%; height: auto; max-height: 720px; object-fit: contain; }
+
+/* Founder names under the photos sit on a white card: dark text. */
+.tamyiz-founder-mini-name { color: var(--color-black); }
+.tamyiz-founder-mini-role { color: #555; }
+.tamyiz-mini-socials a { color: var(--color-black); }
+
+/* Policy pages: space between sections; tabs wrap instead of running off screen. */
+.legal-section + .legal-section { margin-top: 2rem; }
+.legal-section h2 { margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #EEE; }
+
+/* ==========================================================================
+   PHONES (up to 639px): one spacing scale, no big empty bands (24 Oct 2026)
+   ========================================================================== */
+@media (max-width: 639px) {
+  /* Sections: 40px top and bottom instead of 56-96px */
+  .tamyiz-section, .tamyiz-section.py-14, .tamyiz-section.py-12, .tamyiz-section.py-10, .tamyiz-section.py-16 {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+  .tamyiz-section-head { margin-bottom: 1.5rem; }
+  .tamyiz-section-sub { font-size: 0.92rem; }
+  .tamyiz-section-foot { margin-top: 1.5rem; }
+  .tamyiz-shop-header { margin-bottom: 1.25rem !important; }
+  .tamyiz-page-header { padding: 2.25rem 0 1.75rem 0; }
+  .tamyiz-page-description { margin-bottom: 0; }
+
+  /* Hero: content height, not a full screen of empty space */
+  #hero > div { min-height: 0 !important; padding-top: 2rem !important; padding-bottom: 1.75rem !important; }
+  #hero .grid { gap: 1.5rem !important; }
+  .tamyiz-hero-logo-img { max-width: 280px !important; }
+
+  /* Promise strip: 2 x 2 instead of 4 tall rows */
+  .tamyiz-promise-strip > div { padding: 1.25rem 1rem !important; }
+  .tamyiz-promise-grid { grid-template-columns: 1fr 1fr !important; gap: 1rem 0.85rem !important; }
+  .tamyiz-promise-item { flex-direction: column; gap: 0.4rem; padding: 0 !important; }
+  .tamyiz-promise-item strong { font-size: 0.78rem; margin-bottom: 0.2rem; }
+  .tamyiz-promise-item p { font-size: 0.75rem; }
+
+  /* Cards and grids */
+  .tamyiz-values-grid { gap: 0.75rem; margin-top: 0; }
+  .tamyiz-value-card { padding: 1.25rem; }
+  .tamyiz-value-num { margin-bottom: 0.4rem; }
+  .tamyiz-matrix-card { padding: 1.25rem; }
+  .matrix-desc { margin-bottom: 0.85rem; }
+  .matrix-compatibility-tags { padding-top: 0.75rem; }
+  .tamyiz-founders-teaser-card { padding: 1.25rem; gap: 1.25rem; }
+  .tamyiz-founders-teaser-content p { margin-bottom: 1.25rem !important; }
+
+  /* Product cards: cover on the left, details on the right, buttons underneath */
+  .tamyiz-product-grid { gap: 0.85rem !important; }
+  .tamyiz-product-card { display: grid !important; grid-template-columns: 108px minmax(0, 1fr); column-gap: 0.9rem; row-gap: 0.85rem; padding: 0.85rem; align-items: start; }
+  .tamyiz-product-thumb { grid-column: 1; grid-row: 1; border-radius: 3px; }
+  .tamyiz-product-info { display: contents !important; }
+  .tamyiz-product-info > div:first-child { grid-column: 2; grid-row: 1; min-width: 0; }
+  .tamyiz-card-actions-row { grid-column: 1 / -1; grid-row: 2; margin-top: 0; }
+  .tamyiz-card-actions-row .tamyiz-btn-quick-add { margin-top: 0; }
+  .tamyiz-btn-wishlist { display: none !important; }
+  .tamyiz-badge-digital { top: 0.35rem; left: 0.35rem; font-size: 0.52rem; padding: 0.15rem 0.35rem; letter-spacing: 0.04em; }
+  .tamyiz-product-name { font-size: 1rem; margin-bottom: 0.35rem; }
+  .tamyiz-product-cat { margin-bottom: 0.2rem; }
+
+  /* Editions page: search right under the header */
+  #editions-catalog { padding-top: 1.25rem !important; }
+  .tamyiz-collection-toolbar { margin-bottom: 0.5rem; }
+
+  /* Product page */
+  .tamyiz-pdp-main-section { padding-top: 1rem !important; padding-bottom: 1.5rem !important; }
+  .tamyiz-pdp-main-img-wrap { background: transparent; border: 0; }
+  .tamyiz-pdp-main-img { max-height: 380px; width: auto; max-width: 100%; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+
+  /* Policy pages */
+  .tamyiz-legal-tabs-bar { position: static !important; }
+  .tamyiz-legal-tabs-bar .flex { flex-wrap: wrap !important; white-space: normal !important; overflow: visible !important; gap: 0.4rem !important; }
+  .tamyiz-legal-tab-btn { padding: 0.4rem 0.65rem !important; font-size: 0.66rem !important; }
+  .legal-section + .legal-section { margin-top: 1.5rem; }
+
+  /* Footer */
+  .tamyiz-footer { padding-top: 2rem !important; }
+}
+
+/* Bag: small cover thumbnail next to the title (there was no rule, so the image filled the panel). */
+.tamyiz-cart-item { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 0.85rem; align-items: start; padding: 0.9rem 0; border-bottom: 1px solid #EEE; }
+.tamyiz-cart-thumb { width: 56px; aspect-ratio: 2 / 3; height: auto; object-fit: cover; border-radius: 3px; background: #111; display: block; }
+.tamyiz-cart-name { font-weight: 700; font-size: 0.92rem; line-height: 1.3; }
+.tamyiz-cart-size { font-size: 0.72rem; color: #666; margin-top: 0.15rem; }
+.tamyiz-cart-del { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; background: none; border: 0; cursor: pointer; color: #555; }
+
+/* Chapters list on the product page */
+.tamyiz-acc-chapters { list-style: decimal; padding-left: 1.25rem; margin: 0; }
+.tamyiz-acc-chapters li { padding: 0.2rem 0; font-size: 0.9rem; color: #333; }
+.tamyiz-acc-chapters li::before { content: none !important; }
+
+/* "Coming soon" under the title on phone cards (the cover badge is too small there). */
+.tamyiz-card-status { display: none; }
+
+@media (max-width: 639px) {
+  .tamyiz-badge-digital { display: none !important; }
+  .tamyiz-card-status { display: inline-block; margin: 0 0 0.4rem; padding: 0.15rem 0.5rem; border-radius: 999px; background: #F1F1EF; color: #3A3A3A; font-family: var(--font-sub); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* Promise cards: tinted, tight */
+  .tamyiz-values-grid { gap: 0.6rem !important; }
+  .tamyiz-value-card { background: var(--color-offwhite); border: 1px solid var(--color-border); border-radius: 6px; }
+
+  /* Product page: cover centred, no floating badge, softer note, closer "more e-books" */
+  .tamyiz-pdp-main-img { margin: 0 auto; display: block; }
+  .tamyiz-pdp-badge-pill { display: none !important; }
+  .tamyiz-pdp-tax-note { text-transform: none !important; letter-spacing: 0 !important; font-size: 0.86rem !important; line-height: 1.5 !important; }
+  .tamyiz-pdp-related-section { margin-top: 1.5rem !important; padding-top: 1.5rem !important; }
+  .tamyiz-pdp-related-section > div:first-child { margin-bottom: 1rem !important; }
+
+  /* About page: founder photos no taller than about half a screen */
+  .tamyiz-founder-portrait-wrap { aspect-ratio: 1 / 1; }
+}
+
+@media (max-width: 639px) {
+  /* 404 and checkout: no tall empty band before the footer */
+  .tamyiz-page-checkout { padding-bottom: 1.5rem; }
+  .tamyiz-page-checkout > section.py-16 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+}
+
+/* Checkout: columns may shrink to the screen (plain 1fr let wide content push the card 36px off screen on phones). */
+.tamyiz-checkout-grid > * { min-width: 0; }
+@media (max-width: 1023px) {
+  .tamyiz-checkout-grid { grid-template-columns: minmax(0, 1fr); }
+}
+/* Coupon row: the code box shrinks so "Apply" always fits on small phones */
+.tamyiz-btn-apply-coupon { flex-shrink: 0; }
+.tamyiz-coupon-input { min-width: 0; width: 100%; }
+
+/* Readable red on light backgrounds */
+.tamyiz-value-num { color: var(--color-red-ink); }
+
+/* Product page cover: space reserved before the image loads (no jump). Covers are portrait. */
+.tamyiz-pdp-main-img-wrap { aspect-ratio: 2 / 3; max-height: 720px; }
+.tamyiz-pdp-main-img { width: 100%; height: 100%; max-height: none; object-fit: contain; }
+@media (max-width: 639px) {
+  .tamyiz-pdp-main-img-wrap { aspect-ratio: auto; height: 380px; max-height: none; }
+  .tamyiz-pdp-main-img { height: 100%; width: auto; max-width: 100%; }
+}

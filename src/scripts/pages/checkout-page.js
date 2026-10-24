@@ -21,9 +21,9 @@ export function renderCheckoutPage(appInstance) {
           <div class="container">
             <div class="tamyiz-page-header-inner">
               <span class="tamyiz-page-badge">INSTANT DIGITAL CHECKOUT</span>
-              <h1 class="tamyiz-page-title">Your Atelier Bag is Empty</h1>
+              <h1 class="tamyiz-page-title">Your bag is empty</h1>
               <p class="tamyiz-page-description">
-                You have not selected any digital publications or Notion operating systems yet.
+                You haven't added any e-books yet.
               </p>
             </div>
           </div>
@@ -32,7 +32,7 @@ export function renderCheckoutPage(appInstance) {
         <section class="py-16 text-center">
           <div class="container">
             <p style="color: var(--color-grey); font-size: 1rem; margin-bottom: 2rem;">
-              Browse our curated collection of e-books, Notion workspaces, and Swiss UI kits.
+              Have a look at the shop and add the one you want.
             </p>
             <button class="tamyiz-hero-btn-primary" onclick="window.tamyizApp.navigateTo('/editions')">
               <span>EXPLORE DIGITAL EDITIONS</span>
@@ -89,7 +89,7 @@ export function renderCheckoutPage(appInstance) {
                         id="chk-name"
                         required
                         class="tamyiz-form-input"
-                        placeholder="e.g. Sahil Naseer"
+                        placeholder="Your full name"
                         autocomplete="name"
                       />
                     </div>
@@ -107,13 +107,13 @@ export function renderCheckoutPage(appInstance) {
                         />
                       </div>
                       <div>
-                        <label class="tamyiz-form-label" for="chk-phone">WhatsApp Number (Backup Alert) *</label>
+                        <label class="tamyiz-form-label" for="chk-phone">Mobile Number *</label>
                         <input
                           type="tel"
                           id="chk-phone"
                           required
                           class="tamyiz-form-input"
-                          placeholder="+91 95417 22379"
+                          placeholder="10-digit mobile number"
                           autocomplete="tel"
                         />
                       </div>

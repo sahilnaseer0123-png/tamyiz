@@ -41,10 +41,10 @@ export function renderAtelierPage(appInstance) {
               </h2>
               <div class="tamyiz-manifesto-paragraphs">
                 <p>
-                  In late 2025, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Systems Security &amp; Research, and Sahil in Artificial Intelligence, Machine Learning &amp; Systems Architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.
+                  In late 2025, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Systems Security &amp; Research, and Sahil in Artificial Intelligence, Machine Learning &amp; Systems Architecture—they started TAMYIZ to write the clear, practical guides they wished they’d had.
                 </p>
                 <p>
-                  The Arabic root of <em>Tamyiz</em> (تمييز) denotes the capacity to distinguish, to elevate, and to discern between the superfluous and the essential. We set up a quiet atelier that treats e-books, Notion operating frameworks, and UI systems with the permanence of classical architecture.
+                  The Arabic root of <em>Tamyiz</em> (تمييز) denotes the capacity to distinguish, to elevate, and to discern between the superfluous and the essential. We set up a small studio that treats every e-book with the care of a printed book.
                 </p>
                 <p>
                   We believe that the future of independent work belongs to solitary craftspeople and focused thinkers who value intellectual depth over vanity metrics. Every release is our contribution to that standard.
@@ -53,16 +53,16 @@ export function renderAtelierPage(appInstance) {
 
               <div class="tamyiz-origin-meta-strip mt-8">
                 <div class="meta-item">
-                  <strong>LOCATION</strong>
-                  <span>${siteConfig.location}</span>
-                </div>
-                <div class="meta-item">
-                  <strong>COORDINATES</strong>
-                  <span>${siteConfig.coordinates}</span>
-                </div>
-                <div class="meta-item">
                   <strong>FOUNDED</strong>
                   <span>${siteConfig.founded}</span>
+                </div>
+                <div class="meta-item">
+                  <strong>FOUNDERS</strong>
+                  <span>Basit Majeed &amp; Sahil Naseer</span>
+                </div>
+                <div class="meta-item">
+                  <strong>WHAT WE MAKE</strong>
+                  <span>Practical e-books (PDF)</span>
                 </div>
               </div>
             </div>

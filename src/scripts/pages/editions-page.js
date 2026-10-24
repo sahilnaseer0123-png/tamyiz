@@ -17,13 +17,13 @@ export function renderEditionsPage(appInstance) {
         <div class="container">
           <div class="tamyiz-page-header-inner">
             <span class="tamyiz-page-badge">
-              CURATED PUBLICATIONS &amp; DIGITAL SYSTEMS // EDITION 01
+              The shop
             </span>
             <h1 class="tamyiz-page-title">
-              The Digital Archive
+              All e-books
             </h1>
             <p class="tamyiz-page-description">
-              Authoritative e-books, Notion operating frameworks, and architectural UI design systems. 100% digital, instant download, lifetime updates.
+              Practical guides as instant PDF downloads. Read them on your phone, tablet, laptop or Kindle.
             </p>
           </div>
         </div>
@@ -32,9 +32,6 @@ export function renderEditionsPage(appInstance) {
       <!-- CATALOG CONTROLS & PRODUCT GRID -->
       <section id="editions-catalog" class="tamyiz-section py-10 md:py-16 scroll-mt-24" style="background: var(--color-offwhite);">
         <div class="container">
-          <!-- Every product is an e-book for now, so no category tabs. -->
-          <div style="height: 1.5rem;"></div>
-
           <!-- Live Search & Sorting Toolbar -->
           <div class="tamyiz-collection-toolbar flex flex-col sm:flex-row gap-3 w-full">
             <div class="tamyiz-search-box relative flex-1 w-full sm:min-w-[240px] sm:max-w-md">
@@ -48,10 +45,10 @@ export function renderEditionsPage(appInstance) {
                 type="text"
                 id="artifact-search-input"
                 class="tamyiz-search-input w-full pl-10 pr-9 py-2.5 bg-white border border-gray-300 rounded-full text-sm text-black placeholder-gray-400 transition-all focus:ring-2 focus:ring-black focus:outline-none focus:border-transparent"
-                placeholder="Search publications, chapters, materials, or keywords..."
+                placeholder="Search e-books"
                 value="${appInstance.searchQuery}"
                 oninput="window.tamyizApp.handleSearch(this.value)"
-                aria-label="Search publications and templates"
+                aria-label="Search e-books"
               />
               <button
                 id="artifact-search-clear"
@@ -64,7 +61,7 @@ export function renderEditionsPage(appInstance) {
             <div class="tamyiz-sort-box">
               <label for="artifact-sort-select" class="tamyiz-sort-label">Sort:</label>
               <select id="artifact-sort-select" class="tamyiz-sort-select" onchange="window.tamyizApp.handleSort(this.value)">
-                <option value="featured" ${appInstance.sortBy === 'featured' ? 'selected' : ''}>Curated Archive</option>
+                <option value="featured" ${appInstance.sortBy === 'featured' ? 'selected' : ''}>Newest first</option>
                 <option value="price-asc" ${appInstance.sortBy === 'price-asc' ? 'selected' : ''}>Price: Low to High</option>
                 <option value="price-desc" ${appInstance.sortBy === 'price-desc' ? 'selected' : ''}>Price: High to Low</option>
               </select>

@@ -47,7 +47,7 @@ export const foundersData = {
     }
   ],
   story: {
-    origin: "In late 2025, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Ethical Hacking & Research, and Sahil in Artificial Intelligence, Machine Learning & Systems Architecture—they founded TAMYIZ to build digital publications and design systems for people who refuse to blend into the background.",
+    origin: "In late 2025, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Ethical Hacking & Research, and Sahil in Artificial Intelligence, Machine Learning & Systems Architecture—they started TAMYIZ to write the clear, practical guides they wished they’d had.",
     mission: "To bring distinct, uncompromising quality products to everyone who refuses to blend into the background.",
     values: [
       {
@@ -73,24 +73,32 @@ export const testimonials = [];
 
 export const faqs = [
   {
+    q: "What do I get when I buy?",
+    a: "A PDF e-book. As soon as your payment is confirmed, the download link appears on screen and is emailed to you."
+  },
+  {
+    q: "Which devices can I read it on?",
+    a: "Any phone, tablet or computer: PDF readers are built in on almost every device. For a Kindle, email the PDF to your Kindle with Amazon's free Send to Kindle and it appears in your library."
+  },
+  {
+    q: "How do I pay?",
+    a: "Online checkout goes through Razorpay (UPI, cards and net banking). If a book says \"Coming soon\", message us on WhatsApp to pre-order and we'll tell you the day it's out."
+  },
+  {
+    q: "I paid but didn't get my download link.",
+    a: "Message us on WhatsApp (+91 95417 22379) or email tamyiz.co@gmail.com with your payment ID, and we'll send it to you."
+  },
+  {
+    q: "Can I get a refund?",
+    a: "Because it's a digital file, sales are final once it's downloaded. If you were charged twice, or the file is broken and we can't fix it, you get a full refund within 7 days. Details are in our refund policy."
+  },
+  {
+    q: "Can I share the PDF with friends?",
+    a: "Please don't: each copy is for one person. If your class or team wants it, message us and we'll work something out."
+  },
+  {
     q: "What does TAMYIZ mean?",
-    a: "TAMYIZ (تمييز) translates to 'Distinction' or 'Excellence that stands apart'. We engineer authoritative digital monographs, Notion operating systems, and design frameworks for people who refuse to blend into the background."
-  },
-  {
-    q: "What formats do your e-books and monographs come in?",
-    a: "Every publication includes interactive PDF (with clickable TOC, bookmarks, and 300DPI architectural plates), EPUB for Apple Books and mobile readers, and Kindle-compatible EPUB files."
-  },
-  {
-    q: "How does digital delivery work?",
-    a: "Delivery is instant and frictionless. Immediately upon checkout, you receive on-screen download links, alongside automatic delivery to your verified email address and WhatsApp."
-  },
-  {
-    q: "How do I access Notion templates and Figma UI kits?",
-    a: "Notion systems include a 1-click duplication link into your free or paid Notion workspace. Figma kits include editable component files and copy-paste Tailwind CSS code."
-  },
-  {
-    q: "Do you offer updates for publications and templates?",
-    a: "Yes. All digital editions include lifetime async updates. Whenever an e-book is revised or a Notion template updated, you receive the latest files at zero additional cost."
+    a: "Tamyiz (تمييز) is Arabic for distinction: telling what matters apart from what doesn't. That's what we try to do in every book."
   }
 ];
 
