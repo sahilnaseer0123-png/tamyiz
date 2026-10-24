@@ -14,6 +14,9 @@ export async function onRequestGet({ request, env, params }) {
     return new Response(await nf.text(), { status: 404, headers: HTML });
   }
   const shell = await (await env.ASSETS.fetch(new URL('/', request.url))).text();
-  const html = shell.replace(SEO_BLOCK, `<!-- seo: per page -->\n${headTags(productMeta(publicProduct(rec)))}\n  <!-- /seo -->`);
+  const pub = publicProduct(rec);
+  // Start downloading the cover right away (it is the biggest thing on the page), instead of after the app's code runs.
+  const cover = pub.images && pub.images[0] ? `\n  <link rel="preload" as="image" href="${pub.images[0]}" fetchpriority="high" />` : '';
+  const html = shell.replace(SEO_BLOCK, `<!-- seo: per page -->\n${headTags(productMeta(pub))}${cover}\n  <!-- /seo -->`);
   return new Response(html, { headers: { ...HTML, 'Cache-Control': 'public, max-age=60' } });
 }

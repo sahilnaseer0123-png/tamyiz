@@ -67,6 +67,7 @@ export function renderProductDetailPage(slug, appInstance) {
                   alt="${product.name}"
                   class="tamyiz-pdp-main-img"
                   loading="eager"
+                  fetchpriority="high"
                 />
                 <span class="tamyiz-pdp-badge-pill">${isAvailable(product) ? product.badge : `COMING SOON • ${product.badge}`}</span>
               </div>

@@ -6561,3 +6561,23 @@ header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
 .tamyiz-mobile-nav-link { text-transform: none !important; letter-spacing: -0.01em !important; font-weight: 600 !important; }
 .tmz-drawer-brand { display: inline-flex; align-items: center; gap: 0.5rem; }
 .tmz-drawer-brand img:first-child { width: 48px; height: auto; } .tmz-drawer-brand img:last-child { width: 84px; height: auto; }
+
+/* ---------- Phone pass 2 (24 Oct 2026): every tap target 44px, no text under 12px ---------- */
+@media (max-width: 1023px), (pointer: coarse) {
+  .tamyiz-product-name a { display: flex; align-items: center; min-height: 44px; }
+  .tamyiz-section-foot .tamyiz-btn-nav-outline, .tamyiz-btn-nav-outline { min-height: 44px; }
+  .tamyiz-breadcrumbs .crumb-link { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; justify-content: center; }
+  .tamyiz-btn-back-link { min-height: 44px; display: inline-flex; align-items: center; }
+  .tmz-person-links a { min-width: 44px; justify-content: center; }
+  .tamyiz-legal-tab-btn { min-height: 44px; display: inline-flex; align-items: center; }
+  .summary-item-remove { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .tamyiz-coupon-input, .tamyiz-btn-apply-coupon, #coupon-input { min-height: 44px; }
+}
+.tamyiz-card-status, .matrix-sub, .comp-tag, .tamyiz-tag-dispatch { font-size: 0.75rem !important; }
+.tamyiz-legal-tab-btn { font-size: 0.75rem !important; }
+@media (max-width: 1023px), (pointer: coarse) {
+  .tamyiz-page-legal .bg-neutral-50 a { display: inline-flex; align-items: center; min-height: 44px; }
+}
+@media (max-width: 1023px), (pointer: coarse) {
+  .tamyiz-page-legal .border-t a { display: inline-flex; align-items: center; min-height: 44px; }
+}

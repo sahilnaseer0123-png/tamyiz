@@ -181,6 +181,7 @@ export function renderCheckoutPage(appInstance) {
                         class="summary-item-remove"
                         onclick="window.tamyizApp.removeSummaryItem('${item.cartItemId}')"
                         title="Remove from bag"
+                        aria-label="Remove ${item.name} from bag"
                       >✕</button>
                     </div>
                   `).join('')}
