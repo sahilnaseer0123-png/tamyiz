@@ -259,3 +259,11 @@ export function renderProductCardHtml(p, appInstance) {
     </div>
   `;
 }
+
+/* Hero "About us" card: a click anywhere except its links flips it between frosted glass and black + floating.
+   One listener on the document, because the page is redrawn with innerHTML on every visit. */
+document.addEventListener('click', (e) => {
+  const card = e.target.closest && e.target.closest('.tmz-about-card');
+  if (!card || e.target.closest('a')) return;
+  card.classList.toggle('is-active');
+});
