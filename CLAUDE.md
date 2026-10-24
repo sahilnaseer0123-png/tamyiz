@@ -114,7 +114,8 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
 - Phones (<640px): one spacing scale in the "PHONES (up to 639px)" blocks at the end of tamyiz-unified.css: sections
   40px top/bottom, promise strip 2x2, product cards = cover left + details right + buttons below (the cover badge is
   hidden there; `.tamyiz-card-status` shows "Coming soon" instead). Add phone rules there, not scattered.
-- Covers are portrait 2:3 everywhere (cards, product page, bag thumbnail). The product page reserves the cover's space
+- Covers are portrait 2:3 everywhere (cards, product page, bag thumbnail). From 640px up, cards show the cover as a book on a
+  fixed-height light panel (250–330px) so a whole card fits on one screen; don't go back to full-width covers (~800px tall). The product page reserves the cover's space
   (no layout shift: keep CLS < 0.1).
 - "How we write" and "Read it anywhere" live once in `src/scripts/pages/sections.js` (home + /philosophy). FAQ in
   `src/data/content.js`. Everything describes PDF e-books only: no Notion/Figma/EPUB, no "lifetime updates", nothing
