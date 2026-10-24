@@ -15,60 +15,50 @@ export function renderHomePage(appInstance) {
 
   return `
     <div class="tamyiz-page-home">
-      <!-- 1. HIGH-IMPACT EDITORIAL HERO SECTION -->
-      <section class="tamyiz-hero-section" id="hero">
-        <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 py-12 lg:py-20 min-h-[calc(100vh-210px)] flex items-center w-full">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center w-full">
-            <!-- Left Column: Typography & CTA Rhythm -->
-            <div class="lg:col-span-7 flex flex-col items-start text-left tamyiz-hero-editorial-stack">
-              <div class="tamyiz-hero-badge-pill mb-6">
-                <span class="tamyiz-hero-badge-dot"></span>
-                <span>PRACTICAL E-BOOKS • BY SAHIL &amp; BASIT</span>
-              </div>
-
-              <h1 class="tamyiz-hero-giant-title text-6xl sm:text-7xl lg:text-[88px] font-black tracking-tight leading-[0.95] mb-6">
-                TAMYIZ
-              </h1>
-
-              <p class="tamyiz-hero-subheadline text-lg sm:text-xl lg:text-[21px] leading-[1.55] max-w-[540px] mb-8">
-                Short, practical e-books on AI and the digital world, written for beginners. Download the PDF and start reading in a minute.
-              </p>
-
-              <div class="tamyiz-hero-actions flex flex-col items-start">
-                <button class="tamyiz-hero-btn-primary mb-5" onclick="window.tamyizApp.navigateTo('/editions')">
-                  <span>SEE THE E-BOOKS</span>
-                  <span>↓</span>
-                </button>
-                <span class="tamyiz-hero-spec-tag text-[11px] tracking-[0.16em] uppercase">${anyAvailable() ? 'INSTANT PDF DOWNLOAD • READ ON ANY DEVICE' : 'FIRST EDITIONS COMING SOON • PRE-ORDER ON WHATSAPP'}</span>
-              </div>
+      <!-- 1. HERO: the TAMYIZ logo, large. The dome rises from a horizon line, its grain drifts (canvas), the wordmark sits under it. -->
+      <section class="tmz-hero" id="hero">
+        <div class="tmz-hero-inner">
+          <div class="tmz-hero-top">
+            <div class="tamyiz-hero-badge-pill">
+              <span class="tamyiz-hero-badge-dot"></span>
+              <span>PRACTICAL E-BOOKS • BY SAHIL &amp; BASIT</span>
             </div>
+            <a href="/atelier" class="tmz-glass tmz-hero-about" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">
+              <span class="tmz-hero-faces" aria-hidden="true">
+                ${foundersData.founders.map((f) => `<img src="${f.image}" alt="" width="40" height="40" loading="lazy" decoding="async" />`).join('')}
+              </span>
+              <span>About us</span>
+            </a>
+          </div>
 
-            <!-- Right Column: Horizon Emblem Artwork -->
-            <div class="lg:col-span-5 flex justify-center lg:justify-end items-center w-full" id="hero-3d-wrap">
-              <div class="tamyiz-hero-sculpture-wrap flex items-center justify-center relative w-full">
-                <div class="tamyiz-hero-horizon-assembly relative flex flex-col items-center justify-center w-full">
-                  <div class="tamyiz-hero-dome-cropper flex items-center justify-center w-full">
-                    <picture class="w-full flex items-center justify-center">
-                      <source srcset="/assets/images/tamyiz-globe-horizon.webp" type="image/webp" />
-                      <img
-                        src="/assets/images/tamyiz-globe-horizon.webp"
-                        alt="TAMYIZ Horizon Emblem"
-                        class="tamyiz-hero-logo-img w-full max-w-[460px] lg:max-w-[520px] scale-105 lg:scale-110 object-contain mix-blend-multiply"
-                        loading="eager"
-                        fetchpriority="high"
-                      />
-                    </picture>
-                  </div>
+          <div class="tmz-logo-stage">
+            <div class="tmz-logo-glow" aria-hidden="true"></div>
+            <img class="tmz-logo-dome" src="/assets/brand/tamyiz-dome.svg" alt="" width="670" height="412" fetchpriority="high" />
+            <canvas id="tamyiz-logo-sparks-canvas" class="tmz-logo-sparks" data-zone="0.52,0.96,0.10,0.78" aria-hidden="true"></canvas>
+            ${featuredProducts.length ? `<a href="/editions" class="tmz-glass tmz-hero-count tmz-hero-count-wide" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">
+              <strong>${products.length} e-book${products.length === 1 ? '' : 's'}</strong>
+              <span>${products.map((p) => p.name).join(' · ')}</span>
+            </a>` : ''}
+          </div>
+          <div class="tmz-horizon" aria-hidden="true"></div>
 
-                  <!-- Subtle 1px full-width Horizon Line -->
-                  <div class="tamyiz-horizon-line mx-auto"></div>
-
-                  <!-- Live Horizon Sparks Engine Canvas -->
-                  <canvas id="tamyiz-logo-sparks-canvas" class="tamyiz-hero-sparks-canvas" aria-hidden="true"></canvas>
-                </div>
-              </div>
+          <div class="tmz-hero-band">
+            <p class="tmz-hero-sub">
+              Short, practical e-books on AI and the digital world, written for beginners. Download the PDF and start reading in a minute.
+            </p>
+            <h1 class="tmz-hero-word"><img src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="442" height="74" /></h1>
+            <div class="tmz-hero-actions">
+              <button class="tamyiz-hero-btn-primary" onclick="window.tamyizApp.navigateTo('/editions')">
+                <span>SEE THE E-BOOKS</span>
+                <span>↓</span>
+              </button>
+              <span class="tmz-hero-spec">${anyAvailable() ? 'INSTANT PDF DOWNLOAD • READ ON ANY DEVICE' : 'FIRST EDITIONS COMING SOON • PRE-ORDER ON WHATSAPP'}</span>
             </div>
           </div>
+          ${featuredProducts.length ? `<a href="/editions" class="tmz-glass tmz-hero-count tmz-hero-count-narrow" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">
+              <strong>${products.length} e-book${products.length === 1 ? '' : 's'}</strong>
+              <span>${products.map((p) => p.name).join(' · ')}</span>
+            </a>` : ''}
         </div>
       </section>
 

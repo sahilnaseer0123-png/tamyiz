@@ -290,7 +290,8 @@ class TamyizUnifiedApp {
 
             <!-- Desktop Left Brand -->
             <a href="/" class="tamyiz-header-brand tamyiz-header-brand-desktop" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">
-              <span class="tamyiz-top-meta">EST. 2025</span><span class="sr-only"> · TAMYIZ home</span>
+              <img class="tmz-brand-dome" src="/assets/brand/tamyiz-dome.svg" alt="" width="40" height="25" />
+              <img class="tmz-brand-word" src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ home" width="96" height="16" />
             </a>
           </div>
 
@@ -511,7 +512,7 @@ class TamyizUnifiedApp {
                 <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
                 <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
                 <li><a href="/legal/contact" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('contact')">Contact Us</a></li>
-                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #4CC764; font-weight: 700;">WhatsApp Concierge ↗</a></li>
+                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #FFFFFF; font-weight: 700;">WhatsApp Concierge ↗</a></li>
               </ul>
             </div>
           </div>
@@ -1624,7 +1625,7 @@ class TamyizUnifiedApp {
     .meta { text-align: right; font-size: 12px; }
     .badge { display: inline-block; background: #000; color: #FFF; font-size: 10px; font-weight: 800; padding: 4px 8px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
     .parties { display: flex; justify-content: space-between; margin: 24px 0; font-size: 12px; }
-    .party-title { font-size: 10px; font-weight: 800; color: #E1251B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    .party-title { font-size: 10px; font-weight: 800; color: #000; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
     table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 12px; }
     th { background: #F4F4F4; padding: 10px; text-align: left; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
     .totals { width: 300px; margin-left: auto; margin-top: 20px; }
@@ -1688,7 +1689,7 @@ class TamyizUnifiedApp {
       <span>₹${order.subtotal.toLocaleString('en-IN')}</span>
     </div>
     ${order.discount ? `
-      <div class="totals-row" style="color: #E1251B; font-weight: 700;">
+      <div class="totals-row" style="color: #000; font-weight: 700;">
         <span>Coupon Discount:</span>
         <span>−₹${order.discount.toLocaleString('en-IN')}</span>
       </div>
@@ -1699,7 +1700,7 @@ class TamyizUnifiedApp {
     </div>
     <div class="totals-total">
       <span>Total Paid:</span>
-      <span style="color: #E1251B;">₹${order.total.toLocaleString('en-IN')}</span>
+      <span style="color: #000;">₹${order.total.toLocaleString('en-IN')}</span>
     </div>
   </div>
 

@@ -175,7 +175,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
                 class="tamyiz-legal-tab-btn px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider rounded-full transition-all ${tab.slug === validSlug ? 'bg-black text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'}"
                 onclick="window.tamyizApp.navigateTo('/legal/${tab.slug}')"
               >
-                <span class="${tab.slug === validSlug ? 'text-red-500' : 'text-neutral-400'} mr-1.5">${tab.code}</span>
+                <span class="${tab.slug === validSlug ? 'text-neutral-400' : 'text-neutral-500'} mr-1.5">${tab.code}</span>
                 ${tab.label}
               </button>
             `).join('')}

@@ -273,7 +273,7 @@ img {
     height: 24px;
     object-fit: contain;
     display: block;
-    filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.45));
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.45));
     border-radius: 50%;
   }
 
@@ -520,7 +520,7 @@ img {
 .tamyiz-hero-btn-primary:hover {
   background: var(--color-red);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(225, 37, 27, 0.3);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 .tamyiz-hero-btn-secondary {
@@ -583,7 +583,7 @@ img {
   width: 100%;
   height: 90%;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(225, 37, 27, 0.16) 0%, rgba(225, 37, 27, 0.05) 50%, rgba(0, 0, 0, 0) 75%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0) 75%);
   filter: blur(52px);
   pointer-events: none;
   z-index: 0;
@@ -649,7 +649,7 @@ img {
   /* Grow upward from the base, so the dome's base always sits exactly on the horizon line. */
   transform-origin: center bottom;
   mix-blend-mode: multiply;
-  filter: drop-shadow(0 -8px 24px rgba(0, 0, 0, 0.05)) drop-shadow(0 0 26px rgba(225, 37, 27, 0.16));
+  filter: drop-shadow(0 -8px 24px rgba(0, 0, 0, 0.05)) drop-shadow(0 0 26px rgba(0, 0, 0, 0.16));
   animation: tamyiz-dome-ambient-glow 5s ease-in-out infinite alternate;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
   user-select: none;
@@ -660,27 +660,27 @@ img {
 
 .tamyiz-hero-dome-cropper .tamyiz-hero-logo-img:hover {
   transform: scale(1.02);
-  filter: drop-shadow(0 -10px 30px rgba(0, 0, 0, 0.08)) drop-shadow(0 0 34px rgba(225, 37, 27, 0.32));
+  filter: drop-shadow(0 -10px 30px rgba(0, 0, 0, 0.08)) drop-shadow(0 0 34px rgba(0, 0, 0, 0.32));
 }
 
 /* Subtle 1px full-width Horizon Line (bg-gradient-to-r from-transparent via-black/25 to-red-600/40) */
 .tamyiz-horizon-line {
   height: 1px;
   width: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(11, 11, 11, 0.30) 20%, rgba(225, 37, 27, 0.60) 50%, rgba(11, 11, 11, 0.30) 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(11, 11, 11, 0.30) 20%, rgba(0, 0, 0, 0.60) 50%, rgba(11, 11, 11, 0.30) 80%, transparent 100%);
   margin-top: 0;
   z-index: 5;
-  box-shadow: 0 1px 8px rgba(225, 37, 27, 0.16);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.16);
   position: relative;
 }
 
 @keyframes tamyiz-dome-ambient-glow {
   0% {
-    filter: drop-shadow(0 -6px 20px rgba(0, 0, 0, 0.05)) drop-shadow(0 0 18px rgba(225, 37, 27, 0.10));
+    filter: drop-shadow(0 -6px 20px rgba(0, 0, 0, 0.05)) drop-shadow(0 0 18px rgba(0, 0, 0, 0.10));
     opacity: 0.97;
   }
   100% {
-    filter: drop-shadow(0 -8px 28px rgba(0, 0, 0, 0.08)) drop-shadow(0 0 28px rgba(225, 37, 27, 0.22));
+    filter: drop-shadow(0 -8px 28px rgba(0, 0, 0, 0.08)) drop-shadow(0 0 28px rgba(0, 0, 0, 0.22));
     opacity: 1;
   }
 }
@@ -712,14 +712,14 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 24px rgba(220, 38, 38, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.25);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
   text-decoration: none;
 }
 
 .tamyiz-whatsapp-fab:hover {
   transform: scale(1.08);
-  box-shadow: 0 8px 30px rgba(220, 38, 38, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.4);
 }
 
 /* ==========================================================================
@@ -1676,7 +1676,7 @@ img {
 .tamyiz-btn-explore-artifacts:hover {
   background: var(--color-red);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(225, 37, 27, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Trust Bar (Requirement 6) */
@@ -2678,7 +2678,7 @@ img {
   left: 0.75rem;
   background: rgba(18, 18, 18, 0.92);
   color: #E5E5E5;
-  border: 1px solid rgba(225, 37, 27, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   font-family: var(--font-sub);
   font-size: 0.65rem;
   font-weight: 800;
@@ -3728,7 +3728,7 @@ img {
 .tamyiz-btn-primary-large:hover {
   background: var(--color-red);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(225, 37, 27, 0.3);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 .tamyiz-review-card {
@@ -3787,7 +3787,7 @@ img {
 
 .tamyiz-founder-mini-card:hover .tamyiz-founder-mini-portrait {
   transform: translateY(-3px);
-  border-color: rgba(225, 37, 27, 0.4);
+  border-color: rgba(0, 0, 0, 0.4);
 }
 
 .tamyiz-founder-mini-portrait img {
@@ -4055,7 +4055,7 @@ img {
   justify-content: center;
   gap: 0.6rem;
   transition: all 0.2s ease;
-  box-shadow: 0 6px 20px rgba(225, 37, 27, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .tamyiz-pdp-btn-add:hover {
@@ -4712,13 +4712,13 @@ img {
   justify-content: center;
   gap: 0.65rem;
   transition: all 0.2s ease;
-  box-shadow: 0 8px 24px rgba(225, 37, 27, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .tamyiz-btn-submit-order:hover {
   background: var(--color-red-hover);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(225, 37, 27, 0.35);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
 }
 
 .tamyiz-checkout-summary-card {
@@ -5339,7 +5339,7 @@ img {
 }
 
 .tamyiz-toast-error {
-  border-left-color: #E1251B;
+  border-left-color: #000000;
 }
 
 .tamyiz-toast-success {
@@ -6258,4 +6258,236 @@ a.tamyiz-btn-preview-trigger { display: flex; align-items: center; justify-conte
 @media (max-width: 639px) {
   .tamyiz-pdp-main-img-wrap { aspect-ratio: auto; height: 380px; max-height: none; }
   .tamyiz-pdp-main-img { height: 100%; width: auto; max-width: 100%; }
+}
+
+/* ==========================================================================
+   REDESIGN 24 Oct 2026: black and white; colour comes only from the book covers (and the logo).
+   Hero: giant wordmark behind, the newest covers fanned in front, frosted-glass cards on top.
+   Text content is unchanged; this block only restyles. Phone rules are at the end of this block.
+   ========================================================================== */
+:root {
+  --color-black: #000000;
+  --color-red: #000000;            /* the old accent: now ink */
+  --color-red-hover: #2E2E2C;
+  --color-red-ink: #000000;
+  --color-red-on-dark: #FFFFFF;
+  --color-offwhite: #EDEDEA;
+  --tmz-graphite: #55554F;         /* secondary text, 7:1 on white */
+  --tmz-glass: rgba(255, 255, 255, 0.56);
+  --tmz-glass-edge: rgba(255, 255, 255, 0.75);
+}
+
+/* Frosted glass: used only for things that float over the covers and for the header. */
+.tmz-glass {
+  background: var(--tmz-glass);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid var(--tmz-glass-edge);
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .tmz-glass { background: rgba(255, 255, 255, 0.94); }
+}
+.tamyiz-header {
+  background: rgba(255, 255, 255, 0.62);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+}
+
+/* Off-screen menu and bag panels: no shadow and hidden until opened (their shadows used to leak onto the page edges). */
+.tamyiz-mobile-drawer:not(.active),
+.tamyiz-drawer:not(.active) {
+  box-shadow: none;
+  visibility: hidden;
+}
+.tamyiz-mobile-drawer, .tamyiz-drawer { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.3s; }
+.tamyiz-mobile-drawer.active, .tamyiz-drawer.active { visibility: visible; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s; }
+
+/* ---------- Hero: the logo ---------- */
+.tmz-hero {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(120% 85% at 50% 30%, #FFFFFF 0%, #F2F2F0 45%, #E3E3E0 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.tmz-hero-inner {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1.75rem 3.5rem 3.25rem;
+}
+.tmz-hero-top {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.tmz-hero .tamyiz-hero-badge-dot { background: #FFFFFF; }
+
+.tmz-hero-about {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 44px;
+  padding: 0.3rem 1rem 0.3rem 0.35rem;
+  border-radius: 999px;
+  color: #000;
+  font-family: var(--font-sub);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+.tmz-hero-faces { display: inline-flex; }
+.tmz-hero-faces img {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #FFFFFF;
+  filter: grayscale(1);
+}
+.tmz-hero-faces img + img { margin-left: -10px; }
+
+/* The dome sits on the horizon line like a sunrise. */
+.tmz-logo-stage {
+  position: relative;
+  width: min(660px, 100%);
+  margin: 0.5rem auto 0;
+  aspect-ratio: 670 / 412;
+}
+.tmz-logo-glow {
+  position: absolute;
+  inset: -12% -30% -4%;
+  background: radial-gradient(closest-side, rgba(225, 37, 27, 0.14), rgba(225, 37, 27, 0));
+  pointer-events: none;
+}
+.tmz-logo-dome { position: relative; display: block; width: 100%; height: auto; }
+.tmz-logo-sparks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.tmz-hero-count {
+  position: absolute;
+  z-index: 3;
+  left: -16rem;
+  bottom: 8%;
+  width: 17rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  color: #000;
+  text-decoration: none;
+}
+.tmz-hero-count strong { font-family: var(--font-sub); font-size: 1rem; font-weight: 650; }
+.tmz-hero-count span { font-size: 0.8rem; line-height: 1.4; color: var(--tmz-graphite); }
+
+.tmz-horizon {
+  height: 1px;
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.35) 20%, rgba(0, 0, 0, 0.35) 80%, rgba(0, 0, 0, 0));
+}
+
+.tmz-hero-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1.75rem;
+}
+.tmz-hero-word { margin: 0; line-height: 0; }
+.tmz-hero-word img { display: block; width: clamp(260px, 30vw, 430px); height: auto; }
+.tmz-hero-sub {
+  max-width: 21rem;
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 2px solid #000;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #000;
+}
+.tmz-hero-actions { justify-self: end; display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem; }
+.tmz-hero-spec {
+  font-family: var(--font-sub);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--tmz-graphite);
+}
+
+.tmz-hero-count-narrow { display: none; }
+
+/* Tablets and small laptops: everything centred, one column under the logo */
+@media (max-width: 1199px) {
+  .tmz-hero-inner { padding: 1.5rem 2rem 2.5rem; }
+  .tmz-logo-stage { width: min(540px, 100%); }
+  .tmz-hero-count-wide { display: none; }
+  .tmz-hero-count-narrow { display: flex; position: relative; left: auto; bottom: auto; width: auto; max-width: 26rem; margin: 1.75rem auto 0; text-align: center; }
+  .tmz-hero-band { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: 1.5rem; }
+  .tmz-hero-word { order: -1; }
+  .tmz-hero-sub { border-left: 0; padding-left: 0; max-width: 34rem; }
+  .tmz-hero-actions { justify-self: center; align-items: center; }
+}
+
+/* PHONES (up to 639px) */
+@media (max-width: 639px) {
+  .tmz-hero-inner { padding: 1.1rem 1rem 2rem; }
+  .tmz-hero-top { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  .tmz-hero-top .tamyiz-hero-badge-pill { font-size: 0.62rem; }
+  .tmz-logo-stage { margin-top: 1.25rem; }
+  .tmz-hero-word img { width: 72vw; }
+  .tmz-hero-band { margin-top: 1.25rem; gap: 1.1rem; }
+  .tmz-hero-count-narrow { margin-top: 1.5rem; }
+}
+
+/* Leftover accent colours → black and white (success states in the bag/after payment keep their green). */
+.comp-tag.active,
+.tamyiz-tag-dispatch,
+.tamyiz-badge-fast { color: #000; background: rgba(0, 0, 0, 0.07); }
+.tamyiz-digital-delivery-badge { color: #000; }
+.tamyiz-footer .tamyiz-trust-bar-dot { color: rgba(255, 255, 255, 0.5); }
+.tamyiz-promise-icon { color: #FFFFFF; }
+.tamyiz-whatsapp-fab { border-color: rgba(255, 255, 255, 0.35); }
+
+/* Header logo (dome + wordmark), on every screen size. Older rules hid this link below 1024px with !important. */
+header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  width: auto !important;
+  height: auto !important;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+}
+.tmz-brand-dome { width: 40px; height: auto; display: block; }
+.tmz-brand-word { width: 96px; height: auto; display: block; }
+@media (max-width: 1023px) {
+  header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+@media (max-width: 639px) {
+  .tmz-brand-dome { width: 32px; }
+  .tmz-brand-word { width: 78px; }
+}
+
+/* Phones: icon-only menu and bag buttons so the logo fits in the middle of the header */
+@media (max-width: 639px) {
+  .tamyiz-header .tamyiz-menu-text-mobile,
+  .tamyiz-header .tamyiz-cart-btn > span:not(.tamyiz-cart-badge):not(.sr-only) {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .tamyiz-header .tamyiz-header-menu-btn,
+  .tamyiz-header .tamyiz-cart-btn { min-width: 44px; min-height: 44px; padding: 0 0.8rem; gap: 0.4rem; }
 }

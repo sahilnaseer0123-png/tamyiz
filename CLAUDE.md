@@ -76,6 +76,20 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
 - Nothing is sent on WhatsApp automatically; never claim it. Page counts stay "planned" until the book exists.
 - Sopore/Kashmir only in legal contact details and receipts, not in brand copy (TAMYIZ is a global brand).
 
+## Design (redesign 24 Oct 2026, approved by Sahil)
+
+- Black and white. The only colour is the logo's red grain (and book covers further down the page). The old red accent
+  variables (`--color-red`, `--color-red-ink`...) now map to black/white in the "REDESIGN 24 Oct 2026" block at the end
+  of tamyiz-unified.css; new rules go in that block. Success states (paid, toast) keep their green.
+- Logo: vector files in `public/assets/brand/` (`tamyiz-dome.svg` red grain, `tamyiz-wordmark.svg`), traced from the
+  "Tamyiz Logo" design canvas. Shown in the header on every page (phones: icon-only menu/bag so it fits) and as the
+  home hero: dome on a horizon line, wordmark under it (the `<h1>` is the wordmark image, alt "TAMYIZ"). The dome is
+  preloaded in index.html (LCP). Grain drifts via `tamyiz-logo-sparks.js` (`data-zone` on the canvas; off under
+  prefers-reduced-motion). No book covers in the hero (Sahil's call).
+- Frosted glass (`.tmz-glass`): only for things floating in the hero and the header. Hero cards come from the catalogue
+  (book count + names), so they update when books change on /admin.
+- Hidden menu/bag drawers are `visibility: hidden` with no shadow until opened (their shadows used to leak onto the page edges).
+
 ## Phone layout and shared content (24 Oct 2026)
 
 - Phones (<640px): one spacing scale in the "PHONES (up to 639px)" blocks at the end of tamyiz-unified.css: sections

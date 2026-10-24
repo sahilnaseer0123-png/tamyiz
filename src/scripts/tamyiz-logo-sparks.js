@@ -24,6 +24,10 @@ export class TamyizLogoSparks {
     this.lastTime = performance.now();
     this.spawnTimer = 0;
     this.isVisible = true;
+    // Where the grain is, as fractions of the canvas: "x0,x1,y0,y1" (set on the canvas as data-zone).
+    const z = (canvas.dataset.zone || '0.46,0.86,0.20,0.58').split(',').map(Number);
+    this.zone = { x0: z[0], x1: z[1], y0: z[2], y1: z[3] };
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     this.init();
   }
@@ -122,8 +126,8 @@ export class TamyizLogoSparks {
     // In the original 1024x640 logo, the disintegrating particles occupy:
     // X: 45% to 88% of width
     // Y: 18% to 58% of height
-    const x = this.width * (0.46 + Math.random() * 0.40);
-    const y = this.height * (0.20 + Math.random() * 0.38);
+    const x = this.width * (this.zone.x0 + Math.random() * (this.zone.x1 - this.zone.x0));
+    const y = this.height * (this.zone.y0 + Math.random() * (this.zone.y1 - this.zone.y0));
     this.spawnParticle(x, y, boost);
   }
 

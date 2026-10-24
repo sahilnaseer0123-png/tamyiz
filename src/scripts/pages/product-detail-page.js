@@ -321,7 +321,7 @@ export function renderProductDetailPage(slug, appInstance) {
           ${related.length ? `<div class="tamyiz-pdp-related-section mt-16 md:mt-24 pt-12 border-t border-gray-200">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-8">
               <div>
-                <span class="text-xs uppercase tracking-widest text-red-600 font-bold">Keep reading</span>
+                <span class="text-xs uppercase tracking-widest text-black font-bold">Keep reading</span>
                 <h3 class="text-2xl md:text-3xl font-black uppercase font-display tracking-tight mt-1">
                   More from TAMYIZ
                 </h3>
