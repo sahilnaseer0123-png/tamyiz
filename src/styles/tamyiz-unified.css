@@ -6349,60 +6349,28 @@ a.tamyiz-btn-preview-trigger { display: flex; align-items: center; justify-conte
 }
 .tmz-hero-faces img + img { margin-left: -10px; }
 
-/* The dome sits on the horizon line like a sunrise. */
-.tmz-logo-stage {
-  position: relative;
-  width: min(660px, 100%);
-  margin: 0.5rem auto 0;
-  aspect-ratio: 670 / 412;
-}
-.tmz-logo-glow {
-  position: absolute;
-  inset: -12% -30% -4%;
-  background: radial-gradient(closest-side, rgba(225, 37, 27, 0.14), rgba(225, 37, 27, 0));
-  pointer-events: none;
-}
-.tmz-logo-dome { position: relative; display: block; width: 100%; height: auto; }
-.tmz-logo-sparks {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.tmz-hero-count {
-  position: absolute;
-  z-index: 3;
-  left: -16rem;
-  bottom: 8%;
-  width: 17rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.85rem 1rem;
-  border-radius: 16px;
-  color: #000;
-  text-decoration: none;
-}
-.tmz-hero-count strong { font-family: var(--font-sub); font-size: 1rem; font-weight: 650; }
-.tmz-hero-count span { font-size: 0.8rem; line-height: 1.4; color: var(--tmz-graphite); }
-
-.tmz-horizon {
-  height: 1px;
-  width: min(1000px, 100%);
-  margin: 0 auto;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.35) 20%, rgba(0, 0, 0, 0.35) 80%, rgba(0, 0, 0, 0));
-}
-
+/* The logo, small and centred: the dome's flat base sits exactly on the line (the image is cropped so the dome is
+   centred and its base is the bottom edge), the wordmark is centred under it. */
 .tmz-hero-band {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
-  gap: 2rem;
-  margin-top: 1.75rem;
+  align-items: end;
+  gap: 3rem;
+  margin-top: 3.5rem;
 }
-.tmz-hero-word { margin: 0; line-height: 0; }
-.tmz-hero-word img { display: block; width: clamp(260px, 30vw, 430px); height: auto; }
+.tmz-logo-block { display: flex; flex-direction: column; align-items: center; }
+.tmz-logo-stage { position: relative; width: 340px; }
+.tmz-logo-dome { display: block; width: 100%; height: auto; }
+.tmz-logo-sparks { position: absolute; inset: -30% -10% 0; width: 120%; height: 130%; pointer-events: none; }
+.tmz-horizon {
+  height: 1px;
+  width: 440px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.45) 18%, rgba(0, 0, 0, 0.45) 82%, rgba(0, 0, 0, 0));
+}
+.tmz-hero-word { margin: 1.4rem 0 0; line-height: 0; }
+.tmz-hero-word img { display: block; width: 300px; height: auto; }
+
+.tmz-hero-left { display: flex; flex-direction: column; align-items: flex-start; gap: 1.5rem; }
 .tmz-hero-sub {
   max-width: 21rem;
   margin: 0;
@@ -6420,19 +6388,30 @@ a.tamyiz-btn-preview-trigger { display: flex; align-items: center; justify-conte
   font-weight: 600;
   color: var(--tmz-graphite);
 }
-
+.tmz-hero-count {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 17rem;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  color: #000;
+  text-decoration: none;
+}
+.tmz-hero-count strong { font-family: var(--font-sub); font-size: 1rem; font-weight: 650; }
+.tmz-hero-count span { font-size: 0.8rem; line-height: 1.4; color: var(--tmz-graphite); }
 .tmz-hero-count-narrow { display: none; }
 
-/* Tablets and small laptops: everything centred, one column under the logo */
+/* Tablets and small laptops: one centred column */
 @media (max-width: 1199px) {
-  .tmz-hero-inner { padding: 1.5rem 2rem 2.5rem; }
-  .tmz-logo-stage { width: min(540px, 100%); }
-  .tmz-hero-count-wide { display: none; }
-  .tmz-hero-count-narrow { display: flex; position: relative; left: auto; bottom: auto; width: auto; max-width: 26rem; margin: 1.75rem auto 0; text-align: center; }
-  .tmz-hero-band { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: 1.5rem; }
-  .tmz-hero-word { order: -1; }
-  .tmz-hero-sub { border-left: 0; padding-left: 0; max-width: 34rem; }
+  .tmz-hero-inner { padding: 1.5rem 2rem 2.75rem; }
+  .tmz-hero-band { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: 1.75rem; margin-top: 2.5rem; }
+  .tmz-logo-block { order: -1; }
+  .tmz-hero-left { align-items: center; }
+  .tmz-hero-sub { border-left: 0; padding-left: 0; max-width: 32rem; }
   .tmz-hero-actions { justify-self: center; align-items: center; }
+  .tmz-hero-count-wide { display: none; }
+  .tmz-hero-count-narrow { display: flex; width: auto; max-width: 26rem; margin: 2rem auto 0; text-align: center; }
 }
 
 /* PHONES (up to 639px) */
@@ -6440,9 +6419,11 @@ a.tamyiz-btn-preview-trigger { display: flex; align-items: center; justify-conte
   .tmz-hero-inner { padding: 1.1rem 1rem 2rem; }
   .tmz-hero-top { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
   .tmz-hero-top .tamyiz-hero-badge-pill { font-size: 0.62rem; }
-  .tmz-logo-stage { margin-top: 1.25rem; }
-  .tmz-hero-word img { width: 72vw; }
-  .tmz-hero-band { margin-top: 1.25rem; gap: 1.1rem; }
+  .tmz-hero-band { margin-top: 2.25rem; gap: 1.25rem; }
+  .tmz-logo-stage { width: 250px; }
+  .tmz-horizon { width: 320px; max-width: 100%; }
+  .tmz-hero-word { margin-top: 1.1rem; }
+  .tmz-hero-word img { width: 220px; }
   .tmz-hero-count-narrow { margin-top: 1.5rem; }
 }
 
@@ -6467,7 +6448,7 @@ header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
   gap: 0.55rem;
   min-height: 44px;
 }
-.tmz-brand-dome { width: 40px; height: auto; display: block; }
+.tmz-brand-dome { width: 58px; height: auto; display: block; }
 .tmz-brand-word { width: 96px; height: auto; display: block; }
 @media (max-width: 1023px) {
   header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
@@ -6478,7 +6459,7 @@ header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
   }
 }
 @media (max-width: 639px) {
-  .tmz-brand-dome { width: 32px; }
+  .tmz-brand-dome { width: 48px; }
   .tmz-brand-word { width: 78px; }
 }
 

@@ -81,10 +81,11 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
 - Black and white. The only colour is the logo's red grain (and book covers further down the page). The old red accent
   variables (`--color-red`, `--color-red-ink`...) now map to black/white in the "REDESIGN 24 Oct 2026" block at the end
   of tamyiz-unified.css; new rules go in that block. Success states (paid, toast) keep their green.
-- Logo: vector files in `public/assets/brand/` (`tamyiz-dome.svg` red grain, `tamyiz-wordmark.svg`), traced from the
-  "Tamyiz Logo" design canvas. Shown in the header on every page (phones: icon-only menu/bag so it fits) and as the
-  home hero: dome on a horizon line, wordmark under it (the `<h1>` is the wordmark image, alt "TAMYIZ"). The dome is
-  preloaded in index.html (LCP). Grain drifts via `tamyiz-logo-sparks.js` (`data-zone` on the canvas; off under
+- Logo: `public/assets/brand/tamyiz-dome-red.webp` (Sahil's red emblem, cropped so the dome is exactly centred and
+  its flat base is the bottom edge) + `tamyiz-wordmark.svg`. Header on every page (phones: icon-only menu/bag so it
+  fits). Home hero: the logo SMALL (340px dome, 300px wordmark; Sahil found a big dome odd), the dome's base exactly on
+  a short horizon line, wordmark centred under it; text left, button right. The `<h1>` is the wordmark image (alt
+  "TAMYIZ"). The dome is preloaded in index.html. Grain drifts via `tamyiz-logo-sparks.js` (`data-zone`; off under
   prefers-reduced-motion). No book covers in the hero (Sahil's call).
 - Frosted glass (`.tmz-glass`): only for things floating in the hero and the header. Hero cards come from the catalogue
   (book count + names), so they update when books change on /admin.

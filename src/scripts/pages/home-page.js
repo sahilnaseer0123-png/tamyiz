@@ -31,22 +31,26 @@ export function renderHomePage(appInstance) {
             </a>
           </div>
 
-          <div class="tmz-logo-stage">
-            <div class="tmz-logo-glow" aria-hidden="true"></div>
-            <img class="tmz-logo-dome" src="/assets/brand/tamyiz-dome.svg" alt="" width="670" height="412" fetchpriority="high" />
-            <canvas id="tamyiz-logo-sparks-canvas" class="tmz-logo-sparks" data-zone="0.52,0.96,0.10,0.78" aria-hidden="true"></canvas>
-            ${featuredProducts.length ? `<a href="/editions" class="tmz-glass tmz-hero-count tmz-hero-count-wide" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">
-              <strong>${products.length} e-book${products.length === 1 ? '' : 's'}</strong>
-              <span>${products.map((p) => p.name).join(' · ')}</span>
-            </a>` : ''}
-          </div>
-          <div class="tmz-horizon" aria-hidden="true"></div>
-
           <div class="tmz-hero-band">
-            <p class="tmz-hero-sub">
-              Short, practical e-books on AI and the digital world, written for beginners. Download the PDF and start reading in a minute.
-            </p>
-            <h1 class="tmz-hero-word"><img src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="442" height="74" /></h1>
+            <div class="tmz-hero-left">
+              ${featuredProducts.length ? `<a href="/editions" class="tmz-glass tmz-hero-count tmz-hero-count-wide" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">
+                <strong>${products.length} e-book${products.length === 1 ? '' : 's'}</strong>
+                <span>${products.map((p) => p.name).join(' · ')}</span>
+              </a>` : ''}
+              <p class="tmz-hero-sub">
+                Short, practical e-books on AI and the digital world, written for beginners. Download the PDF and start reading in a minute.
+              </p>
+            </div>
+
+            <div class="tmz-logo-block">
+              <div class="tmz-logo-stage">
+                <img class="tmz-logo-dome" src="/assets/brand/tamyiz-dome-red.webp" alt="" width="847" height="248" fetchpriority="high" />
+                <canvas id="tamyiz-logo-sparks-canvas" class="tmz-logo-sparks" data-zone="0.50,0.95,0.06,0.85" aria-hidden="true"></canvas>
+              </div>
+              <div class="tmz-horizon" aria-hidden="true"></div>
+              <h1 class="tmz-hero-word"><img src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="442" height="74" /></h1>
+            </div>
+
             <div class="tmz-hero-actions">
               <button class="tamyiz-hero-btn-primary" onclick="window.tamyizApp.navigateTo('/editions')">
                 <span>SEE THE E-BOOKS</span>
@@ -56,9 +60,9 @@ export function renderHomePage(appInstance) {
             </div>
           </div>
           ${featuredProducts.length ? `<a href="/editions" class="tmz-glass tmz-hero-count tmz-hero-count-narrow" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">
-              <strong>${products.length} e-book${products.length === 1 ? '' : 's'}</strong>
-              <span>${products.map((p) => p.name).join(' · ')}</span>
-            </a>` : ''}
+                <strong>${products.length} e-book${products.length === 1 ? '' : 's'}</strong>
+                <span>${products.map((p) => p.name).join(' · ')}</span>
+              </a>` : ''}
         </div>
       </section>
 

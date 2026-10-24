@@ -290,7 +290,7 @@ class TamyizUnifiedApp {
 
             <!-- Desktop Left Brand -->
             <a href="/" class="tamyiz-header-brand tamyiz-header-brand-desktop" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">
-              <img class="tmz-brand-dome" src="/assets/brand/tamyiz-dome.svg" alt="" width="40" height="25" />
+              <img class="tmz-brand-dome" src="/assets/brand/tamyiz-dome-red.webp" alt="" width="68" height="20" />
               <img class="tmz-brand-word" src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ home" width="96" height="16" />
             </a>
           </div>
