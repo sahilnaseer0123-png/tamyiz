@@ -35,7 +35,7 @@ export function renderCheckoutPage(appInstance) {
               Have a look at the shop and add the one you want.
             </p>
             <button class="tamyiz-hero-btn-primary" onclick="window.tamyizApp.navigateTo('/editions')">
-              <span>EXPLORE DIGITAL EDITIONS</span>
+              <span>BROWSE THE E-BOOKS</span>
               <span>→</span>
             </button>
           </div>
@@ -148,7 +148,7 @@ export function renderCheckoutPage(appInstance) {
                 </div>
 
                 <button type="submit" class="tamyiz-btn-submit-order w-full">
-                  <span id="checkout-submit-label">Pay &amp; Access Editions →</span>
+                  <span id="checkout-submit-label">Pay &amp; download →</span>
                   <span>•</span>
                   <span>₹${total.toLocaleString('en-IN')}</span>
                 </button>
@@ -213,7 +213,7 @@ export function renderCheckoutPage(appInstance) {
                       <input
                         type="text"
                         id="checkout-coupon-input"
-                        placeholder="ENTER PROMO OR ATELIER CODE"
+                        placeholder="PROMO CODE"
                         class="tamyiz-coupon-input flex-1"
                         style="text-transform: uppercase;"
                         onkeydown="if(event.key==='Enter'){ event.preventDefault(); window.tamyizApp.applyCouponFromCheckout(); }"
@@ -380,10 +380,10 @@ export function renderOrderVaultHtml(order) {
               <div class="tamyiz-invoice-brand">
                 <h2>TAMYIZ™</h2>
                 <div style="font-size: 0.72rem; color: #555; font-family: var(--font-sub); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2rem;">
-                  Digital Publishing &amp; Systems Architecture Atelier
+                  Practical e-books by Sahil &amp; Basit
                 </div>
                 <div style="font-size: 0.76rem; color: #555; margin-top: 0.35rem; line-height: 1.45;">
-                  Atelier Sopore, Kashmir 193201, India<br/>
+                  Sopore, Jammu &amp; Kashmir 193201, India<br/>
                   Phone / WhatsApp: ${siteConfig.phone} • Email: ${siteConfig.email}
                 </div>
               </div>

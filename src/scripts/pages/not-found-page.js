@@ -13,7 +13,7 @@ export function renderNotFoundPage() {
             <span class="tamyiz-page-badge">ERROR 404</span>
             <h1 class="tamyiz-page-title">Page not found</h1>
             <p class="tamyiz-page-description">
-              This address doesn't exist, or the edition has moved. Everything we make is in the archive.
+              This page doesn't exist, or the book has moved. All our e-books are on one page.
             </p>
           </div>
         </div>
@@ -22,7 +22,7 @@ export function renderNotFoundPage() {
       <section class="py-16 text-center">
         <div class="container" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
           <a href="/editions" class="tamyiz-hero-btn-primary" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">
-            <span>BROWSE ALL EDITIONS</span>
+            <span>SEE ALL E-BOOKS</span>
             <span aria-hidden="true">→</span>
           </a>
           <a href="/" class="tamyiz-hero-btn-secondary" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">

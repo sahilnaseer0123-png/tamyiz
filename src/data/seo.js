@@ -18,7 +18,7 @@ const STATIC_PAGES = {
   },
   editions: {
     path: '/editions',
-    title: `All editions | ${BRAND}`,
+    title: `All e-books | ${BRAND}`,
     description: 'All TAMYIZ™ e-books: practical guides you can download the moment you buy.',
   },
   philosophy: {
@@ -29,7 +29,7 @@ const STATIC_PAGES = {
   atelier: {
     path: '/atelier',
     title: `About us | ${BRAND}`,
-    description: 'TAMYIZ™ is a small digital publishing studio run by co-founders Basit and Sahil.',
+    description: 'TAMYIZ™ is Basit Majeed and Sahil Naseer: two people writing short, practical e-books on AI and the digital world.',
   },
   checkout: {
     path: '/checkout',

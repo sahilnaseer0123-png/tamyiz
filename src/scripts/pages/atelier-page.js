@@ -1,228 +1,115 @@
 /**
- * TAMYIZ™ Atelier Origin & Co-Founders Page
- * Route: /atelier
+ * TAMYIZ™ About us
+ * Route: /atelier (kept: Razorpay has this address on file as the About page)
+ *
+ * Plain words only: who we are, why we started, what the name means, the two founders, how to reach us.
+ * Founder facts come from site-config.js; portraits are the matched crops used on the home page.
  */
 
 import { siteConfig } from '../../data/site-config.js';
+import { products } from '../../data/products.js';
+
+function founderCard(f, portrait) {
+  const links = [
+    ['Instagram', f.socials.instagram],
+    ['LinkedIn', f.socials.linkedin],
+    ['X', f.socials.x],
+    f.email ? ['Email', `mailto:${f.email}`] : null,
+  ].filter(Boolean);
+  return `
+    <article class="tmz-person">
+      <img src="${portrait}" alt="${f.fullName}" width="480" height="600" loading="lazy" decoding="async" />
+      <div class="tmz-person-body">
+        <h3>${f.fullName}</h3>
+        <p class="tmz-person-role">${f.role.replace('Co-Founder • ', 'Co-founder · ')}</p>
+        <p class="tmz-person-bio">${f.bio}</p>
+        <blockquote>${f.quote}</blockquote>
+        <ul class="tmz-person-links">
+          ${links.map(([label, href]) => `<li><a href="${href}"${href.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${label} <span aria-hidden="true">↗</span></a></li>`).join('')}
+        </ul>
+      </div>
+    </article>`;
+}
 
 export function renderAtelierPage(appInstance) {
-  const basit = siteConfig.founders.basit;
-  const sahil = siteConfig.founders.sahil;
+  const { basit, sahil } = siteConfig.founders;
+  const count = products.length;
 
   return `
-    <div class="tamyiz-page-atelier">
-      <!-- DEDICATED HEADER BANNER -->
-      <section class="tamyiz-page-header">
-        <div class="container">
-          <div class="tamyiz-page-header-inner">
-            <span class="tamyiz-page-badge">
-              ATELIER ORIGIN // EST. 2025
-            </span>
-            <h1 class="tamyiz-page-title">
-              Atelier Origin &amp; Architects
-            </h1>
-            <p class="tamyiz-page-description">
-              Born from the conviction that digital craftsmanship should be as rigorous, permanent, and ethically rooted as architectural stone.
-            </p>
+    <div class="tmz-about">
+      <section class="tmz-about-intro">
+        <div class="tmz-wrap">
+          <h1>About us</h1>
+          <p class="tmz-about-lede">TAMYIZ is two people, Basit and Sahil, writing the clear, practical guides we wished we'd had.</p>
+        </div>
+      </section>
+
+      <section class="tmz-about-story">
+        <div class="tmz-wrap tmz-about-story-grid">
+          <div class="tmz-about-text">
+            <h2>Why we started</h2>
+            <p>We started TAMYIZ in late 2025. Basit works in cybersecurity and research; Sahil works in artificial intelligence and machine learning. Between us, we kept seeing the same thing: people being told to use AI and stay safe online, with nobody explaining how in plain language.</p>
+            <p>So we write short e-books that do exactly that. Every chapter ends with something you can do today. No filler, no jargon, and a PDF you can read on any device.</p>
+          </div>
+          <aside class="tmz-about-facts" aria-label="TAMYIZ at a glance">
+            <p class="tmz-about-meaning"><strong>Tamyiz</strong> (<span lang="ar">تمييز</span>) means the ability to tell things apart: a good source from a fake one, a real message from a scam, a vague question from a clear one.</p>
+            <dl>
+              <div><dt>Founded</dt><dd>${siteConfig.founded}</dd></div>
+              <div><dt>Founders</dt><dd>Basit Majeed and Sahil Naseer</dd></div>
+              <div><dt>What we make</dt><dd>${count ? `${count} practical e-book${count === 1 ? '' : 's'} (PDF)` : 'Practical e-books (PDF)'}</dd></div>
+              <div><dt>Talk to us</dt><dd><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer">WhatsApp ${siteConfig.phone}</a></dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="tmz-about-people-section" aria-labelledby="founders-title">
+        <div class="tmz-wrap">
+          <h2 id="founders-title">The founders</h2>
+          <div class="tmz-people-grid">
+            ${founderCard(basit, '/assets/images/founders/basit-portrait.webp')}
+            ${founderCard(sahil, '/assets/images/founders/sahil-portrait.webp')}
           </div>
         </div>
       </section>
 
-      <!-- THE STORY & MANIFESTO -->
-      <section class="tamyiz-section py-14 md:py-24" style="background: #FFFFFF;">
-        <div class="container">
-          <div class="tamyiz-origin-story-grid">
-            <div class="tamyiz-origin-text-col">
-              <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
-                The TAMYIZ Manifesto
-              </span>
-              <h2 style="font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase; line-height: 1.15; margin-bottom: 1.5rem;">
-                Rooted in Solitude. Engineered for the World.
-              </h2>
-              <div class="tamyiz-manifesto-paragraphs">
-                <p>
-                  In late 2025, Basit Majeed and Sahil united their shared passion for technology, design, and uncompromising craftsmanship. Both hailing from technical backgrounds—Basit specializing in Cybersecurity, Systems Security &amp; Research, and Sahil in Artificial Intelligence, Machine Learning &amp; Systems Architecture—they started TAMYIZ to write the clear, practical guides they wished they’d had.
-                </p>
-                <p>
-                  The Arabic root of <em>Tamyiz</em> (تمييز) denotes the capacity to distinguish, to elevate, and to discern between the superfluous and the essential. We set up a small studio that treats every e-book with the care of a printed book.
-                </p>
-                <p>
-                  We believe that the future of independent work belongs to solitary craftspeople and focused thinkers who value intellectual depth over vanity metrics. Every release is our contribution to that standard.
-                </p>
-              </div>
-
-              <div class="tamyiz-origin-meta-strip mt-8">
-                <div class="meta-item">
-                  <strong>FOUNDED</strong>
-                  <span>${siteConfig.founded}</span>
-                </div>
-                <div class="meta-item">
-                  <strong>FOUNDERS</strong>
-                  <span>Basit Majeed &amp; Sahil Naseer</span>
-                </div>
-                <div class="meta-item">
-                  <strong>WHAT WE MAKE</strong>
-                  <span>Practical e-books (PDF)</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="tamyiz-origin-imagery-col">
-              <div class="tamyiz-origin-photo-frame">
-                <img 
-                  src="${siteConfig.atelierStudioImage}" 
-                  alt="FIG. 01 — TAMYIZ research desk" 
-                  class="tamyiz-origin-photo object-cover" 
-                  loading="eager"
-                />
-                <div class="tamyiz-origin-photo-caption">
-                  <span>FIG. 01 — RESEARCH ATELIER</span>
-                  <span>EST. 2025</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- DEDICATED CO-FOUNDER PROFILES -->
-      <section class="tamyiz-section py-14 md:py-24" style="background: var(--color-offwhite); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
-        <div class="container">
-          <div style="text-align: center; max-width: 680px; margin: 0 auto 3.5rem auto;">
-            <span style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em;">The Architects</span>
-            <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; margin-top: 0.4rem; text-transform: uppercase;">
-              Co-Founders &amp; Leads
-            </h2>
-            <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem; line-height: 1.5;">
-              Two complementary disciplines: cybersecurity research and AI/ML systems architecture.
-            </p>
+      <section class="tmz-about-contact" id="contact-form-section" aria-labelledby="contact-title">
+        <div class="tmz-wrap tmz-about-contact-grid" id="atelier-contact-container">
+          <div>
+            <h2 id="contact-title">Get in touch</h2>
+            <p>A question about an e-book, an order or a refund? Write it here and it opens in WhatsApp, ready to send. Or email <a href="mailto:${siteConfig.email}">${siteConfig.email}</a>.</p>
+            <p class="tmz-about-reply">We reply ourselves, usually within a day.</p>
           </div>
 
-          <div class="tamyiz-founders-dual-grid grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Basit Card -->
-            <div class="tamyiz-founder-card">
-              <div class="tamyiz-founder-portrait-wrap">
-                <img src="${basit.image}" alt="${basit.name} — ${basit.role}" class="tamyiz-founder-portrait-img" loading="lazy" />
-                <div class="tamyiz-founder-portrait-badge">
-                  <span>${basit.badge}</span>
-                </div>
+          <form class="tamyiz-contact-form tmz-contact-form" id="atelier-contact-form" onsubmit="event.preventDefault(); window.tamyizApp.handleContactSubmit();">
+            <div class="tmz-field-row">
+              <div>
+                <label class="tamyiz-form-label" for="contact-name">Your name</label>
+                <input type="text" id="contact-name" required autocomplete="name" class="tamyiz-form-input" />
               </div>
-
-              <div class="tamyiz-founder-info">
-                <div class="tamyiz-founder-name-row">
-                  <h3 class="tamyiz-founder-title">${basit.name}</h3>
-                  <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red-ink); text-transform: uppercase;">Co-Founder</span>
-                </div>
-
-                <div class="tamyiz-founder-speciality-pill">${basit.role}</div>
-
-                <p class="tamyiz-founder-bio">${basit.bio}</p>
-
-                <div class="tamyiz-founder-quote">
-                  "${basit.quote}"
-                </div>
-
-                <div class="tamyiz-founder-socials flex flex-wrap gap-2 mt-4">
-                  <a href="${basit.socials.instagram}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">Instagram ↗</a>
-                  <a href="${basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">LinkedIn ↗</a>
-                  <a href="${basit.socials.x}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
-                  ${basit.email ? `<a href="mailto:${basit.email}" class="tamyiz-founder-social-link">Email ↗</a>` : ''}
-                </div>
+              <div>
+                <label class="tamyiz-form-label" for="contact-email">Email</label>
+                <input type="email" id="contact-email" required autocomplete="email" class="tamyiz-form-input" />
               </div>
             </div>
-
-            <!-- Sahil Card -->
-            <div class="tamyiz-founder-card">
-              <div class="tamyiz-founder-portrait-wrap">
-                <img src="${sahil.image}" alt="${sahil.name} — ${sahil.role}" class="tamyiz-founder-portrait-img" loading="lazy" />
-                <div class="tamyiz-founder-portrait-badge">
-                  <span>${sahil.badge}</span>
-                </div>
-              </div>
-
-              <div class="tamyiz-founder-info">
-                <div class="tamyiz-founder-name-row">
-                  <h3 class="tamyiz-founder-title">${sahil.name}</h3>
-                  <span style="font-family: var(--font-sub); font-size: 0.72rem; font-weight: 800; color: var(--color-red-ink); text-transform: uppercase;">Co-Founder</span>
-                </div>
-
-                <div class="tamyiz-founder-speciality-pill">${sahil.role}</div>
-
-                <p class="tamyiz-founder-bio">${sahil.bio}</p>
-
-                <div class="tamyiz-founder-quote">
-                  "${sahil.quote}"
-                </div>
-
-                <div class="tamyiz-founder-socials flex flex-wrap gap-2 mt-4">
-                  <a href="${sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">Instagram ↗</a>
-                  <a href="${sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">LinkedIn ↗</a>
-                  <a href="${sahil.socials.x}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
-                  ${sahil.email ? `<a href="mailto:${sahil.email}" class="tamyiz-founder-social-link">Email ↗</a>` : ''}
-                </div>
-              </div>
+            <div>
+              <label class="tamyiz-form-label" for="contact-subject">About</label>
+              <select id="contact-subject" class="tamyiz-form-input">
+                <option value="A question about an e-book">A question about an e-book</option>
+                <option value="An order or a refund">An order or a refund</option>
+                <option value="Feedback">Feedback</option>
+                <option value="Something else">Something else</option>
+              </select>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- DIRECT CONCIERGE CONTACT FORM -->
-      <section class="tamyiz-section py-14 md:py-24" style="background: #FFFFFF;" id="contact-form-section">
-        <div class="container">
-          <div class="max-w-2xl mx-auto" id="atelier-contact-container">
-            <div style="text-align: center; margin-bottom: 2.5rem;">
-              <span style="color: var(--color-red-ink); font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;">Concierge Access</span>
-              <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; margin-top: 0.4rem;">
-                Connect With The Atelier
-              </h2>
-              <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem;">
-                Questions about an edition, an order or a refund? Write below and it opens in WhatsApp, ready to send. Or email tamyiz.co@gmail.com.
-              </p>
+            <div>
+              <label class="tamyiz-form-label" for="contact-message">Message</label>
+              <textarea id="contact-message" rows="4" required class="tamyiz-form-input"></textarea>
             </div>
-
-            <form class="tamyiz-contact-form" id="atelier-contact-form" onsubmit="event.preventDefault(); window.tamyizApp.handleContactSubmit();">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label class="tamyiz-form-label" for="contact-name">Your Name *</label>
-                  <input type="text" id="contact-name" required placeholder="Full name" class="tamyiz-form-input" />
-                </div>
-                <div>
-                  <label class="tamyiz-form-label" for="contact-email">Email Address *</label>
-                  <input type="email" id="contact-email" required placeholder="name@domain.com" class="tamyiz-form-input" />
-                </div>
-              </div>
-
-              <div class="mb-4">
-                <label class="tamyiz-form-label" for="contact-subject">Subject *</label>
-                <select id="contact-subject" class="tamyiz-form-input">
-                  <option value="Product Inquiry">Product Inquiry / Format Compatibility</option>
-                  <option value="Enterprise License">Enterprise / Studio Team License</option>
-                  <option value="Feedback">Feedback on Digital Edition</option>
-                  <option value="Other">Direct Founder Correspondence</option>
-                </select>
-              </div>
-
-              <div class="mb-6">
-                <label class="tamyiz-form-label" for="contact-message">Message *</label>
-                <textarea id="contact-message" rows="4" required placeholder="How can the TAMYIZ atelier assist your creative or technical work?" class="tamyiz-form-input" style="border-radius: 8px;"></textarea>
-              </div>
-
-              <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
-                <button type="submit" class="tamyiz-hero-btn-primary w-full sm:w-auto" id="contact-submit-btn">
-                  <span>Send via WhatsApp</span>
-                  <span>→</span>
-                </button>
-
-                <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-btn-nav-outline w-full sm:w-auto text-center" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: #1E7B2E; border-color: #1E7B2E;">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                  </svg>
-                  <span>Instant WhatsApp Concierge</span>
-                  <span>↗</span>
-                </a>
-              </div>
-            </form>
-          </div>
+            <div class="tmz-contact-actions">
+              <button type="submit" class="tmz-btn tmz-btn-solid" id="contact-submit-btn">Send on WhatsApp</button>
+              <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tmz-btn tmz-btn-line">Open WhatsApp chat</a>
+            </div>
+          </form>
         </div>
       </section>
     </div>

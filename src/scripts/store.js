@@ -193,7 +193,7 @@ class Store {
 
   applyCoupon(code) {
     if (this.cart.length === 0) {
-      this.showToast('Please add items to your atelier bag first.', 'error');
+      this.showToast('Please add items to your bag first.', 'error');
       return false;
     }
 
@@ -205,7 +205,7 @@ class Store {
 
     const couponData = AVAILABLE_COUPONS[cleanCode];
     if (!couponData) {
-      this.showToast(`Invalid promo or atelier code "${cleanCode}". Please verify and try again.`, 'error');
+      this.showToast(`The code "${cleanCode}" isn't valid. Check it and try again.`, 'error');
       return false;
     }
 

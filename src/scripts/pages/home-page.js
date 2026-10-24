@@ -4,7 +4,6 @@
  */
 
 import { products, isAvailable, anyAvailable, buyLabel } from '../../data/products.js';
-import { foundersData } from '../../data/content.js';
 import { siteConfig } from '../../data/site-config.js';
 import { store } from '../store.js';
 import { principlesSection, formatGuideSection } from './sections.js';
@@ -128,7 +127,7 @@ export function renderHomePage(appInstance) {
         </div>
       </div>
 
-      <!-- 3. FEATURED CURATED EDITIONS -->
+      <!-- 3. LATEST E-BOOKS -->
       <section id="editions" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite);">
         <div class="container">
           <div class="tamyiz-shop-header" style="align-items: flex-end; margin-bottom: 2.5rem;">
@@ -170,66 +169,7 @@ export function renderHomePage(appInstance) {
       <!-- 4. HOW WE WRITE -->
 ${principlesSection({ id: 'philosophy' })}
 
-      <!-- 5. ARCHITECTS TEASER (CO-FOUNDERS BANNER) -->
-      <section id="origin" class="tamyiz-section py-14 md:py-24 scroll-mt-24" style="background: var(--color-offwhite); border-bottom: 1px solid var(--color-border);">
-        <div class="container">
-          <div class="tamyiz-founders-teaser-card">
-            <div class="tamyiz-founders-teaser-content">
-              <span style="font-family: var(--font-sub); font-size: 0.78rem; font-weight: 700; color: var(--color-red-ink); text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 0.5rem;">
-                About us // Est. 2025
-              </span>
-              <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; line-height: 1.15; margin-bottom: 1rem;">
-                Who makes TAMYIZ
-              </h2>
-              <p style="font-size: 0.95rem; color: #444; line-height: 1.6; margin-bottom: 1.75rem; max-width: 580px;">
-                Founded in late 2025 by <strong>Basit Majeed</strong> (Security &amp; Research) and <strong>Sahil</strong> (AI/ML &amp; Build). Together they write the practical guides they wish they'd had when they started.
-              </p>
-              <div class="flex flex-wrap gap-3">
-                <button class="tamyiz-hero-btn-primary" style="padding: 0.85rem 1.75rem; font-size: 0.82rem;" onclick="window.tamyizApp.navigateTo('/atelier')">
-                  <span>Our story</span>
-                  <span>→</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="tamyiz-founders-teaser-duo">
-              <!-- Basit Mini Card -->
-              <div class="tamyiz-founder-mini-card">
-                <div class="tamyiz-founder-mini-portrait">
-                  <img src="/assets/images/founders/basit.webp" alt="Basit Majeed — Co-Founder" loading="lazy" />
-                </div>
-                <div class="tamyiz-founder-mini-info">
-                  <strong class="tamyiz-founder-mini-name">BASIT MAJEED</strong>
-                  <span class="tamyiz-founder-mini-role">Security &amp; Research</span>
-                  <div class="tamyiz-mini-socials">
-                    <a href="${siteConfig.founders.basit.socials.instagram}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Instagram ↗</a>
-                    <a href="${siteConfig.founders.basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">LinkedIn ↗</a>
-                    <a href="${siteConfig.founders.basit.socials.x}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">X ↗</a>
-                    ${siteConfig.founders.basit.email ? `<a href="mailto:${siteConfig.founders.basit.email}" onclick="event.stopPropagation();">Email ↗</a>` : ''}
-                  </div>
-                </div>
-              </div>
-
-              <!-- Sahil Mini Card -->
-              <div class="tamyiz-founder-mini-card">
-                <div class="tamyiz-founder-mini-portrait">
-                  <img src="/assets/images/founders/sahil.webp" alt="Sahil — Co-Founder" loading="lazy" />
-                </div>
-                <div class="tamyiz-founder-mini-info">
-                  <strong class="tamyiz-founder-mini-name">SAHIL</strong>
-                  <span class="tamyiz-founder-mini-role">AI/ML &amp; Build</span>
-                  <div class="tamyiz-mini-socials">
-                    <a href="${siteConfig.founders.sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Instagram ↗</a>
-                    <a href="${siteConfig.founders.sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">LinkedIn ↗</a>
-                    <a href="${siteConfig.founders.sahil.socials.x}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">X ↗</a>
-                    ${siteConfig.founders.sahil.email ? `<a href="mailto:${siteConfig.founders.sahil.email}" onclick="event.stopPropagation();">Email ↗</a>` : ''}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- 5. (The founders are introduced in the hero card; the full story is on /atelier.) -->
 
       <!-- 5B. FORMAT GUIDE -->
 ${formatGuideSection()}

@@ -89,6 +89,12 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
   any product, so it stays right whatever TAMYIZ sells next. Portraits: `founders/<name>-portrait.webp`, cropped so
   both faces are the same size with the eyes on the same line (42% down, 4:5, greyscale); redo both together if a
   photo changes. No logo or book covers in the hero (Sahil's calls).
+- About page `/atelier` (24 Oct 2026): plain words ("About us", why we started, what the name means, founders, contact).
+  No "atelier/architects/studio/concierge/editions/protocol" wording anywhere visible; the old studio photo is gone
+  (it wasn't theirs). Nav: Home · E-books · How we write · About us (→ /atelier) · Read anywhere. Footer: Pages · Shop ·
+  Help and policies. The home page's old "Who makes TAMYIZ" section was removed (the hero card covers it).
+  Keep URLs and the legal page titles as they are (Razorpay has them on file).
+- Headings are sentence case everywhere; page banners are light like the About intro (CSS "Calm type everywhere" block).
 - Frosted glass (`.tmz-glass`): the header only for now.
 - Hidden menu/bag drawers are `visibility: hidden` with no shadow until opened (their shadows used to leak onto the page edges).
 

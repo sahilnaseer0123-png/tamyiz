@@ -74,7 +74,7 @@ export function renderEditionsPage(appInstance) {
           </div>
 
           <!-- Product Grid (Rule 4: Equal-Height Cards) -->
-          <h2 class="sr-only">All editions</h2>
+          <h2 class="sr-only">All e-books</h2>
           <div class="tamyiz-product-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-8" id="product-grid">
             ${products.length === 0 ? `
               <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem; background: #FFFFFF; border: 1px dashed var(--color-border); border-radius: 6px;">

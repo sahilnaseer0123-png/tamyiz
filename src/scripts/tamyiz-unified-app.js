@@ -284,8 +284,8 @@ class TamyizUnifiedApp {
                 <line x1="3" y1="8" x2="21" y2="8"></line>
                 <line x1="3" y1="16" x2="21" y2="16"></line>
               </svg>
-              <span class="tamyiz-menu-text-desktop">INDEX / MENU</span>
-              <span class="tamyiz-menu-text-mobile">MENU</span>
+              <span class="tamyiz-menu-text-desktop">Menu</span>
+              <span class="tamyiz-menu-text-mobile">Menu</span>
             </button>
 
             <!-- Desktop Left Brand -->
@@ -298,10 +298,10 @@ class TamyizUnifiedApp {
           <!-- Desktop Centered Navigation with Active States -->
           <nav class="tamyiz-header-nav" id="desktop-nav" aria-label="Primary Navigation">
             <a href="/" class="tamyiz-header-nav-link" id="nav-link-home" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a>
-            <a href="/editions" class="tamyiz-header-nav-link" id="nav-link-editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">Editions</a>
-            <a href="/#philosophy" class="tamyiz-header-nav-link" id="nav-link-philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Philosophy</a>
-            <a href="/#origin" class="tamyiz-header-nav-link" id="nav-link-atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">About us</a>
-            <a href="/#format-guide" class="tamyiz-header-nav-link" id="nav-link-formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Format Guide</a>
+            <a href="/editions" class="tamyiz-header-nav-link" id="nav-link-editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">E-books</a>
+            <a href="/#philosophy" class="tamyiz-header-nav-link" id="nav-link-philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">How we write</a>
+            <a href="/atelier" class="tamyiz-header-nav-link" id="nav-link-atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">About us</a>
+            <a href="/#format-guide" class="tamyiz-header-nav-link" id="nav-link-formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Read anywhere</a>
           </nav>
 
           <div class="tamyiz-header-right">
@@ -322,26 +322,24 @@ class TamyizUnifiedApp {
       <div class="tamyiz-mobile-drawer-backdrop" id="mobile-drawer-backdrop" onclick="window.tamyizApp.closeMobileMenu()"></div>
       <aside class="tamyiz-mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
         <div class="tamyiz-mobile-drawer-head">
-          <span class="tamyiz-header-brand-text">
-            TAMYIZ<span class="tamyiz-brand-dot">•</span>
-          </span>
+          <span class="tmz-drawer-brand"><img src="/assets/brand/tamyiz-dome-red.webp" alt="" width="48" height="14" /><img src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="84" height="14" /></span>
           <button style="font-size: 1.25rem; background: none; border: none; cursor: pointer; padding: 0.25rem;" onclick="window.tamyizApp.closeMobileMenu()" aria-label="Close menu">✕</button>
         </div>
         <div class="tamyiz-mobile-drawer-body">
           <div>
-            <div class="tamyiz-mobile-nav-group-title">Navigation</div>
+            <div class="tamyiz-mobile-nav-group-title">Menu</div>
             <ul class="tamyiz-mobile-nav-list">
               <li><a href="/" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/')">Home <span>→</span></a></li>
-              <li><a href="/editions" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions')">The Editions <span>→</span></a></li>
-              <li><a href="/#philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars &amp; Philosophy <span>→</span></a></li>
-              <li><a href="/#origin" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin &amp; Founders <span>→</span></a></li>
-              <li><a href="/#format-guide" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">Digital Format Guide <span>→</span></a></li>
-              <li>${anyAvailable() ? `<a href="#cart" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Instant Checkout <span>→</span></a>` : `<a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-mobile-nav-link" style="color: var(--color-red-on-dark); font-weight: 700;">Pre-order on WhatsApp <span>↗</span></a>`}</li>
+              <li><a href="/editions" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions')">All e-books <span>→</span></a></li>
+              <li><a href="/#philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#philosophy')">How we write <span>→</span></a></li>
+              <li><a href="/atelier" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/atelier')">About us <span>→</span></a></li>
+              <li><a href="/#format-guide" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">How to read our e-books <span>→</span></a></li>
+              <li>${anyAvailable() ? `<a href="#cart" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Checkout <span>→</span></a>` : `<a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-mobile-nav-link" style="color: var(--color-red-on-dark); font-weight: 700;">Pre-order on WhatsApp <span>↗</span></a>`}</li>
             </ul>
           </div>
 
           <div>
-            <div class="tamyiz-mobile-nav-group-title">The Shop</div>
+            <div class="tamyiz-mobile-nav-group-title">Shop</div>
             <div class="tamyiz-mobile-cat-grid">
               <a href="/editions" class="tamyiz-mobile-cat-btn" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions')">
                 <span>All e-books${products.length ? ` (${products.length})` : ''}</span> <span>→</span>
@@ -350,7 +348,7 @@ class TamyizUnifiedApp {
           </div>
 
           <div>
-            <div class="tamyiz-mobile-nav-group-title">Customer Care</div>
+            <div class="tamyiz-mobile-nav-group-title">Help and policies</div>
             <ul class="tamyiz-footer-links">
               <li><a href="/#format-guide" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">How to read our e-books</a></li>
               <li><a href="/legal/delivery-protocol" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('delivery-protocol')">Shipping &amp; Delivery Policy</a></li>
@@ -358,7 +356,7 @@ class TamyizUnifiedApp {
               <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
               <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
               <li><a href="/legal/contact" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('contact')">Contact Us</a></li>
-              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #1E7B2E; font-weight: 700;">WhatsApp Concierge (<span style="white-space: nowrap;">${siteConfig.phone}</span>) ↗</a></li>
+              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #1E7B2E; font-weight: 700;">WhatsApp us (<span style="white-space: nowrap;">${siteConfig.phone}</span>) ↗</a></li>
             </ul>
           </div>
         </div>
@@ -417,7 +415,7 @@ class TamyizUnifiedApp {
 
           <!-- Promo code row -->
           <div style="display: flex; gap: 0.4rem; margin-bottom: 0.4rem;">
-            <input type="text" id="coupon-input" placeholder="PROMO / ATELIER CODE" style="flex-grow: 1; padding: 0.55rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0; text-transform: uppercase; font-family: monospace; font-size: 14px;" onkeydown="if(event.key==='Enter') window.tamyizApp.applyCoupon();" />
+            <input type="text" id="coupon-input" placeholder="PROMO CODE" style="flex-grow: 1; padding: 0.55rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0; text-transform: uppercase; font-family: monospace; font-size: 14px;" onkeydown="if(event.key==='Enter') window.tamyizApp.applyCoupon();" />
             <button id="btn-apply-drawer-coupon" style="background: var(--color-black); color: #FFF; padding: 0 0.95rem; border-radius: 0; font-family: monospace; font-size: 0.72rem; font-weight: 800; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase;" onclick="window.tamyizApp.applyCoupon()">Apply</button>
           </div>
           <div id="drawer-coupon-feedback" style="display: none; font-size: 0.72rem; font-family: monospace; margin-bottom: 0.6rem; font-weight: 600;"></div>
@@ -480,31 +478,31 @@ class TamyizUnifiedApp {
               <h2>TAMYIZ™</h2>
               <p>
                 Practical e-books by Sahil &amp; Basit.<br/>
-                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline; white-space: nowrap;">${siteConfig.email}</a><br/>
+                Email: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline; white-space: nowrap;">${siteConfig.email}</a><br/>
                 WhatsApp: <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red-on-dark); font-weight: 700; white-space: nowrap;">${siteConfig.phone}</a>
               </p>
             </div>
 
             <div class="tamyiz-footer-col">
-              <h3>Navigation</h3>
+              <h3>Pages</h3>
               <ul class="tamyiz-footer-links">
                 <li><a href="/" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a></li>
-                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">The Editions</a></li>
+                <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">All e-books</a></li>
                 <li><a href="/#philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">How we write</a></li>
-                <li><a href="/#origin" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">About us</a></li>
-                <li>${anyAvailable() ? `<a href="#cart" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Instant Checkout →</a>` : `<a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red-on-dark); font-weight: 700;">Pre-order on WhatsApp ↗</a>`}</li>
+                <li><a href="/atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">About us</a></li>
+                <li>${anyAvailable() ? `<a href="#cart" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red-on-dark); font-weight: 700;">Checkout →</a>` : `<a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red-on-dark); font-weight: 700;">Pre-order on WhatsApp ↗</a>`}</li>
               </ul>
             </div>
 
             <div class="tamyiz-footer-col">
-              <h3>Digital Editions</h3>
+              <h3>Shop</h3>
               <ul class="tamyiz-footer-links">
                 <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">All e-books${products.length ? ` (${products.length})` : ''}</a></li>
               </ul>
             </div>
 
             <div class="tamyiz-footer-col tamyiz-footer-col-full-mobile">
-              <h3>Customer Care &amp; Compliance</h3>
+              <h3>Help and policies</h3>
               <ul class="tamyiz-footer-links">
                 <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.scrollToFormatGuide()">How to read our e-books</a></li>
                 <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('delivery-protocol')">Shipping &amp; Delivery Policy</a></li>
@@ -512,14 +510,14 @@ class TamyizUnifiedApp {
                 <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
                 <li><a href="/legal/terms" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
                 <li><a href="/legal/contact" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('contact')">Contact Us</a></li>
-                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #FFFFFF; font-weight: 700;">WhatsApp Concierge ↗</a></li>
+                <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #FFFFFF; font-weight: 700;">WhatsApp us ↗</a></li>
               </ul>
             </div>
           </div>
 
           <div class="tamyiz-footer-bottom">
             <div>
-              &copy; ${new Date().getFullYear()} TAMYIZ™ Studio
+              &copy; ${new Date().getFullYear()} TAMYIZ™. Made by Sahil &amp; Basit.
             </div>
           </div>
         </div>
@@ -536,7 +534,7 @@ class TamyizUnifiedApp {
       </div>
 
       <!-- 5. COMPACT WHATSAPP CONCIERGE BUTTON -->
-      <aside aria-label="WhatsApp chat"><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-whatsapp-fab" aria-label="Chat with TAMYIZ WhatsApp Concierge" title="WhatsApp Concierge">
+      <aside aria-label="WhatsApp chat"><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-whatsapp-fab" aria-label="Chat with TAMYIZ on WhatsApp" title="WhatsApp us">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
         </svg>
@@ -1028,7 +1026,7 @@ class TamyizUnifiedApp {
             Add an e-book from the shop and it will appear here.
           </p>
           <button class="tamyiz-btn-explore-artifacts" onclick="window.tamyizApp.closeCart(); window.tamyizApp.scrollToEditions()">
-            Explore Digital Editions →
+            Browse the e-books →
           </button>
         </div>
       `;
@@ -1135,7 +1133,7 @@ class TamyizUnifiedApp {
       }
     } else {
       if (feedback) {
-        feedback.textContent = `✕ Invalid promo or atelier code "${val.toUpperCase()}". Please verify and try again.`;
+        feedback.textContent = `✕ The code "${val.toUpperCase()}" isn't valid. Check it and try again.`;
         feedback.style.color = 'var(--color-red)';
         feedback.style.display = 'block';
       }
@@ -1242,7 +1240,7 @@ class TamyizUnifiedApp {
         <div class="tamyiz-modal-spreads-grid">
           <div class="tamyiz-modal-spread-item">
             <img src="${product.images[0]}" alt="${product.name} Plate 01" loading="lazy" />
-            <div class="tamyiz-modal-spread-caption">FIG. 01 — ARCHITECTURAL COVER &amp; SPECIFICATION RATIO</div>
+            <div class="tamyiz-modal-spread-caption">Cover</div>
           </div>
           <div class="tamyiz-modal-spread-item">
             <img src="${product.images[1] || product.images[0]}" alt="${product.name} Spread 02" loading="lazy" />
@@ -1339,7 +1337,7 @@ class TamyizUnifiedApp {
     modalContainer.innerHTML = `
       <div class="tamyiz-modal-header">
         <div>
-          <span class="tamyiz-modal-meta-tag">ARCHITECTURAL LOOK INSIDE // ${product.category.toUpperCase()}</span>
+          <span class="tamyiz-modal-meta-tag">LOOK INSIDE</span>
           <h3 class="tamyiz-modal-title">${product.name}</h3>
         </div>
         <button class="tamyiz-modal-close-btn" onclick="window.tamyizApp.closeProductPreview()" aria-label="Close Preview Modal">✕</button>
@@ -1465,7 +1463,7 @@ class TamyizUnifiedApp {
   // Dedicated Checkout Actions
   async submitCheckout() {
     if (store.cart.length === 0) {
-      store.showToast('Your atelier bag is empty. Please select an edition.', 'error');
+      store.showToast('Your bag is empty. Pick an e-book first.', 'error');
       this.navigateTo('/editions');
       return;
     }
@@ -1535,7 +1533,7 @@ class TamyizUnifiedApp {
       console.error('TAMYIZ Dedicated Checkout Error:', err);
       store.showToast(err.message || 'Payment initiation failed. Please check your network and try again.', 'error');
       if (submitBtn) submitBtn.disabled = false;
-      if (submitLabel) submitLabel.textContent = 'Pay & Access Editions →';
+      if (submitLabel) submitLabel.textContent = 'Pay & download →';
     }
   }
 
@@ -1563,7 +1561,7 @@ class TamyizUnifiedApp {
       this.renderCurrentPage();
     } else {
       if (feedback) {
-        feedback.textContent = `✕ Invalid promo or atelier code "${val.toUpperCase()}". Please verify and try again.`;
+        feedback.textContent = `✕ The code "${val.toUpperCase()}" isn't valid. Check it and try again.`;
         feedback.style.color = 'var(--color-red)';
         feedback.style.display = 'block';
       }
@@ -1639,9 +1637,9 @@ class TamyizUnifiedApp {
   <div class="header">
     <div class="brand">
       <h1>TAMYIZ™</h1>
-      <div class="brand-sub">Digital Publishing &amp; Systems Architecture Atelier</div>
+      <div class="brand-sub">Practical e-books by Sahil &amp; Basit</div>
       <div style="font-size: 11px; color: #666; margin-top: 6px;">
-        Atelier Sopore, Kashmir 193201, India<br/>
+        Sopore, Jammu &amp; Kashmir 193201, India<br/>
         Phone / WhatsApp: ${siteConfig.phone} • Email: ${siteConfig.email}
       </div>
     </div>
@@ -1796,7 +1794,7 @@ class TamyizUnifiedApp {
     this.closeMobileMenu();
     this.openCart();
     if (store.cart.length === 0) {
-      store.showToast('Your atelier bag is currently empty. Please select an edition.', 'info');
+      store.showToast('Your bag is empty. Pick an e-book first.', 'info');
       setTimeout(() => {
         this.scrollToEditions();
       }, 400);
@@ -1918,7 +1916,7 @@ class TamyizUnifiedApp {
   // ==========================================
   async handleBagCheckout() {
     if (store.cart.length === 0) {
-      store.showToast('Your atelier bag is empty. Please select an edition.', 'error');
+      store.showToast('Your bag is empty. Pick an e-book first.', 'error');
       this.scrollToEditions();
       return;
     }
@@ -2051,7 +2049,7 @@ class TamyizUnifiedApp {
           <div>TOTAL PAYABLE: <strong>₹${totalINR.toLocaleString('en-IN')}</strong> (INSTANT DOWNLOAD)</div>
           <div>DISPATCH COORDINATES: <strong>${email}</strong> • <strong>${phone}</strong></div>
           <div style="color: #666; font-size: 0.72rem; margin-top: 0.35rem; line-height: 1.4;">
-            NOTICE: Smart Atelier Sandbox Active (No live Razorpay keys configured in environment). Test the complete purchase-to-unlock fulfillment lifecycle with one click.
+            Test mode (No live Razorpay keys configured in environment). Test the complete purchase-to-unlock fulfillment lifecycle with one click.
           </div>
         </div>
 

@@ -16,10 +16,10 @@ export function renderProductDetailPage(slug, appInstance) {
           Edition Not Found
         </h2>
         <p style="color: var(--color-grey); margin-bottom: 2rem;">
-          The requested digital edition could not be located in the archive.
+          We couldn't find that e-book. It may have moved.
         </p>
         <button class="tamyiz-hero-btn-primary" onclick="window.tamyizApp.navigateTo('/editions')">
-          <span>Return to Editions</span>
+          <span>See all e-books</span>
           <span>→</span>
         </button>
       </div>
@@ -42,15 +42,13 @@ export function renderProductDetailPage(slug, appInstance) {
             <nav class="tamyiz-breadcrumbs" aria-label="Breadcrumb">
               <a href="/" class="crumb-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a>
               <span class="crumb-sep">/</span>
-              <a href="/editions" class="crumb-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">Editions</a>
-              <span class="crumb-sep">/</span>
-              <a href="/editions" class="crumb-link" onclick="event.preventDefault(); window.tamyizApp.filterCategoryAndNavigate('${product.categoryCode}')">${product.category}</a>
+              <a href="/editions" class="crumb-link" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">E-books</a>
               <span class="crumb-sep">/</span>
               <span class="crumb-current">${product.name}</span>
             </nav>
 
             <button class="tamyiz-btn-back-link" onclick="window.tamyizApp.navigateTo('/editions')">
-              <span>← Back to Editions</span>
+              <span>← All e-books</span>
             </button>
           </div>
         </div>
@@ -80,7 +78,7 @@ export function renderProductDetailPage(slug, appInstance) {
                     <button
                       class="tamyiz-pdp-thumb-btn ${idx === activeImgIndex ? 'active' : ''}"
                       onclick="window.tamyizApp.setPdpImage(${idx})"
-                      aria-label="View edition image ${idx + 1}"
+                      aria-label="View image ${idx + 1}"
                     >
                       <img src="${img}" alt="${product.name} view ${idx + 1}" />
                       <span class="tamyiz-thumb-label">${idx === 0 ? 'Cover Art' : 'Interior Sample'}</span>
@@ -94,7 +92,7 @@ export function renderProductDetailPage(slug, appInstance) {
                 <div class="tamyiz-pdp-sample-box mt-8">
                   <div class="tamyiz-pdp-sample-head">
                     <div>
-                      <span class="tamyiz-sample-kicker">${product.sampleExcerpt ? 'Interactive Atelier Preview' : 'Inside the book'}</span>
+                      <span class="tamyiz-sample-kicker">${product.sampleExcerpt ? 'Free sample' : 'Inside the book'}</span>
                       <h3 class="tamyiz-sample-title">${product.sampleExcerpt ? 'Read Sample Chapter &amp; Excerpt' : 'Chapters'}</h3>
                     </div>
                     <button class="tamyiz-sample-toggle-btn" id="sample-toggle-btn" onclick="window.tamyizApp.toggleSampleViewer()">
@@ -120,7 +118,7 @@ export function renderProductDetailPage(slug, appInstance) {
                               <path d="M2 22h20"></path>
                               <path d="M3 22L19 6a3 3 0 0 0-4.24-4.24L2 14.5V22z"></path>
                             </svg>
-                            Architectural Layout 300DPI
+                            Sample pages
                           </span>
                           <span>•</span>
                           <span style="display:inline-flex; align-items:center; gap:0.35rem;">
@@ -137,7 +135,7 @@ export function renderProductDetailPage(slug, appInstance) {
                     ${product.tableOfContents ? `
                       <div class="tamyiz-toc-box mt-6">
                         <h5 style="font-family: var(--font-sub); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.85rem; color: var(--color-black);">
-                          Architecture of Contents:
+                          Contents:
                         </h5>
                         <ul class="tamyiz-toc-list">
                           ${product.tableOfContents.map(toc => `

@@ -50,7 +50,7 @@ Redistribution, reselling, sub-licensing, torrenting, or public sharing of the P
       },
       {
         heading: '02. Refund & Cancellation Terms for Digital Assets',
-        content: `Because all TAMYIZ™ editions are delivered instantly as DRM-free PDF files that can't be returned, completed digital sales are final once the download link has been delivered, except in the cases below.`
+        content: `Because all TAMYIZ™ e-books are delivered instantly as DRM-free PDF files that can't be returned, completed digital sales are final once the download link has been delivered, except in the cases below.`
       },
       {
         heading: '03. When You Get a Refund (within 7 days)',
@@ -188,7 +188,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
         <div class="container max-w-4xl mx-auto px-4 sm:px-6">
           <div class="bg-white border border-neutral-200 p-6 sm:p-10 md:p-14 rounded-lg shadow-sm">
             <div class="flex justify-between items-center pb-6 mb-8 border-b border-neutral-200 text-xs font-mono text-neutral-500">
-              <span>${doc.code} // TAMYIZ</span>
+              <span>TAMYIZ policy</span>
               <span>EFFECTIVE: ${doc.lastUpdated}</span>
             </div>
 
@@ -199,7 +199,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
                     ${sec.heading}
                   </h2>
                   <div class="text-sm sm:text-base leading-relaxed text-neutral-700 whitespace-pre-line font-serif sm:font-sans">
-                    ${sec.content}
+                    ${sec.content.replace(/\n/g, '<br/>')}
                   </div>
                 </div>
               `).join('')}

@@ -14,7 +14,7 @@ export function preorderWhatsAppUrl(productName, variant) {
 export const siteConfig = {
   brandName: "TAMYIZ™",
   brandMonogram: "T•",
-  brandSubtitle: "Digital Publishing & Systems Architecture Atelier",
+  brandSubtitle: "Practical e-books by Sahil & Basit",
   location: "Sopore, Kashmir 193201, India",
   coordinates: "34.28° N, 74.46° E",
   founded: "Late 2025",
@@ -49,7 +49,7 @@ export const siteConfig = {
       fullName: "Sahil Naseer",
       role: "Co-Founder • AI/ML & Build",
       badge: "AI/ML & Build",
-      bio: "Sahil is the engineer behind TAMYIZ. Artificial intelligence and machine learning are his speciality, and they shape how he thinks: every problem is a system, and every system can be made cleaner, faster, and more precise. He leads the studio’s technical direction with one rule, which is that nothing stays unless it earns its place. Rigorous in method, exacting in detail, and uncompromising on quality. If it can be simplified, he simplifies it.",
+      bio: "Sahil is the engineer behind TAMYIZ. Artificial intelligence and machine learning are his speciality, and they shape how he thinks: every problem is a system, and every system can be made cleaner, faster, and more precise. He leads TAMYIZ’s technical direction with one rule, which is that nothing stays unless it earns its place. Rigorous in method, exacting in detail, and uncompromising on quality. If it can be simplified, he simplifies it.",
       image: "/assets/images/founders/sahil.webp",
       quote: "Every problem is a system, and every system can be made cleaner, faster, and more precise. Nothing stays unless it earns its place.",
       socials: {

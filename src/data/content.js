@@ -37,7 +37,7 @@ export const foundersData = {
       speciality: "AI/ML & Build",
       tagline: "AI/ML & Build",
       image: "/assets/images/founders/sahil.webp",
-      bio: "Sahil is the engineer behind TAMYIZ. Artificial intelligence and machine learning are his speciality, and they shape how he thinks: every problem is a system, and every system can be made cleaner, faster, and more precise. He leads the studio’s technical direction with one rule, which is that nothing stays unless it earns its place. Rigorous in method, exacting in detail, and uncompromising on quality. If it can be simplified, he simplifies it.",
+      bio: "Sahil is the engineer behind TAMYIZ. Artificial intelligence and machine learning are his speciality, and they shape how he thinks: every problem is a system, and every system can be made cleaner, faster, and more precise. He leads TAMYIZ’s technical direction with one rule, which is that nothing stays unless it earns its place. Rigorous in method, exacting in detail, and uncompromising on quality. If it can be simplified, he simplifies it.",
       quote: "Every problem is a system, and every system can be made cleaner, faster, and more precise. Nothing stays unless it earns its place.",
       socials: {
         instagram: "https://www.instagram.com/tamyiz.co/",
