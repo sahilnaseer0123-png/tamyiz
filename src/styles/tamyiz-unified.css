@@ -6354,46 +6354,11 @@ a.tamyiz-btn-preview-trigger { display: flex; align-items: center; justify-conte
 .tmz-hero-proof li { display: flex; align-items: center; gap: 0.5rem; }
 .tmz-hero-proof li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #000; }
 
-/* Translucent by default (no backdrop blur: CLAUDE.md rules it out on cards, it made phones stutter);
-   a click (anywhere but its links) turns it black and makes it float. JS: home-page.js */
 .tmz-about-card {
-  --tmz-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: #fff;
   border-radius: 24px;
   padding: 1.6rem;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), 0 30px 60px -36px rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.35s var(--tmz-ease), color 0.35s var(--tmz-ease), transform 0.35s var(--tmz-ease),
-    box-shadow 0.35s var(--tmz-ease), border-color 0.35s var(--tmz-ease);
-}
-.tmz-about-card h2, .tmz-about-card strong, .tmz-about-card span, .tmz-about-card q,
-.tmz-about-card a, .tmz-about-foot { transition: color 0.35s ease, border-color 0.35s ease; }
-.tmz-about-card.is-active {
-  background: #0a0a0a;
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 28px 60px -15px rgba(0, 0, 0, 0.55);
-  transform: translateY(-10px) scale(1.01);
-  animation: tmzCardFloat 3s ease-in-out infinite;
-}
-.tmz-about-card.is-active .tmz-about-head h2,
-.tmz-about-card.is-active .tmz-about-people strong,
-.tmz-about-card.is-active .tmz-about-foot a { color: #fff; }
-.tmz-about-card.is-active .tmz-about-head span,
-.tmz-about-card.is-active .tmz-about-people span,
-.tmz-about-card.is-active .tmz-about-foot .tmz-about-wa { color: #a3a3a3; }
-.tmz-about-card.is-active .tmz-about-foot .tmz-about-wa:hover { color: #fff; }
-.tmz-about-card.is-active .tmz-about-people q { color: #e5e5e5; }
-.tmz-about-card.is-active .tmz-about-foot { border-top-color: rgba(255, 255, 255, 0.14); }
-@keyframes tmzCardFloat {
-  0%, 100% { transform: translateY(-8px) scale(1.01); }
-  50% { transform: translateY(-15px) scale(1.01); }
-}
-/* People who turn off motion still get the black card and the lift, just no bobbing. */
-@media (prefers-reduced-motion: reduce) {
-  .tmz-about-card.is-active { animation: none; }
 }
 .tmz-about-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; }
 .tmz-about-head h2 { margin: 0; font-family: var(--font-sub); font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; text-transform: none; }
