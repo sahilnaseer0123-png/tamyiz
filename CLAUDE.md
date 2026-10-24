@@ -53,6 +53,11 @@ lost files are re-sent by hand on WhatsApp. Never say the link is "emailed" unti
 
 ## Razorpay activation (started 24 Oct 2026)
 
+Status 24 Oct 2026: website https://tamyiz.pages.dev/ approved by Razorpay; TEST keys added in Cloudflare
+(`RAZORPAY_KEY_ID` Text, `RAZORPAY_KEY_SECRET` Secret, Production). Swap both for live keys after the test purchase.
+While test keys are live, an on-sale book can be "bought" with Razorpay's public test UPI/cards: keep books
+"Coming soon" except during a test.
+
 Razorpay checks the site for these pages; give them these addresses:
 About `/atelier` · Contact `/legal/contact` · Pricing `/editions` · Terms `/legal/terms` · Privacy `/legal/privacy` ·
 Refunds `/legal/license` (titled "Refund, Cancellation & License Policy") · Shipping `/legal/delivery-protocol`
