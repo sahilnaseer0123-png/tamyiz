@@ -42,7 +42,7 @@ export const siteConfig = {
         linkedin: "https://www.linkedin.com/in/basit-najadi-93944a445",
         x: "https://x.com/Najadifbfw"
       },
-      email: "" // Basit's email: add it here and it appears on the site
+      email: "Lone24664@gmail.com"
     },
     sahil: {
       name: "Sahil",

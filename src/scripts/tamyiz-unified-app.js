@@ -2189,7 +2189,7 @@ class TamyizUnifiedApp {
     const whatsappUrl = this.generateWhatsAppLogUrl(result);
 
     this.openModalContent(`
-      <div class="tamyiz-unlock-modal" role="dialog" aria-modal="true">
+      <div class="tamyiz-unlock-modal" role="dialog" aria-modal="true" aria-label="Payment received">
         <div class="tamyiz-unlock-head">
           <div class="tamyiz-unlock-badge">
             <span style="color: #1E7B2E; font-size: 1.1rem; line-height: 1;">●</span>
@@ -2307,10 +2307,7 @@ class TamyizUnifiedApp {
     const validKey = legalDocs[tabKey] ? tabKey : 'delivery-protocol';
     const content = document.getElementById('tamyiz-modal-content');
     if (content) {
-      content.innerHTML = `
-        <button style="position: absolute; top: 1.25rem; right: 1.25rem; font-size: 1.25rem; background: none; border: none; cursor: pointer; padding: 0.25rem; color: var(--color-black);" onclick="window.tamyizApp.closeModal()" aria-label="Close modal">✕</button>
-        ${this.renderLegalModalContent(validKey)}
-      `;
+      content.innerHTML = this.renderLegalModalContent(validKey);
     }
   }
 
@@ -2325,20 +2322,17 @@ class TamyizUnifiedApp {
     ];
 
     return `
-      <div class="tamyiz-legal-modal-box" role="dialog" aria-modal="true">
+      <div class="tamyiz-legal-modal-box" role="dialog" aria-modal="true" aria-label="${doc.title}">
         <div class="tamyiz-legal-modal-head">
           <div>
-            <div style="font-family: monospace; font-size: 0.7rem; font-weight: 800; color: var(--color-red-ink); letter-spacing: 0.1em; text-transform: uppercase;">
-              TAMYIZ™ POLICIES // ${doc.code}
-            </div>
-            <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; text-transform: uppercase; margin: 0.25rem 0 0.15rem 0; color: #000;">
+            <h3 style="font-family: var(--font-sub); font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 0.25rem 0; color: #000;">
               ${doc.title}
             </h3>
-            <p style="font-size: 0.78rem; color: #666; font-family: monospace; margin: 0;">
+            <p style="font-size: 0.9rem; color: #55554F; margin: 0;">
               ${doc.subtitle}
             </p>
           </div>
-          <button style="background:none; border:none; font-size:1.25rem; cursor:pointer; padding: 0.25rem; line-height: 1;" onclick="window.tamyizApp.closeModal()" aria-label="Close modal">✕</button>
+          <button class="tmz-modal-close-inline" onclick="window.tamyizApp.closeModal()" aria-label="Close">✕</button>
         </div>
 
         <div class="tamyiz-legal-tabs-row">
@@ -2352,7 +2346,7 @@ class TamyizUnifiedApp {
         <div class="tamyiz-legal-modal-body" style="margin-bottom: 1.5rem;">
           ${doc.sections.map(sec => `
             <div class="tamyiz-legal-section-item">
-              <div class="tamyiz-legal-section-title">${sec.heading}</div>
+              <h4 class="tamyiz-legal-section-title">${sec.heading}</h4>
               <div class="tamyiz-legal-section-text">
                 <p>${sec.content.replace(/\n/g, '<br/>')}</p>
               </div>
@@ -2430,8 +2424,10 @@ class TamyizUnifiedApp {
     const modal = document.getElementById('tamyiz-modal');
     const content = document.getElementById('tamyiz-modal-content');
     if (modal && content) {
+      // One close button only: pop-ups that draw their own ✕ (policies, payment received) don't get a second one.
+      const hasOwnClose = html.includes('window.tamyizApp.closeModal()" aria-label=');
       content.innerHTML = `
-        <button style="position: absolute; top: 1.25rem; right: 1.25rem; font-size: 1.25rem; background: none; border: none; cursor: pointer; padding: 0.25rem; color: var(--color-black);" onclick="window.tamyizApp.closeModal()" aria-label="Close modal">✕</button>
+        ${hasOwnClose ? '' : '<button class="tmz-modal-close" onclick="window.tamyizApp.closeModal()" aria-label="Close">✕</button>'}
         ${html}
       `;
       modal.classList.add('active');
