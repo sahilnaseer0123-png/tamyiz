@@ -3,7 +3,7 @@
  * Route: /checkout
  */
 
-import { store } from '../store.js';
+import { store, hasCoupons } from '../store.js';
 import { brandInfo } from '../../data/content.js';
 import { siteConfig } from '../../data/site-config.js';
 
@@ -187,8 +187,8 @@ export function renderCheckoutPage(appInstance) {
                   `).join('')}
                 </div>
 
-                <!-- Coupon Section -->
-                <div class="tamyiz-summary-coupon-box">
+                <!-- Coupon Section (only when a promo code exists) -->
+                <div class="tamyiz-summary-coupon-box" style="${hasCoupons() || coupon ? '' : 'display: none;'}">
                   ${coupon ? `
                     <div class="flex justify-between items-center text-sm" style="color: #1E7B2E; font-weight: 700;">
                       <div class="flex items-center gap-1.5">

@@ -10,6 +10,7 @@ const MAX_PDF = 25 * 1024 * 1024;
 let books = [];
 let editing = null; // the e-book being edited, or null when adding
 let coverBlob = null; // resized cover, ready to upload
+let thumbBlob = null; // small version of it for the shop's cards and bag
 
 function message(el, text, kind = 'error') {
   el.replaceChildren();
@@ -70,6 +71,21 @@ async function openList(note = '', kind = 'warn') {
   books = r.data.products || [];
   message($('list-msg'), note, kind);
   drawList();
+  makeMissingThumbs();
+}
+
+// Books added before small covers existed get one now, made from their full cover (quietly, once each).
+async function makeMissingThumbs() {
+  for (const b of books.filter((x) => x.coverUrl && !x.thumbType)) {
+    try {
+      const img = await fetch(b.coverUrl);
+      if (!img.ok) continue;
+      const { blob } = await shrink(await createImageBitmap(await img.blob()), 720, 0.8);
+      const data = new FormData();
+      data.append('thumb', blob, 'thumb.jpg');
+      await fetch(`/api/admin/products/${b.id}/thumb`, { method: 'POST', headers: { 'X-Tamyiz-Admin': '1' }, body: data, credentials: 'same-origin' });
+    } catch { /* not important: the shop falls back to the full cover */ }
+  }
 }
 
 function drawList() {
@@ -150,19 +166,27 @@ function openForm(b) {
   $('f-name').focus();
 }
 
-// Covers are shrunk in the browser (max 1200 px tall/wide) so the shop stays fast.
+// Draw an image no bigger than maxSide on either edge, as a JPEG.
+async function shrink(bmp, maxSide, quality) {
+  const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(bmp.width * scale);
+  canvas.height = Math.round(bmp.height * scale);
+  canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
+  const blob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', quality));
+  return { blob, canvas };
+}
+
+// Covers are shrunk in the browser (max 1200 px) so the shop stays fast, plus a 720 px version for cards and the bag.
 $('f-cover').addEventListener('change', async () => {
   const file = $('f-cover').files[0];
-  coverBlob = null;
+  coverBlob = null; thumbBlob = null;
   if (!file) return;
   try {
     const bmp = await createImageBitmap(file);
-    const scale = Math.min(1, 1200 / Math.max(bmp.width, bmp.height));
-    const canvas = document.createElement('canvas');
-    canvas.width = Math.round(bmp.width * scale);
-    canvas.height = Math.round(bmp.height * scale);
-    canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
-    coverBlob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', 0.86));
+    const { blob, canvas } = await shrink(bmp, 1200, 0.86);
+    coverBlob = blob;
+    thumbBlob = (await shrink(bmp, 720, 0.8)).blob;
     $('cover-img').src = URL.createObjectURL(coverBlob);
     $('cover-note').textContent = `New cover, ${canvas.width}×${canvas.height}, ${Math.round(coverBlob.size / 1024)} KB.`;
     $('cover-preview').hidden = false;
@@ -198,6 +222,7 @@ $('book-form').addEventListener('submit', (e) => {
   for (const k of ['name', 'tagline', 'price', 'pages', 'description', 'contents']) data.append(k, $(`f-${k}`).value);
   data.append('status', status);
   if (coverBlob) data.append('cover', coverBlob, 'cover.jpg');
+  if (coverBlob && thumbBlob) data.append('thumb', thumbBlob, 'thumb.jpg');
   if ($('f-pdf').files[0]) data.append('pdf', $('f-pdf').files[0]);
 
   // XMLHttpRequest, because it can report upload progress for big PDFs.

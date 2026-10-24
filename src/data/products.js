@@ -15,11 +15,17 @@ export async function loadProducts(timeoutMs = 6000) {
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     products.splice(0, products.length, ...(Array.isArray(data.products) ? data.products : []));
+    loadState.failed = false;
   } catch (err) {
+    // Network down, server error or timeout: the shop must say so, not pretend it has no books.
     console.warn('Could not load ebooks:', err.message);
+    loadState.failed = true;
   }
   return products;
 }
+
+/** Whether the last attempt to load the e-books failed (see the "Couldn't load" state on home and /editions). */
+export const loadState = { failed: false };
 
 export function findProductBySlugOrId(identifier) {
   if (!identifier) return null;

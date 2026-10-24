@@ -21,8 +21,20 @@
   <link rel="stylesheet" href="/src/styles/tamyiz-unified.css" />
 </head>
 <body>
-  <!-- App Container -->
-  <div id="app"></div>
+  <!-- App Container. The placeholder below shows instantly (no white screen on slow connections);
+       the app replaces it as soon as the e-books have loaded. -->
+  <div id="app">
+    <div class="tmz-boot" role="status" aria-label="Loading TAMYIZ">
+      <div class="tmz-boot-head"><img src="/assets/brand/tamyiz-dome-sm.webp" alt="" width="58" height="17" /><img src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="96" height="16" /></div>
+      <div class="tmz-boot-progress"></div>
+      <div class="tmz-boot-body">
+        <span class="tmz-boot-line" style="width: 46%"></span>
+        <span class="tmz-boot-line" style="width: 62%"></span>
+        <span class="tmz-boot-line tmz-boot-thin" style="width: 38%"></span>
+      </div>
+      <noscript><p class="tmz-boot-noscript">TAMYIZ needs JavaScript to show the shop. Turn it on, or WhatsApp us on +91 95417 22379.</p></noscript>
+    </div>
+  </div>
 
   <!-- Unified TAMYIZ Script Entrypoint -->
   <script type="module" src="/src/scripts/tamyiz-unified-app.js"></script>

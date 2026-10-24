@@ -3,10 +3,13 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   handleCreateOrder, handleVerifyPayment, hmacSha256Hex, timingSafeEqual,
-  itemsToNotes, notesToItems, calculateOrderTotal,
+  itemsToNotes, notesToItems, calculateOrderTotal, VALID_COUPONS,
 } from '../server/payments.js';
 import { route } from '../server/router.js';
 import { devKV } from '../server/dev-kv.js';
+
+// The shop has no public promo codes; tests use their own.
+VALID_COUPONS.TESTCODE15 = { type: 'percent', value: 15 };
 
 const post = (body) => new Request('https://shop.test/api/x', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 const buyer = { email: 'a@b.co', phone: '9876543210' };
@@ -150,14 +153,14 @@ test('unknown or deleted books are refused', async () => {
 
 test('prices come from the catalogue, not the cart; one copy per book', async () => {
   const catalog = [{ id: 'eb-onsale1', name: 'x', price: 299, status: 'on-sale' }];
-  const t = calculateOrderTotal([{ productId: 'eb-onsale1', price: 1 }, { productId: 'eb-onsale1' }], 'TAMYIZ15', catalog);
+  const t = calculateOrderTotal([{ productId: 'eb-onsale1', price: 1 }, { productId: 'eb-onsale1' }], 'TESTCODE15', catalog);
   assert.equal(t.subtotal, 299);
   assert.equal(t.total, 254);
 });
 
 test('verification returns prices for the receipt screen', async () => {
   const env = await shop(KEYS); const rz = fakeRazorpay();
-  const { verify } = await paidOrder(env, rz, cart, 'TAMYIZ15');
+  const { verify } = await paidOrder(env, rz, cart, 'TESTCODE15');
   const res = await (await handleVerifyPayment(verify, env, rz.fetchImpl)).json();
   assert.equal(res.amount, 25400);
   assert.equal(res.totalINR, 254);
@@ -187,4 +190,11 @@ test('helpers', async () => {
   assert.ok(!timingSafeEqual('abc', 'abd'));
   assert.ok(!timingSafeEqual('abc', 'abcd'));
   assert.equal(await hmacSha256Hex('Jefe', 'what do ya want for nothing?'), '5bdcc146bf60754e6a042426089575c75a003f089d2739839dec58b964ec3843');
+});
+
+test('the template\'s public promo codes no longer give a discount', () => {
+  const catalog = [{ id: 'eb-onsale1', name: 'x', price: 299, status: 'on-sale' }];
+  for (const code of ['TAMYIZ15', 'WELCOME10', 'DISTINCT10', 'DISTINCT', 'HORIZON500']) {
+    assert.equal(calculateOrderTotal([{ productId: 'eb-onsale1' }], code, catalog).total, 299, code);
+  }
 });

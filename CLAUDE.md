@@ -5,7 +5,7 @@ sold with Razorpay and delivered as private signed download links.
 
 ## Stack
 
-- Vite single-page app (plain JavaScript, no framework) + three.js for the hero. `npm run dev` for local work.
+- Vite single-page app (plain JavaScript, no framework). `npm run dev` for local work. (three.js and the grain-sparks script were removed 24 Oct 2026: unused.)
 - Hosting (moved from Vercel 23 Oct 2026): Cloudflare Pages, free plan (Vercel's free plan forbids business sites).
   Build `npm run build` (= `vite build` + `scripts/build-pages.js`), output `dist`. Production branch: `main`
   (Settings → Build → Branch control); pushes to any other branch only make Preview builds.
@@ -22,6 +22,8 @@ sold with Razorpay and delivered as private signed download links.
 
 - The 8 template products are gone. Every e-book is added on `/admin` (`admin.html`, `src/admin/admin.js`): title,
   one-line summary, price, pages, description, chapters, cover (shrunk to 1200 px in the browser), PDF (max 25 MB).
+- Small covers: /admin also makes a 720 px `thumb:<id>` (served at `/api/cover/<id>?s=sm`); cards and the bag use
+  `product.thumb` (falls back to the full cover). Opening /admin backfills thumbs for books that lack one.
 - Storage: Cloudflare KV, binding `TAMYIZ_STORE` (free; 1 GB, 25 MiB per value, 1,000 writes/day). Keys: `products`
   (JSON list), `cover:<id>`, `file:<id>`. See `server/catalog.js`. Locally: `.local-store/` (`server/dev-kv.js`).
 - Status per e-book: `draft` (admin only) · `soon` (shop, "Pre-order on WhatsApp") · `on-sale` (buyable; needs the PDF).
@@ -81,7 +83,7 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
 - Black and white. The only colour is the logo's red grain (and book covers further down the page). The old red accent
   variables (`--color-red`, `--color-red-ink`...) now map to black/white in the "REDESIGN 24 Oct 2026" block at the end
   of tamyiz-unified.css; new rules go in that block. Success states (paid, toast) keep their green.
-- Logo: `public/assets/brand/tamyiz-dome-red.webp` (Sahil's red emblem, cropped so the dome is centred) +
+- Logo: `public/assets/brand/tamyiz-dome-sm.webp` (Sahil's red emblem, cropped so the dome is centred, 240 px, 8 KB) +
   `tamyiz-wordmark.svg`, in the header on every page (phones: icon-only menu/bag so it fits).
 - Home hero (24 Oct 2026, approved): headline "Learn to tell the difference." (what *Tamyiz* means), the existing
   lede, two buttons, and a proof line counted from the catalogue (`heroProof()`: e-book count, total pages only when
@@ -97,6 +99,12 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
 - Headings are sentence case everywhere; page banners are light like the About intro (CSS "Calm type everywhere" block).
 - Frosted glass (`.tmz-glass`): the header only for now.
 - Hidden menu/bag drawers are `visibility: hidden` with no shadow until opened (their shadows used to leak onto the page edges).
+
+- Start-up: index.html holds a placeholder (logo + loading bar) so slow connections never see a white page; the app
+  replaces it once /api/products answers. If that fails, home and /editions say "Couldn't load the e-books" with a
+  Try again button (`loadState.failed`, `retryProducts()`), never "first e-books on the way".
+- Browser storage can be blocked: every localStorage call must be in try/catch (a throw once stopped checkout).
+- Fonts: Inter + Space Grotesk only (Syne dropped; the footer wordmark is the SVG).
 
 ## Phone layout and shared content (24 Oct 2026)
 
@@ -121,8 +129,10 @@ tamyiz-unified.css). Don't ship below this.
 2. With Razorpay keys set: unlock only after the HMAC signature matches (Web Crypto, constant-time compare) AND
    Razorpay's API confirms the payment belongs to that order, is authorized/captured, and covers the order amount.
 3. What gets unlocked is read back from the Razorpay order notes written at creation (`itemsToNotes`/`notesToItems`).
-4. Prices come from the catalogue in KV (set on /admin), read by the server at order time; coupons live only in
-   `server/payments.js` (`VALID_COUPONS`). The browser's prices are display-only.
+4. Prices come from the catalogue in KV (set on /admin), read by the server at order time. The bag refreshes every
+   item's price from the catalogue on load (`store.pruneUnavailable`), so it always shows what will be charged.
+   Promo codes: none (the template's were public and gave 10–15% off; removed 24 Oct 2026). To add one, put the same
+   code in `VALID_COUPONS` (server/payments.js) and `AVAILABLE_COUPONS` (store.js); the promo box shows only then.
 5. The sandbox simulator (free unlock, for testing) runs only when `TAMYIZ_SANDBOX=true`. Never set it in production.
    Without keys and without sandbox, checkout returns a polite 503 pointing buyers to WhatsApp.
 6. Never commit keys. The repo is public.

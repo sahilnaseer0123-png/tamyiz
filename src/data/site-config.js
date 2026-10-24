@@ -61,9 +61,6 @@ export const siteConfig = {
     }
   },
 
-  // Atelier Visuals
-  atelierStudioImage: "/assets/images/sopore-atelier.webp",
-
   // Social Links
   socials: {
     instagram: "https://www.instagram.com/tamyiz.co/",

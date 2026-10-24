@@ -10,13 +10,12 @@
  *   /checkout      -> Dedicated Instant Digital Checkout Page
  */
 
-import { TamyizLogoSparks } from './tamyiz-logo-sparks.js';
 import { pageMeta, SITE_URL } from '../data/seo.js';
 import { renderNotFoundPage } from './pages/not-found-page.js';
 import { products, loadProducts, findProductBySlugOrId, isAvailable, anyAvailable, buyLabel } from '../data/products.js';
 import { foundersData, brandInfo, policies } from '../data/content.js';
 import { siteConfig, preorderWhatsAppUrl } from '../data/site-config.js';
-import { store } from './store.js';
+import { store, hasCoupons } from './store.js';
 
 import { renderHomePage } from './pages/home-page.js';
 import { renderEditionsPage } from './pages/editions-page.js';
@@ -34,8 +33,6 @@ class TamyizUnifiedApp {
     this.currentSlug = null;
     this.confirmedOrder = null;
 
-    this.hero3D = null;
-    this.logoSparks = null;
     this.activeCategory = 'all'; // 'all' | 'ebooks' | 'notion' | 'design'
     this.searchQuery = '';
     this.sortBy = 'featured'; // 'featured' | 'price-asc' | 'price-desc'
@@ -290,7 +287,7 @@ class TamyizUnifiedApp {
 
             <!-- Desktop Left Brand -->
             <a href="/" class="tamyiz-header-brand tamyiz-header-brand-desktop" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">
-              <img class="tmz-brand-dome" src="/assets/brand/tamyiz-dome-red.webp" alt="" width="68" height="20" />
+              <img class="tmz-brand-dome" src="/assets/brand/tamyiz-dome-sm.webp" alt="" width="68" height="20" />
               <img class="tmz-brand-word" src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ home" width="96" height="16" />
             </a>
           </div>
@@ -322,7 +319,7 @@ class TamyizUnifiedApp {
       <div class="tamyiz-mobile-drawer-backdrop" id="mobile-drawer-backdrop" onclick="window.tamyizApp.closeMobileMenu()"></div>
       <aside class="tamyiz-mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
         <div class="tamyiz-mobile-drawer-head">
-          <span class="tmz-drawer-brand"><img src="/assets/brand/tamyiz-dome-red.webp" alt="" width="48" height="14" /><img src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="84" height="14" /></span>
+          <span class="tmz-drawer-brand"><img src="/assets/brand/tamyiz-dome-sm.webp" alt="" width="48" height="14" /><img src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="84" height="14" /></span>
           <button style="font-size: 1.25rem; background: none; border: none; cursor: pointer; padding: 0.25rem;" onclick="window.tamyizApp.closeMobileMenu()" aria-label="Close menu">✕</button>
         </div>
         <div class="tamyiz-mobile-drawer-body">
@@ -413,8 +410,8 @@ class TamyizUnifiedApp {
             <span id="cart-total">₹0</span>
           </div>
 
-          <!-- Promo code row -->
-          <div style="display: flex; gap: 0.4rem; margin-bottom: 0.4rem;">
+          <!-- Promo code row (only when a promo code exists: see VALID_COUPONS in server/payments.js) -->
+          <div style="display: ${hasCoupons() ? 'flex' : 'none'}; gap: 0.4rem; margin-bottom: 0.4rem;">
             <input type="text" id="coupon-input" placeholder="PROMO CODE" style="flex-grow: 1; padding: 0.55rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0; text-transform: uppercase; font-family: monospace; font-size: 14px;" onkeydown="if(event.key==='Enter') window.tamyizApp.applyCoupon();" />
             <button id="btn-apply-drawer-coupon" style="background: var(--color-black); color: #FFF; padding: 0 0.95rem; border-radius: 0; font-family: monospace; font-size: 0.72rem; font-weight: 800; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase;" onclick="window.tamyizApp.applyCoupon()">Apply</button>
           </div>
@@ -475,7 +472,7 @@ class TamyizUnifiedApp {
 
           <div class="tamyiz-footer-grid">
             <div class="tamyiz-footer-brand">
-              <h2>TAMYIZ™</h2>
+              <h2><img class="tmz-footer-wordmark" src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="150" height="25" loading="lazy" /></h2>
               <p>
                 Practical e-books by Sahil &amp; Basit.<br/>
                 Email: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline; white-space: nowrap;">${siteConfig.email}</a><br/>
@@ -556,27 +553,10 @@ class TamyizUnifiedApp {
       header.classList.toggle('is-home-page', this.currentPage === 'home');
     }
 
-    // Clean up 3D and sparks if moving away from home
-    if (this.currentPage !== 'home') {
-      if (this.hero3D) {
-        this.hero3D.destroy();
-        this.hero3D = null;
-      }
-      if (this.logoSparks) {
-        this.logoSparks.destroy();
-        this.logoSparks = null;
-      }
-    }
-
     // Render corresponding page
     switch (this.currentPage) {
       case 'home':
         mainEl.innerHTML = renderHomePage(this);
-        // Mount 3D and sparks on home
-        setTimeout(() => {
-          this.initHero3D();
-          this.initLogoSparks();
-        }, 50);
         break;
 
       case 'editions':
@@ -658,26 +638,6 @@ class TamyizUnifiedApp {
       }
     } else if (this.currentPage === 'atelier') {
       links.atelier && links.atelier.classList.add('active');
-    }
-  }
-
-  initHero3D() {
-    const container = document.getElementById('tamyiz-3d-canvas-container');
-    if (container) {
-      // three.js is large, so it is only downloaded when a page actually has the 3D canvas.
-      import('./tamyiz-hero-3d.js').then(({ TamyizHero3D }) => {
-        if (!document.body.contains(container)) return;
-        if (this.hero3D) this.hero3D.destroy();
-        this.hero3D = new TamyizHero3D(container);
-      });
-    }
-  }
-
-  initLogoSparks() {
-    const canvas = document.getElementById('tamyiz-logo-sparks-canvas');
-    if (canvas) {
-      if (this.logoSparks) this.logoSparks.destroy();
-      this.logoSparks = new TamyizLogoSparks(canvas);
     }
   }
 
@@ -1493,10 +1453,13 @@ class TamyizUnifiedApp {
       return;
     }
 
-    // Persist buyer coordinates in localStorage
-    localStorage.setItem('tamyiz_buyer_name', name);
-    localStorage.setItem('tamyiz_buyer_email', email);
-    localStorage.setItem('tamyiz_buyer_phone', phone);
+    // Remember the details for next time. Some browsers block storage (private mode, blocked site data):
+    // that must never stop the payment, so failures are ignored.
+    try {
+      localStorage.setItem('tamyiz_buyer_name', name);
+      localStorage.setItem('tamyiz_buyer_email', email);
+      localStorage.setItem('tamyiz_buyer_phone', phone);
+    } catch (_) {}
 
     const submitBtn = document.querySelector('.tamyiz-btn-submit-order');
     const submitLabel = document.getElementById('checkout-submit-label');
@@ -1751,6 +1714,14 @@ class TamyizUnifiedApp {
   resetOrderAndReturnHome() {
     this.confirmedOrder = null;
     this.navigateTo('/editions');
+  }
+
+  /** "Try again" on the shop's error state: reload the e-books and redraw the page and header. */
+  async retryProducts() {
+    await loadProducts();
+    store.pruneUnavailable();
+    this.renderShell();
+    this.handleLocationChange(false);
   }
 
   // Contact form handler in Atelier

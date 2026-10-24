@@ -4,7 +4,7 @@
  */
 
 import { products } from '../../data/products.js';
-import { renderProductCardHtml } from './home-page.js';
+import { renderProductCardHtml, emptyShopBlock } from './home-page.js';
 import { siteConfig } from '../../data/site-config.js';
 
 export function renderEditionsPage(appInstance) {
@@ -33,7 +33,7 @@ export function renderEditionsPage(appInstance) {
       <section id="editions-catalog" class="tamyiz-section py-10 md:py-16 scroll-mt-24" style="background: var(--color-offwhite);">
         <div class="container">
           <!-- Live Search & Sorting Toolbar -->
-          <div class="tamyiz-collection-toolbar flex flex-col sm:flex-row gap-3 w-full">
+          <div class="tamyiz-collection-toolbar flex flex-col sm:flex-row gap-3 w-full"${products.length ? '' : ' hidden'}>
             <div class="tamyiz-search-box relative flex-1 w-full sm:min-w-[240px] sm:max-w-md">
               <span class="tamyiz-search-icon absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -46,7 +46,7 @@ export function renderEditionsPage(appInstance) {
                 id="artifact-search-input"
                 class="tamyiz-search-input w-full pl-10 pr-9 py-2.5 bg-white border border-gray-300 rounded-full text-sm text-black placeholder-gray-400 transition-all focus:ring-2 focus:ring-black focus:outline-none focus:border-transparent"
                 placeholder="Search e-books"
-                value="${appInstance.searchQuery}"
+                value="${String(appInstance.searchQuery).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')}"
                 oninput="window.tamyizApp.handleSearch(this.value)"
                 aria-label="Search e-books"
               />
@@ -69,35 +69,23 @@ export function renderEditionsPage(appInstance) {
           </div>
 
           <!-- Status Indicator -->
-          <div class="tamyiz-collection-status" id="collection-status">
+          <div class="tamyiz-collection-status" id="collection-status"${products.length ? '' : ' hidden'}>
             ${appInstance.getCollectionStatusText()}
           </div>
 
           <!-- Product Grid (Rule 4: Equal-Height Cards) -->
           <h2 class="sr-only">All e-books</h2>
           <div class="tamyiz-product-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-8" id="product-grid">
-            ${products.length === 0 ? `
-              <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem; background: #FFFFFF; border: 1px dashed var(--color-border); border-radius: 6px;">
-                <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">
-                  First e-books on the way
-                </div>
-                <p style="color: var(--color-grey); font-size: 0.95rem; margin: 0 auto 1.5rem; max-width: 30rem;">
-                  We are writing them now. Message us on WhatsApp and we will tell you the day the first one is out.
-                </p>
-                <a class="tamyiz-btn-nav-outline" href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-flex;">
-                  Tell me when it's out ↗
-                </a>
-              </div>
-            ` : filteredList.length === 0 ? `
+            ${products.length === 0 ? emptyShopBlock() : filteredList.length === 0 ? `
               <div style="grid-column: 1 / -1; text-align: center; padding: 4.5rem 1.5rem; background: #FFFFFF; border: 1px dashed var(--color-border); border-radius: 6px;">
                 <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">
-                  No Editions Found
+                  No e-books match your search
                 </div>
                 <p style="color: var(--color-grey); font-size: 0.88rem; margin-bottom: 1.5rem;">
-                  No publications or systems match your current search criteria.
+                  Try a different word, or see every e-book.
                 </p>
                 <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.resetAllFilters()">
-                  Reset All Filters
+                  Show all e-books
                 </button>
               </div>
             ` : filteredList.map(p => renderProductCardHtml(p, appInstance)).join('')}

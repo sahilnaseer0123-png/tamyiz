@@ -4,6 +4,7 @@
  * KV keys
  *   products        JSON list of every ebook record (one key, so the shop needs one read per visit)
  *   cover:<id>      cover image bytes  (metadata: { type })
+ *   thumb:<id>      small cover for cards and the bag, made in the browser on /admin (metadata: { type })
  *   file:<id>       the PDF bytes      (metadata: { type, name, size })
  *
  * Status of an ebook
@@ -50,6 +51,8 @@ const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 /** What the shop (and anyone) may see: no drafts, no file keys. Text is HTML-escaped (the shop draws with innerHTML). */
 export function publicProduct(p) {
   const cover = p.coverType ? `/api/cover/${p.id}?v=${p.updatedAt}` : '/og/tamyiz.jpg';
+  // Cards and the bag use the small version when it exists (about a quarter of the bytes); the product page uses the full cover.
+  const thumb = p.thumbType ? `/api/cover/${p.id}?s=sm&v=${p.thumbAt || p.updatedAt}` : cover;
   const specs = [{ label: 'Format', value: 'PDF e-book, instant download after payment' }];
   if (p.pages) specs.push({ label: 'Pages', value: `${p.pages}` });
   specs.push({ label: 'Reads on', value: 'Phone, tablet, laptop, Kindle (send-to-Kindle), Apple Books' });
@@ -67,6 +70,7 @@ export function publicProduct(p) {
     available: p.status === 'on-sale',
     status: p.status,
     images: [cover],
+    thumb,
     tableOfContents: Array.isArray(p.contents) ? p.contents.map(esc) : [],
     specifications: specs,
     fileSpecs: `PDF e-book${p.pages ? ` • ${p.pages} pages` : ''} • Instant download`,

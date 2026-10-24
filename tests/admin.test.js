@@ -138,3 +138,27 @@ test('without storage connected the shop is empty and admin explains why', async
   assert.equal(r.status, 503);
   assert.match((await r.json()).error, /TAMYIZ_STORE/);
 });
+
+test('small covers: saved with a new cover, served with ?s=sm, made later for old books, removed on delete', async () => {
+  const e = env(); const cookie = await session(e);
+  const THUMB = new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 0, 16, 74, 70, 73, 70, 0, 2]);
+  // An old book: cover only. Its cards fall back to the full cover.
+  const { product } = await (await save(e, cookie, form({ status: 'soon' }, { cover: [JPEG, 'c.jpg'] }))).json();
+  let shop = (await (await call(e, '/api/products')).json()).products[0];
+  assert.equal(shop.thumb, shop.images[0]);
+  // /admin makes the small version.
+  const f = new FormData(); f.append('thumb', new Blob([THUMB]), 't.jpg');
+  assert.equal((await call(e, `/api/admin/products/${product.id}/thumb`, { method: 'POST', headers: authed(cookie), body: f })).status, 200);
+  shop = (await (await call(e, '/api/products')).json()).products[0];
+  assert.match(shop.thumb, /s=sm/);
+  assert.equal(new Uint8Array(await (await call(e, shop.thumb)).arrayBuffer())[11], 2);
+  // The thumb route needs a login like every other change.
+  assert.equal((await call(e, `/api/admin/products/${product.id}/thumb`, { method: 'POST', body: new FormData() })).status, 401);
+  // A new cover without a thumb drops the old one (it would show the old picture).
+  await save(e, cookie, form({ status: 'soon' }, { cover: [JPEG, 'c2.jpg'] }), product.id);
+  assert.equal(await e.TAMYIZ_STORE.get(`thumb:${product.id}`), null);
+  // Delete removes it too.
+  await call(e, `/api/admin/products/${product.id}/thumb`, { method: 'POST', headers: authed(cookie), body: f });
+  await call(e, `/api/admin/products/${product.id}`, { method: 'DELETE', headers: authed(cookie) });
+  assert.equal(await e.TAMYIZ_STORE.get(`thumb:${product.id}`), null);
+});

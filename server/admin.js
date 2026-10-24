@@ -16,6 +16,7 @@ const COOKIE = 'tmz_admin';
 const SESSION_SECONDS = 12 * 60 * 60;
 const MIN_PASSWORD = 12;
 const MAX_FAILS = 10;
+const MAX_THUMB_BYTES = 400 * 1024;
 
 // TAMYIZ_ADMIN_PASSWORD is accepted too: Cloudflare's dashboard once kept a ghost "ADMIN_PASSWORD" it wouldn't show.
 const adminPassword = (env) => String(env.TAMYIZ_ADMIN_PASSWORD || env.ADMIN_PASSWORD || '');
@@ -101,10 +102,11 @@ async function saveProduct(request, env, id) {
   let form;
   try { form = await request.formData(); } catch { return json({ error: 'Could not read the upload. Try again.' }, 400); }
 
-  let fields, cover, pdf;
+  let fields, cover, thumb, pdf;
   try {
     fields = readFields(form);
     cover = await fileFrom(form, 'cover', MAX_COVER_BYTES, ['image/jpeg', 'image/png', 'image/webp'], 'The cover');
+    thumb = await fileFrom(form, 'thumb', MAX_THUMB_BYTES, ['image/jpeg', 'image/png', 'image/webp'], 'The small cover');
     pdf = await fileFrom(form, 'pdf', MAX_PDF_BYTES, ['application/pdf'], 'The ebook file');
   } catch (err) {
     return json({ error: err.message }, 400);
@@ -122,6 +124,14 @@ async function saveProduct(request, env, id) {
   if (cover) {
     await kv.put(`cover:${rec.id}`, cover.bytes, { metadata: { type: cover.type } });
     rec.coverType = cover.type;
+    // A new cover makes the old small version wrong: replace it, or drop it until /admin makes a new one.
+    if (thumb) {
+      await kv.put(`thumb:${rec.id}`, thumb.bytes, { metadata: { type: thumb.type } });
+      Object.assign(rec, { thumbType: thumb.type, thumbAt: now });
+    } else if (rec.thumbType) {
+      await kv.delete(`thumb:${rec.id}`);
+      rec.thumbType = null;
+    }
   }
   if (pdf) {
     await kv.put(`file:${rec.id}`, pdf.bytes, { metadata: { type: pdf.type, name: pdf.name, size: pdf.size } });
@@ -139,12 +149,31 @@ async function saveProduct(request, env, id) {
 const statusName = (s) => ({ draft: 'Draft', soon: 'Coming soon', 'on-sale': 'On sale' })[s] || s;
 const upsert = (list, rec) => [rec, ...list.filter((p) => p.id !== rec.id)].sort((a, b) => b.createdAt - a.createdAt);
 
+/** Store a small cover for an existing book (/admin makes these for books added before thumbnails existed). */
+async function saveThumb(request, env, id) {
+  const kv = store(env);
+  let form;
+  try { form = await request.formData(); } catch { return json({ error: 'Could not read the upload.' }, 400); }
+  let thumb;
+  try { thumb = await fileFrom(form, 'thumb', MAX_THUMB_BYTES, ['image/jpeg', 'image/png', 'image/webp'], 'The small cover'); }
+  catch (err) { return json({ error: err.message }, 400); }
+  if (!thumb) return json({ error: 'No image.' }, 400);
+  const list = await loadCatalog(env);
+  const rec = findById(list, id);
+  if (!rec) return json({ error: 'That ebook no longer exists.' }, 404);
+  if (!rec.coverType) return json({ error: 'This e-book has no cover.' }, 409);
+  await kv.put(`thumb:${id}`, thumb.bytes, { metadata: { type: thumb.type } });
+  const updated = { ...rec, thumbType: thumb.type, thumbAt: Date.now() };
+  await saveCatalog(env, list.map((p) => (p.id === id ? updated : p)));
+  return json({ ok: true, product: adminView(updated) });
+}
+
 async function deleteProduct(env, id) {
   const kv = store(env);
   const list = await loadCatalog(env);
   if (!findById(list, id)) return json({ error: 'That ebook no longer exists.' }, 404);
   await saveCatalog(env, list.filter((p) => p.id !== id));
-  await Promise.all([kv.delete(`cover:${id}`), kv.delete(`file:${id}`)]);
+  await Promise.all([kv.delete(`cover:${id}`), kv.delete(`thumb:${id}`), kv.delete(`file:${id}`)]);
   return json({ ok: true });
 }
 
@@ -163,6 +192,8 @@ export async function handleAdmin(request, env, rest) {
     }
     if (rest === 'products' && method === 'GET') return json({ products: (await loadCatalog(env)).map(adminView) });
     if (rest === 'products' && method === 'POST') return await saveProduct(request, env, null);
+    const t = rest.match(/^products\/([a-z0-9-]{3,40})\/thumb$/);
+    if (t && method === 'POST') return await saveThumb(request, env, t[1]);
     const m = rest.match(/^products\/([a-z0-9-]{3,40})$/);
     if (m && method === 'POST') return await saveProduct(request, env, m[1]);
     if (m && method === 'DELETE') return await deleteProduct(env, m[1]);

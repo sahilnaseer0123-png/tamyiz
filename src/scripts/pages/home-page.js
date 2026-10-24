@@ -3,7 +3,7 @@
  * Route: /
  */
 
-import { products, isAvailable, anyAvailable, buyLabel } from '../../data/products.js';
+import { products, isAvailable, anyAvailable, buyLabel, loadState } from '../../data/products.js';
 import { siteConfig } from '../../data/site-config.js';
 import { store } from '../store.js';
 import { principlesSection, formatGuideSection } from './sections.js';
@@ -17,6 +17,24 @@ function heroProof() {
   items.push('Written by Sahil &amp; Basit');
   items.push(anyAvailable() ? 'Instant PDF download' : 'Pre-order on WhatsApp');
   return items.map((t) => `<li>${t}</li>`).join('');
+}
+
+/** What the shop shows with no books: an honest error with "Try again" if loading failed, else "first e-books on the way". */
+export function emptyShopBlock() {
+  if (loadState.failed) {
+    return `
+              <div class="tmz-shop-empty" role="alert">
+                <h3>Couldn't load the e-books</h3>
+                <p>Your connection may have dropped, or our server is busy. Your bag is safe.</p>
+                <button type="button" class="tmz-btn tmz-btn-solid" onclick="window.tamyizApp.retryProducts()">Try again</button>
+              </div>`;
+  }
+  return `
+              <div class="tmz-shop-empty">
+                <h3>First e-books on the way</h3>
+                <p>We are writing them now. Message us on WhatsApp and we will tell you the day the first one is out.</p>
+                <a class="tmz-btn tmz-btn-line" href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer">Tell me when it's out ↗</a>
+              </div>`;
 }
 
 export function renderHomePage(appInstance) {
@@ -143,18 +161,7 @@ export function renderHomePage(appInstance) {
 
           <!-- 3-Card Equal-Height Grid -->
           <div class="tamyiz-product-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
-            ${featuredProducts.length ? featuredProducts.map(p => renderProductCardHtml(p, appInstance)).join('') : `
-              <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem; background: #FFFFFF; border: 1px dashed var(--color-border); border-radius: 6px;">
-                <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">
-                  First e-books on the way
-                </div>
-                <p style="color: var(--color-grey); font-size: 0.95rem; margin: 0 auto 1.5rem; max-width: 30rem;">
-                  We are writing them now. Message us on WhatsApp and we will tell you the day the first one is out.
-                </p>
-                <a class="tamyiz-btn-nav-outline" href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-flex;">
-                  Tell me when it's out ↗
-                </a>
-              </div>`}
+            ${featuredProducts.length ? featuredProducts.map(p => renderProductCardHtml(p, appInstance)).join('') : emptyShopBlock()}
           </div>
 
           ${products.length > 3 ? `<div style="text-align: center; margin-top: 3.5rem;">
@@ -197,8 +204,8 @@ export function renderProductCardHtml(p, appInstance) {
   return `
     <div class="tamyiz-product-card flex flex-col h-full" id="card-${p.id}" data-product-card="${p.id}">
       <div class="tamyiz-product-thumb" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">
-        <img src="${p.images[0]}" alt="${p.name}" class="tamyiz-img-primary" loading="lazy" />
-        <img src="${p.images[1] || p.images[0]}" alt="" aria-hidden="true" class="tamyiz-img-hover" loading="lazy" />
+        <img src="${p.thumb || p.images[0]}" alt="${p.name}" class="tamyiz-img-primary" width="480" height="720" loading="lazy" decoding="async" />
+        <img src="${p.images[1] || p.thumb || p.images[0]}" alt="" aria-hidden="true" class="tamyiz-img-hover" width="480" height="720" loading="lazy" decoding="async" />
 
         <span class="tamyiz-badge-digital">${isAvailable(p) ? p.badge : 'COMING SOON'}</span>
 

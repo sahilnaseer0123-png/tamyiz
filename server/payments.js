@@ -18,13 +18,10 @@ import { loadCatalog, findById } from './catalog.js';
  */
 
 // Verified Coupon Codes
-export const VALID_COUPONS = {
-  'DISTINCT10': { type: 'percent', value: 10 },
-  'DISTINCT': { type: 'percent', value: 10 },
-  'WELCOME10': { type: 'percent', value: 10 },
-  'TAMYIZ15': { type: 'percent', value: 15 },
-  'HORIZON500': { type: 'flat', value: 500, minOrder: 3000 }
-};
+// Promo codes. Empty on purpose: the template's codes were public (this repo is public) and gave anyone 10–15% off.
+// To run a promotion add it here AND in src/scripts/store.js, e.g. LAUNCH10: { type: 'percent', value: 10 }.
+// Pick a code that isn't guessable, and remove it when the promotion ends.
+export const VALID_COUPONS = {};
 
 /**
  * Validates cart items and computes strict server-side price in INR & paise

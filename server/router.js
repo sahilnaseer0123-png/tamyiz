@@ -8,9 +8,13 @@ import { publicCatalog } from './catalog.js';
 
 async function cover(env, id, request) {
   if (!env.TAMYIZ_STORE) return new Response('Not found', { status: 404 });
-  const { value, metadata } = await env.TAMYIZ_STORE.getWithMetadata(`cover:${id}`, 'arrayBuffer');
+  const params = new URL(request.url).searchParams;
+  // ?s=sm asks for the small version (cards, bag); fall back to the full cover if a book has none yet.
+  let found = params.get('s') === 'sm' ? await env.TAMYIZ_STORE.getWithMetadata(`thumb:${id}`, 'arrayBuffer') : null;
+  if (!found || !found.value) found = await env.TAMYIZ_STORE.getWithMetadata(`cover:${id}`, 'arrayBuffer');
+  const { value, metadata } = found;
   if (!value) return new Response('Not found', { status: 404 });
-  const versioned = new URL(request.url).searchParams.has('v');
+  const versioned = params.has('v');
   return new Response(value, {
     headers: {
       'Content-Type': (metadata && metadata.type) || 'image/jpeg',

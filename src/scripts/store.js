@@ -14,13 +14,12 @@ const STORAGE_KEYS = {
   COUPON: 'tamyiz_coupon_v1'
 };
 
-const AVAILABLE_COUPONS = {
-  'DISTINCT10': { type: 'percent', value: 10, label: '10% Off First Order' },
-  'DISTINCT': { type: 'percent', value: 10, label: '10% Off First Order' },
-  'WELCOME10': { type: 'percent', value: 10, label: '10% Off Welcome Privilege' },
-  'TAMYIZ15': { type: 'percent', value: 15, label: '15% Off VIP Circle' },
-  'HORIZON500': { type: 'flat', value: 500, label: '₹500 Flat Discount (Min ₹3000)' }
-};
+// Promo codes shown in the bag. Keep in step with VALID_COUPONS in server/payments.js (the server is what counts).
+// Empty on purpose: the template's codes were public (in this file and on GitHub) and gave anyone 10–15% off.
+// To run a promotion, add the same code in both places, e.g. 'LAUNCH10': { type: 'percent', value: 10, label: '10% off' }.
+const AVAILABLE_COUPONS = {};
+
+export const hasCoupons = () => Object.keys(AVAILABLE_COUPONS).length > 0;
 
 class Store {
   constructor() {
@@ -69,10 +68,18 @@ class Store {
   }
 
   /** After the ebooks load: drop bag items that can't be bought now (removed, or back to "coming soon"). */
+  // Also refresh each item's name, price and cover from the catalogue: a bag saved last week must show today's
+  // price, because today's price is what the server charges.
   pruneUnavailable() {
-    const before = this.cart.length;
-    this.cart = this.cart.filter((i) => isAvailable(findProductBySlugOrId(i.productId || i.id)));
-    if (this.cart.length !== before || this.load(STORAGE_KEYS.CART, null) === null) this.save(STORAGE_KEYS.CART, this.cart);
+    const before = JSON.stringify(this.cart);
+    this.cart = this.cart
+      .filter((i) => isAvailable(findProductBySlugOrId(i.productId || i.id)))
+      .map((i) => {
+        const p = findProductBySlugOrId(i.productId || i.id);
+        return { ...i, name: p.name, price: p.price, originalPrice: p.originalPrice ?? null, image: p.thumb || (p.images && p.images[0]) || i.image };
+      });
+    if (this.coupon && !AVAILABLE_COUPONS[this.coupon.code]) { this.coupon = null; this.save(STORAGE_KEYS.COUPON, null); }
+    if (JSON.stringify(this.cart) !== before || this.load(STORAGE_KEYS.CART, null) === null) this.save(STORAGE_KEYS.CART, this.cart);
   }
 
   // Cart operations
@@ -108,7 +115,7 @@ class Store {
         name: product.name,
         price: itemPrice,
         originalPrice: itemOrigPrice,
-        image: product.images[0],
+        image: product.thumb || product.images[0],
         variant,
         quantity: 1, // Locked to 1 for digital publications
         isDigital: Boolean(product.isDigital !== false)
