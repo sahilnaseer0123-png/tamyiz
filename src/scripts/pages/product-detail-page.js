@@ -160,7 +160,7 @@ export function renderProductDetailPage(slug, appInstance) {
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                     </svg>
-                    INSTANT DISPATCH
+                    INSTANT DOWNLOAD
                   </span>` : `<span class="tamyiz-tag-dispatch tamyiz-tag-soon">COMING SOON</span>`}
                 </div>
 
@@ -177,7 +177,7 @@ export function renderProductDetailPage(slug, appInstance) {
                   ` : ''}
                 </div>
                 <div class="tamyiz-pdp-tax-note">
-                  ${isAvailable(product) ? 'Final price, no extra charges • Download link on screen and by email' : 'Coming soon • Pre-order on WhatsApp and we will message you the day it is ready. Details may change before release.'}
+                  ${isAvailable(product) ? 'Final price, no extra charges • Instant download after payment' : 'Coming soon • Pre-order on WhatsApp and we will message you the day it is ready. Details may change before release.'}
                 </div>
 
                 <!-- Format Selection Pills -->
@@ -232,7 +232,7 @@ export function renderProductDetailPage(slug, appInstance) {
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                       </svg>
                     </span>
-                    <span>Download link on screen right after payment, plus a copy by email.</span>
+                    <span>Download button on screen right after payment.</span>
                   </div>
                   <div class="tamyiz-guarantee-item">
                     <span style="display:inline-flex; align-items:center;" aria-hidden="true">
@@ -285,7 +285,7 @@ export function renderProductDetailPage(slug, appInstance) {
                         ${(product.specifications || [
                           { label: "Format", value: "Instant Digital Download (PDF + EPUB bundle)" },
                           { label: "Reader Support", value: "Apple Books, Kindle, Adobe Acrobat, iPad, Android" },
-                          { label: "Delivery", value: "Instant download link + email backup" }
+                          { label: "Delivery", value: "Instant download after payment" }
                         ]).map(spec => `
                           <div class="tamyiz-spec-row">
                             <span class="tamyiz-spec-label">${spec.label}</span>
@@ -296,7 +296,7 @@ export function renderProductDetailPage(slug, appInstance) {
                     </div>
                   </div>
 
-                  <!-- Accordion 3: Lifetime Updates & Atelier License -->
+                  <!-- Accordion 3: Your copy & refunds -->
                   <div class="tamyiz-pdp-acc-item" id="acc-license">
                     <button class="tamyiz-pdp-acc-trigger" onclick="window.tamyizApp.toggleAccordion('acc-license')">
                       <span>03 / YOUR COPY &amp; REFUNDS</span>

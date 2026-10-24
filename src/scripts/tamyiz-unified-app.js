@@ -405,7 +405,7 @@ class TamyizUnifiedApp {
           </div>
 
           <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-family: monospace; font-size: 0.78rem; text-transform: uppercase;">
-            <span style="color: #666;">Instant Digital Dispatch</span>
+            <span style="color: #666;">Delivery (instant download)</span>
             <span id="cart-shipping" style="color: #1E7B2E; font-weight: 800;">FREE</span>
           </div>
 
@@ -424,14 +424,14 @@ class TamyizUnifiedApp {
           <!-- Buyer Dispatch Form -->
           <div class="tamyiz-bag-dispatch-section">
             <div class="tamyiz-dispatch-section-header">
-              <span>Instant Digital Dispatch Coordinates</span>
+              <span>Your details</span>
               <span class="required-tag">Required *</span>
             </div>
             
             <div class="tamyiz-dispatch-input-row" style="margin-bottom: 0.6rem;">
-              <label class="tamyiz-form-label-mono" for="bag-dispatch-email">DISPATCH EMAIL ADDRESS *</label>
+              <label class="tamyiz-form-label-mono" for="bag-dispatch-email">EMAIL ADDRESS *</label>
               <input type="email" id="bag-dispatch-email" class="tamyiz-dispatch-input" placeholder="name@domain.com" autocomplete="email" required oninput="window.tamyizApp.validateDispatchField('email')" />
-              <div id="bag-email-error" class="tamyiz-input-error-msg" style="display: none;">Valid email required for digital files dispatch</div>
+              <div id="bag-email-error" class="tamyiz-input-error-msg" style="display: none;">Please enter a valid email address</div>
             </div>
 
             <div class="tamyiz-dispatch-input-row" style="margin-bottom: 0.6rem;">
@@ -441,7 +441,7 @@ class TamyizUnifiedApp {
             </div>
 
             <div style="font-family: monospace; font-size: 0.64rem; color: #666; line-height: 1.4; margin-bottom: 0.75rem;">
-              ● YOUR DOWNLOAD LINK APPEARS ON SCREEN AND IS EMAILED TO YOU
+              ● YOUR DOWNLOAD APPEARS ON SCREEN RIGHT AFTER PAYMENT
             </div>
 
             <!-- Primary Checkout CTA -->
@@ -455,7 +455,7 @@ class TamyizUnifiedApp {
             <span class="tamyiz-trust-bar-dot">•</span>
             <span>Cards</span>
             <span class="tamyiz-trust-bar-dot">•</span>
-            <span>Direct Vault Access</span>
+            <span>Instant download</span>
           </div>
         </div>
       </aside>
@@ -1320,17 +1320,17 @@ class TamyizUnifiedApp {
             `).join('') : ''}
             <tr>
               <td>License Scope</td>
-              <td><strong>100% Personal &amp; Commercial Single-Operator License</strong></td>
+              <td><strong>Personal licence for one person</strong></td>
             </tr>
             <tr>
               <td>Guarantee</td>
-              <td><strong>7-Day Technical Compatibility Guarantee (Full Refund)</strong></td>
+              <td><strong>Refund within 7 days for a double charge, or a file we could not deliver or fix</strong></td>
             </tr>
           </tbody>
         </table>
 
         <div style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: #F4F4F2; border-left: 3px solid var(--color-black); font-size: 0.82rem; color: #444; line-height: 1.55;">
-          ${product.careInstructions || 'DRM-free digital files delivered immediately upon order clearance. Redundant link copies dispatched to verified Email and WhatsApp.'}
+          ${product.careInstructions || 'DRM-free PDF. The download button appears on screen right after payment.'}
         </div>
       `;
     }
@@ -1483,7 +1483,7 @@ class TamyizUnifiedApp {
       return;
     }
     if (!email || !email.includes('@') || !email.includes('.')) {
-      store.showToast('Please enter a valid email address for digital download dispatch.', 'error');
+      store.showToast('Please enter a valid email address.', 'error');
       emailInput?.focus();
       return;
     }
@@ -1596,13 +1596,12 @@ class TamyizUnifiedApp {
 
     const invoiceNumber = `INV-TMZ-${order.orderId}`;
     const invoiceDate = order.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    const authToken = `TMZ-AUTH-${order.orderId}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
 
     const itemsHtml = order.items.map((item) => `
       <tr>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5;">
           <strong style="font-size: 13px;">${item.name}</strong>
-          <div style="font-size: 11px; color: #666; margin-top: 3px;">Single-Seat Lifetime Commercial License</div>
+          <div style="font-size: 11px; color: #666; margin-top: 3px;">Personal licence for one person</div>
         </td>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5;">${item.variant || 'Standard Digital Edition'}</td>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: center;">1</td>
@@ -1662,10 +1661,9 @@ class TamyizUnifiedApp {
       ${order.shippingAddress?.phone ? `<div>WhatsApp: ${order.shippingAddress.phone}</div>` : ''}
     </div>
     <div style="text-align: right;">
-      <div class="party-title">DELIVERY PROTOCOL</div>
-      <div style="font-size: 13px; font-weight: 700;">Instant Digital Dispatch</div>
-      <div>Single-Seat Lifetime Commercial License</div>
-      <div>Auth Token: <code>${authToken}</code></div>
+      <div class="party-title">DELIVERY</div>
+      <div style="font-size: 13px; font-weight: 700;">Instant PDF download</div>
+      <div>Personal licence for one person</div>
     </div>
   </div>
 
@@ -1707,11 +1705,11 @@ class TamyizUnifiedApp {
 
   <div class="footer">
     <div>
-      <strong>TAMYIZ™ Digital Publishing Atelier • Sopore, Kashmir</strong><br/>
-      Authentic single-seat lifetime license. Zero DRM friction.
+      <strong>TAMYIZ™ • Sopore, Jammu &amp; Kashmir 193201, India</strong><br/>
+      Personal licence for one person. DRM-free PDF.
     </div>
     <div style="text-align: right;">
-      Verification Token: <strong>${authToken}</strong>
+      Questions? ${siteConfig.email} • ${siteConfig.phone}
     </div>
   </div>
 </body>
@@ -1884,7 +1882,7 @@ class TamyizUnifiedApp {
     }
 
     if (!emailValid) {
-      store.showToast('Please enter a valid email address for instant digital file dispatch.', 'error');
+      store.showToast('Please enter a valid email address.', 'error');
       emailInput?.focus();
       return { valid: false };
     }
@@ -1972,7 +1970,7 @@ class TamyizUnifiedApp {
         amount: orderData.amount,
         currency: orderData.currency || 'INR',
         name: 'TAMYIZ™',
-        description: 'Instant Digital Dispatch // Atelier Editions',
+        description: 'TAMYIZ e-book (PDF download)',
         image: '/assets/images/tamyiz-logo-256.png',
         order_id: orderData.orderId,
         handler: (response) => {
@@ -2049,7 +2047,7 @@ class TamyizUnifiedApp {
 
         <div class="tamyiz-sandbox-meta">
           <div>ORDER REFERENCE: <strong>#${orderId}</strong></div>
-          <div>TOTAL PAYABLE: <strong>₹${totalINR.toLocaleString('en-IN')}</strong> (FREE INSTANT DISPATCH)</div>
+          <div>TOTAL PAYABLE: <strong>₹${totalINR.toLocaleString('en-IN')}</strong> (INSTANT DOWNLOAD)</div>
           <div>DISPATCH COORDINATES: <strong>${email}</strong> • <strong>${phone}</strong></div>
           <div style="color: #666; font-size: 0.72rem; margin-top: 0.35rem; line-height: 1.4;">
             NOTICE: Smart Atelier Sandbox Active (No live Razorpay keys configured in environment). Test the complete purchase-to-unlock fulfillment lifecycle with one click.
@@ -2180,7 +2178,7 @@ class TamyizUnifiedApp {
       this.renderCurrentPage();
     }
 
-    // 2. Open ATELIER DISPATCH COMPLETE — EDITION UNLOCKED modal
+    // 2. Open the "Payment received" download modal
     const formattedDate = new Date(result.timestamp || Date.now()).toLocaleString('en-IN', {
       day: '2-digit',
       month: 'short',
@@ -2196,22 +2194,22 @@ class TamyizUnifiedApp {
         <div class="tamyiz-unlock-head">
           <div class="tamyiz-unlock-badge">
             <span style="color: #1E7B2E; font-size: 1.1rem; line-height: 1;">●</span>
-            <span>EDITION UNLOCKED // INSTANT DIGITAL DISPATCH</span>
+            <span>PAYMENT RECEIVED</span>
           </div>
           <button style="background:none; border:none; font-size:1.25rem; cursor:pointer; padding: 0.2rem;" onclick="window.tamyizApp.closeModal()" aria-label="Close modal">✕</button>
         </div>
 
         <div class="tamyiz-unlock-meta-box">
-          <div>TRANSACTION REF: <strong>${paymentId}</strong></div>
-          <div>ORDER IDENTIFIER: <strong>#${orderId}</strong></div>
-          <div>DISPATCH EMAIL: <strong>${result.email}</strong></div>
-          <div>WHATSAPP LOG: <strong>${result.phone}</strong></div>
-          <div>TIMESTAMP: <strong>${formattedDate}</strong></div>
+          <div>ORDER: <strong>#${orderId}</strong></div>
+          <div>PAYMENT ID: <strong>${paymentId}</strong></div>
+          <div>EMAIL: <strong>${result.email}</strong></div>
+          <div>PHONE: <strong>${result.phone}</strong></div>
+          <div>DATE: <strong>${formattedDate}</strong></div>
           <div>STATUS: <strong style="color: #1E7B2E;">PAID</strong></div>
         </div>
 
         <div style="font-family: monospace; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.6rem; color: #000; letter-spacing: 0.05em;">
-          UNLOCKED DIGITAL ASSETS &amp; DUPLICATION VAULT:
+          DOWNLOAD YOUR E-BOOK NOW:
         </div>
 
         <div class="tamyiz-unlocked-items-list" style="margin-bottom: 1.25rem;">
@@ -2222,15 +2220,19 @@ class TamyizUnifiedApp {
                   ${dl.name}
                 </div>
                 <div style="font-family: monospace; font-size: 0.72rem; color: #555; margin-top: 0.25rem;">
-                  FORMAT: <strong>${dl.variant}</strong> • Single-Operator Lifetime License
+                  FORMAT: <strong>${dl.variant}</strong> • Personal licence
                 </div>
               </div>
               <a href="${dl.downloadUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-btn-vault-dl" download>
-                <span>DOWNLOAD / DUPLICATE EDITION ↗</span>
+                <span>DOWNLOAD PDF ↓</span>
               </a>
             </div>
           `).join('')}
         </div>
+
+        <p style="font-size: 0.85rem; color: #333; line-height: 1.55; margin: 0 0 1.25rem; padding: 0.75rem 1rem; background: #F4F4F2; border-left: 3px solid var(--color-red-ink);">
+          <strong>Download it now and keep the file.</strong> No email is sent. The link works for one year. If you lose the file, WhatsApp us your order number and we will send it again.
+        </p>
 
         <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem;">
           <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-btn-whatsapp-sync">
@@ -2247,26 +2249,25 @@ class TamyizUnifiedApp {
 
         <div style="text-align: center;">
           <button style="background:none; border:none; font-family:monospace; font-size:0.74rem; font-weight:700; text-transform:uppercase; text-decoration:underline; cursor:pointer;" onclick="window.tamyizApp.closeModal(); window.tamyizApp.navigateTo('/editions');">
-            Return to Atelier Catalog →
+            Back to the e-books →
           </button>
         </div>
       </div>
     `);
 
-    store.showToast('Order confirmed! Access unlocked in Digital Vault.', 'success');
+    store.showToast('Payment received. Download your e-book now.', 'success');
   }
 
   generateWhatsAppLogUrl(result) {
     const downloads = result.downloads || [];
     const itemsText = downloads.map((d, i) => `${i + 1}. ${d.name} [${d.variant}]`).join('\n');
-    const msg = `TAMYIZ™ Order Archive Log:\n` +
+    const msg = `TAMYIZ order:\n` +
       `Order Ref: #${result.orderId || 'TMZ'}\n` +
       `Payment ID: ${result.paymentId || 'PAY'}\n` +
-      `Dispatch Email: ${result.email}\n` +
+      `Email: ${result.email}\n` +
       `WhatsApp: ${result.phone}\n` +
-      `Unlocked Editions:\n${itemsText}\n` +
-      `Timestamp: ${new Date(result.timestamp || Date.now()).toISOString()}\n` +
-      `Atelier Sopore, Kashmir 193201`;
+      `E-books:\n${itemsText}\n` +
+      `Date: ${new Date(result.timestamp || Date.now()).toISOString().slice(0, 10)}`;
     return `https://wa.me/919541722379?text=${encodeURIComponent(msg)}`;
   }
 

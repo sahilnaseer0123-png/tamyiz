@@ -63,7 +63,7 @@ export const foundersData = {
       {
         title: "Instant Frictionless Systems",
         tag: "03",
-        description: "Plug-and-play Notion workspaces, UI templates, and multi-format e-books delivered to your inbox in seconds."
+        description: "Short PDF e-books you can download the moment you pay."
       }
     ]
   }
@@ -74,7 +74,7 @@ export const testimonials = [];
 export const faqs = [
   {
     q: "What do I get when I buy?",
-    a: "A PDF e-book. As soon as your payment is confirmed, the download link appears on screen and is emailed to you."
+    a: "A PDF e-book. As soon as your payment is confirmed, the download button appears on screen. Download it straight away and keep the file. If you ever lose it, WhatsApp us your order number and we will send it again."
   },
   {
     q: "Which devices can I read it on?",
@@ -105,11 +105,11 @@ export const faqs = [
 export const policies = {
   shipping: {
     title: "Instant Digital Delivery Protocol",
-    content: "All TAMYIZ digital publications and templates are delivered instantly upon order confirmation. There are zero shipping fees or waiting times. Your access links are presented immediately on screen, with redundant copies dispatched to your verified Email and WhatsApp."
+    content: "Every TAMYIZ e-book is a PDF download. Nothing is shipped by post. Your download button appears on screen right after payment."
   },
   returns: {
-    title: "Lifetime Guarantee & Digital License",
-    content: "All TAMYIZ digital products carry a lifetime personal license. If you experience any technical incompatibility, our concierge will personally ensure you receive working files or process a full refund within 7 days."
+    title: "Refunds & Licence",
+    content: "Each purchase is a personal licence for one person. Refunds within 7 days for a double charge, or a file we could not deliver or fix. See the Refund, Cancellation & License Policy."
   },
   formatGuide: {
     title: "Digital Formats & Compatibility Guide",

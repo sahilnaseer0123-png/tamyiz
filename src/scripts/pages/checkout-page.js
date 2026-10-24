@@ -55,10 +55,10 @@ export function renderCheckoutPage(appInstance) {
       <section class="tamyiz-page-header">
         <div class="container">
           <div class="tamyiz-page-header-inner">
-            <span class="tamyiz-page-badge">SECURE 256-BIT ENCRYPTED DIGITAL CHECKOUT</span>
-            <h1 class="tamyiz-page-title">Instant Digital Dispatch</h1>
+            <span class="tamyiz-page-badge">SECURE CHECKOUT BY RAZORPAY</span>
+            <h1 class="tamyiz-page-title">Checkout</h1>
             <p class="tamyiz-page-description">
-              Files unlock on screen as soon as the payment is confirmed, and the links are emailed to you.
+              Your download button appears on screen as soon as the payment is confirmed. Download your PDF straight away.
             </p>
           </div>
         </div>
@@ -96,7 +96,7 @@ export function renderCheckoutPage(appInstance) {
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label class="tamyiz-form-label" for="chk-email">Email Address (Primary Download) *</label>
+                        <label class="tamyiz-form-label" for="chk-email">Email Address *</label>
                         <input
                           type="email"
                           id="chk-email"
@@ -283,8 +283,8 @@ export function renderCheckoutPage(appInstance) {
                   ` : ''}
 
                   <div class="flex justify-between text-sm py-1">
-                    <span class="text-neutral-600">Digital Dispatch</span>
-                    <span style="color: #1E7B2E; font-weight: 700;">FREE (INSTANT)</span>
+                    <span class="text-neutral-600">Delivery</span>
+                    <span style="color: #1E7B2E; font-weight: 700;">Instant download</span>
                   </div>
 
                   <div class="tamyiz-summary-total-row">
@@ -299,7 +299,7 @@ export function renderCheckoutPage(appInstance) {
                   <span class="tamyiz-trust-bar-dot">•</span>
                   <span>Cards</span>
                   <span class="tamyiz-trust-bar-dot">•</span>
-                  <span>Direct Download Vault</span>
+                  <span>Instant download</span>
                 </div>
               </div>
             </div>
@@ -316,7 +316,6 @@ export function renderCheckoutPage(appInstance) {
 export function renderOrderVaultHtml(order) {
   const currentDateStr = order.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   const invoiceNumber = `INV-TMZ-${order.orderId}`;
-  const authToken = `TMZ-AUTH-${order.orderId}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
 
   return `
     <div class="tamyiz-page-order-vault py-12 md:py-20">
@@ -329,13 +328,13 @@ export function renderOrderVaultHtml(order) {
             </svg>
           </div>
 
-          <span class="tamyiz-vault-kicker no-print">Order Confirmed &amp; Authenticated</span>
-          <h1 class="tamyiz-vault-title no-print">Instant Access Unlocked</h1>
+          <span class="tamyiz-vault-kicker no-print">Payment received</span>
+          <h1 class="tamyiz-vault-title no-print">Your e-book is ready</h1>
           <p class="tamyiz-vault-sub no-print">
             Order <strong>#${order.orderId}</strong> • Total Paid: <strong>₹${order.total.toLocaleString('en-IN')}</strong>
           </p>
           <p class="no-print" style="font-size: 0.9rem; color: #555; margin-bottom: 2rem;">
-            A confirmation has been dispatched to <strong>${order.shippingAddress?.email || 'your email'}</strong> and <strong>${order.shippingAddress?.phone || 'WhatsApp'}</strong>. Your files and official invoice are ready below:
+            Download your e-book now and keep the file. Your receipt is below. If you ever lose the file, WhatsApp us your order number and we will send it again.
           </p>
 
           <!-- Download Cards for Each Item -->
@@ -456,11 +455,10 @@ export function renderOrderVaultHtml(order) {
               <div class="sm:text-right">
                 <span class="tamyiz-invoice-section-label">DELIVERY &amp; LICENSE SPECIFICATION</span>
                 <div style="font-size: 0.9rem; font-weight: 700; color: #111;">
-                  Instant Digital Fulfillment
+                  Instant PDF download
                 </div>
                 <div style="font-size: 0.8rem; color: #555; line-height: 1.45; margin-top: 0.15rem;">
-                  Single-Seat Lifetime Commercial License<br/>
-                  Cryptographic Auth Token: <code>${authToken}</code>
+                  Personal licence for one person
                 </div>
               </div>
             </div>
@@ -521,11 +519,11 @@ export function renderOrderVaultHtml(order) {
             <!-- Invoice Footer & Verification -->
             <div class="mt-6 pt-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs text-gray-500">
               <div>
-                <div>Authenticated by TAMYIZ™ Digital Publishing Studio • Basit &amp; Sahil</div>
-                <div>All digital editions include zero DRM friction and perpetual single-seat commercial rights.</div>
+                <div>TAMYIZ™ • run by Basit Majeed &amp; Sahil Naseer</div>
+                <div>Personal licence for one person. DRM-free PDF.</div>
               </div>
               <div class="mt-2 sm:mt-0 font-mono text-right" style="font-size: 0.7rem;">
-                VERIFICATION TOKEN: <strong>${authToken}</strong>
+                Questions? ${siteConfig.email}
               </div>
             </div>
           </div>

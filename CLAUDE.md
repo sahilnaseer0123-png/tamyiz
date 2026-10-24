@@ -47,7 +47,9 @@ sold with Razorpay and delivered as private signed download links.
 
 Coming soon = "COMING SOON" badge, "Pre-order on WhatsApp" button (product filled in), no Buy Now, no Bag/Checkout
 in the header unless some book is on sale, product schema PreOrder. To sell a book: upload its PDF on /admin and set
-"On sale". Payments also need Razorpay keys in Cloudflare (and `RESEND_API_KEY`, since the page promises an email).
+"On sale". Payments also need Razorpay keys in Cloudflare.
+No email promise (decided 24 Oct 2026): buyers get the download on screen and are told to download it right away;
+lost files are re-sent by hand on WhatsApp. Never say the link is "emailed" until receipts really send (see Open issues).
 
 ## Razorpay activation (started 24 Oct 2026)
 
@@ -100,7 +102,7 @@ tamyiz-unified.css). Don't ship below this.
   saved with a trailing dot ("TAMYIZ_STORE.") and didn't work; names must match exactly. The dashboard then refused
   "ADMIN_PASSWORD" as already existing while not listing it, so the password secret is `TAMYIZ_ADMIN_PASSWORD`.
   Bindings and secrets only apply after a new deployment.
-- Receipt emails: Resend's test sender (onboarding@resend.dev) only delivers to the Resend account owner's own address,
-  so buyers get no email until there is a custom domain verified in Resend (`RECEIPT_FROM`). The site promises the
-  link "by email": either set this up before selling or drop that promise.
+- Receipt emails are off: Resend only sends to strangers from a domain you own (not Gmail). Plan: once sales start,
+  buy a domain (e.g. tamyiz.in), verify it in Resend, set `RESEND_API_KEY` + `RECEIPT_FROM`, then put the email
+  wording back (checkout, product page, FAQ, delivery policy, after-payment modal).
 - Checkout's "Select payment method" radios are decorative (Razorpay asks in its own window): remove once Razorpay is live.

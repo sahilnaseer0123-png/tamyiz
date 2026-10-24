@@ -24,11 +24,11 @@ export const legalDocs = {
       },
       {
         heading: '02. When You Receive It',
-        content: `As soon as your payment is confirmed, your download link appears on screen. A copy of the link is also sent to the email address you gave at checkout. Download links stay valid for one year.`
+        content: `As soon as your payment is confirmed, your download button appears on screen. Download the PDF straight away and keep the file. The download link stays valid for one year.`
       },
       {
         heading: '03. If Something Goes Wrong',
-        content: `If you paid but don't have your link (check your spam folder first), message us on WhatsApp (+91 95417 22379) or email tamyiz.co@gmail.com with your payment ID, and we'll send the file to you.`
+        content: `If you paid but don't have your file, or lost it later, message us on WhatsApp (+91 95417 22379) or email tamyiz.co@gmail.com with your payment ID, and we'll send the file to you.`
       },
       {
         heading: '04. Corrections',
@@ -84,7 +84,7 @@ We collect only: your name, email address, mobile number, and the payment refere
       },
       {
         heading: '03. Sharing and Your Rights',
-        content: `We never sell or rent your details, and we don't share them with advertisers. They are used only to deliver your e-book, send your receipt and help you with your order.
+        content: `We never sell or rent your details, and we don't share them with advertisers. They are used only to deliver your e-book and help you with your order.
 You can ask to see or delete your details at any time by emailing tamyiz.co@gmail.com.`
       }
     ]

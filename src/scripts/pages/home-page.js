@@ -84,7 +84,7 @@ export function renderHomePage(appInstance) {
               </span>
               <div>
                 <strong>Instant download</strong>
-                <p>Your PDF link appears on screen right after payment, and by email.</p>
+                <p>Your PDF download appears on screen the moment you pay.</p>
               </div>
             </div>
             <div class="tamyiz-promise-item lg:px-8 first:lg:pl-0 last:lg:pr-0">
