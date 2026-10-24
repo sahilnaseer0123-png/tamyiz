@@ -645,7 +645,9 @@ img {
   height: auto;
   display: block;
   object-fit: contain;
-  object-position: center;
+  object-position: center bottom;
+  /* Grow upward from the base, so the dome's base always sits exactly on the horizon line. */
+  transform-origin: center bottom;
   mix-blend-mode: multiply;
   filter: drop-shadow(0 -8px 24px rgba(0, 0, 0, 0.05)) drop-shadow(0 0 26px rgba(225, 37, 27, 0.16));
   animation: tamyiz-dome-ambient-glow 5s ease-in-out infinite alternate;
