@@ -81,14 +81,15 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
 - Black and white. The only colour is the logo's red grain (and book covers further down the page). The old red accent
   variables (`--color-red`, `--color-red-ink`...) now map to black/white in the "REDESIGN 24 Oct 2026" block at the end
   of tamyiz-unified.css; new rules go in that block. Success states (paid, toast) keep their green.
-- Logo: `public/assets/brand/tamyiz-dome-red.webp` (Sahil's red emblem, cropped so the dome is exactly centred and
-  its flat base is the bottom edge) + `tamyiz-wordmark.svg`. Header on every page (phones: icon-only menu/bag so it
-  fits). Home hero: the logo SMALL (340px dome, 300px wordmark; Sahil found a big dome odd), the dome's base exactly on
-  a short horizon line, wordmark centred under it; text left, button right. The `<h1>` is the wordmark image (alt
-  "TAMYIZ"). The dome is preloaded in index.html. Grain drifts via `tamyiz-logo-sparks.js` (`data-zone`; off under
-  prefers-reduced-motion). No book covers in the hero (Sahil's call).
-- Frosted glass (`.tmz-glass`): only for things floating in the hero and the header. Hero cards come from the catalogue
-  (book count + names), so they update when books change on /admin.
+- Logo: `public/assets/brand/tamyiz-dome-red.webp` (Sahil's red emblem, cropped so the dome is centred) +
+  `tamyiz-wordmark.svg`, in the header on every page (phones: icon-only menu/bag so it fits).
+- Home hero (24 Oct 2026, approved): headline "Learn to tell the difference." (what *Tamyiz* means), the existing
+  lede, two buttons, and a proof line counted from the catalogue (`heroProof()`: e-book count, total pages only when
+  every book has a page count). Right side: an "About us" card with both founders. It is deliberately NOT tied to
+  any product, so it stays right whatever TAMYIZ sells next. Portraits: `founders/<name>-portrait.webp`, cropped so
+  both faces are the same size with the eyes on the same line (42% down, 4:5, greyscale); redo both together if a
+  photo changes. No logo or book covers in the hero (Sahil's calls).
+- Frosted glass (`.tmz-glass`): the header only for now.
 - Hidden menu/bag drawers are `visibility: hidden` with no shadow until opened (their shadows used to leak onto the page edges).
 
 ## Phone layout and shared content (24 Oct 2026)

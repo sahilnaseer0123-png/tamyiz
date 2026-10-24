@@ -9,60 +9,65 @@ import { siteConfig } from '../../data/site-config.js';
 import { store } from '../store.js';
 import { principlesSection, formatGuideSection } from './sections.js';
 
+/** True facts only, counted from the catalogue on /admin: number of e-books, total pages (when every book has a page count). */
+function heroProof() {
+  const items = [];
+  if (products.length) items.push(`${products.length} e-book${products.length === 1 ? '' : 's'}`);
+  const pages = products.map((p) => Number(((p.specifications || []).find((s) => s.label === 'Pages') || {}).value));
+  if (products.length && pages.every((n) => n > 0)) items.push(`${pages.reduce((a, b) => a + b, 0)} pages`);
+  items.push('Written by Sahil &amp; Basit');
+  items.push(anyAvailable() ? 'Instant PDF download' : 'Pre-order on WhatsApp');
+  return items.map((t) => `<li>${t}</li>`).join('');
+}
+
 export function renderHomePage(appInstance) {
   // Newest 3 ebooks (the list from /admin is newest first)
   const featuredProducts = products.slice(0, 3);
 
   return `
     <div class="tamyiz-page-home">
-      <!-- 1. HERO: the TAMYIZ logo, large. The dome rises from a horizon line, its grain drifts (canvas), the wordmark sits under it. -->
+      <!-- 1. HERO: the name's meaning as the headline; "About us" (the two founders) on the right. Nothing here is tied to one product. -->
       <section class="tmz-hero" id="hero">
         <div class="tmz-hero-inner">
-          <div class="tmz-hero-top">
-            <div class="tamyiz-hero-badge-pill">
-              <span class="tamyiz-hero-badge-dot"></span>
-              <span>PRACTICAL E-BOOKS • BY SAHIL &amp; BASIT</span>
+          <div class="tmz-hero-copy">
+            <p class="tmz-hero-meaning"><strong>Tamyiz</strong> (<span lang="ar">تمييز</span>): the ability to tell things apart.</p>
+            <h1 class="tmz-hero-title">Learn to tell <span class="tmz-nowrap">the difference.</span></h1>
+            <p class="tmz-hero-lede">Short, practical e-books on AI and the digital world, written for beginners. Download the PDF and start reading in a minute.</p>
+            <div class="tmz-hero-ctas">
+              <a href="/#editions" class="tmz-btn tmz-btn-solid" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#editions')">Browse the e-books <span aria-hidden="true">↓</span></a>
+              <a href="/#philosophy" class="tmz-btn tmz-btn-line" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">How we write</a>
             </div>
-            <a href="/atelier" class="tmz-glass tmz-hero-about" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">
-              <span class="tmz-hero-faces" aria-hidden="true">
-                ${foundersData.founders.map((f) => `<img src="${f.image}" alt="" width="40" height="40" loading="lazy" decoding="async" />`).join('')}
-              </span>
-              <span>About us</span>
-            </a>
+            <ul class="tmz-hero-proof">${heroProof()}</ul>
           </div>
 
-          <div class="tmz-hero-band">
-            <div class="tmz-hero-left">
-              ${featuredProducts.length ? `<a href="/editions" class="tmz-glass tmz-hero-count tmz-hero-count-wide" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">
-                <strong>${products.length} e-book${products.length === 1 ? '' : 's'}</strong>
-                <span>${products.map((p) => p.name).join(' · ')}</span>
-              </a>` : ''}
-              <p class="tmz-hero-sub">
-                Short, practical e-books on AI and the digital world, written for beginners. Download the PDF and start reading in a minute.
-              </p>
+          <aside class="tmz-about-card" aria-labelledby="hero-about-title">
+            <div class="tmz-about-head">
+              <h2 id="hero-about-title">About us</h2>
+              <span>The two people behind every TAMYIZ product</span>
             </div>
-
-            <div class="tmz-logo-block">
-              <div class="tmz-logo-stage">
-                <img class="tmz-logo-dome" src="/assets/brand/tamyiz-dome-red.webp" alt="" width="847" height="248" fetchpriority="high" />
-                <canvas id="tamyiz-logo-sparks-canvas" class="tmz-logo-sparks" data-zone="0.50,0.95,0.06,0.85" aria-hidden="true"></canvas>
-              </div>
-              <div class="tmz-horizon" aria-hidden="true"></div>
-              <h1 class="tmz-hero-word"><img src="/assets/brand/tamyiz-wordmark.svg" alt="TAMYIZ" width="442" height="74" /></h1>
+            <div class="tmz-about-people">
+              <figure>
+                <img src="/assets/images/founders/basit-portrait.webp" alt="Basit Majeed" width="480" height="600" loading="eager" decoding="async" />
+                <figcaption>
+                  <strong>Basit Majeed</strong>
+                  <span>Co-founder · Security &amp; Research</span>
+                  <q>Knowledge carries responsibility.</q>
+                </figcaption>
+              </figure>
+              <figure>
+                <img src="/assets/images/founders/sahil-portrait.webp" alt="Sahil Naseer" width="480" height="600" loading="eager" decoding="async" />
+                <figcaption>
+                  <strong>Sahil Naseer</strong>
+                  <span>Co-founder · AI/ML &amp; Build</span>
+                  <q>Nothing stays unless it earns its place.</q>
+                </figcaption>
+              </figure>
             </div>
-
-            <div class="tmz-hero-actions">
-              <button class="tamyiz-hero-btn-primary" onclick="window.tamyizApp.navigateTo('/editions')">
-                <span>SEE THE E-BOOKS</span>
-                <span>↓</span>
-              </button>
-              <span class="tmz-hero-spec">${anyAvailable() ? 'INSTANT PDF DOWNLOAD • READ ON ANY DEVICE' : 'FIRST EDITIONS COMING SOON • PRE-ORDER ON WHATSAPP'}</span>
+            <div class="tmz-about-foot">
+              <a href="/atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">Read the full story <span aria-hidden="true">→</span></a>
+              <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tmz-about-wa">Questions? WhatsApp us, we reply ourselves.</a>
             </div>
-          </div>
-          ${featuredProducts.length ? `<a href="/editions" class="tmz-glass tmz-hero-count tmz-hero-count-narrow" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">
-                <strong>${products.length} e-book${products.length === 1 ? '' : 's'}</strong>
-                <span>${products.map((p) => p.name).join(' · ')}</span>
-              </a>` : ''}
+          </aside>
         </div>
       </section>
 
