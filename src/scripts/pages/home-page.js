@@ -206,6 +206,7 @@ ${principlesSection({ id: 'philosophy' })}
                     <a href="${siteConfig.founders.basit.socials.instagram}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Instagram ↗</a>
                     <a href="${siteConfig.founders.basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">LinkedIn ↗</a>
                     <a href="${siteConfig.founders.basit.socials.x}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">X ↗</a>
+                    ${siteConfig.founders.basit.email ? `<a href="mailto:${siteConfig.founders.basit.email}" onclick="event.stopPropagation();">Email ↗</a>` : ''}
                   </div>
                 </div>
               </div>
@@ -222,6 +223,7 @@ ${principlesSection({ id: 'philosophy' })}
                     <a href="${siteConfig.founders.sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Instagram ↗</a>
                     <a href="${siteConfig.founders.sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">LinkedIn ↗</a>
                     <a href="${siteConfig.founders.sahil.socials.x}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">X ↗</a>
+                    ${siteConfig.founders.sahil.email ? `<a href="mailto:${siteConfig.founders.sahil.email}" onclick="event.stopPropagation();">Email ↗</a>` : ''}
                   </div>
                 </div>
               </div>

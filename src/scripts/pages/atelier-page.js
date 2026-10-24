@@ -126,6 +126,7 @@ export function renderAtelierPage(appInstance) {
                   <a href="${basit.socials.instagram}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">Instagram ↗</a>
                   <a href="${basit.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">LinkedIn ↗</a>
                   <a href="${basit.socials.x}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
+                  ${basit.email ? `<a href="mailto:${basit.email}" class="tamyiz-founder-social-link">Email ↗</a>` : ''}
                 </div>
               </div>
             </div>
@@ -157,6 +158,7 @@ export function renderAtelierPage(appInstance) {
                   <a href="${sahil.socials.instagram}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">Instagram ↗</a>
                   <a href="${sahil.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">LinkedIn ↗</a>
                   <a href="${sahil.socials.x}" target="_blank" rel="noopener noreferrer" class="tamyiz-founder-social-link">X (Twitter) ↗</a>
+                  ${sahil.email ? `<a href="mailto:${sahil.email}" class="tamyiz-founder-social-link">Email ↗</a>` : ''}
                 </div>
               </div>
             </div>
