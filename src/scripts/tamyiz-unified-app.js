@@ -357,7 +357,7 @@ class TamyizUnifiedApp {
               <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
               <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
               <li><a href="/legal/contact" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('contact')">Contact Us</a></li>
-              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #1E7B2E; font-weight: 700;">WhatsApp Concierge (${siteConfig.phone}) ↗</a></li>
+              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #1E7B2E; font-weight: 700;">WhatsApp Concierge (<span style="white-space: nowrap;">${siteConfig.phone}</span>) ↗</a></li>
             </ul>
           </div>
         </div>
@@ -479,7 +479,8 @@ class TamyizUnifiedApp {
               <h2>TAMYIZ™</h2>
               <p>
                 Practical e-books by Sahil &amp; Basit.<br/>
-                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red-on-dark); font-weight: 700;">${siteConfig.phone}</a>
+                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline; white-space: nowrap;">${siteConfig.email}</a><br/>
+                WhatsApp: <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red-on-dark); font-weight: 700; white-space: nowrap;">${siteConfig.phone}</a>
               </p>
             </div>
 
@@ -2372,7 +2373,7 @@ class TamyizUnifiedApp {
             </div>
             <div>
               <strong>Email:</strong> <a href="mailto:tamyiz.co@gmail.com" style="text-decoration: underline; color: #000;">tamyiz.co@gmail.com</a><br/>
-              <strong>WhatsApp Concierge:</strong> <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #000;">+91 95417 22379</a><br/>
+              <strong>WhatsApp Concierge:</strong> <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #000; white-space: nowrap;">${siteConfig.phone}</a><br/>
               <strong>Settlement &amp; Refund:</strong> 7-day resolution window • 5–7 business days settlement
             </div>
           </div>

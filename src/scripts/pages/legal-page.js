@@ -216,7 +216,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
                 </div>
                 <div>
                   <div class="mb-1.5"><strong class="text-black">Direct Concierge Email:</strong> <a href="mailto:tamyiz.co@gmail.com" class="underline text-black font-bold">tamyiz.co@gmail.com</a></div>
-                  <div class="mb-1.5"><strong class="text-black">Phone &amp; WhatsApp:</strong> <a href="tel:+919541722379" class="underline text-black font-bold">+91 95417 22379</a> (10:00–19:00 IST)</div>
+                  <div class="mb-1.5"><strong class="text-black">Phone &amp; WhatsApp:</strong> <a href="tel:+919541722379" class="underline text-black font-bold" style="white-space: nowrap;">+91 95417 22379</a> (10:00–19:00 IST)</div>
                   <div class="mb-1.5"><strong class="text-black">Delivery SLA:</strong> Instantaneous on-screen unlock + email dispatch within 60 seconds</div>
                   <div><strong class="text-black">Refund Protocol:</strong> 100% replacement for corrupted files; 7-day refund if reader incompatibility cannot be resolved</div>
                 </div>
