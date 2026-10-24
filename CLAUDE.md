@@ -36,7 +36,7 @@ sold with Razorpay and delivered as private signed download links.
   the book is switched off later; deleting a book breaks its links (admin warns).
 - Settings (Cloudflare: project → Settings → Variables and secrets; locally `.dev.vars` for wrangler or `.env` for Vite,
   both git-ignored): `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` (secret), `RESEND_API_KEY` (secret, optional receipts),
-  `RECEIPT_FROM` (optional, a verified Resend sender), `URL_*` download links (see `.env.example`), `TAMYIZ_SANDBOX`.
+  `RECEIPT_FROM` (optional, a verified Resend sender), `DOWNLOAD_SECRET` (optional), `TAMYIZ_SANDBOX` (never in production).
 - Deploys stop silently if Cloudflare loses access to this repo (yellow "disconnected" banner in the Pages project).
   Fix: GitHub → Settings → Applications → Cloudflare Workers and Pages → Configure → Repository access must list
   BOTH tamyiz and eternal-polyclinic → Save. (Happened 23 Oct 2026.)
@@ -86,8 +86,8 @@ tamyiz-unified.css). Don't ship below this.
 2. With Razorpay keys set: unlock only after the HMAC signature matches (Web Crypto, constant-time compare) AND
    Razorpay's API confirms the payment belongs to that order, is authorized/captured, and covers the order amount.
 3. What gets unlocked is read back from the Razorpay order notes written at creation (`itemsToNotes`/`notesToItems`).
-4. Prices and coupons live only in `server/payments.js` (`CATALOG_PRICES`, `VALID_COUPONS`). Keep them in step with
-   `src/data/products.js`, which is display-only.
+4. Prices come from the catalogue in KV (set on /admin), read by the server at order time; coupons live only in
+   `server/payments.js` (`VALID_COUPONS`). The browser's prices are display-only.
 5. The sandbox simulator (free unlock, for testing) runs only when `TAMYIZ_SANDBOX=true`. Never set it in production.
    Without keys and without sandbox, checkout returns a polite 503 pointing buyers to WhatsApp.
 6. Never commit keys. The repo is public.
@@ -98,4 +98,7 @@ tamyiz-unified.css). Don't ship below this.
   saved with a trailing dot ("TAMYIZ_STORE.") and didn't work; names must match exactly. The dashboard then refused
   "ADMIN_PASSWORD" as already existing while not listing it, so the password secret is `TAMYIZ_ADMIN_PASSWORD`.
   Bindings and secrets only apply after a new deployment.
-- Receipt emails send from Resend's test sender until `RECEIPT_FROM` is a verified address.
+- Receipt emails: Resend's test sender (onboarding@resend.dev) only delivers to the Resend account owner's own address,
+  so buyers get no email until there is a custom domain verified in Resend (`RECEIPT_FROM`). The site promises the
+  link "by email": either set this up before selling or drop that promise.
+- Checkout's "Select payment method" radios are decorative (Razorpay asks in its own window): remove once Razorpay is live.
