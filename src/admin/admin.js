@@ -177,18 +177,61 @@ async function shrink(bmp, maxSide, quality) {
   return { blob, canvas };
 }
 
+// Mockup covers (a book photographed on a plain backdrop) come with a wide empty border, which makes the book look
+// smaller than flat covers on the shop. Cut the border off: find where the picture stops matching the corner colour.
+// A row or column counts as picture only if a fifth of it clearly differs, so soft shadows and thin lines are trimmed too. Returns the bitmap unchanged if there is no border.
+async function trimBorder(bmp) {
+  const k = Math.min(1, 400 / Math.max(bmp.width, bmp.height));
+  const w = Math.max(1, Math.round(bmp.width * k)), h = Math.max(1, Math.round(bmp.height * k));
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(bmp, 0, 0, w, h);
+  const px = ctx.getImageData(0, 0, w, h).data;
+  const at = (x, y) => { const i = (y * w + x) * 4; return [px[i], px[i + 1], px[i + 2]]; };
+  const corners = [at(1, 1), at(w - 2, 1), at(1, h - 2), at(w - 2, h - 2)];
+  // Backdrop = the lightest corner (a board's or a shadow's corner is darker); skip if a corner is wildly different.
+  const lum = (q) => q[0] + q[1] + q[2];
+  const bg = corners.reduce((a, q) => (lum(q) > lum(a) ? q : a));
+  if (corners.filter((q) => Math.abs(lum(q) - lum(bg)) < 120).length < 2) return bmp;
+  const differs = (x, y) => { const q = at(x, y); return Math.abs(q[0] - bg[0]) + Math.abs(q[1] - bg[1]) + Math.abs(q[2] - bg[2]) > 150; };
+  const rowHit = (y) => { let n = 0; for (let x = 0; x < w; x++) n += differs(x, y); return n > w * 0.2; };
+  const colHit = (x) => { let n = 0; for (let y = 0; y < h; y++) n += differs(x, y); return n > h * 0.2; };
+  // The book is the longest unbroken run of picture rows/columns; a separate band (a board's drop shadow) is skipped.
+  const longestRun = (n, hit) => {
+    let best = [0, -1], start = -1;
+    for (let i = 0; i <= n; i++) {
+      if (i < n && hit(i)) { if (start < 0) start = i; }
+      else if (start >= 0) { if (i - 1 - start > best[1] - best[0]) best = [start, i - 1]; start = -1; }
+    }
+    return best;
+  };
+  const [top, bot] = longestRun(h, rowHit);
+  const [left, right] = longestRun(w, colHit);
+  const sw = right - left + 1, sh = bot - top + 1;
+  if (sw < w * 0.3 || sh < h * 0.3) return bmp;            // found almost nothing: leave it alone
+  if (sw > w * 0.95 && sh > h * 0.95) return bmp;          // no real border
+  const pad = 1; // keep a hair of edge so the cover's corners aren't clipped
+  const sx = Math.max(0, (left - pad) / k), sy = Math.max(0, (top - pad) / k);
+  const ex = Math.min(bmp.width, (right + 1 + pad) / k), ey = Math.min(bmp.height, (bot + 1 + pad) / k);
+  return createImageBitmap(bmp, Math.round(sx), Math.round(sy), Math.round(ex - sx), Math.round(ey - sy));
+}
+
 // Covers are shrunk in the browser (max 1200 px) so the shop stays fast, plus a 720 px version for cards and the bag.
 $('f-cover').addEventListener('change', async () => {
   const file = $('f-cover').files[0];
   coverBlob = null; thumbBlob = null;
   if (!file) return;
   try {
-    const bmp = await createImageBitmap(file);
+    const raw = await createImageBitmap(file);
+    // A mockup can have layers (page, then a lighter board behind the book): trim until nothing more comes off.
+    let bmp = raw;
+    for (let i = 0; i < 3; i++) { const next = await trimBorder(bmp); if (next === bmp) break; bmp = next; }
+    const trimmed = bmp !== raw;
     const { blob, canvas } = await shrink(bmp, 1200, 0.86);
     coverBlob = blob;
     thumbBlob = (await shrink(bmp, 720, 0.8)).blob;
     $('cover-img').src = URL.createObjectURL(coverBlob);
-    $('cover-note').textContent = `New cover, ${canvas.width}×${canvas.height}, ${Math.round(coverBlob.size / 1024)} KB.`;
+    $('cover-note').textContent = `New cover, ${canvas.width}×${canvas.height}, ${Math.round(coverBlob.size / 1024)} KB.${trimmed ? ' Empty border around the book cut off, so it shows as big as the other covers.' : ''}`;
     $('cover-preview').hidden = false;
   } catch {
     message($('form-msg'), 'That image could not be opened. Try a JPG or PNG.');
