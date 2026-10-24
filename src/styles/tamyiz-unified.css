@@ -381,7 +381,7 @@ img {
   text-transform: uppercase;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
 }
 
 .tamyiz-cart-btn:hover {
@@ -512,7 +512,7 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
@@ -929,7 +929,7 @@ img {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.3s; transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
 }
 
@@ -1057,7 +1057,7 @@ img {
   font-weight: 700;
   text-decoration: none;
   color: var(--color-black);
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
 }
 
 .tamyiz-founder-social-link:hover {
@@ -1206,7 +1206,7 @@ img {
   font-weight: 700;
   color: var(--color-black);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
   white-space: nowrap;
 }
 
@@ -1252,7 +1252,7 @@ img {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all 0.25s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.25s; transition-timing-function: ease;
   position: relative;
 }
 
@@ -1332,7 +1332,7 @@ img {
   justify-content: center;
   z-index: 3;
   color: var(--color-black);
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -1431,7 +1431,7 @@ img {
   color: var(--color-black);
   border-radius: 2px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
   min-width: 34px;
   text-align: center;
 }
@@ -1462,7 +1462,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
   cursor: pointer;
 }
 
@@ -1499,7 +1499,7 @@ img {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: all 0.25s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.25s; transition-timing-function: ease;
 }
 
 .tamyiz-drawer-backdrop.active {
@@ -1668,7 +1668,7 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
@@ -1713,7 +1713,7 @@ img {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: all 0.25s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.25s; transition-timing-function: ease;
 }
 
 .tamyiz-modal.active {
@@ -1973,7 +1973,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
 
@@ -2031,7 +2031,7 @@ img {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: all 0.25s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.25s; transition-timing-function: ease;
 }
 
 .tamyiz-mobile-drawer-backdrop.active {
@@ -2132,7 +2132,7 @@ img {
   text-align: left;
   cursor: pointer;
   color: var(--color-black);
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2184,7 +2184,7 @@ img {
   font-size: 0.85rem;
   color: var(--color-black);
   outline: none;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
 }
 
 .tamyiz-search-input:focus {
@@ -2307,7 +2307,7 @@ img {
   padding: 1.5rem;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.25s; transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tamyiz-pdp-modal.active {
@@ -2359,7 +2359,7 @@ img {
   font-size: 1.15rem;
   color: var(--color-black);
   z-index: 10;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
 }
 
 .tamyiz-pdp-close-btn:hover {
@@ -2426,7 +2426,7 @@ img {
   cursor: pointer;
   overflow: hidden;
   opacity: 0.6;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
 }
 
 .tamyiz-pdp-thumb-btn.active,
@@ -2647,7 +2647,7 @@ img {
   border-radius: 4px;
   padding: 0.75rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
   align-items: center;
 }
 
@@ -2747,7 +2747,7 @@ img {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.25s; transition-timing-function: ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2783,7 +2783,7 @@ img {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3032,7 +3032,7 @@ img {
   border-radius: 4px;
   padding: 1rem 1.25rem;
   margin-bottom: 0.75rem;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
 }
 
 .tamyiz-download-card:hover {
@@ -3698,7 +3698,7 @@ img {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
 }
 
 .tamyiz-btn-nav-outline:hover {
@@ -3720,7 +3720,7 @@ img {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
@@ -4010,7 +4010,7 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
 }
 
 .tamyiz-pdp-format-pill .pill-dot {
@@ -4053,7 +4053,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
@@ -4078,7 +4078,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
 }
 
 .tamyiz-pdp-btn-buy-now:hover {
@@ -4166,7 +4166,7 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
 }
 
 .tamyiz-sample-toggle-btn:hover {
@@ -4353,7 +4353,7 @@ img {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
 }
 
 .tamyiz-matrix-card:hover {
@@ -4594,7 +4594,7 @@ img {
   font-size: 16px !important;
   color: var(--color-black);
   outline: none;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
 }
 
 .tamyiz-form-input:focus {
@@ -4672,7 +4672,7 @@ img {
   border-radius: 4px;
   background: #FFFFFF;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
 }
 
 .tamyiz-payment-option-label:hover {
@@ -4710,7 +4710,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.65rem;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.2s; transition-timing-function: ease;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
@@ -4993,7 +4993,7 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
 }
 
 .tamyiz-btn-download-vault:hover {
@@ -5108,7 +5108,7 @@ img {
   justify-content: center;
   cursor: pointer;
   font-size: 1rem;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
   flex-shrink: 0;
   margin-left: 1rem;
 }
@@ -5140,7 +5140,7 @@ img {
   letter-spacing: 0.08em;
   color: var(--color-grey);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
   white-space: nowrap;
 }
 
@@ -5327,7 +5327,7 @@ img {
   pointer-events: auto;
   opacity: 0;
   transform: translateY(16px);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.25s; transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   border-left: 4px solid var(--color-red);
   max-width: 420px;
 }
@@ -5525,7 +5525,7 @@ img {
   color: var(--color-black);
   border-radius: 0px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
   outline: none;
 }
 
@@ -5759,7 +5759,7 @@ img {
   padding: 0.65rem 0.85rem;
   border: 1px solid rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
 }
 
 .tamyiz-sandbox-method-label:hover {
@@ -5930,7 +5930,7 @@ img {
   background: #FFFFFF;
   color: #333333;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, visibility; transition-duration: 0.15s; transition-timing-function: ease;
 }
 
 .tamyiz-legal-tab-btn:hover {
@@ -6613,3 +6613,23 @@ header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
 .tmz-shop-empty p { margin: 0 auto 1.5rem; max-width: 30rem; color: var(--tmz-graphite); font-size: 0.98rem; line-height: 1.55; }
 .tmz-footer-wordmark { display: block; width: 150px; height: auto; filter: invert(1); margin-bottom: 1rem; }
 [hidden] { display: none !important; } /* the hidden attribute must win over utility classes like .flex */
+
+/* ---------- Smoothness pass (24 Oct 2026): no full-screen blur, no blur on cards ---------- */
+/* Blurring the whole page behind the menu/bag/pop-ups made phones stutter (100 ms frames when the menu opened).
+   A plain dim looks the same at a glance and costs almost nothing. */
+.tamyiz-mobile-drawer-backdrop, .tamyiz-drawer-backdrop, .tamyiz-modal {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.tamyiz-mobile-drawer-backdrop, .tamyiz-drawer-backdrop { background: rgba(0, 0, 0, 0.45) !important; }
+.tamyiz-modal { background-color: rgba(0, 0, 0, 0.55) !important; }
+/* Small glass effects on every card: solid instead (cheaper to scroll). */
+.tamyiz-badge-digital, .tamyiz-btn-wishlist { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.tamyiz-badge-digital { background: rgba(0, 0, 0, 0.82) !important; }
+.tamyiz-btn-wishlist { background: rgba(255, 255, 255, 0.92) !important; }
+/* The sliding panels move on the graphics chip. */
+.tamyiz-mobile-drawer, .tamyiz-drawer { will-change: transform; contain: layout paint; }
+/* Touch screens: a lighter header glass (smaller blur, no colour boost) keeps the see-through look but scrolls easier. */
+@media (pointer: coarse) {
+  .tamyiz-header { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.78); }
+}

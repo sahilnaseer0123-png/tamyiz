@@ -105,6 +105,9 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
   Try again button (`loadState.failed`, `retryProducts()`), never "first e-books on the way".
 - Browser storage can be blocked: every localStorage call must be in try/catch (a throw once stopped checkout).
 - Fonts: Inter + Space Grotesk only (Syne dropped; the footer wordmark is the SVG).
+- Smoothness (24 Oct 2026): no backdrop-filter on full-screen overlays (menu, bag, pop-ups) or on cards: it made
+  phones stutter (100 ms frames). Only the header keeps a glass blur (lighter on touch screens). Never use
+  `transition: all`; list the properties (opacity, transform, colours...).
 
 ## Phone layout and shared content (24 Oct 2026)
 

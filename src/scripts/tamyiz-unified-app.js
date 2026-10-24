@@ -255,12 +255,11 @@ class TamyizUnifiedApp {
   bindScrollHeader() {
     const header = document.getElementById('navbar');
     if (!header) return;
+    // Only touch the header when it actually crosses the line, not on every scroll event.
+    let scrolled = null;
     const update = () => {
-      if (window.scrollY >= 70) {
-        header.classList.add('is-scrolled');
-      } else {
-        header.classList.remove('is-scrolled');
-      }
+      const now = window.scrollY >= 70;
+      if (now !== scrolled) { scrolled = now; header.classList.toggle('is-scrolled', now); }
     };
     window.addEventListener('scroll', update, { passive: true });
     update();
