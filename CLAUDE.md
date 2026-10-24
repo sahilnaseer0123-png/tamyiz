@@ -54,7 +54,10 @@ lost files are re-sent by hand on WhatsApp. Never say the link is "emailed" unti
 ## Razorpay activation (started 24 Oct 2026)
 
 Status 24 Oct 2026: website https://tamyiz.pages.dev/ approved by Razorpay; TEST keys added in Cloudflare
-(`RAZORPAY_KEY_ID` Text, `RAZORPAY_KEY_SECRET` Secret, Production). Swap both for live keys after the test purchase.
+(`RAZORPAY_KEY_ID` Text, `RAZORPAY_KEY_SECRET` Secret, Production). Test purchase passed 24 Oct 2026 (test card →
+"Payment received" → PDF downloaded). Next: swap both for live keys (then push or Retry deployment).
+Test mode tips: the UPI tab only shows a QR (real apps can't pay it); use test card 5104 0600 0000 0008, any CVV/future
+expiry, OTP of 4+ digits. Payment method is chosen in Razorpay's window; checkout has no method picker of its own.
 While test keys are live, an on-sale book can be "bought" with Razorpay's public test UPI/cards: keep books
 "Coming soon" except during a test.
 
@@ -110,4 +113,3 @@ tamyiz-unified.css). Don't ship below this.
 - Receipt emails are off: Resend only sends to strangers from a domain you own (not Gmail). Plan: once sales start,
   buy a domain (e.g. tamyiz.in), verify it in Resend, set `RESEND_API_KEY` + `RECEIPT_FROM`, then put the email
   wording back (checkout, product page, FAQ, delivery policy, after-payment modal).
-- Checkout's "Select payment method" radios are decorative (Razorpay asks in its own window): remove once Razorpay is live.

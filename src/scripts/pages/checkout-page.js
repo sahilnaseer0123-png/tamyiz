@@ -76,8 +76,8 @@ export function renderCheckoutPage(appInstance) {
                   <div class="tamyiz-step-header">
                     <span class="tamyiz-step-num">01</span>
                     <div>
-                      <h3 class="tamyiz-step-title">Instant Delivery Protocol</h3>
-                      <p class="tamyiz-step-sub">Where should we deliver your digital download links?</p>
+                      <h2 class="tamyiz-step-title">Your details</h2>
+                      <p class="tamyiz-step-sub">So we can find your order and help if anything goes wrong.</p>
                     </div>
                   </div>
 
@@ -121,52 +121,14 @@ export function renderCheckoutPage(appInstance) {
                   </div>
                 </div>
 
-                <!-- STEP 2: PAYMENT METHOD SELECTOR -->
+                <!-- STEP 2: PAYMENT (the method is chosen in Razorpay's own window) -->
                 <div class="tamyiz-checkout-card mb-6">
-                  <div class="tamyiz-step-header">
+                  <div class="tamyiz-step-header" style="border-bottom: 0; margin-bottom: 0; padding-bottom: 0;">
                     <span class="tamyiz-step-num">02</span>
                     <div>
-                      <h3 class="tamyiz-step-title">Select Payment Method</h3>
-                      <p class="tamyiz-step-sub">Encrypted 256-bit gateway. Instant access unlocked.</p>
+                      <h2 class="tamyiz-step-title">Payment</h2>
+                      <p class="tamyiz-step-sub">Secure payment by Razorpay. Choose UPI, card, net banking or a wallet in the next window.</p>
                     </div>
-                  </div>
-
-                  <div class="space-y-3">
-                    <label class="tamyiz-payment-option-label">
-                      <input type="radio" name="checkout-payment" value="upi" checked />
-                      <div class="flex-1">
-                        <div class="flex justify-between items-center">
-                          <strong>Instant UPI (Google Pay, PhonePe, Paytm, QR)</strong>
-                          <span class="tamyiz-badge-fast" style="display:inline-flex; align-items:center; gap:0.25rem;">
-                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                            </svg>
-                            Instant
-                          </span>
-                        </div>
-                        <span class="text-xs text-neutral-500 block mt-0.5">Zero convenience fees • Instant mobile checkout</span>
-                      </div>
-                    </label>
-
-                    <label class="tamyiz-payment-option-label">
-                      <input type="radio" name="checkout-payment" value="card" />
-                      <div class="flex-1">
-                        <div class="flex justify-between items-center">
-                          <strong>Credit / Debit Card (Visa, Mastercard, RuPay)</strong>
-                        </div>
-                        <span class="text-xs text-neutral-500 block mt-0.5">Secure bank OTP authentication</span>
-                      </div>
-                    </label>
-
-                    <label class="tamyiz-payment-option-label">
-                      <input type="radio" name="checkout-payment" value="netbanking" />
-                      <div class="flex-1">
-                        <div class="flex justify-between items-center">
-                          <strong>NetBanking &amp; International Cards</strong>
-                        </div>
-                        <span class="text-xs text-neutral-500 block mt-0.5">All major Indian and global banks supported</span>
-                      </div>
-                    </label>
                   </div>
                 </div>
 
@@ -178,10 +140,10 @@ export function renderCheckoutPage(appInstance) {
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                       </svg>
                     </span>
-                    <span>Zero Waiting Time Guarantee</span>
+                    <span>Instant download</span>
                   </div>
                   <p style="font-size: 0.84rem; color: #555; margin: 0; line-height: 1.5;">
-                    Immediate on-screen unlock. Your access keys and digital download links will appear on this screen instantly upon clicking Complete Order.
+                    Your download button appears on this screen as soon as the payment is confirmed.
                   </p>
                 </div>
 
@@ -197,8 +159,8 @@ export function renderCheckoutPage(appInstance) {
             <div class="tamyiz-checkout-right-col">
               <div class="tamyiz-checkout-summary-card">
                 <div class="tamyiz-summary-header">
-                  <h3>Order Summary</h3>
-                  <span class="text-xs font-bold text-neutral-500 uppercase">${cart.length} Digital License${cart.length > 1 ? 's' : ''}</span>
+                  <h2>Order Summary</h2>
+                  <span class="text-xs font-bold text-neutral-500 uppercase">${cart.length} e-book${cart.length > 1 ? 's' : ''}</span>
                 </div>
 
                 <!-- Items List -->
@@ -207,7 +169,7 @@ export function renderCheckoutPage(appInstance) {
                     <div class="tamyiz-summary-item" id="summary-item-${item.cartItemId}">
                       <img src="${item.image}" alt="${item.name}" class="summary-item-thumb" />
                       <div class="summary-item-info">
-                        <h4 class="summary-item-name">${item.name}</h4>
+                        <h3 class="summary-item-name">${item.name}</h3>
                         <span class="summary-item-variant">${item.variant}</span>
                         <div class="flex items-center gap-3 mt-1.5">
                           <span class="text-xs font-mono text-neutral-500 uppercase tracking-wider">Single License (1)</span>

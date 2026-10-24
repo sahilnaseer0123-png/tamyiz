@@ -1689,7 +1689,7 @@ img {
   font-family: var(--font-sub);
   font-size: 0.7rem;
   font-weight: 700;
-  color: #777775;
+  color: #666664;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: center;
@@ -4739,6 +4739,7 @@ img {
   margin-bottom: 1.25rem;
 }
 
+.tamyiz-summary-header h2,
 .tamyiz-summary-header h3 {
   font-family: var(--font-display);
   font-size: 1.15rem;
