@@ -6354,12 +6354,11 @@ a.tamyiz-btn-preview-trigger { display: flex; align-items: center; justify-conte
 .tmz-hero-proof li { display: flex; align-items: center; gap: 0.5rem; }
 .tmz-hero-proof li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #000; }
 
-/* Frosted glass by default; a click (anywhere but its links) turns it black and makes it float. JS: home-page.js */
+/* Translucent by default (no backdrop blur: CLAUDE.md rules it out on cards, it made phones stutter);
+   a click (anywhere but its links) turns it black and makes it float. JS: home-page.js */
 .tmz-about-card {
   --tmz-ease: cubic-bezier(0.22, 1, 0.36, 1);
   background: rgba(255, 255, 255, 0.62);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 24px;
   padding: 1.6rem;
