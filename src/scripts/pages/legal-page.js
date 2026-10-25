@@ -83,7 +83,11 @@ We collect only: your name, email address, mobile number, and the payment refere
         content: `Payments are handled by Razorpay, a PCI-DSS certified payment gateway. We never see or store your card number, CVV, UPI PIN or bank login.`
       },
       {
-        heading: '03. Sharing and Your Rights',
+        heading: '03. Visitor Statistics',
+        content: `We use Cloudflare Web Analytics to count visits and see which pages are read, so we can improve the site. It uses no cookies, does not track you across other websites, and does not tell us who you are: we only see totals such as page views, country and device type.`
+      },
+      {
+        heading: '04. Sharing and Your Rights',
         content: `We never sell or rent your details, and we don't share them with advertisers. They are used only to deliver your e-book and help you with your order.
 You can ask to see or delete your details at any time by emailing tamyiz.co@gmail.com.`
       }
