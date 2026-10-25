@@ -362,7 +362,7 @@ class TamyizUnifiedApp {
       <div class="tamyiz-drawer-backdrop" id="cart-backdrop" onclick="window.tamyizApp.closeCart()"></div>
       <aside class="tamyiz-drawer" id="cart-drawer" aria-label="Your bag">
         <div class="tamyiz-drawer-head">
-          <div class="tamyiz-drawer-title">Your bag</div>
+          <div class="tamyiz-drawer-title">Your bag <span id="cart-count-label"></span></div>
           <button style="font-size: 1.25rem; background: none; border: none; cursor: pointer; padding: 0.25rem;" onclick="window.tamyizApp.closeCart()" aria-label="Close bag">✕</button>
         </div>
 
@@ -967,6 +967,9 @@ class TamyizUnifiedApp {
     const container = document.getElementById('cart-items-container');
     const foot = document.getElementById('cart-foot-container');
     if (!container) return;
+    // How many books are in the bag, next to the title, so the total never looks like it came from nowhere.
+    const countLabel = document.getElementById('cart-count-label');
+    if (countLabel) countLabel.textContent = store.cart.length ? `(${store.cart.length})` : '';
 
     if (store.cart.length === 0) {
       container.innerHTML = `

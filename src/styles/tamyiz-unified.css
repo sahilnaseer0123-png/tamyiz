@@ -6670,3 +6670,11 @@ header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
   }
   .tamyiz-btn-wishlist { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08); }
 }
+
+/* Bag drawer (fix 25 Oct 2026): the whole drawer scrolls as one page. Before, only the book list scrolled, and on a
+   laptop the tall "Your details" form squeezed it to one book's height: the other books were hidden while the
+   total still counted them (looked like the price changed by itself). Now every book in the bag is always visible. */
+#cart-drawer { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+#cart-drawer .tamyiz-drawer-head { position: sticky; top: 0; z-index: 2; background: #fff; }
+#cart-drawer .tamyiz-drawer-items { flex: 1 0 auto; overflow: visible; }
+#cart-drawer .tamyiz-drawer-foot { flex-shrink: 0; }
