@@ -97,10 +97,6 @@ export const faqs = [
     a: "Please don't: each copy is for one person. If your class or team wants it, message us and we'll work something out."
   },
   {
-    q: "What do you write about?",
-    a: "Anything worth learning that's hard to find explained simply. New e-books are added as we write them, so the shop keeps growing."
-  },
-  {
     q: "What does TAMYIZ mean?",
     a: "Tamyiz (تمييز) is Arabic for distinction: telling what matters apart from what doesn't. That's what we try to do in every book."
   }
