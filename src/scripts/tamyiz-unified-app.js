@@ -425,7 +425,7 @@ class TamyizUnifiedApp {
             
             <div class="tamyiz-dispatch-input-row" style="margin-bottom: 0.6rem;">
               <label class="tamyiz-form-label-mono" for="bag-dispatch-email">EMAIL ADDRESS *</label>
-              <input type="email" id="bag-dispatch-email" class="tamyiz-dispatch-input" placeholder="name@domain.com" autocomplete="email" required oninput="window.tamyizApp.validateDispatchField('email')" />
+              <input type="email" id="bag-dispatch-email" class="tamyiz-dispatch-input" placeholder="yourname@gmail.com" autocomplete="email" required oninput="window.tamyizApp.validateDispatchField('email')" />
               <div id="bag-email-error" class="tamyiz-input-error-msg" style="display: none;">Please enter a valid email address</div>
             </div>
 

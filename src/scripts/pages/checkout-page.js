@@ -102,7 +102,7 @@ export function renderCheckoutPage(appInstance) {
                           id="chk-email"
                           required
                           class="tamyiz-form-input"
-                          placeholder="name@domain.com"
+                          placeholder="yourname@gmail.com"
                           autocomplete="email"
                         />
                       </div>
