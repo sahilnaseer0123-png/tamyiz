@@ -183,7 +183,11 @@ async function shrink(bmp, maxSide, quality) {
 // Mockup covers (a book photographed on a plain backdrop) come with a wide empty border, which makes the book look
 // smaller than flat covers on the shop. Cut the border off: find where the picture stops matching the corner colour.
 // A row or column counts as picture only if a fifth of it clearly differs, so soft shadows and thin lines are trimmed too. Returns the bitmap unchanged if there is no border.
+// A finished cover is already portrait 2:3 (or close): never trim those, or light skies and white margins get cut away.
+const isCoverShape = (w, h) => { const r = w / h; return r > 0.6 && r < 0.75; };
+
 async function trimBorder(bmp) {
+  if (isCoverShape(bmp.width, bmp.height)) return bmp;
   const k = Math.min(1, 400 / Math.max(bmp.width, bmp.height));
   const w = Math.max(1, Math.round(bmp.width * k)), h = Math.max(1, Math.round(bmp.height * k));
   const c = document.createElement('canvas'); c.width = w; c.height = h;
@@ -213,6 +217,7 @@ async function trimBorder(bmp) {
   const sw = right - left + 1, sh = bot - top + 1;
   if (sw < w * 0.3 || sh < h * 0.3) return bmp;            // found almost nothing: leave it alone
   if (sw > w * 0.95 && sh > h * 0.95) return bmp;          // no real border
+  if (sw / sh < 0.5 || sw / sh > 0.85) return bmp;         // what's left isn't book-shaped: leave it alone
   const pad = 1; // keep a hair of edge so the cover's corners aren't clipped
   const sx = Math.max(0, (left - pad) / k), sy = Math.max(0, (top - pad) / k);
   const ex = Math.min(bmp.width, (right + 1 + pad) / k), ey = Math.min(bmp.height, (bot + 1 + pad) / k);
