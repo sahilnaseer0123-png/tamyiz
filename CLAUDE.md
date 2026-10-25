@@ -42,6 +42,8 @@ sold with Razorpay and delivered as private signed download links.
 - Deploys stop silently if Cloudflare loses access to this repo (yellow "disconnected" banner in the Pages project).
   Fix: GitHub → Settings → Applications → Cloudflare Workers and Pages → Configure → Repository access must list
   BOTH tamyiz and eternal-polyclinic → Save. (Happened 23 Oct 2026.)
+- Visitor stats (25 Oct 2026): Cloudflare Web Analytics is on (Pages project → Metrics → Web Analytics; cookieless, counts
+  only, no personal data). The privacy policy (/legal/privacy, section 03) says so; keep it in step if analytics changes.
 - Tests: `npm test` (node test runner, `tests/`: payments, downloads, admin). Run before every push. `npm run cf:dev` runs the built site on
   Cloudflare's runtime locally (wrangler, with a local KV store; set ADMIN_PASSWORD/TAMYIZ_SANDBOX in .dev.vars).
 
