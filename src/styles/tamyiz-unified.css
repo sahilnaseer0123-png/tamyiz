@@ -6678,3 +6678,14 @@ header.tamyiz-header a.tamyiz-header-brand.tamyiz-header-brand-desktop {
 #cart-drawer .tamyiz-drawer-head { position: sticky; top: 0; z-index: 2; background: #fff; }
 #cart-drawer .tamyiz-drawer-items { flex: 1 0 auto; overflow: visible; }
 #cart-drawer .tamyiz-drawer-foot { flex-shrink: 0; }
+
+/* Pop-up messages (toasts), 25 Oct 2026: never block the view. Taps go through them; while the bag is open they sit
+   on the left (desktop) so the bag's total and button stay visible; on phones they sit at the top, away from buttons. */
+.tamyiz-toast { pointer-events: none; }
+body:has(#cart-drawer.active) .tamyiz-toast-container { right: auto; left: 2rem; }
+@media (max-width: 639px) {
+  .tamyiz-toast-container,
+  body:has(#cart-drawer.active) .tamyiz-toast-container { top: calc(env(safe-area-inset-top, 0px) + 12px); bottom: auto; left: 16px; right: 16px; align-items: center; }
+  .tamyiz-toast { max-width: 100%; transform: translateY(-16px); }
+  .tamyiz-toast.toast-show { transform: translateY(0); }
+}

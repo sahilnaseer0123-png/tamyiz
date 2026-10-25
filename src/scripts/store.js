@@ -83,7 +83,8 @@ class Store {
   }
 
   // Cart operations
-  addToCart(product, variantOption, quantity = 1, customPrice = null, customOriginalPrice = null) {
+  // options.quiet: no "Added to bag" pop-up (used when the bag or checkout opens right away, which already shows it).
+  addToCart(product, variantOption, quantity = 1, customPrice = null, customOriginalPrice = null, options = {}) {
     if (!isAvailable(product)) return;
     const variant = variantOption || (product.variants ? product.variants.options[0] : "Standard");
     const cartItemId = `${product.id}-${variant}`;
@@ -124,7 +125,9 @@ class Store {
 
     this.save(STORAGE_KEYS.CART, this.cart);
     this.notify('cart_updated', { cart: this.cart });
-    this.showToast(`Added to bag: ${product.name}${variant && variant !== 'Standard' ? ` (${variant})` : ''}`, 'success');
+    if (!options.quiet) {
+      this.showToast(`Added to bag: ${product.name}${variant && variant !== 'Standard' ? ` (${variant})` : ''}`, 'success');
+    }
   }
 
   removeFromCart(cartItemId) {

@@ -874,7 +874,7 @@ class TamyizUnifiedApp {
       origPrice = product.variants.prices[selectedVariant].originalPrice;
     }
 
-    store.addToCart(product, selectedVariant, 1, price, origPrice);
+    store.addToCart(product, selectedVariant, 1, price, origPrice, { quiet: true });
     this.openCart();
     setTimeout(() => {
       const emailInput = document.getElementById('bag-dispatch-email');
@@ -896,7 +896,7 @@ class TamyizUnifiedApp {
       origPrice = product.variants.prices[selectedVariant].originalPrice;
     }
 
-    store.addToCart(product, selectedVariant, 1, price, origPrice);
+    store.addToCart(product, selectedVariant, 1, price, origPrice, { quiet: true });
     this.closeCart();
     this.navigateTo('/checkout');
   }
@@ -1170,7 +1170,7 @@ class TamyizUnifiedApp {
       origPrice = product.variants.prices[selectedVariant].originalPrice;
     }
 
-    store.addToCart(product, selectedVariant, 1, price, origPrice);
+    store.addToCart(product, selectedVariant, 1, price, origPrice, { quiet: true });
     this.closeProductPreview();
     this.openCart();
     setTimeout(() => {
