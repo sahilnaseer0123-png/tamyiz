@@ -49,7 +49,7 @@ export function renderHomePage(appInstance) {
           <div class="tmz-hero-copy">
             <p class="tmz-hero-meaning"><strong>Tamyiz</strong> (<span lang="ar">تمييز</span>): the ability to tell things apart.</p>
             <h1 class="tmz-hero-title">Learn to tell <span class="tmz-nowrap">the difference.</span></h1>
-            <p class="tmz-hero-lede">Short, practical e-books on AI and the digital world, written for beginners. Download the PDF and start reading in a minute.</p>
+            <p class="tmz-hero-lede">Short, practical e-books for beginners on AI, online safety, study, earning online and more. Download the PDF and start reading in a minute.</p>
             <div class="tmz-hero-ctas">
               <a href="/#editions" class="tmz-btn tmz-btn-solid" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#editions')">Browse the e-books <span aria-hidden="true">↓</span></a>
               <a href="/#philosophy" class="tmz-btn tmz-btn-line" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">How we write</a>

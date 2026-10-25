@@ -97,6 +97,8 @@ The contact form has no mail server: it opens WhatsApp with the message filled i
   any product, so it stays right whatever TAMYIZ sells next. Portraits: `founders/<name>-portrait.webp`, cropped so
   both faces are the same size with the eyes on the same line (42% down, 4:5, greyscale); redo both together if a
   photo changes. No logo or book covers in the hero (Sahil's calls).
+- Positioning (26 Oct 2026, Sahil): TAMYIZ sells practical e-books on any useful topic, not only AI/tech. Copy names AI
+  first but always with the others ("AI, online safety, study, earning online and more"): home lede, seo.js, About, FAQ.
 - About page `/atelier` (24 Oct 2026): plain words ("About us", why we started, what the name means, founders, contact).
   No "atelier/architects/studio/concierge/editions/protocol" wording anywhere visible; the old studio photo is gone
   (it wasn't theirs). Nav: Home · E-books · How we write · About us (→ /atelier) · Read anywhere. Footer: Pages · Shop ·

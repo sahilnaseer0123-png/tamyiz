@@ -8,7 +8,7 @@ export const SITE_URL = 'https://tamyiz.pages.dev';
 const BRAND = 'TAMYIZ™';
 const DEFAULT_IMAGE = '/og/tamyiz.jpg';
 const DEFAULT_DESCRIPTION =
-  'Practical e-books by TAMYIZ™, delivered as instant PDF downloads.';
+  'Practical e-books on AI, online safety, study, earning online and more, by TAMYIZ™. Instant PDF download.';
 
 const STATIC_PAGES = {
   home: {
@@ -29,7 +29,7 @@ const STATIC_PAGES = {
   atelier: {
     path: '/atelier',
     title: `About us | ${BRAND}`,
-    description: 'TAMYIZ™ is Basit Majeed and Sahil Naseer: two people writing short, practical e-books on AI and the digital world.',
+    description: 'TAMYIZ™ is Basit Majeed and Sahil Naseer: two people writing short, practical e-books on AI, online safety, study, earning online and more.',
   },
   checkout: {
     path: '/checkout',
