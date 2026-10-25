@@ -98,7 +98,7 @@ export const faqs = [
   },
   {
     q: "What do you write about?",
-    a: "Anything useful that's hard to find explained simply. Right now that's AI, online safety, research and study, and selling digital products. New topics are added as we write them, so the shop keeps growing."
+    a: "Anything worth learning that's hard to find explained simply. New e-books are added as we write them, so the shop keeps growing."
   },
   {
     q: "What does TAMYIZ mean?",

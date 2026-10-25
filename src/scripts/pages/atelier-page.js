@@ -48,8 +48,8 @@ export function renderAtelierPage(appInstance) {
         <div class="tmz-wrap tmz-about-story-grid">
           <div class="tmz-about-text">
             <h2>Why we started</h2>
-            <p>We started TAMYIZ in late 2025. Basit works in cybersecurity and research; Sahil works in artificial intelligence and machine learning. Between us, we kept seeing the same thing: people being told to use AI and stay safe online, with nobody explaining how in plain language.</p>
-            <p>So we write short e-books that do exactly that. We started with AI and online safety, the subjects we know best, and we keep adding new ones: studying, earning online and whatever else people need explained simply. Every chapter ends with something you can do today. No filler, no jargon, and a PDF you can read on any device.</p>
+            <p>We started TAMYIZ in late 2025. Basit works in cybersecurity and research; Sahil works in artificial intelligence and machine learning. Between us, we kept seeing the same thing: useful skills that nobody explains in plain language.</p>
+            <p>So we write short e-books that do exactly that, on any subject worth learning. Every chapter ends with something you can do today. No filler, no jargon, and a PDF you can read on any device.</p>
           </div>
           <aside class="tmz-about-facts" aria-label="TAMYIZ at a glance">
             <p class="tmz-about-meaning"><strong>Tamyiz</strong> (<span lang="ar">تمييز</span>) means the ability to tell things apart: a good source from a fake one, a real message from a scam, a vague question from a clear one.</p>
