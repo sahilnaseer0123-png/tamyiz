@@ -125,6 +125,11 @@ function drawList() {
       view.textContent = 'View in shop ↗';
       actions.append(view);
     }
+    if (b.fileSize) {
+      const pdf = document.createElement('a'); pdf.className = 'btn ghost'; pdf.href = `/api/admin/products/${b.id}/file`;
+      pdf.textContent = 'Download PDF'; pdf.setAttribute('aria-label', `Download the PDF of ${b.name}`);
+      actions.append(pdf);
+    }
     const del = document.createElement('button'); del.type = 'button'; del.className = 'danger'; del.textContent = 'Delete';
     del.setAttribute('aria-label', `Delete ${b.name}`);
     del.onclick = () => remove(b);

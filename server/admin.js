@@ -178,6 +178,36 @@ async function deleteProduct(env, id) {
   return json({ ok: true });
 }
 
+/** Backup: the whole catalogue (titles, prices, descriptions, statuses...) as a JSON file. */
+async function backupCatalog(env) {
+  const list = await loadCatalog(env);
+  const day = new Date().toISOString().slice(0, 10);
+  return new Response(JSON.stringify({ exportedAt: new Date().toISOString(), products: list }, null, 2), {
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Content-Disposition': `attachment; filename="tamyiz-catalogue-${day}.json"`,
+      'Cache-Control': 'private, no-store',
+    },
+  });
+}
+
+/** Backup: one e-book's PDF, straight from storage (admin only). */
+async function backupFile(env, id) {
+  const p = findById(await loadCatalog(env), id);
+  if (!p) return json({ error: 'That ebook no longer exists.' }, 404);
+  const { value, metadata } = await store(env).getWithMetadata(`file:${id}`, 'stream');
+  if (!value) return json({ error: 'No PDF has been uploaded for this e-book.' }, 404);
+  return new Response(value, {
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="${p.slug}.pdf"`,
+      'Cache-Control': 'private, no-store',
+      'X-Content-Type-Options': 'nosniff',
+      ...(metadata && metadata.size ? { 'Content-Length': String(metadata.size) } : {}),
+    },
+  });
+}
+
 /** Routes for /api/admin/<rest>. */
 export async function handleAdmin(request, env, rest) {
   const method = request.method;
@@ -193,6 +223,9 @@ export async function handleAdmin(request, env, rest) {
     }
     if (rest === 'stats' && method === 'GET') return await getStats(request, env);
     if (rest === 'products' && method === 'GET') return json({ products: (await loadCatalog(env)).map(adminView) });
+    if (rest === 'backup' && method === 'GET') return await backupCatalog(env);
+    const f = rest.match(/^products\/([a-z0-9-]{3,40})\/file$/);
+    if (f && method === 'GET') return await backupFile(env, f[1]);
     if (rest === 'products' && method === 'POST') return await saveProduct(request, env, null);
     const t = rest.match(/^products\/([a-z0-9-]{3,40})\/thumb$/);
     if (t && method === 'POST') return await saveThumb(request, env, t[1]);

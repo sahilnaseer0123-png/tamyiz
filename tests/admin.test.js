@@ -205,3 +205,25 @@ test('visitor numbers: a refused token gives a clear message', async () => {
   assert.equal(sourceName('google.co.in'), 'Google');
   assert.equal(shapeStats({}, 7).visits, 0);
 });
+
+test('backup: catalogue and PDFs download for the admin only', async () => {
+  const e = env();
+  assert.equal((await call(e, '/api/admin/backup')).status, 401);
+  const cookie = await session(e);
+  const saved = await (await save(e, cookie, form({ status: 'on-sale' }, { pdf: [PDF, 'book.pdf'], cover: [JPEG, 'c.jpg'] }))).json();
+  const id = saved.product.id;
+  assert.equal((await call(e, `/api/admin/products/${id}/file`)).status, 401);
+
+  const b = await call(e, '/api/admin/backup', { headers: { Cookie: cookie } });
+  assert.equal(b.status, 200);
+  assert.match(b.headers.get('Content-Disposition'), /attachment; filename="tamyiz-catalogue-/);
+  const data = await b.json();
+  assert.equal(data.products.length, 1);
+  assert.equal(data.products[0].price, 299);
+
+  const f = await call(e, `/api/admin/products/${id}/file`, { headers: { Cookie: cookie } });
+  assert.equal(f.status, 200);
+  assert.equal(f.headers.get('Content-Type'), 'application/pdf');
+  assert.deepEqual(new Uint8Array(await f.arrayBuffer()), PDF);
+  assert.equal((await call(e, '/api/admin/products/nope-123/file', { headers: { Cookie: cookie } })).status, 404);
+});

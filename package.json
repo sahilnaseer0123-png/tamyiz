@@ -6,10 +6,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/build-pages.js",
+    "build": "node --test tests/*.test.js && vite build && node scripts/build-pages.js",
     "preview": "vite preview",
     "test": "node --test tests/*.test.js",
-    "cf:dev": "npm run build && wrangler pages dev dist --kv TAMYIZ_STORE"
+    "cf:dev": "npm run build && wrangler pages dev dist --kv TAMYIZ_STORE",
+    "build:only": "vite build && node scripts/build-pages.js"
   },
   "devDependencies": {
     "vite": "^8.3.4",

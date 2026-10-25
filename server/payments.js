@@ -300,7 +300,7 @@ export async function handleCreateOrder(request, env, fetchImpl = fetch) {
   try { body = await request.json(); } catch { body = {}; }
   const { items, email, phone, coupon, couponCode } = body || {};
 
-  if (!Array.isArray(items) || items.length === 0) return json({ error: 'Atelier bag contains no valid items.' }, 400);
+  if (!Array.isArray(items) || items.length === 0) return json({ error: 'Your bag is empty.' }, 400);
   const contact = cleanContact(email, phone);
   if (contact.error) return json({ error: contact.error }, 400);
 
