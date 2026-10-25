@@ -315,6 +315,11 @@ function barList(title, rows, key) {
   return box;
 }
 
+// Cloudflare gives two-letter country codes (IN, SA); show the full name where the browser knows it.
+function countryName(code) {
+  try { return /^[A-Z]{2}$/.test(code) ? new Intl.DisplayNames(['en'], { type: 'region' }).of(code) || code : code; } catch { return code; }
+}
+
 async function loadStats(days = statsDays) {
   statsDays = days;
   const card = $('stats'), body = $('stats-body');
@@ -329,7 +334,7 @@ async function loadStats(days = statsDays) {
   const p = el('div'); p.append(el('b', '', num(d.pageViews)), el('span', '', `page views${d.visits ? ` · ${(d.pageViews / d.visits).toFixed(1)} per visit` : ''}`));
   big.append(v, p);
   const parts = [big];
-  if (d.byDay.length > 1) {
+  if (days > 1 && d.byDay.length > 1) {
     const spark = el('div', 'spark'); spark.setAttribute('role', 'img');
     spark.setAttribute('aria-label', 'Visits per day: ' + d.byDay.map((x) => `${x.date} ${x.visits}`).join(', '));
     const max = Math.max(...d.byDay.map((x) => x.visits)) || 1;
@@ -338,9 +343,9 @@ async function loadStats(days = statsDays) {
   }
   const lists = el('div', 'lists');
   lists.append(
-    barList('Came from', d.sources.map((x) => ({ label: x.name, visits: x.visits })), 'visits'),
-    barList('Most read pages', d.pages.map((x) => ({ label: x.path === '/' ? 'Home' : x.path, pageViews: x.pageViews })), 'pageViews'),
-    barList('Countries', d.countries.map((x) => ({ label: x.name, visits: x.visits })), 'visits'),
+    barList('Came from', d.sources.filter((x) => x.visits > 0).map((x) => ({ label: x.name, visits: x.visits })), 'visits'),
+    barList('Most read pages', d.pages.filter((x) => !x.path.startsWith('/admin')).map((x) => ({ label: x.path === '/' ? 'Home' : x.path, pageViews: x.pageViews })), 'pageViews'),
+    barList('Countries', d.countries.map((x) => ({ label: countryName(x.name), visits: x.visits })), 'visits'),
     barList('Devices', d.devices.map((x) => ({ label: x.name[0].toUpperCase() + x.name.slice(1), visits: x.visits })), 'visits'),
   );
   parts.push(lists);
