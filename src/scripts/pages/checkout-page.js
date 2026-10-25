@@ -58,7 +58,7 @@ export function renderCheckoutPage(appInstance) {
             <span class="tamyiz-page-badge">SECURE CHECKOUT BY RAZORPAY</span>
             <h1 class="tamyiz-page-title">Checkout</h1>
             <p class="tamyiz-page-description">
-              Your download button appears on screen as soon as the payment is confirmed. Download your PDF straight away.
+              Your download button appears on screen as soon as the payment is confirmed. Download your PDF straight away. We also email you a receipt with the same download link.
             </p>
           </div>
         </div>

@@ -74,7 +74,7 @@ export const testimonials = [];
 export const faqs = [
   {
     q: "What do I get when I buy?",
-    a: "A PDF e-book. As soon as your payment is confirmed, the download button appears on screen. Download it straight away and keep the file. If you ever lose it, WhatsApp us your order number and we will send it again."
+    a: "A PDF e-book. As soon as your payment is confirmed, the download button appears on screen. Download it straight away and keep the file. We also email you a receipt with the same link (check Spam or Promotions if you can't see it). If you ever lose it, WhatsApp us your order number and we will send it again."
   },
   {
     q: "Which devices can I read it on?",
@@ -105,7 +105,7 @@ export const faqs = [
 export const policies = {
   shipping: {
     title: "Instant Digital Delivery Protocol",
-    content: "Every TAMYIZ e-book is a PDF download. Nothing is shipped by post. Your download button appears on screen right after payment."
+    content: "Every TAMYIZ e-book is a PDF download. Nothing is shipped by post. Your download button appears on screen right after payment, and a receipt with the link is emailed to you."
   },
   returns: {
     title: "Refunds & Licence",

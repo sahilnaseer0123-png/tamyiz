@@ -24,7 +24,7 @@ export const legalDocs = {
       },
       {
         heading: '02. When You Receive It',
-        content: `As soon as your payment is confirmed, your download button appears on screen. Download the PDF straight away and keep the file. The download link stays valid for one year.`
+        content: `As soon as your payment is confirmed, your download button appears on screen. Download the PDF straight away and keep the file. We also email a receipt with the same download link to the address you entered at checkout (if you can't find it, check Spam or Promotions). The download link stays valid for one year.`
       },
       {
         heading: '03. If Something Goes Wrong',
@@ -222,7 +222,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
                 <div>
                   <div class="mb-1.5"><strong class="text-black">Email:</strong> <a href="mailto:tamyiz.co@gmail.com" class="underline text-black font-bold">tamyiz.co@gmail.com</a></div>
                   <div class="mb-1.5"><strong class="text-black">Phone &amp; WhatsApp:</strong> <a href="tel:+919541722379" class="underline text-black font-bold" style="white-space: nowrap;">+91 95417 22379</a> (10:00–19:00 IST)</div>
-                  <div class="mb-1.5"><strong class="text-black">Delivery:</strong> download link on screen right after payment</div>
+                  <div class="mb-1.5"><strong class="text-black">Delivery:</strong> download link on screen right after payment, plus an email receipt</div>
                   <div><strong class="text-black">Refunds:</strong> within 7 days for a double charge, or a file we could not deliver or fix</div>
                 </div>
               </div>

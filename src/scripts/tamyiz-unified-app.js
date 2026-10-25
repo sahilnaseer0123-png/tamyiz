@@ -436,7 +436,7 @@ class TamyizUnifiedApp {
             </div>
 
             <div style="font-family: monospace; font-size: 0.64rem; color: #666; line-height: 1.4; margin-bottom: 0.75rem;">
-              ● YOUR DOWNLOAD APPEARS ON SCREEN RIGHT AFTER PAYMENT
+              ● YOUR DOWNLOAD APPEARS ON SCREEN RIGHT AFTER PAYMENT · RECEIPT BY EMAIL
             </div>
 
             <!-- Primary Checkout CTA -->

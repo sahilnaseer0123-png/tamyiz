@@ -55,8 +55,9 @@ sold with Razorpay and delivered as private signed download links.
 Coming soon = "COMING SOON" badge, "Pre-order on WhatsApp" button (product filled in), no Buy Now, no Bag/Checkout
 in the header unless some book is on sale, product schema PreOrder. To sell a book: upload its PDF on /admin and set
 "On sale". Payments also need Razorpay keys in Cloudflare.
-No email promise (decided 24 Oct 2026): buyers get the download on screen and are told to download it right away;
-lost files are re-sent by hand on WhatsApp. Never say the link is "emailed" until receipts really send (see Open issues).
+Delivery: the download shows on screen (main delivery) AND a receipt email with the same links is sent via Brevo
+(working since 25 Oct 2026: first real test receipt landed in Gmail Inbox). Lost files are re-sent by hand on WhatsApp.
+The after-payment screen claims the email only when Brevo accepted it (`receiptEmailed`).
 
 ## Razorpay activation (started 24 Oct 2026)
 
@@ -152,9 +153,7 @@ tamyiz-unified.css). Don't ship below this.
   saved with a trailing dot ("TAMYIZ_STORE.") and didn't work; names must match exactly. The dashboard then refused
   "ADMIN_PASSWORD" as already existing while not listing it, so the password secret is `TAMYIZ_ADMIN_PASSWORD`.
   Bindings and secrets only apply after a new deployment.
-- Receipt emails (25 Oct 2026, Sahil chose the free route): Brevo sends them from tamyiz.co@gmail.com (`sendReceiptEmail`,
-  `receiptEmail` in server/payments.js). The after-payment screen says "we also emailed a receipt" ONLY when Brevo accepted
-  it (`receiptEmailed` in the verify response); otherwise it still says no email is sent. Gmail-as-sender via a third
-  party can land in spam, so the on-screen download stays the main delivery. Static pages (FAQ, delivery policy,
-  checkout line) still promise only the on-screen download; update them once a real test receipt arrives. Better
-  later: own domain + Resend or Brevo with that domain.
+- Receipt emails: WORKING since 25 Oct 2026 (Brevo, sender tamyiz.co@gmail.com, key `BREVO_API_KEY`). Test purchase
+  25 Oct: receipt arrived in Inbox (Gmail shows the sender as tamyiz.co@…brevosend.com, normal for a Gmail sender).
+  FAQ, delivery policy, checkout and legal contact block now mention the email receipt. Better later: own domain
+  (Brevo or Resend) so the sender looks clean and spam risk drops. Buyers before 25 Oct 22:45 IST got no email.
