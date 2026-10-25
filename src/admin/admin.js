@@ -71,6 +71,7 @@ async function openList(note = '', kind = 'warn') {
   books = r.data.products || [];
   message($('list-msg'), note, kind);
   drawList();
+  loadStats();
   makeMissingThumbs();
 }
 
@@ -294,3 +295,55 @@ $('book-form').addEventListener('submit', (e) => {
 });
 
 start();
+
+// ---------------------------------------------------------------- visitors (Cloudflare Web Analytics, counts only)
+let statsDays = 7;
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+const num = (n) => Number(n || 0).toLocaleString('en-IN');
+
+function barList(title, rows, key) {
+  const box = el('div');
+  box.append(el('h3', '', title));
+  if (!rows.length) { box.append(el('p', 'hint', 'Nothing yet.')); return box; }
+  const max = Math.max(...rows.map((r) => r[key])) || 1;
+  rows.forEach((r) => {
+    const row = el('div', 'bar');
+    row.append(el('span', '', r.label), el('em', '', num(r[key])));
+    const s = el('s'); s.style.setProperty('--w', `${Math.max(2, (r[key] / max) * 100)}%`); row.append(s);
+    box.append(row);
+  });
+  return box;
+}
+
+async function loadStats(days = statsDays) {
+  statsDays = days;
+  const card = $('stats'), body = $('stats-body');
+  card.hidden = false;
+  card.querySelectorAll('.ranges button').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.days) === days)));
+  body.replaceChildren(el('p', 'hint', 'Loading visitor numbers…'));
+  const r = await api(`stats?days=${days}`);
+  if (!r.ok) { body.replaceChildren(); message(body, r.data.error || 'Could not load visitor numbers.', r.data.setup ? 'warn' : 'error'); return; }
+  const d = r.data;
+  const big = el('div', 'big');
+  const v = el('div'); v.append(el('b', '', num(d.visits)), el('span', '', days === 1 ? 'visits in the last 24 hours' : `visits in the last ${days} days`));
+  const p = el('div'); p.append(el('b', '', num(d.pageViews)), el('span', '', `page views${d.visits ? ` · ${(d.pageViews / d.visits).toFixed(1)} per visit` : ''}`));
+  big.append(v, p);
+  const parts = [big];
+  if (d.byDay.length > 1) {
+    const spark = el('div', 'spark'); spark.setAttribute('role', 'img');
+    spark.setAttribute('aria-label', 'Visits per day: ' + d.byDay.map((x) => `${x.date} ${x.visits}`).join(', '));
+    const max = Math.max(...d.byDay.map((x) => x.visits)) || 1;
+    d.byDay.forEach((x) => { const i = el('i'); i.style.height = `${Math.max(4, (x.visits / max) * 100)}%`; i.title = `${x.date}: ${x.visits} visits`; spark.append(i); });
+    parts.push(spark);
+  }
+  const lists = el('div', 'lists');
+  lists.append(
+    barList('Came from', d.sources.map((x) => ({ label: x.name, visits: x.visits })), 'visits'),
+    barList('Most read pages', d.pages.map((x) => ({ label: x.path === '/' ? 'Home' : x.path, pageViews: x.pageViews })), 'pageViews'),
+    barList('Countries', d.countries.map((x) => ({ label: x.name, visits: x.visits })), 'visits'),
+    barList('Devices', d.devices.map((x) => ({ label: x.name[0].toUpperCase() + x.name.slice(1), visits: x.visits })), 'visits'),
+  );
+  parts.push(lists);
+  body.replaceChildren(...parts);
+}
+document.querySelectorAll('#stats .ranges button').forEach((b) => b.addEventListener('click', () => loadStats(Number(b.dataset.days))));

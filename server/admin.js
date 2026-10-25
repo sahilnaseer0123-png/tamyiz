@@ -11,6 +11,7 @@ import {
   loadCatalog, saveCatalog, store, findById, readFields, sniff, newId, uniqueSlug,
   MAX_PDF_BYTES, MAX_COVER_BYTES, StoreMissing,
 } from './catalog.js';
+import { getStats } from './stats.js';
 
 const COOKIE = 'tmz_admin';
 const SESSION_SECONDS = 12 * 60 * 60;
@@ -190,6 +191,7 @@ export async function handleAdmin(request, env, rest) {
     if (rest === 'session' && method === 'GET') {
       return json({ ok: true, storage: Boolean(env.TAMYIZ_STORE) });
     }
+    if (rest === 'stats' && method === 'GET') return await getStats(request, env);
     if (rest === 'products' && method === 'GET') return json({ products: (await loadCatalog(env)).map(adminView) });
     if (rest === 'products' && method === 'POST') return await saveProduct(request, env, null);
     const t = rest.match(/^products\/([a-z0-9-]{3,40})\/thumb$/);

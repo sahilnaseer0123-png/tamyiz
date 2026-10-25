@@ -162,3 +162,46 @@ test('small covers: saved with a new cover, served with ?s=sm, made later for ol
   await call(e, `/api/admin/products/${product.id}`, { method: 'DELETE', headers: authed(cookie) });
   assert.equal(await e.TAMYIZ_STORE.get(`thumb:${product.id}`), null);
 });
+
+// ---------------------------------------------------------------- visitor numbers
+import { getStats, shapeStats, sourceName } from '../server/stats.js';
+
+test('visitor numbers need a login', async () => {
+  assert.equal((await call(env(), '/api/admin/stats')).status, 401);
+});
+
+test('visitor numbers explain the setup when CF_API_TOKEN is missing', async () => {
+  const e = env(); const cookie = await session(e);
+  const r = await call(e, '/api/admin/stats', { headers: { Cookie: cookie } });
+  assert.equal(r.status, 503);
+  assert.match((await r.json()).error, /CF_API_TOKEN/);
+});
+
+test('visitor numbers: sources are named and merged, token stays server-side', async () => {
+  let sent;
+  const fake = async (url, opts) => { sent = { url, opts }; return new Response(JSON.stringify({ data: { viewer: { accounts: [{
+    total: [{ count: 314, sum: { visits: 106 } }],
+    days: [{ count: 200, sum: { visits: 60 }, dimensions: { date: '2026-10-24' } }, { count: 114, sum: { visits: 46 }, dimensions: { date: '2026-10-25' } }],
+    pages: [{ count: 170, dimensions: { requestPath: '/' } }],
+    sources: [{ sum: { visits: 30 }, dimensions: { refererHost: 'l.instagram.com' } }, { sum: { visits: 12 }, dimensions: { refererHost: 'www.instagram.com' } }, { sum: { visits: 50 }, dimensions: { refererHost: '' } }],
+    countries: [{ sum: { visits: 90 }, dimensions: { countryName: 'India' } }],
+    devices: [{ sum: { visits: 80 }, dimensions: { deviceType: 'mobile' } }],
+  }] } } }), { status: 200 }); };
+  const r = await getStats(new Request(BASE + '/api/admin/stats?days=30'), { CF_API_TOKEN: 'tok' }, fake);
+  const d = await r.json();
+  assert.equal(r.status, 200);
+  assert.equal(d.days, 30); assert.equal(d.visits, 106); assert.equal(d.pageViews, 314);
+  assert.deepEqual(d.sources[0], { name: 'Direct, WhatsApp or app', visits: 50 });
+  assert.deepEqual(d.sources[1], { name: 'Instagram', visits: 42 });
+  assert.equal(sent.opts.headers.Authorization, 'Bearer tok');
+  assert.ok(!JSON.stringify(d).includes('tok'));
+});
+
+test('visitor numbers: a refused token gives a clear message', async () => {
+  const fake = async () => new Response(JSON.stringify({ errors: [{ message: 'not authorized for that account' }] }), { status: 200 });
+  const r = await getStats(new Request(BASE + '/api/admin/stats'), { CF_API_TOKEN: 'bad' }, fake);
+  assert.equal(r.status, 403);
+  assert.match((await r.json()).error, /Account Analytics: Read/);
+  assert.equal(sourceName('google.co.in'), 'Google');
+  assert.equal(shapeStats({}, 7).visits, 0);
+});

@@ -44,6 +44,9 @@ sold with Razorpay and delivered as private signed download links.
   BOTH tamyiz and eternal-polyclinic → Save. (Happened 23 Oct 2026.)
 - Visitor stats (25 Oct 2026): Cloudflare Web Analytics is on (Pages project → Metrics → Web Analytics; cookieless, counts
   only, no personal data). The privacy policy (/legal/privacy, section 03) says so; keep it in step if analytics changes.
+  /admin shows a Visitors card (visits, page views, per day, sources, pages, countries, devices; Today/7/30 days) from
+  `GET /api/admin/stats` (`server/stats.js`, admin login required), which asks Cloudflare's GraphQL API using the secret
+  `CF_API_TOKEN` (Account Analytics: Read only). Account id and site tag are in stats.js (identifiers, not secrets).
 - Tests: `npm test` (node test runner, `tests/`: payments, downloads, admin). Run before every push. `npm run cf:dev` runs the built site on
   Cloudflare's runtime locally (wrangler, with a local KV store; set ADMIN_PASSWORD/TAMYIZ_SANDBOX in .dev.vars).
 
