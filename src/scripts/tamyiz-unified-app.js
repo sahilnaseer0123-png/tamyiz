@@ -1542,23 +1542,13 @@ class TamyizUnifiedApp {
   }
 
   downloadInvoice(orderId) {
-    const order = this.confirmedOrder || (store.orders && store.orders.find(o => o.orderId === orderId)) || {
-      orderId: orderId || 'TMZ-SAMPLE',
-      date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-      total: 899,
-      subtotal: 899,
-      discount: 0,
-      items: [
-        { name: 'TAMYIZ Monograph 01: The Horizon of Distinction', variant: 'Interactive PDF + EPUB', price: 899 }
-      ],
-      shippingAddress: {
-        fullName: 'Valued Patron',
-        email: 'tamyiz.co@gmail.com',
-        phone: siteConfig.phone
-      }
-    };
+    const order = this.confirmedOrder || (store.orders && store.orders.find(o => o.orderId === orderId));
+    if (!order || !order.items || !order.items.length) {
+      store.showToast("Couldn't find this order on this device. WhatsApp us your order number and we'll send a receipt.", 'error');
+      return;
+    }
 
-    const invoiceNumber = `INV-TMZ-${order.orderId}`;
+    const invoiceNumber = order.orderId;
     const invoiceDate = order.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
     const itemsHtml = order.items.map((item) => `
@@ -1567,7 +1557,7 @@ class TamyizUnifiedApp {
           <strong style="font-size: 13px;">${item.name}</strong>
           <div style="font-size: 11px; color: #666; margin-top: 3px;">Personal licence for one person</div>
         </td>
-        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5;">${item.variant || 'Standard Digital Edition'}</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5;">${item.variant || 'PDF'}</td>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: center;">1</td>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: right;">₹${item.price.toLocaleString('en-IN')}</td>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: right; font-weight: bold;">₹${item.price.toLocaleString('en-IN')}</td>
@@ -1578,7 +1568,8 @@ class TamyizUnifiedApp {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>TAMYIZ™ — Receipt #${invoiceNumber}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TAMYIZ receipt · ${invoiceNumber}</title>
   <style>
     @page { size: A4; margin: 15mm; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #111; margin: 0; padding: 25px; background: #FFF; line-height: 1.5; font-size: 13px; }
@@ -1595,10 +1586,20 @@ class TamyizUnifiedApp {
     .totals-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
     .totals-total { display: flex; justify-content: space-between; padding: 8px 0; font-size: 15px; font-weight: 800; border-top: 2px solid #000; margin-top: 6px; }
     .footer { margin-top: 40px; padding-top: 15px; border-top: 1px solid #DDD; font-size: 11px; color: #666; display: flex; justify-content: space-between; }
-    @media print { .no-print { display: none; } }
+    .toolbar { display: flex; gap: 10px; justify-content: center; margin: 0 0 24px; }
+    .toolbar button { font: 600 15px/1 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; padding: 14px 22px; border-radius: 999px; border: 1px solid #000; background: #000; color: #FFF; cursor: pointer; min-height: 44px; }
+    .toolbar button.ghost { background: #FFF; color: #000; }
+    .hint { text-align: center; font-size: 12px; color: #666; margin: -14px 0 22px; }
+    @media (max-width: 600px) { body { padding: 16px; } .header, .parties { flex-direction: column; gap: 14px; } .meta, .parties > div:last-child { text-align: left !important; } .totals { width: 100%; } th:nth-child(2), td:nth-child(2) { display: none; } }
+    @media print { .no-print { display: none !important; } body { padding: 0; } }
   </style>
 </head>
 <body>
+  <div class="toolbar no-print">
+    <button type="button" onclick="window.print()">Save as PDF / Print</button>
+    <button type="button" class="ghost" onclick="window.close()">Close</button>
+  </div>
+  <p class="hint no-print">To save it: tap "Save as PDF / Print", then choose "Save as PDF".</p>
   <div class="header">
     <div class="brand">
       <h1>TAMYIZ™</h1>
@@ -1610,8 +1611,8 @@ class TamyizUnifiedApp {
     </div>
     <div class="meta">
       <div class="badge">PAYMENT RECEIPT</div>
-      <div><strong>INVOICE:</strong> ${invoiceNumber}</div>
-      <div><strong>ORDER ID:</strong> #${order.orderId}</div>
+      <div><strong>ORDER:</strong> ${invoiceNumber}</div>
+      ${order.paymentId ? `<div><strong>PAYMENT ID:</strong> ${order.paymentId}</div>` : ''}
       <div><strong>DATE:</strong> ${invoiceDate}</div>
       <div><strong>STATUS:</strong> <span style="color: #1E7B2E; font-weight: 800;">PAID (CONFIRMED)</span></div>
     </div>
@@ -1619,8 +1620,7 @@ class TamyizUnifiedApp {
 
   <div class="parties">
     <div>
-      <div class="party-title">BILLED TO (LICENSEE)</div>
-      <div style="font-size: 13px; font-weight: 700;">${order.shippingAddress?.fullName || order.shippingAddress?.name || 'Valued Patron'}</div>
+      <div class="party-title">PAID BY</div>
       <div>Email: ${order.shippingAddress?.email || '—'}</div>
       ${order.shippingAddress?.phone ? `<div>WhatsApp: ${order.shippingAddress.phone}</div>` : ''}
     </div>
@@ -1634,8 +1634,8 @@ class TamyizUnifiedApp {
   <table>
     <thead>
       <tr>
-        <th style="width: 45%;">EDITION / TITLE</th>
-        <th style="width: 25%;">SPECIFICATION</th>
+        <th style="width: 45%;">E-BOOK</th>
+        <th style="width: 25%;">FORMAT</th>
         <th style="text-align: center; width: 8%;">QTY</th>
         <th style="text-align: right; width: 11%;">PRICE</th>
         <th style="text-align: right; width: 11%;">AMOUNT</th>
@@ -1679,17 +1679,26 @@ class TamyizUnifiedApp {
 </body>
 </html>`;
 
+    // Open the receipt as its own page (works on phones; a downloaded .html file often won't open there).
+    let win = null;
+    try { win = window.open('', '_blank'); } catch { win = null; }
+    if (win && win.document) {
+      win.document.open();
+      win.document.write(invoiceDoc);
+      win.document.close();
+      return;
+    }
+    // Pop-up blocked: fall back to saving the receipt as a file.
     const blob = new Blob([invoiceDoc], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `TAMYIZ-Invoice-${order.orderId}.html`;
+    link.download = `TAMYIZ-Receipt-${order.orderId}.html`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    store.showToast(`Invoice downloaded for Order #${order.orderId}`, 'success');
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    store.showToast('Receipt saved to your downloads.', 'success');
   }
 
   updateSummaryQty(cartItemId, delta) {
@@ -2243,29 +2252,9 @@ class TamyizUnifiedApp {
     return `https://wa.me/919541722379?text=${encodeURIComponent(msg)}`;
   }
 
-  downloadTaxInvoiceFromPayment(paymentId) {
-    const orderData = this.confirmedOrder ? {
-      orderId: this.confirmedOrder.orderId || 'TMZ-' + Date.now(),
-      date: new Date(this.confirmedOrder.timestamp || Date.now()).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-      total: this.confirmedOrder.downloads ? this.confirmedOrder.downloads.reduce((acc, d) => acc + (d.price || 0), 0) : 499,
-      subtotal: this.confirmedOrder.downloads ? this.confirmedOrder.downloads.reduce((acc, d) => acc + (d.price || 0), 0) : 499,
-      discount: 0,
-      items: (this.confirmedOrder.downloads || []).map(d => ({
-        name: d.name,
-        variant: d.variant,
-        price: d.price || 499
-      })),
-      shippingAddress: {
-        fullName: 'Valued Patron',
-        email: this.confirmedOrder.email || '—',
-        phone: this.confirmedOrder.phone || siteConfig.phone
-      }
-    } : null;
-
-    if (orderData) {
-      this.confirmedOrder = orderData;
-    }
-    this.downloadInvoice(paymentId || 'TMZ-INSTANT');
+  downloadTaxInvoiceFromPayment() {
+    // Kept for old buttons: the receipt is built from the confirmed order exactly as paid.
+    this.downloadInvoice(this.confirmedOrder && this.confirmedOrder.orderId);
   }
 
   // ==========================================

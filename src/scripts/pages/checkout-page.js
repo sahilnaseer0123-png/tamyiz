@@ -278,7 +278,7 @@ export function renderCheckoutPage(appInstance) {
  */
 export function renderOrderVaultHtml(order) {
   const currentDateStr = order.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-  const invoiceNumber = `INV-TMZ-${order.orderId}`;
+  const invoiceNumber = order.orderId;
 
   return `
     <div class="tamyiz-page-order-vault py-12 md:py-20">
@@ -331,7 +331,7 @@ export function renderOrderVaultHtml(order) {
             `).join('')}
           </div>
 
-          <!-- Quick Invoice Action Bar -->
+          <!-- Receipt actions -->
           <div class="no-print flex flex-wrap gap-3 justify-center items-center mb-6">
             <button
               class="tamyiz-hero-btn-primary"
@@ -343,7 +343,7 @@ export function renderOrderVaultHtml(order) {
                 <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                 <rect x="6" y="14" width="12" height="8"></rect>
               </svg>
-              <span>Print Invoice</span>
+              <span>Print receipt</span>
             </button>
             <button
               class="tamyiz-btn-nav-outline"
@@ -355,7 +355,7 @@ export function renderOrderVaultHtml(order) {
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
               </svg>
-              <span>Download Invoice</span>
+              <span>Save receipt</span>
             </button>
             <a
               href="https://wa.me/${siteConfig.whatsappNumber}?text=Hello%20TAMYIZ,%20I%20just%20completed%20Order%20${order.orderId}%20and%20would%20like%20my%20receipt%20confirmation."
@@ -390,9 +390,9 @@ export function renderOrderVaultHtml(order) {
               </div>
 
               <div class="tamyiz-invoice-meta sm:text-right">
-                <div class="tamyiz-invoice-badge">TAX &amp; DIGITAL COMMERCIAL INVOICE</div>
+                <div class="tamyiz-invoice-badge">PAYMENT RECEIPT</div>
                 <div style="margin-top: 0.5rem; font-family: var(--font-sub); font-size: 0.78rem; line-height: 1.5;">
-                  <div><strong>INVOICE NO:</strong> ${invoiceNumber}</div>
+                  <div><strong>RECEIPT NO:</strong> ${invoiceNumber}</div>
                   <div><strong>ORDER ID:</strong> #${order.orderId}</div>
                   <div><strong>DATE OF ISSUE:</strong> ${currentDateStr}</div>
                   <div><strong>PAYMENT STATUS:</strong> <span style="color: #1E7B2E; font-weight: 800;">PAID (CONFIRMED)</span></div>
@@ -405,10 +405,7 @@ export function renderOrderVaultHtml(order) {
             <!-- Customer & License Details -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
               <div>
-                <span class="tamyiz-invoice-section-label">BILLED TO (LICENSEE)</span>
-                <div style="font-size: 0.9rem; font-weight: 700; color: #111;">
-                  ${order.shippingAddress?.fullName || order.shippingAddress?.name || 'Valued Patron'}
-                </div>
+                <span class="tamyiz-invoice-section-label">PAID BY</span>
                 <div style="font-size: 0.8rem; color: #555; line-height: 1.45; margin-top: 0.15rem;">
                   Email: ${order.shippingAddress?.email || '—'}<br/>
                   ${order.shippingAddress?.phone ? `WhatsApp: ${order.shippingAddress.phone}` : ''}
@@ -479,7 +476,7 @@ export function renderOrderVaultHtml(order) {
               </div>
             </div>
 
-            <!-- Invoice Footer & Verification -->
+            <!-- Receipt footer -->
             <div class="mt-6 pt-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs text-gray-500">
               <div>
                 <div>TAMYIZ™ • run by Basit Majeed &amp; Sahil Naseer</div>
