@@ -1,3 +1,5 @@
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/space-grotesk/wght.css';
 // /admin: add, edit and remove the shop's e-books. Talks to /api/admin/* (server/admin.js).
 // Everything shown here is built with textContent / DOM nodes, never innerHTML, so typed text can't run as code.
 
@@ -108,7 +110,7 @@ function drawList() {
     else { pic = document.createElement('div'); pic.className = 'noimg'; }
 
     const body = document.createElement('div');
-    const h = document.createElement('h3'); h.textContent = b.name;
+    const h = document.createElement('h2'); h.textContent = b.name;
     const chip = document.createElement('span'); chip.className = `chip ${b.status}`; chip.textContent = STATUS[b.status] || b.status;
     const meta = document.createElement('div'); meta.className = 'meta';
     meta.append(chip, `₹${Number(b.price).toLocaleString('en-IN')} · `, b.fileSize ? `PDF ${mb(b.fileSize)}` : 'No PDF yet');
