@@ -122,93 +122,82 @@ export async function handleDownload(request, env, productId) {
 }
 
 /**
- * Triggers transactional receipt email via Resend REST API if configured
+ * The receipt email: what was bought, the download buttons, and how to get help.
+ * Sent with Brevo (BREVO_API_KEY; sender = RECEIPT_FROM, a sender address verified in Brevo, default tamyiz.co@gmail.com)
+ * or Resend (RESEND_API_KEY; needs a domain you own). Returns true only if the provider accepted it.
+ * Never blocks the purchase: the download is always shown on screen too.
  */
-export async function sendReceiptEmail({ email, phone, orderId, referenceId, items, downloads }, env = {}) {
-  if (!env.RESEND_API_KEY) {
-    return false;
-  }
-  // Everything below goes into HTML: escape what came from the buyer.
-  const toEmail = String(email);
-  email = escapeHtml(email);
-  phone = escapeHtml(phone);
+export function receiptEmail({ email, phone, referenceId, paymentId, totalINR, downloads, date }) {
+  const e = escapeHtml;
+  const inr = (n) => '₹' + Number(n || 0).toLocaleString('en-IN');
+  const when = new Date(date || Date.now()).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' });
+  const rows = downloads.map((dl) => `
+          <tr>
+            <td style="padding:14px 0;border-bottom:1px solid #ECECE8;">
+              <div style="font-size:16px;font-weight:700;color:#0B0B0B;">${e(dl.name)}</div>
+              <div style="font-size:13px;color:#5E5E59;margin-top:2px;">PDF e-book${dl.price ? ' · ' + inr(dl.price) : ''}</div>
+            </td>
+            <td style="padding:14px 0;border-bottom:1px solid #ECECE8;text-align:right;white-space:nowrap;">
+              <a href="${e(dl.downloadUrl)}" style="display:inline-block;background:#0B0B0B;color:#FFFFFF;text-decoration:none;font-size:14px;font-weight:600;padding:10px 18px;border-radius:999px;">Download PDF</a>
+            </td>
+          </tr>`).join('');
+  const html = `<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
+<body style="margin:0;padding:24px 12px;background:#F2F2EF;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#0B0B0B;">
+  <div style="max-width:560px;margin:0 auto;background:#FFFFFF;border-radius:20px;overflow:hidden;border:1px solid #E4E4E0;">
+    <div style="background:#0B0B0B;color:#FFFFFF;padding:22px 28px;font-size:18px;font-weight:800;letter-spacing:4px;">TAMYIZ</div>
+    <div style="padding:28px;">
+      <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:#1E7B2E;text-transform:uppercase;">● Payment received</div>
+      <h1 style="font-size:24px;line-height:1.25;margin:8px 0 10px;">Thank you. Your e-book is ready.</h1>
+      <p style="font-size:15px;line-height:1.6;color:#3A3A36;margin:0 0 20px;">Tap the button to download your PDF. Save it to your phone or laptop; the link works for one year.</p>
+      <table role="presentation" style="width:100%;border-collapse:collapse;">${rows}
+      </table>
+      <table role="presentation" style="width:100%;border-collapse:collapse;margin-top:18px;font-size:14px;color:#3A3A36;">
+        <tr><td style="padding:3px 0;">Total paid</td><td style="padding:3px 0;text-align:right;font-weight:700;color:#0B0B0B;">${inr(totalINR)}</td></tr>
+        <tr><td style="padding:3px 0;">Order</td><td style="padding:3px 0;text-align:right;">${e(referenceId)}</td></tr>
+        <tr><td style="padding:3px 0;">Payment ID</td><td style="padding:3px 0;text-align:right;">${e(paymentId)}</td></tr>
+        <tr><td style="padding:3px 0;">Date</td><td style="padding:3px 0;text-align:right;">${e(when)}</td></tr>
+        <tr><td style="padding:3px 0;">Email</td><td style="padding:3px 0;text-align:right;">${e(email)}</td></tr>
+        ${phone ? `<tr><td style="padding:3px 0;">Phone</td><td style="padding:3px 0;text-align:right;">${e(phone)}</td></tr>` : ''}
+      </table>
+      <p style="font-size:14px;line-height:1.6;color:#3A3A36;margin:22px 0 0;padding:14px 16px;background:#F7F7F5;border-radius:12px;">Lost the file or need help? WhatsApp us on <b>+91 95417 22379</b> or reply to this email with your order number, and we'll send it again.</p>
+    </div>
+    <div style="padding:18px 28px;border-top:1px solid #ECECE8;font-size:12px;line-height:1.6;color:#7A7A75;">
+      This is your receipt from TAMYIZ (tamyiz.pages.dev), run by Sahil Naseer and Basit Majeed, Sopore, Jammu &amp; Kashmir 193201, India.<br/>
+      Questions: tamyiz.co@gmail.com · Personal licence: please don't share the file.
+    </div>
+  </div>
+</body></html>`;
+  const text = [
+    'TAMYIZ - Payment received. Your e-book is ready.', '',
+    ...downloads.map((dl) => `${dl.name}: ${dl.downloadUrl}`), '',
+    `Total paid: ${inr(totalINR)}`, `Order: ${referenceId}`, `Payment ID: ${paymentId}`, `Date: ${when}`, '',
+    'The download links work for one year. Lost the file? WhatsApp +91 95417 22379 with your order number.',
+  ].join('\n');
+  return { subject: `Your TAMYIZ e-book is ready · ${referenceId}`, html, text };
+}
 
-  const itemsHtml = downloads.map(dl => `
-    <tr style="border-bottom: 1px solid #EEEEEE;">
-      <td style="padding: 12px 0;">
-        <strong style="font-family: monospace; font-size: 13px; color: #000;">${dl.name}</strong><br/>
-        <span style="font-family: monospace; font-size: 11px; color: #666; text-transform: uppercase;">FORMAT: ${dl.variant}</span>
-      </td>
-      <td style="padding: 12px 0; text-align: right;">
-        <a href="${dl.downloadUrl}" style="display: inline-block; background: #000000; color: #FFFFFF; font-family: monospace; font-size: 11px; font-weight: bold; text-decoration: none; padding: 6px 14px; text-transform: uppercase;">
-          Access Edition ↗
-        </a>
-      </td>
-    </tr>
-  `).join('');
-
-  const html = `
-    <!DOCTYPE html>
-    <html>
-    <head><meta charset="utf-8"/></head>
-    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #F8F7F4; margin: 0; padding: 24px; color: #000000;">
-      <div style="max-width: 580px; margin: 0 auto; background: #FFFFFF; border: 1px solid #000000; padding: 32px;">
-        <div style="font-family: monospace; font-size: 10px; letter-spacing: 0.15em; color: #DC2626; text-transform: uppercase; font-weight: bold;">
-          ● TRANSACTION CONFIRMED // INSTANT ATELIER DISPATCH
-        </div>
-        <h1 style="font-family: monospace; font-size: 24px; font-weight: 900; text-transform: uppercase; margin: 8px 0 16px 0; letter-spacing: -0.02em;">
-          TAMYIZ™ DIGITAL VAULT
-        </h1>
-        <p style="font-size: 13px; line-height: 1.5; color: #333333; margin-bottom: 24px;">
-          Thank you for collecting from the TAMYIZ atelier. Your cryptographic access tokens have been verified and your editions are unlocked below.
-        </p>
-
-        <div style="background: #F4F4F2; padding: 12px 16px; font-family: monospace; font-size: 11px; margin-bottom: 24px; border-left: 3px solid #000000;">
-          <div><strong>ORDER REF:</strong> ${referenceId}</div>
-          <div><strong>VERIFIED EMAIL:</strong> ${email}</div>
-          <div><strong>WHATSAPP:</strong> ${phone}</div>
-          <div><strong>LICENSE:</strong> Perpetual Single-Operator Commercial Grant</div>
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
-          <thead>
-            <tr style="border-bottom: 2px solid #000000; text-align: left; font-family: monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
-              <th style="padding-bottom: 8px;">Edition</th>
-              <th style="padding-bottom: 8px; text-align: right;">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${itemsHtml}
-          </tbody>
-        </table>
-
-        <div style="font-size: 11px; color: #666666; line-height: 1.6; border-top: 1px solid #EEEEEE; padding-top: 20px;">
-          <strong>TAMYIZ™ Digital Publishing &amp; Design Systems Studio</strong><br/>
-          Sopore, Kashmir 193201, India • Co-Founded by Basit Majeed &amp; Sahil.<br/>
-          Concierge Support: <a href="mailto:tamyiz.co@gmail.com" style="color: #000;">tamyiz.co@gmail.com</a> • WhatsApp: +91 95417 22379
-        </div>
-      </div>
-    </body>
-    </html>
-  `;
-
+export async function sendReceiptEmail(order, env = {}, fetchImpl = fetch) {
+  const to = String(order.email || '').trim();
+  if (!to.includes('@') || (!env.BREVO_API_KEY && !env.RESEND_API_KEY)) return false;
+  const { subject, html, text } = receiptEmail(order);
+  const fromEmail = String(env.RECEIPT_FROM || 'tamyiz.co@gmail.com').replace(/^.*<|>.*$/g, '').trim();
   try {
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: env.RECEIPT_FROM || 'TAMYIZ <onboarding@resend.dev>',
-        to: [toEmail],
-        subject: `TAMYIZ™ Order Unlocked // Ref: ${referenceId}`,
-        html
+    const res = env.BREVO_API_KEY
+      ? await fetchImpl('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: { 'api-key': env.BREVO_API_KEY, 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ sender: { name: 'TAMYIZ', email: fromEmail }, to: [{ email: to }], replyTo: { email: 'tamyiz.co@gmail.com', name: 'TAMYIZ' }, subject, htmlContent: html, textContent: text }),
       })
-    });
+      : await fetchImpl('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: env.RECEIPT_FROM || 'TAMYIZ <onboarding@resend.dev>', to: [to], reply_to: 'tamyiz.co@gmail.com', subject, html, text }),
+      });
+    if (!res.ok) console.error('Receipt email refused:', res.status, (await res.text().catch(() => '')).slice(0, 300));
     return res.ok;
   } catch (err) {
-    console.error('Resend email error:', err);
+    console.error('Receipt email error:', err);
     return false;
   }
 }
@@ -450,10 +439,8 @@ export async function handleVerifyPayment(request, env, fetchImpl = fetch) {
     price: i.price,
   })));
 
-  if (cleanEmail.includes('@')) {
-    await sendReceiptEmail({ email: cleanEmail, phone: cleanPhone, orderId, referenceId, items: paidItems, downloads }, env)
-      .catch((err) => console.error('Email dispatch error (non-blocking):', err));
-  }
+  const receiptEmailed = await sendReceiptEmail({ email: cleanEmail, phone: cleanPhone, referenceId, paymentId, totalINR, downloads }, env)
+    .catch(() => false);
 
   return json({
     verified: true,
@@ -469,6 +456,7 @@ export async function handleVerifyPayment(request, env, fetchImpl = fetch) {
     totalINR,
     subtotalINR: priced.subtotal,
     discountINR: Math.max(0, priced.subtotal - totalINR),
-    downloads
+    downloads,
+    receiptEmailed
   });
 }

@@ -198,3 +198,35 @@ test('the template\'s public promo codes no longer give a discount', () => {
     assert.equal(calculateOrderTotal([{ productId: 'eb-onsale1' }], code, catalog).total, 299, code);
   }
 });
+
+// ---------------------------------------------------------------- receipt email
+import { sendReceiptEmail, receiptEmail } from '../server/payments.js';
+const ORDER = { email: 'buyer@example.com', phone: '+919999999999', referenceId: 'TAMYIZ-ORD-1', paymentId: 'pay_1', totalINR: 299,
+  downloads: [{ name: 'The <b>AI</b> Playbook', price: 299, downloadUrl: 'https://shop.test/api/download/x?p=1&s=2' }] };
+
+test('receipt email: nothing is sent without a provider key', async () => {
+  let called = false;
+  assert.equal(await sendReceiptEmail(ORDER, {}, async () => { called = true; return new Response('{}'); }), false);
+  assert.equal(called, false);
+});
+
+test('receipt email: Brevo gets the buyer, the Gmail sender and escaped content', async () => {
+  let sent;
+  const ok = await sendReceiptEmail(ORDER, { BREVO_API_KEY: 'k' }, async (url, opts) => { sent = { url, opts }; return new Response('{"messageId":"1"}', { status: 201 }); });
+  assert.equal(ok, true);
+  assert.equal(sent.url, 'https://api.brevo.com/v3/smtp/email');
+  assert.equal(sent.opts.headers['api-key'], 'k');
+  const body = JSON.parse(sent.opts.body);
+  assert.deepEqual(body.to, [{ email: 'buyer@example.com' }]);
+  assert.equal(body.sender.email, 'tamyiz.co@gmail.com');
+  assert.ok(body.htmlContent.includes('The &lt;b&gt;AI&lt;/b&gt; Playbook'));
+  assert.ok(body.htmlContent.includes('p=1&amp;s=2'));
+  assert.ok(body.textContent.includes('https://shop.test/api/download/x?p=1&s=2'));
+  assert.ok(!/tax invoice/i.test(body.htmlContent));
+});
+
+test('receipt email: a refused send reports false, so the page does not claim it was emailed', async () => {
+  const ok = await sendReceiptEmail(ORDER, { BREVO_API_KEY: 'k' }, async () => new Response('{"message":"sender not verified"}', { status: 400 }));
+  assert.equal(ok, false);
+  assert.match(receiptEmail(ORDER).subject, /TAMYIZ-ORD-1/);
+});

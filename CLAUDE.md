@@ -37,8 +37,8 @@ sold with Razorpay and delivered as private signed download links.
   `DOWNLOAD_SECRET` or `RAZORPAY_KEY_SECRET`. The PDF is never at a public address. A paid order is delivered even if
   the book is switched off later; deleting a book breaks its links (admin warns).
 - Settings (Cloudflare: project → Settings → Variables and secrets; locally `.dev.vars` for wrangler or `.env` for Vite,
-  both git-ignored): `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` (secret), `RESEND_API_KEY` (secret, optional receipts),
-  `RECEIPT_FROM` (optional, a verified Resend sender), `DOWNLOAD_SECRET` (optional), `TAMYIZ_SANDBOX` (never in production).
+  both git-ignored): `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` (secret), `BREVO_API_KEY` (secret, receipt emails; used first),
+  `RESEND_API_KEY` (secret, alternative receipts, needs own domain), `RECEIPT_FROM` (optional sender; default tamyiz.co@gmail.com, must be verified in Brevo), `DOWNLOAD_SECRET` (optional), `TAMYIZ_SANDBOX` (never in production).
 - Deploys stop silently if Cloudflare loses access to this repo (yellow "disconnected" banner in the Pages project).
   Fix: GitHub → Settings → Applications → Cloudflare Workers and Pages → Configure → Repository access must list
   BOTH tamyiz and eternal-polyclinic → Save. (Happened 23 Oct 2026.)
@@ -152,6 +152,9 @@ tamyiz-unified.css). Don't ship below this.
   saved with a trailing dot ("TAMYIZ_STORE.") and didn't work; names must match exactly. The dashboard then refused
   "ADMIN_PASSWORD" as already existing while not listing it, so the password secret is `TAMYIZ_ADMIN_PASSWORD`.
   Bindings and secrets only apply after a new deployment.
-- Receipt emails are off: Resend only sends to strangers from a domain you own (not Gmail). Plan: once sales start,
-  buy a domain (e.g. tamyiz.in), verify it in Resend, set `RESEND_API_KEY` + `RECEIPT_FROM`, then put the email
-  wording back (checkout, product page, FAQ, delivery policy, after-payment modal).
+- Receipt emails (25 Oct 2026, Sahil chose the free route): Brevo sends them from tamyiz.co@gmail.com (`sendReceiptEmail`,
+  `receiptEmail` in server/payments.js). The after-payment screen says "we also emailed a receipt" ONLY when Brevo accepted
+  it (`receiptEmailed` in the verify response); otherwise it still says no email is sent. Gmail-as-sender via a third
+  party can land in spam, so the on-screen download stays the main delivery. Static pages (FAQ, delivery policy,
+  checkout line) still promise only the on-screen download; update them once a real test receipt arrives. Better
+  later: own domain + Resend or Brevo with that domain.
