@@ -771,16 +771,32 @@ class TamyizUnifiedApp {
     this.updateProductGrid();
   }
 
+  /**
+   * Search and sort redraw only the grid and the "Showing X of Y" line.
+   * Redrawing the whole page replaced the search box on every keystroke, so it lost focus after
+   * the first letter ("safe" searched for "s"). Fixed 28 Oct 2026.
+   */
   updateProductGrid() {
-    if (this.currentPage === 'editions') {
-      this.renderCurrentPage();
-    }
+    if (this.currentPage !== 'editions') return;
+    const grid = document.getElementById('product-grid');
+    const status = document.getElementById('collection-status');
+    if (!grid || !status) { this.renderCurrentPage(); return; }
+    const tmp = document.createElement('div');
+    tmp.innerHTML = renderEditionsPage(this);
+    grid.innerHTML = tmp.querySelector('#product-grid').innerHTML;
+    status.innerHTML = tmp.querySelector('#collection-status').innerHTML;
   }
 
   resetAllFilters() {
     this.searchQuery = '';
     this.sortBy = 'featured';
     this.activeCategory = 'all';
+    const input = document.getElementById('artifact-search-input');
+    if (input) input.value = '';
+    const clearBtn = document.getElementById('artifact-search-clear');
+    if (clearBtn) clearBtn.classList.remove('visible');
+    const sort = document.getElementById('artifact-sort-select');
+    if (sort) sort.value = 'featured';
     this.updateProductGrid();
   }
 
