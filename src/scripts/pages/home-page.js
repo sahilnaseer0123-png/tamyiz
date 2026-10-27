@@ -10,6 +10,7 @@ import { principlesSection, formatGuideSection } from './sections.js';
 
 /** True facts only, counted from the catalogue on /admin: number of e-books, total pages (when every book has a page count). */
 function heroProof() {
+  if (loadState.loading) return '<li>Written by Sahil &amp; Basit</li>';
   const items = [];
   if (products.length) items.push(`${products.length} e-book${products.length === 1 ? '' : 's'}`);
   const pages = products.map((p) => Number(((p.specifications || []).find((s) => s.label === 'Pages') || {}).value));
@@ -21,6 +22,16 @@ function heroProof() {
 
 /** What the shop shows with no books: an honest error with "Try again" if loading failed, else "first e-books on the way". */
 export function emptyShopBlock() {
+  if (loadState.loading) {
+    const card = `
+              <div class="tmz-card-skeleton" aria-hidden="true">
+                <div class="tmz-skel tmz-skel-cover"></div>
+                <div class="tmz-skel tmz-skel-line"></div>
+                <div class="tmz-skel tmz-skel-line tmz-skel-short"></div>
+                <div class="tmz-skel tmz-skel-btn"></div>
+              </div>`;
+    return `<span class="sr-only" role="status">Loading the e-books…</span>${card.repeat(3)}`;
+  }
   if (loadState.failed) {
     return `
               <div class="tmz-shop-empty" role="alert">

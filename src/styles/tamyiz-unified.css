@@ -6689,3 +6689,16 @@ body:has(#cart-drawer.active) .tamyiz-toast-container { right: auto; left: 2rem;
   .tamyiz-toast { max-width: 100%; transform: translateY(-16px); }
   .tamyiz-toast.toast-show { transform: translateY(0); }
 }
+
+/* Placeholder cards while the e-books load (27 Oct 2026): the page draws at once, the cards fill in after. */
+.tmz-card-skeleton { display: flex; flex-direction: column; gap: 0.8rem; padding: 0 0 1.5rem; background: #FFFFFF; overflow: hidden; }
+.tmz-card-skeleton .tmz-skel-cover { aspect-ratio: 400 / 326; border-radius: 0; margin-bottom: 1rem; }
+.tmz-card-skeleton .tmz-skel-line { margin: 0 1.25rem; }
+.tmz-card-skeleton .tmz-skel-btn { height: 2.7rem; margin: 0.6rem 1.25rem 0; border-radius: 4px; }
+.tmz-skel { border-radius: 12px; background: linear-gradient(90deg, rgba(0,0,0,0.06) 25%, rgba(0,0,0,0.11) 50%, rgba(0,0,0,0.06) 75%); background-size: 200% 100%; animation: tmz-skel-shine 1.3s ease-in-out infinite; }
+.tmz-skel-cover { aspect-ratio: 2 / 3; width: 100%; }
+.tmz-skel-line { height: 1rem; width: 85%; }
+.tmz-skel-short { width: 50%; }
+.tmz-page-loading { display: grid; gap: 0.9rem; max-width: 22rem; margin: 0 auto; padding: 8rem 1.5rem 4rem; }
+@keyframes tmz-skel-shine { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .tmz-skel { animation: none; } }

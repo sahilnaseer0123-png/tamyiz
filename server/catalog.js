@@ -32,10 +32,16 @@ export class StoreMissing extends Error {
   }
 }
 
-/** Every ebook record (newest first). No storage connected = an empty shop. */
-export async function loadCatalog(env) {
+/**
+ * Every ebook record (newest first). No storage connected = an empty shop.
+ * `cached: true` (shop pages only) lets Cloudflare keep the list at the visitor's nearest data centre for 5 minutes.
+ * Without it, a quiet site pays a slow first read from central storage on almost every visit (seen: 6.5 s, 27 Oct 2026).
+ * Admin and payments never use the cached copy, so a save or a price is never based on an old list.
+ */
+export const CATALOG_CACHE_SECONDS = 300;
+export async function loadCatalog(env, { cached = false } = {}) {
   if (!env || !env.TAMYIZ_STORE) return [];
-  const list = await env.TAMYIZ_STORE.get(KEY_LIST, 'json');
+  const list = await env.TAMYIZ_STORE.get(KEY_LIST, cached ? { type: 'json', cacheTtl: CATALOG_CACHE_SECONDS } : 'json');
   return Array.isArray(list) ? list : [];
 }
 
@@ -81,7 +87,7 @@ export function publicProduct(p) {
 }
 
 export async function publicCatalog(env) {
-  return (await loadCatalog(env)).filter((p) => p.status !== 'draft').map(publicProduct);
+  return (await loadCatalog(env, { cached: true })).filter((p) => p.status !== 'draft').map(publicProduct);
 }
 
 // ---------------------------------------------------------------------------

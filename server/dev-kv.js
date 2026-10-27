@@ -25,7 +25,8 @@ export function devKV(dir = null) {
   };
 
   return {
-    async get(key, type = 'text') { const e = read(key); return e ? as(e.bytes, type) : null; },
+    // Cloudflare also accepts get(key, { type, cacheTtl }); cacheTtl means nothing locally.
+    async get(key, opts = 'text') { const type = typeof opts === 'string' ? opts : (opts && opts.type) || 'text'; const e = read(key); return e ? as(e.bytes, type) : null; },
     async getWithMetadata(key, type = 'text') {
       const e = read(key);
       return e ? { value: as(e.bytes, type), metadata: e.metadata } : { value: null, metadata: null };

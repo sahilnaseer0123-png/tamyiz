@@ -7,7 +7,7 @@ const SEO_BLOCK = /<!-- seo:[\s\S]*?<!-- \/seo -->/;
 const HTML = { 'Content-Type': 'text/html; charset=utf-8' };
 
 export async function onRequestGet({ request, env, params }) {
-  const rec = findBySlug(await loadCatalog(env), params.slug);
+  const rec = findBySlug(await loadCatalog(env, { cached: true }), params.slug);
   if (!rec || rec.status === 'draft') {
     // Any unknown address returns the site's 404 page.
     const nf = await env.ASSETS.fetch(new URL('/__not-found__', request.url));

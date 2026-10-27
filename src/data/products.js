@@ -5,27 +5,42 @@
  */
 export const products = [];
 
-/** Fetches the shop's ebooks once. An error or a slow answer leaves the shop empty instead of stuck. */
-export async function loadProducts(timeoutMs = 6000) {
+async function fetchProducts(timeoutMs, fresh) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-    const res = await fetch('/api/products', { signal: ctrl.signal }); // matches the <link rel=preload> in index.html
-    clearTimeout(timer);
+    // First try matches the <link rel=preload> in index.html (same address), so it reuses that download.
+    const res = await fetch(fresh ? `/api/products?r=${Date.now()}` : '/api/products', { signal: ctrl.signal });
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    products.splice(0, products.length, ...(Array.isArray(data.products) ? data.products : []));
-    loadState.failed = false;
-  } catch (err) {
-    // Network down, server error or timeout: the shop must say so, not pretend it has no books.
-    console.warn('Could not load ebooks:', err.message);
-    loadState.failed = true;
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
   }
+}
+
+/**
+ * Fetches the shop's ebooks. The page is already drawn while this runs (cards show as placeholders),
+ * so a slow answer only delays the cards. One retry before the shop says "Couldn't load".
+ */
+export async function loadProducts() {
+  loadState.loading = true;
+  let data = null;
+  for (const [timeoutMs, fresh] of [[10000, false], [10000, true]]) {
+    try { data = await fetchProducts(timeoutMs, fresh); break; }
+    catch (err) { console.warn('Could not load ebooks:', err.message); }
+  }
+  if (data) products.splice(0, products.length, ...(Array.isArray(data.products) ? data.products : []));
+  // Network down, server error or timeout twice: the shop must say so, not pretend it has no books.
+  loadState.failed = !data;
+  loadState.loading = false;
   return products;
 }
 
-/** Whether the last attempt to load the e-books failed (see the "Couldn't load" state on home and /editions). */
-export const loadState = { failed: false };
+/**
+ * loading: the first answer hasn't arrived yet (placeholder cards).
+ * failed: the last attempt failed (the "Couldn't load" state on home and /editions).
+ */
+export const loadState = { failed: false, loading: true };
 
 export function findProductBySlugOrId(identifier) {
   if (!identifier) return null;

@@ -12,7 +12,7 @@
 
 import { pageMeta, SITE_URL } from '../data/seo.js';
 import { renderNotFoundPage } from './pages/not-found-page.js';
-import { products, loadProducts, findProductBySlugOrId, isAvailable, anyAvailable, buyLabel } from '../data/products.js';
+import { products, loadProducts, loadState, findProductBySlugOrId, isAvailable, anyAvailable, buyLabel } from '../data/products.js';
 import { foundersData, brandInfo, policies } from '../data/content.js';
 import { siteConfig, preorderWhatsAppUrl } from '../data/site-config.js';
 import { store, hasCoupons } from './store.js';
@@ -49,15 +49,26 @@ class TamyizUnifiedApp {
     // 0. Expose global store instance for inline HTML event reliability
     window.store = store;
 
-    // Ebooks come from /admin (Cloudflare storage). Load them before drawing anything that lists them.
-    await loadProducts();
-    store.pruneUnavailable();
+    // Ebooks come from /admin (Cloudflare storage). Start loading them now, but draw the page first:
+    // waiting for them used to leave the screen blank for seconds on a cold visit (27 Oct 2026).
+    const productsReady = loadProducts();
 
     // 1. Initial shell render (Header, Drawer, Shell, Footer, Modals)
     this.renderShell();
 
     // 2. Parse initial route from URL
     this.handleLocationChange(false);
+
+    // 2b. When the ebooks arrive: fix the bag (needs the real list, so never before), then redraw
+    //     header and page in place, keeping the visitor's scroll position.
+    productsReady.then(() => {
+      if (!loadState.failed) store.pruneUnavailable(); // a failed load must not empty the bag
+      const y = window.scrollY;
+      this.renderShell();
+      this.renderCurrentPage();
+      this.renderDrawerItems();
+      window.scrollTo({ top: y, behavior: 'instant' });
+    });
 
     // 3. Listen for browser Back/Forward (Zero-crash navigation)
     window.addEventListener('popstate', () => this.handleLocationChange(true));
@@ -550,6 +561,19 @@ class TamyizUnifiedApp {
     document.body.dataset.page = this.currentPage;
     if (header) {
       header.classList.toggle('is-home-page', this.currentPage === 'home');
+    }
+
+    // An e-book page or checkout needs the e-book list; until it arrives show a short placeholder, not "not found".
+    if (loadState.loading && (this.currentPage === 'edition' || this.currentPage === 'checkout')) {
+      mainEl.innerHTML = `
+        <section class="tmz-page-loading" role="status">
+          <div class="tmz-skel tmz-skel-cover"></div>
+          <div class="tmz-skel tmz-skel-line"></div>
+          <div class="tmz-skel tmz-skel-line tmz-skel-short"></div>
+          <span class="sr-only">Loading…</span>
+        </section>`;
+      this.updateActiveNavIndicators();
+      return;
     }
 
     // Render corresponding page
@@ -1729,8 +1753,10 @@ class TamyizUnifiedApp {
 
   /** "Try again" on the shop's error state: reload the e-books and redraw the page and header. */
   async retryProducts() {
-    await loadProducts();
-    store.pruneUnavailable();
+    const ready = loadProducts();
+    this.renderCurrentPage(); // placeholders while it tries again
+    await ready;
+    if (!loadState.failed) store.pruneUnavailable();
     this.renderShell();
     this.handleLocationChange(false);
   }
