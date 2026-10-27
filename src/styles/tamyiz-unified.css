@@ -767,6 +767,17 @@ img {
     height: 44px !important;
     z-index: 40 !important;
     transform: none !important;
+    transition: opacity 0.25s ease, transform 0.25s ease !important;
+  }
+  /* Step aside while scrolling so it never sits on top of text being read */
+  body.is-scrolling .tamyiz-whatsapp-fab {
+    opacity: 0 !important;
+    transform: translateY(16px) !important;
+    pointer-events: none !important;
+  }
+  /* Keep the very end of every page clear of the button */
+  .tamyiz-footer {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 72px) !important;
   }
 }
 

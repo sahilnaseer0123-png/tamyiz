@@ -272,7 +272,16 @@ class TamyizUnifiedApp {
       const now = window.scrollY >= 70;
       if (now !== scrolled) { scrolled = now; header.classList.toggle('is-scrolled', now); }
     };
-    window.addEventListener('scroll', update, { passive: true });
+    // On phones the round WhatsApp button sits over the page text, so step it
+    // aside while the reader is scrolling and bring it back once they stop.
+    let idle = null;
+    const onScroll = () => {
+      update();
+      if (!document.body.classList.contains('is-scrolling')) document.body.classList.add('is-scrolling');
+      clearTimeout(idle);
+      idle = setTimeout(() => document.body.classList.remove('is-scrolling'), 700);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
     update();
   }
 
