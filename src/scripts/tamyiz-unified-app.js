@@ -2234,8 +2234,8 @@ class TamyizUnifiedApp {
         <div class="tamyiz-unlock-meta-box">
           <div>ORDER: <strong>#${orderId}</strong></div>
           <div>PAYMENT ID: <strong>${paymentId}</strong></div>
-          <div>EMAIL: <strong>${result.email}</strong></div>
-          <div>PHONE: <strong>${result.phone}</strong></div>
+          <div>EMAIL: <strong>${escapeText(result.email || '')}</strong></div>
+          <div>PHONE: <strong>${escapeText(result.phone || '')}</strong></div>
           <div>DATE: <strong>${formattedDate}</strong></div>
           <div>STATUS: <strong style="color: #1E7B2E;">PAID</strong></div>
         </div>

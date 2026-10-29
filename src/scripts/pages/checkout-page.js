@@ -7,6 +7,8 @@ import { store, hasCoupons } from '../store.js';
 import { brandInfo } from '../../data/content.js';
 import { siteConfig } from '../../data/site-config.js';
 
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
 export function renderCheckoutPage(appInstance) {
   // If we have an active confirmed order in the session, show the Download Vault
   if (appInstance.confirmedOrder) {
@@ -407,8 +409,8 @@ export function renderOrderVaultHtml(order) {
               <div>
                 <span class="tamyiz-invoice-section-label">PAID BY</span>
                 <div style="font-size: 0.8rem; color: #555; line-height: 1.45; margin-top: 0.15rem;">
-                  Email: ${order.shippingAddress?.email || '—'}<br/>
-                  ${order.shippingAddress?.phone ? `WhatsApp: ${order.shippingAddress.phone}` : ''}
+                  Email: ${order.shippingAddress?.email ? esc(order.shippingAddress.email) : '—'}<br/>
+                  ${order.shippingAddress?.phone ? `WhatsApp: ${esc(order.shippingAddress.phone)}` : ''}
                 </div>
               </div>
 

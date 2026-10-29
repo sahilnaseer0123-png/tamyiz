@@ -2,7 +2,7 @@
  * Every /api/* address in one place. Cloudflare runs it through functions/api/[[path]].js;
  * the local Vite server runs it through vite.config.js, so both behave the same.
  */
-import { json, handleCreateOrder, handleVerifyPayment, handleDownload } from './payments.js';
+import { json, handleCreateOrder, handleVerifyPayment, handleDownload, handleRazorpayWebhook } from './payments.js';
 import { handleAdmin } from './admin.js';
 import { publicCatalog } from './catalog.js';
 
@@ -43,9 +43,11 @@ export async function route(request, env, fetchImpl = fetch) {
   m = rest.match(/^download\/([a-z0-9-]{3,40})$/);
   if (m && method === 'GET') return handleDownload(request, env, m[1]);
 
-  if (rest === 'create-order' || rest === 'verify-payment') {
+  if (rest === 'create-order' || rest === 'verify-payment' || rest === 'webhook/razorpay' || rest === 'razorpay-webhook') {
     if (method !== 'POST') return json({ error: 'Method Not Allowed. Use POST.' }, 405);
-    return rest === 'create-order' ? handleCreateOrder(request, env, fetchImpl) : handleVerifyPayment(request, env, fetchImpl);
+    if (rest === 'create-order') return handleCreateOrder(request, env, fetchImpl);
+    if (rest === 'verify-payment') return handleVerifyPayment(request, env, fetchImpl);
+    return handleRazorpayWebhook(request, env, fetchImpl);
   }
   return json({ error: 'Not found.' }, 404);
 }

@@ -2,8 +2,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handleCreateOrder, handleVerifyPayment, hmacSha256Hex, timingSafeEqual,
-  itemsToNotes, notesToItems, calculateOrderTotal, VALID_COUPONS,
+  handleCreateOrder, handleVerifyPayment, handleRazorpayWebhook, hmacSha256Hex, timingSafeEqual,
+  itemsToNotes, notesToItems, calculateOrderTotal, VALID_COUPONS, MAX_DOWNLOADS,
 } from '../server/payments.js';
 import { route } from '../server/router.js';
 import { devKV } from '../server/dev-kv.js';
@@ -229,4 +229,130 @@ test('receipt email: a refused send reports false, so the page does not claim it
   const ok = await sendReceiptEmail(ORDER, { BREVO_API_KEY: 'k' }, async () => new Response('{"message":"sender not verified"}', { status: 400 }));
   assert.equal(ok, false);
   assert.match(receiptEmail(ORDER).subject, /TAMYIZ-ORD-1/);
+});
+
+// ---------------------------------------------------------------- security fixes
+test('download link allows up to MAX_DOWNLOADS (10) and then blocks abuse with 403', async () => {
+  const env = await shop(KEYS); const rz = fakeRazorpay();
+  const { verify } = await paidOrder(env, rz);
+  const res = await (await handleVerifyPayment(verify, env, rz.fetchImpl)).json();
+  const link = new URL(res.downloads[0].downloadUrl);
+
+  for (let i = 1; i <= MAX_DOWNLOADS; i++) {
+    const dl = await route(new Request(link), env);
+    assert.equal(dl.status, 200, `download ${i} should succeed`);
+  }
+  const blocked = await route(new Request(link), env);
+  assert.equal(blocked.status, 403);
+  const data = await blocked.json();
+  assert.match(data.error, /Download limit reached/);
+});
+
+test('order creation is rate limited per client IP to prevent flooding', async () => {
+  const env = await shop(KEYS); const rz = fakeRazorpay();
+  const ipHeaders = { 'Content-Type': 'application/json', 'CF-Connecting-IP': '198.51.100.42' };
+  const makeReq = () => new Request('https://shop.test/api/create-order', {
+    method: 'POST',
+    headers: ipHeaders,
+    body: JSON.stringify({ items: cart, ...buyer })
+  });
+
+  for (let i = 1; i <= 20; i++) {
+    const r = await handleCreateOrder(makeReq(), env, rz.fetchImpl);
+    assert.equal(r.status, 200, `order creation ${i} should succeed`);
+  }
+  const throttled = await handleCreateOrder(makeReq(), env, rz.fetchImpl);
+  assert.equal(throttled.status, 429);
+  const data = await throttled.json();
+  assert.match(data.error, /Too many checkout attempts/);
+});
+
+test('razorpay webhook: validates signature and fulfills order asynchronously', async () => {
+  const env = await shop({ ...KEYS, BREVO_API_KEY: 'test_brevo' });
+  const secret = KEYS.RAZORPAY_KEY_SECRET;
+
+  const payload = {
+    event: 'payment.captured',
+    payload: {
+      payment: {
+        entity: {
+          id: 'pay_hook_1',
+          order_id: 'order_hook_1',
+          amount: 29900,
+          notes: { ...itemsToNotes(cart), email: 'buyer@webhook.test', phone: '+919876543210' },
+          email: 'buyer@webhook.test',
+          contact: '+919876543210'
+        }
+      }
+    }
+  };
+  const bodyText = JSON.stringify(payload);
+  const sig = await hmacSha256Hex(secret, bodyText);
+
+  // Missing signature
+  const missingSig = await route(new Request('https://shop.test/api/webhook/razorpay', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: bodyText
+  }), env);
+  assert.equal(missingSig.status, 400);
+
+  // Forged signature
+  const forgedSig = await route(new Request('https://shop.test/api/webhook/razorpay', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-razorpay-signature': 'bad_sig' },
+    body: bodyText
+  }), env);
+  assert.equal(forgedSig.status, 400);
+
+  // Irrelevant event
+  const otherEvent = JSON.stringify({ event: 'order.created' });
+  const otherSig = await hmacSha256Hex(secret, otherEvent);
+  const ignored = await route(new Request('https://shop.test/api/webhook/razorpay', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-razorpay-signature': otherSig },
+    body: otherEvent
+  }), env);
+  assert.equal(ignored.status, 200);
+  assert.equal((await ignored.json()).status, 'ignored');
+
+  // Valid fulfillment with Brevo stub
+  let emailSent = false;
+  const webhookFetch = async (url) => {
+    if (String(url).includes('api.brevo.com')) {
+      emailSent = true;
+      return new Response('{"messageId":"hook-123"}', { status: 201 });
+    }
+    return new Response('{}', { status: 404 });
+  };
+
+  const validReq = new Request('https://shop.test/api/webhook/razorpay', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-razorpay-signature': sig },
+    body: bodyText
+  });
+  const res = await route(validReq, env, webhookFetch);
+  assert.equal(res.status, 200);
+  const data = await res.json();
+  assert.equal(data.status, 'fulfilled');
+  assert.equal(data.paymentId, 'pay_hook_1');
+  assert.equal(emailSent, true);
+
+  // Verify KV record was created
+  const stored = await env.TAMYIZ_STORE.get('order-fulfilled:pay_hook_1', 'json');
+  assert.ok(stored);
+  assert.equal(stored.orderId, 'order_hook_1');
+  assert.equal(stored.email, 'buyer@webhook.test');
+
+  // Deduplication check: second webhook execution should not resend email or re-fulfill
+  emailSent = false;
+  const dupReq = new Request('https://shop.test/api/webhook/razorpay', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-razorpay-signature': sig },
+    body: bodyText
+  });
+  const dupRes = await route(dupReq, env, webhookFetch);
+  assert.equal(dupRes.status, 200);
+  assert.equal((await dupRes.json()).status, 'already_fulfilled');
+  assert.equal(emailSent, false);
 });

@@ -100,12 +100,28 @@ export async function checkDownload(env, productId, paymentId, exp, sig) {
   return timingSafeEqual(expected, sig);
 }
 
+export const MAX_DOWNLOADS = 10;
+
 /** GET /api/download/<id>: streams the PDF to someone holding a valid signed link. */
 export async function handleDownload(request, env, productId) {
   const u = new URL(request.url);
-  const ok = await checkDownload(env, productId, u.searchParams.get('p'), u.searchParams.get('e'), u.searchParams.get('s'));
+  const paymentId = u.searchParams.get('p');
+  const ok = await checkDownload(env, productId, paymentId, u.searchParams.get('e'), u.searchParams.get('s'));
   if (!ok) return json({ error: 'This download link is not valid or has expired. Message us on WhatsApp with your order reference.' }, 403);
   if (!env.TAMYIZ_STORE) return json({ error: 'Storage is not connected.' }, 503);
+
+  // Anti-piracy guard: limit total successful downloads per purchased book
+  if (paymentId && env.TAMYIZ_STORE.get) {
+    const dlKey = `dl-count:${paymentId}:${productId}`;
+    const count = Number(await env.TAMYIZ_STORE.get(dlKey)) || 0;
+    if (count >= MAX_DOWNLOADS) {
+      return json({
+        error: `Download limit reached (${MAX_DOWNLOADS}/${MAX_DOWNLOADS}). If you need an additional copy, message us on WhatsApp with your payment ID: ${paymentId}.`
+      }, 403);
+    }
+    await env.TAMYIZ_STORE.put(dlKey, String(count + 1), { expirationTtl: DOWNLOAD_DAYS * 86400 });
+  }
+
   const product = findById(await loadCatalog(env), productId);
   const { value, metadata } = await env.TAMYIZ_STORE.getWithMetadata(`file:${productId}`, 'stream');
   if (!value) return json({ error: 'The file is missing. Message us on WhatsApp and we will send it.' }, 404);
@@ -291,6 +307,10 @@ function cleanContact(email, phone) {
   return { email: e, phone: p };
 }
 
+export const clientIp = (request) => request.headers.get('CF-Connecting-IP') || 'local';
+const ORDER_RATE_LIMIT = 20; // max 20 order creations per 10 mins per IP
+const ORDER_RATE_TTL = 10 * 60;
+
 // ---------------------------------------------------------------------------
 // POST /api/create-order
 // ---------------------------------------------------------------------------
@@ -303,6 +323,17 @@ export async function handleCreateOrder(request, env, fetchImpl = fetch) {
   if (!Array.isArray(items) || items.length === 0) return json({ error: 'Atelier bag contains no valid items.' }, 400);
   const contact = cleanContact(email, phone);
   if (contact.error) return json({ error: contact.error }, 400);
+
+  // Rate limiting per IP to prevent Razorpay order flooding
+  const ip = clientIp(request);
+  if (env && env.TAMYIZ_STORE && env.TAMYIZ_STORE.get && ip !== 'local') {
+    const rateKey = `order-rate:${ip}`;
+    const recent = Number(await env.TAMYIZ_STORE.get(rateKey)) || 0;
+    if (recent >= ORDER_RATE_LIMIT) {
+      return json({ error: 'Too many checkout attempts. Please wait a few minutes before trying again or message us on WhatsApp.' }, 429);
+    }
+    await env.TAMYIZ_STORE.put(rateKey, String(recent + 1), { expirationTtl: ORDER_RATE_TTL });
+  }
 
   const catalog = await loadCatalog(env);
   let order;
@@ -439,8 +470,20 @@ export async function handleVerifyPayment(request, env, fetchImpl = fetch) {
     price: i.price,
   })));
 
-  const receiptEmailed = await sendReceiptEmail({ email: cleanEmail, phone: cleanPhone, referenceId, paymentId, totalINR, downloads }, env)
+  const receiptEmailed = await sendReceiptEmail({ email: cleanEmail, phone: cleanPhone, referenceId, paymentId, totalINR, downloads }, env, fetchImpl)
     .catch(() => false);
+
+  if (env && env.TAMYIZ_STORE && env.TAMYIZ_STORE.put) {
+    await env.TAMYIZ_STORE.put(`order-fulfilled:${paymentId}`, JSON.stringify({
+      orderId,
+      referenceId,
+      email: cleanEmail,
+      phone: cleanPhone,
+      totalINR,
+      receiptEmailed: Boolean(receiptEmailed),
+      timestamp: new Date().toISOString()
+    }), { expirationTtl: 30 * 86400 }).catch(() => {});
+  }
 
   return json({
     verified: true,
@@ -459,4 +502,119 @@ export async function handleVerifyPayment(request, env, fetchImpl = fetch) {
     downloads,
     receiptEmailed
   });
+}
+
+// ---------------------------------------------------------------------------
+// POST /api/webhook/razorpay
+// Background payment capture fulfillment (handles closed-tab payments)
+// ---------------------------------------------------------------------------
+
+export async function handleRazorpayWebhook(request, env, fetchImpl = fetch) {
+  const secret = env.RAZORPAY_WEBHOOK_SECRET || env.RAZORPAY_KEY_SECRET;
+  if (!secret) return json({ error: 'Webhook secret not configured on server.' }, 503);
+
+  const sig = request.headers.get('x-razorpay-signature');
+  if (!sig) return json({ error: 'Missing x-razorpay-signature header.' }, 400);
+
+  let rawBody = '';
+  try { rawBody = await request.text(); } catch { rawBody = ''; }
+
+  const expectedSig = await hmacSha256Hex(secret, rawBody);
+  if (!timingSafeEqual(expectedSig, sig)) {
+    return json({ error: 'Invalid webhook signature.' }, 400);
+  }
+
+  let event;
+  try { event = JSON.parse(rawBody); } catch { return json({ error: 'Invalid JSON payload.' }, 400); }
+
+  const eventName = event.event;
+  if (eventName !== 'payment.captured' && eventName !== 'order.paid') {
+    return json({ status: 'ignored', event: eventName }, 200);
+  }
+
+  const pEntity = event.payload?.payment?.entity || {};
+  const oEntity = event.payload?.order?.entity || {};
+  const paymentId = pEntity.id;
+  const orderId = pEntity.order_id || oEntity.id;
+
+  if (!paymentId) return json({ error: 'Missing payment entity in webhook.' }, 400);
+
+  // Deduplication: if the user already stayed on-page and verify-payment ran, skip email duplication
+  const fulfilledKey = `order-fulfilled:${paymentId}`;
+  if (env.TAMYIZ_STORE && env.TAMYIZ_STORE.get) {
+    const existing = await env.TAMYIZ_STORE.get(fulfilledKey);
+    if (existing) {
+      return json({ status: 'already_fulfilled', paymentId }, 200);
+    }
+  }
+
+  // Extract ordered items from Razorpay notes
+  const notes = { ...(oEntity.notes || {}), ...(pEntity.notes || {}) };
+  let items = notesToItems(notes);
+
+  if (items.length === 0 && orderId && hasRazorpayKeys(env)) {
+    try {
+      const ordRes = await fetchImpl(`https://api.razorpay.com/v1/orders/${encodeURIComponent(orderId)}`, {
+        headers: { Authorization: basicAuth(env) }
+      });
+      if (ordRes.ok) {
+        const rzpOrd = await ordRes.json();
+        items = notesToItems(rzpOrd.notes || {});
+      }
+    } catch (err) {
+      console.error('Failed to query order notes from Razorpay:', err);
+    }
+  }
+
+  if (items.length === 0) return json({ error: 'No items found in order notes.' }, 400);
+
+  const catalog = await loadCatalog(env);
+  let priced;
+  try { priced = calculateOrderTotal(items, null, catalog); }
+  catch (err) { return json({ error: err.message }, 409); }
+
+  const rawEmail = notes.email || pEntity.email || '';
+  const rawPhone = notes.phone || pEntity.contact || '';
+  const contact = cleanContact(rawEmail, rawPhone);
+  const cleanEmail = contact.email || String(rawEmail || '').trim().toLowerCase();
+  const cleanPhone = contact.phone || String(rawPhone || '').trim();
+
+  const totalINR = Math.round(Number(pEntity.amount || priced.amountPaise) / 100);
+  const referenceId = 'TAMYIZ-ORD-' + Date.now().toString(36).toUpperCase();
+  const origin = new URL(request.url).origin;
+
+  const downloads = await Promise.all(priced.items.map(async (i) => ({
+    productId: i.productId,
+    name: i.name,
+    variant: 'PDF',
+    formatType: 'ebook',
+    downloadUrl: origin + (await signDownload(env, i.productId, paymentId)),
+    actionLabel: 'Download PDF ↗',
+    specs: 'PDF e-book • DRM-free',
+    price: i.price,
+  })));
+
+  // Send Brevo email receipt with signed links directly to buyer
+  const receiptEmailed = await sendReceiptEmail({
+    email: cleanEmail,
+    phone: cleanPhone,
+    referenceId,
+    paymentId,
+    totalINR,
+    downloads
+  }, env, fetchImpl).catch(() => false);
+
+  if (env.TAMYIZ_STORE && env.TAMYIZ_STORE.put) {
+    await env.TAMYIZ_STORE.put(fulfilledKey, JSON.stringify({
+      orderId,
+      referenceId,
+      email: cleanEmail,
+      phone: cleanPhone,
+      totalINR,
+      receiptEmailed: Boolean(receiptEmailed),
+      timestamp: new Date().toISOString()
+    }), { expirationTtl: 30 * 86400 }).catch(() => {});
+  }
+
+  return json({ status: 'fulfilled', paymentId, receiptEmailed: Boolean(receiptEmailed) }, 200);
 }
