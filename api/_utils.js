@@ -373,7 +373,7 @@ export async function sendReceiptEmail({ email, phone, orderId, referenceId, ite
         <div style="font-size: 11px; color: #666666; line-height: 1.6; border-top: 1px solid #EEEEEE; padding-top: 20px;">
           <strong>TAMYIZ™ Digital Publishing &amp; Design Systems Studio</strong><br/>
           Sopore, Kashmir 193201, India • Co-Founded by Basit Majeed &amp; Sahil.<br/>
-          Concierge Support: <a href="mailto:tamyiz.co@gmail.com" style="color: #000;">tamyiz.co@gmail.com</a> • WhatsApp: +91 95417 22379
+          Concierge Support: <a href="mailto:tamyiz.co@gmail.com" style="color: #000;">tamyiz.co@gmail.com</a> • WhatsApp: <span style="white-space: nowrap;">+91&nbsp;95417&nbsp;22379</span>
         </div>
       </div>
     </body>

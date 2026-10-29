@@ -4,11 +4,11 @@ export const brandInfo = {
   subtext: "Products made for people who stand apart.",
   origin: "Sopore, Kashmir, India",
   email: "tamyiz.co@gmail.com",
-  phone: "+91 95417 22379",
+  phone: "+91\u00A095417\u00A022379",
   whatsappNumber: "919541722379",
   address: "TAMYIZ Atelier, Sopore, Kashmir 193201, India",
   currency: "₹",
-  freeShippingThreshold: 999
+  fulfillmentType: "Instant Digital Dispatch"
 };
 
 export const foundersData = {

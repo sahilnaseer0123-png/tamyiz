@@ -4,7 +4,7 @@
  */
 
 import crypto from 'crypto';
-import { resolveDownloadLink, sendReceiptEmail } from './_utils.js';
+import { CATALOG_PRICES, calculateOrderTotal, resolveDownloadLink, sendReceiptEmail } from './_utils.js';
 
 export default async function handler(req, res) {
   // CORS & Methods
@@ -29,7 +29,9 @@ export default async function handler(req, res) {
       mode,
       items,
       email,
-      phone
+      phone,
+      coupon,
+      couponCode
     } = req.body || {};
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -38,6 +40,13 @@ export default async function handler(req, res) {
 
     const cleanEmail = String(email || '').trim().toLowerCase();
     const cleanPhone = String(phone || '').trim();
+    const appliedCoupon = coupon || couponCode;
+
+    // Calculate strict order totals
+    let orderCalc = { total: 0, subtotal: 0, discount: 0, amountPaise: 0 };
+    try {
+      orderCalc = calculateOrderTotal(items, appliedCoupon);
+    } catch (_) {}
 
     // 1. Signature Verification for Live/Test Razorpay Mode
     if (mode === 'razorpay') {
@@ -67,7 +76,11 @@ export default async function handler(req, res) {
     const downloads = items.map(item => {
       const prodId = item.productId || item.id;
       const variant = item.variant || item.size || 'Standard';
-      return resolveDownloadLink(prodId, variant);
+      const dl = resolveDownloadLink(prodId, variant);
+      const catProd = CATALOG_PRICES[prodId];
+      const variantData = catProd?.variants?.[variant] || (catProd ? Object.values(catProd.variants)[0] : null);
+      dl.price = item.price || variantData?.price || 499;
+      return dl;
     });
 
     // 4. Trigger Transactional Email Receipt (if Resend is configured)
@@ -91,6 +104,10 @@ export default async function handler(req, res) {
       email: cleanEmail,
       phone: cleanPhone,
       itemsCount: items.length,
+      subtotalINR: orderCalc.subtotal,
+      discountINR: orderCalc.discount,
+      totalINR: orderCalc.total,
+      amount: orderCalc.amountPaise,
       downloads
     });
 

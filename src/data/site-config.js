@@ -15,7 +15,7 @@ export const siteConfig = {
   email: "tamyiz.co@gmail.com",
   conciergeEmail: "tamyiz.co@gmail.com",
   supportEmail: "tamyiz.co@gmail.com",
-  phone: "+91 95417 22379",
+  phone: "+91\u00A095417\u00A022379",
   whatsappNumber: "919541722379",
   whatsappUrl: "https://wa.me/919541722379?text=Hello%20TAMYIZ%20Concierge,%20I%20have%20an%20inquiry%20regarding%20your%20digital%20publications.",
 

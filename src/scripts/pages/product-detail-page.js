@@ -33,6 +33,14 @@ export function renderProductDetailPage(slug, appInstance) {
   const currentImg = product.images[activeImgIndex] || product.images[0];
   const hasSample = Boolean(product.sampleExcerpt || product.tableOfContents);
 
+  // Compute dynamic variant pricing for initial render
+  let currentPrice = product.price;
+  let currentOrigPrice = product.originalPrice;
+  if (product.variants?.prices && product.variants.prices[currentSelectedOption]) {
+    currentPrice = product.variants.prices[currentSelectedOption].price;
+    currentOrigPrice = product.variants.prices[currentSelectedOption].originalPrice;
+  }
+
   return `
     <div class="tamyiz-page-pdp">
       <!-- BREADCRUMB & BACK NAVIGATION -->
@@ -170,10 +178,10 @@ export function renderProductDetailPage(slug, appInstance) {
 
                 <!-- Pricing -->
                 <div class="tamyiz-pdp-pricing">
-                  <span class="tamyiz-pdp-price-cur">₹${product.price.toLocaleString('en-IN')}</span>
-                  ${product.originalPrice ? `
-                    <span class="tamyiz-pdp-price-orig">₹${product.originalPrice.toLocaleString('en-IN')}</span>
-                    <span class="tamyiz-pdp-save-badge">SAVE ${Math.round((1 - product.price / product.originalPrice) * 100)}%</span>
+                  <span class="tamyiz-pdp-price-cur" id="pdp-price">₹${currentPrice.toLocaleString('en-IN')}</span>
+                  ${currentOrigPrice ? `
+                    <span class="tamyiz-pdp-price-orig" id="pdp-orig-price">₹${currentOrigPrice.toLocaleString('en-IN')}</span>
+                    <span class="tamyiz-pdp-save-badge">SAVE ${Math.round((1 - currentPrice / currentOrigPrice) * 100)}%</span>
                   ` : ''}
                 </div>
                 <div class="tamyiz-pdp-tax-note">
@@ -192,7 +200,7 @@ export function renderProductDetailPage(slug, appInstance) {
                       </span>
                     </div>
 
-                    <div class="tamyiz-pdp-format-pills">
+                    <div class="tamyiz-pdp-format-pills" id="pdp-size-pills">
                       ${product.variants.options.map(opt => `
                         <button
                           type="button"
@@ -211,15 +219,17 @@ export function renderProductDetailPage(slug, appInstance) {
                 <div class="tamyiz-pdp-actions-stack">
                   <button
                     class="tamyiz-pdp-btn-add"
+                    id="pdp-add-btn"
                     onclick="window.tamyizApp.quickAddToCart('${product.id}')"
                   >
                     <span>Add to Bag • Instant Access</span>
                     <span>•</span>
-                    <span>₹${product.price.toLocaleString('en-IN')}</span>
+                    <span>₹${currentPrice.toLocaleString('en-IN')}</span>
                   </button>
 
                   <button
                     class="tamyiz-pdp-btn-buy-now"
+                    id="pdp-buy-btn"
                     onclick="window.tamyizApp.buyNowDirect('${product.id}')"
                   >
                     <span>Buy Now • Direct Checkout →</span>

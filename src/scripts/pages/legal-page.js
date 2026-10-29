@@ -29,7 +29,7 @@ Simultaneously, a redundant permanent cryptographic download receipt is dispatch
       },
       {
         heading: '03. Concierge Escalation Protocol',
-        content: `If digital delivery is delayed beyond 10 minutes due to aggressive recipient email spam filters or telecommunication gateway latency, buyers may contact our direct WhatsApp Concierge (+91 95417 22379) or email tamyiz.co@gmail.com quoting their Transaction Reference ID for immediate manual file dispatch within 1 hour.`
+        content: `If digital delivery is delayed beyond 10 minutes due to aggressive recipient email spam filters or telecommunication gateway latency, buyers may contact our direct WhatsApp Concierge (+91\u00A095417\u00A022379) or email tamyiz.co@gmail.com quoting their Transaction Reference ID for immediate manual file dispatch within 1 hour.`
       },
       {
         heading: '04. Lifetime Free Digital Updates & Errata',
@@ -105,7 +105,7 @@ Co-Founded by Basit Majeed (Security & Academic Research) and Sahil (AI/ML & Arc
         heading: '02. Official Merchant Support Channels',
         content: `Official customer support and statutory compliance inquiries:
 • Electronic Mail: tamyiz.co@gmail.com
-• WhatsApp Concierge: +91 95417 22379 (Available Monday–Saturday, 10:00–19:00 IST)`
+• WhatsApp Concierge: +91\u00A095417\u00A022379 (Available Monday–Saturday, 10:00–19:00 IST)`
       },
       {
         heading: '03. Pricing & Lifetime Update Entitlements',
@@ -196,7 +196,7 @@ export function renderLegalPage(activeSlug = 'delivery-protocol', appInstance) {
                 </div>
                 <div>
                   <div class="mb-1.5"><strong class="text-black">Direct Concierge Email:</strong> <a href="mailto:tamyiz.co@gmail.com" class="underline text-black font-bold">tamyiz.co@gmail.com</a></div>
-                  <div class="mb-1.5"><strong class="text-black">Phone &amp; WhatsApp:</strong> <a href="tel:+919541722379" class="underline text-black font-bold">+91 95417 22379</a> (10:00–19:00 IST)</div>
+                  <div class="mb-1.5"><strong class="text-black">Phone &amp; WhatsApp:</strong> <a href="tel:+919541722379" class="underline text-black font-bold" style="white-space: nowrap !important; display: inline-block;">+91&nbsp;95417&nbsp;22379</a> (10:00–19:00 IST)</div>
                   <div class="mb-1.5"><strong class="text-black">Delivery SLA:</strong> Instantaneous on-screen unlock + email dispatch within 60 seconds</div>
                   <div><strong class="text-black">Refund Protocol:</strong> 100% replacement for corrupted files; 7-day refund if reader incompatibility cannot be resolved</div>
                 </div>

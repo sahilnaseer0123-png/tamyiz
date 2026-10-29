@@ -317,6 +317,9 @@ export function renderOrderVaultHtml(order) {
   const currentDateStr = order.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   const invoiceNumber = `INV-TMZ-${order.orderId}`;
   const authToken = `TMZ-AUTH-${order.orderId}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+  const totalAmount = order.total || 0;
+  const subtotalAmount = order.subtotal || totalAmount;
+  const discountAmount = order.discount || 0;
 
   return `
     <div class="tamyiz-page-order-vault py-12 md:py-20">
@@ -332,7 +335,7 @@ export function renderOrderVaultHtml(order) {
           <span class="tamyiz-vault-kicker no-print">Order Confirmed &amp; Authenticated</span>
           <h1 class="tamyiz-vault-title no-print">Instant Access Unlocked</h1>
           <p class="tamyiz-vault-sub no-print">
-            Order <strong>#${order.orderId}</strong> • Total Paid: <strong>₹${order.total.toLocaleString('en-IN')}</strong>
+            Order <strong>#${order.orderId}</strong> • Total Paid: <strong>₹${totalAmount.toLocaleString('en-IN')}</strong>
           </p>
           <p class="no-print" style="font-size: 0.9rem; color: #555; margin-bottom: 2rem;">
             A confirmation has been dispatched to <strong>${order.shippingAddress?.email || 'your email'}</strong> and <strong>${order.shippingAddress?.phone || 'WhatsApp'}</strong>. Your files and official invoice are ready below:
@@ -423,7 +426,7 @@ export function renderOrderVaultHtml(order) {
                 </div>
                 <div style="font-size: 0.76rem; color: #555; margin-top: 0.35rem; line-height: 1.45;">
                   Atelier Sopore, Kashmir 193201, India<br/>
-                  Phone / WhatsApp: ${siteConfig.phone} • Email: ${siteConfig.email}
+                  <span style="white-space: nowrap;">Phone / WhatsApp: ${siteConfig.phone}</span> • <span style="white-space: nowrap;">Email: ${siteConfig.email}</span>
                 </div>
               </div>
 
@@ -478,7 +481,9 @@ export function renderOrderVaultHtml(order) {
                   </tr>
                 </thead>
                 <tbody>
-                  ${order.items.map(item => `
+                  ${(order.items || []).map(item => {
+                    const price = item.price || 0;
+                    return `
                     <tr>
                       <td>
                         <strong>${item.name}</strong>
@@ -486,10 +491,10 @@ export function renderOrderVaultHtml(order) {
                       </td>
                       <td>${item.variant || 'Standard Digital Edition'}</td>
                       <td style="text-align: center;">1</td>
-                      <td style="text-align: right;">₹${item.price.toLocaleString('en-IN')}</td>
-                      <td style="text-align: right; font-weight: 700;">₹${item.price.toLocaleString('en-IN')}</td>
+                      <td style="text-align: right;">₹${price.toLocaleString('en-IN')}</td>
+                      <td style="text-align: right; font-weight: 700;">₹${price.toLocaleString('en-IN')}</td>
                     </tr>
-                  `).join('')}
+                  `;}).join('')}
                 </tbody>
               </table>
             </div>
@@ -499,12 +504,12 @@ export function renderOrderVaultHtml(order) {
               <div style="width: 290px;">
                 <div class="flex justify-between py-1 text-xs">
                   <span style="color: #666;">Subtotal:</span>
-                  <span style="font-weight: 600;">₹${order.subtotal.toLocaleString('en-IN')}</span>
+                  <span style="font-weight: 600;">₹${subtotalAmount.toLocaleString('en-IN')}</span>
                 </div>
-                ${order.discount ? `
+                ${discountAmount > 0 ? `
                   <div class="flex justify-between py-1 text-xs" style="color: var(--color-red);">
                     <span>Coupon Discount (${order.coupon?.code || 'APPLIED'}):</span>
-                    <span style="font-weight: 700;">−₹${order.discount.toLocaleString('en-IN')}</span>
+                    <span style="font-weight: 700;">−₹${discountAmount.toLocaleString('en-IN')}</span>
                   </div>
                 ` : ''}
                 <div class="flex justify-between py-1 text-xs">
@@ -513,7 +518,7 @@ export function renderOrderVaultHtml(order) {
                 </div>
                 <div class="flex justify-between py-2 text-sm font-bold border-t border-black mt-2" style="font-family: var(--font-display);">
                   <span>Total Paid:</span>
-                  <span style="color: var(--color-red);">₹${order.total.toLocaleString('en-IN')}</span>
+                  <span style="color: var(--color-red);">₹${totalAmount.toLocaleString('en-IN')}</span>
                 </div>
               </div>
             </div>

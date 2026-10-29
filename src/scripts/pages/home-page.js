@@ -372,31 +372,35 @@ export function renderProductCardHtml(p, appInstance) {
 
   return `
     <div class="tamyiz-product-card flex flex-col h-full" id="card-${p.id}" data-product-card="${p.id}">
-      <div class="tamyiz-product-thumb" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">
+      <div class="tamyiz-product-thumb relative aspect-[16/10] w-full overflow-hidden cursor-pointer" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">
         <img src="${p.images[0]}" alt="${p.name}" class="tamyiz-img-primary" loading="lazy" />
         <img src="${p.images[1] || p.images[0]}" alt="" aria-hidden="true" class="tamyiz-img-hover" loading="lazy" />
 
-        <span class="tamyiz-badge-digital">${p.badge}</span>
+        <div class="tamyiz-card-overlay-header absolute inset-x-0 top-0 p-3.5 flex items-center justify-between z-10 pointer-events-none">
+          <span class="tamyiz-badge-digital pointer-events-auto">${p.badge}</span>
 
-        <button class="tamyiz-btn-wishlist ${store.isInWishlist(p.id) ? 'active' : ''}" data-id="${p.id}" onclick="event.stopPropagation(); window.tamyizApp.toggleWishlist('${p.id}')" aria-label="Wishlist">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="${store.isInWishlist(p.id) ? 'var(--color-red)' : 'none'}" stroke="currentColor" stroke-width="2">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-          </svg>
-        </button>
+          <button class="tamyiz-btn-wishlist pointer-events-auto ${store.isInWishlist(p.id) ? 'active' : ''}" data-id="${p.id}" onclick="event.stopPropagation(); window.tamyizApp.toggleWishlist('${p.id}')" aria-label="Wishlist">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="${store.isInWishlist(p.id) ? 'var(--color-red)' : 'none'}" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <div class="tamyiz-product-info flex flex-col flex-1 justify-between">
-        <div>
-          <span class="tamyiz-product-cat">${p.category}</span>
-          <h4 class="tamyiz-product-name" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">${p.name}</h4>
+      <div class="tamyiz-product-info flex flex-col flex-1 p-5 space-y-3 justify-between">
+        <div class="space-y-3 flex-1 flex flex-col">
+          <div class="space-y-1">
+            <span class="tamyiz-product-cat block m-0">${p.category}</span>
+            <h4 class="tamyiz-product-name m-0" onclick="window.tamyizApp.navigateTo('/edition/${slug}')">${p.name}</h4>
+          </div>
 
-          <div class="tamyiz-product-pricing flex items-baseline gap-2" id="pricing-${p.id}" aria-label="Price: ₹${currentPrice.toLocaleString('en-IN')}${currentOrigPrice ? `, original price ₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}">
+          <div class="tamyiz-product-pricing flex items-baseline gap-2 m-0" id="pricing-${p.id}" aria-label="Price: ₹${currentPrice.toLocaleString('en-IN')}${currentOrigPrice ? `, original price ₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}">
             <span class="tamyiz-price-cur font-bold text-black" id="price-${p.id}">₹${currentPrice.toLocaleString('en-IN')}</span>
             <span class="tamyiz-price-orig text-gray-400 line-through" id="orig-price-${p.id}" style="${currentOrigPrice ? '' : 'display:none;'}">${currentOrigPrice ? `₹${currentOrigPrice.toLocaleString('en-IN')}` : ''}</span>
           </div>
 
           ${hasVariants ? `
-            <div class="tamyiz-size-selector-wrap" onclick="event.stopPropagation()">
+            <div class="tamyiz-size-selector-wrap m-0" onclick="event.stopPropagation()">
               <div class="tamyiz-size-selector-label font-mono text-[11px] uppercase tracking-wider mb-1 flex items-center gap-1.5">
                 <span class="text-gray-500 font-semibold">FORMAT:</span>
                 <span style="color: var(--color-black); font-weight: 800;" id="size-label-${p.id}" class="tamyiz-size-label">${currentSelectedOption}</span>
@@ -415,7 +419,7 @@ export function renderProductCardHtml(p, appInstance) {
           ` : ''}
         </div>
 
-        <div class="tamyiz-card-actions-row">
+        <div class="tamyiz-card-actions-row mt-auto pt-2">
           <button class="tamyiz-btn-quick-add" id="btn-quick-${p.id}" style="background: var(--color-red); font-size: 0.82rem; padding: 0.82rem; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;" onclick="window.tamyizApp.quickAddToCart('${p.id}')">
             Instant Access • ₹${currentPrice.toLocaleString('en-IN')}
           </button>

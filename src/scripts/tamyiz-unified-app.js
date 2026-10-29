@@ -10,14 +10,13 @@
  *   /checkout      -> Dedicated Instant Digital Checkout Page
  */
 
-import { TamyizHero3D } from './tamyiz-hero-3d.js';
 import { TamyizLogoSparks } from './tamyiz-logo-sparks.js';
 import { products, findProductBySlugOrId } from '../data/products.js';
 import { foundersData, brandInfo, policies } from '../data/content.js';
 import { siteConfig } from '../data/site-config.js';
 import { store } from './store.js';
 
-import { renderHomePage } from './pages/home-page.js';
+import { renderHomePage, renderProductCardHtml } from './pages/home-page.js';
 import { renderEditionsPage } from './pages/editions-page.js';
 import { renderProductDetailPage } from './pages/product-detail-page.js';
 import { renderPhilosophyPage } from './pages/philosophy-page.js';
@@ -291,9 +290,9 @@ export class TamyizUnifiedApp {
           <nav class="tamyiz-header-nav" id="desktop-nav" aria-label="Primary Navigation">
             <a href="/" class="tamyiz-header-nav-link" id="nav-link-home" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a>
             <a href="/editions" class="tamyiz-header-nav-link" id="nav-link-editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">Editions</a>
-            <a href="/#philosophy" class="tamyiz-header-nav-link" id="nav-link-philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Philosophy</a>
-            <a href="/#origin" class="tamyiz-header-nav-link" id="nav-link-atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin</a>
-            <a href="/#format-guide" class="tamyiz-header-nav-link" id="nav-link-formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#format-guide')">Format Guide</a>
+            <a href="/philosophy" class="tamyiz-header-nav-link" id="nav-link-philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy')">Philosophy</a>
+            <a href="/atelier" class="tamyiz-header-nav-link" id="nav-link-atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">Atelier Origin</a>
+            <a href="/philosophy#formats" class="tamyiz-header-nav-link" id="nav-link-formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy#formats')">Format Guide</a>
           </nav>
 
           <div class="tamyiz-header-right">
@@ -325,9 +324,9 @@ export class TamyizUnifiedApp {
             <ul class="tamyiz-mobile-nav-list">
               <li><a href="/" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/')">Home <span>→</span></a></li>
               <li><a href="/editions" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/editions')">The Editions <span>→</span></a></li>
-              <li><a href="/#philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars &amp; Philosophy <span>→</span></a></li>
-              <li><a href="/#origin" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin &amp; Founders <span>→</span></a></li>
-              <li><a href="/#format-guide" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">Digital Format Guide <span>→</span></a></li>
+              <li><a href="/philosophy" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/philosophy')">Three Pillars &amp; Philosophy <span>→</span></a></li>
+              <li><a href="/atelier" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/atelier')">Atelier Origin &amp; Founders <span>→</span></a></li>
+              <li><a href="/philosophy#formats" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/philosophy#formats')">Digital Format Guide <span>→</span></a></li>
               <li><a href="#cart" class="tamyiz-mobile-nav-link" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red); font-weight: 700;">Instant Checkout <span>→</span></a></li>
             </ul>
           </div>
@@ -353,12 +352,12 @@ export class TamyizUnifiedApp {
           <div>
             <div class="tamyiz-mobile-nav-group-title">Customer Care</div>
             <ul class="tamyiz-footer-links">
-              <li><a href="/#format-guide" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.scrollToFormatGuide()">Digital Format &amp; Template Guide</a></li>
+              <li><a href="/philosophy#formats" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.navigateTo('/philosophy#formats')">Digital Format &amp; Template Guide</a></li>
               <li><a href="/legal/delivery-protocol" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Digital Delivery Protocol</a></li>
               <li><a href="/legal/license" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('license')">Atelier Guarantee &amp; License</a></li>
               <li><a href="/legal/privacy" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
               <li><a href="/legal/terms" class="tamyiz-footer-link" onclick="event.preventDefault(); window.tamyizApp.closeMobileMenu(); window.tamyizApp.openLegalModal('terms')">Terms of Service</a></li>
-              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #278838; font-weight: 700;">WhatsApp Concierge (${siteConfig.phone}) ↗</a></li>
+              <li><a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #278838; font-weight: 700; white-space: nowrap;">WhatsApp Concierge (+91&nbsp;95417&nbsp;22379) ↗</a></li>
             </ul>
           </div>
         </div>
@@ -482,7 +481,7 @@ export class TamyizUnifiedApp {
               <h3>TAMYIZ™</h3>
               <p>
                 Digital Publishing &amp; Design Systems Studio. Crafted in Sopore, Kashmir 193201.<br/>
-                Concierge: <a href="mailto:${siteConfig.email}" style="color: #FFF; text-decoration: underline;">${siteConfig.email}</a> • <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-red); font-weight: 700;">${siteConfig.phone}</a>
+                <span class="tamyiz-footer-concierge"><span class="tamyiz-footer-concierge-label">Concierge:</span> <a href="mailto:${siteConfig.email}" class="tamyiz-footer-concierge-email">${siteConfig.email}</a> <span class="tamyiz-footer-concierge-sep">•</span> <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="tamyiz-footer-concierge-phone">+91&nbsp;95417&nbsp;22379</a></span>
               </p>
             </div>
 
@@ -491,8 +490,8 @@ export class TamyizUnifiedApp {
               <ul class="tamyiz-footer-links">
                 <li><a href="/" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/')">Home</a></li>
                 <li><a href="/editions" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/editions')">The Editions</a></li>
-                <li><a href="/#philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#philosophy')">Three Pillars</a></li>
-                <li><a href="/#origin" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/#origin')">Atelier Origin</a></li>
+                <li><a href="/philosophy" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy')">Three Pillars</a></li>
+                <li><a href="/atelier" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/atelier')">Atelier Origin</a></li>
                 <li><a href="#cart" onclick="event.preventDefault(); window.tamyizApp.handleInstantCheckoutNav()" style="color: var(--color-red); font-weight: 700;">Instant Checkout →</a></li>
               </ul>
             </div>
@@ -510,7 +509,7 @@ export class TamyizUnifiedApp {
             <div class="tamyiz-footer-col tamyiz-footer-col-full-mobile">
               <h4>Customer Care &amp; Compliance</h4>
               <ul class="tamyiz-footer-links">
-                <li><a href="/#format-guide" onclick="event.preventDefault(); window.tamyizApp.scrollToFormatGuide()">Format &amp; Template Guide</a></li>
+                <li><a href="/philosophy#formats" onclick="event.preventDefault(); window.tamyizApp.navigateTo('/philosophy#formats')">Format &amp; Template Guide</a></li>
                 <li><a href="/legal/delivery-protocol" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('delivery-protocol')">Instant Delivery Protocol</a></li>
                 <li><a href="/legal/license" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('license')">Atelier Guarantee &amp; License</a></li>
                 <li><a href="/legal/privacy" onclick="event.preventDefault(); window.tamyizApp.openLegalModal('privacy')">Privacy &amp; Data Security</a></li>
@@ -649,11 +648,18 @@ export class TamyizUnifiedApp {
     }
   }
 
-  initHero3D() {
+  async initHero3D() {
     const container = document.getElementById('tamyiz-3d-canvas-container');
     if (container) {
       if (this.hero3D) this.hero3D.destroy();
-      this.hero3D = new TamyizHero3D(container);
+      try {
+        const { TamyizHero3D } = await import('./tamyiz-hero-3d.js');
+        if (document.getElementById('tamyiz-3d-canvas-container') === container) {
+          this.hero3D = new TamyizHero3D(container);
+        }
+      } catch (err) {
+        console.warn('Failed to dynamically load TamyizHero3D:', err);
+      }
     }
   }
 
@@ -757,10 +763,10 @@ export class TamyizUnifiedApp {
   }
 
   handleSearch(query) {
-    this.searchQuery = (query || '').trim();
+    this.searchQuery = query || '';
     const clearBtn = document.getElementById('artifact-search-clear');
     if (clearBtn) {
-      clearBtn.classList.toggle('visible', this.searchQuery.length > 0);
+      clearBtn.classList.toggle('visible', this.searchQuery.trim().length > 0);
     }
     this.updateProductGrid();
   }
@@ -781,6 +787,30 @@ export class TamyizUnifiedApp {
 
   updateProductGrid() {
     if (this.currentPage === 'editions') {
+      const gridEl = document.getElementById('product-grid');
+      const statusEl = document.getElementById('collection-status');
+      if (gridEl && statusEl) {
+        const filteredList = this.getFilteredAndSortedProducts();
+        if (filteredList.length === 0) {
+          gridEl.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4.5rem 1.5rem; background: #FFFFFF; border: 1px dashed var(--color-border); border-radius: 6px;">
+              <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">
+                No Editions Found
+              </div>
+              <p style="color: var(--color-grey); font-size: 0.88rem; margin-bottom: 1.5rem;">
+                No publications or systems match your current search criteria.
+              </p>
+              <button class="tamyiz-btn-nav-outline" onclick="window.tamyizApp.resetAllFilters()">
+                Reset All Filters
+              </button>
+            </div>
+          `;
+        } else {
+          gridEl.innerHTML = filteredList.map(p => renderProductCardHtml(p, this)).join('');
+        }
+        statusEl.innerHTML = this.getCollectionStatusText();
+        return;
+      }
       this.renderCurrentPage();
     }
   }
@@ -1466,8 +1496,8 @@ export class TamyizUnifiedApp {
       return;
     }
     const cleanDigits = phone.replace(/\D/g, '');
-    if (!phone || cleanDigits.length < 8) {
-      store.showToast('Please enter a valid WhatsApp number for instant delivery archiving.', 'error');
+    if (!phone || cleanDigits.length < 10) {
+      store.showToast('Please enter a valid 10-digit WhatsApp number (+91) for order confirmation.', 'error');
       phoneInput?.focus();
       return;
     }
@@ -1563,7 +1593,7 @@ export class TamyizUnifiedApp {
       subtotal: 899,
       discount: 0,
       items: [
-        { name: 'TAMYIZ Monograph 01: The Horizon of Distinction', variant: 'Interactive PDF + EPUB', price: 899 }
+        { name: 'TAMYIZ Monograph 01: The Architecture of Distinction', variant: 'Interactive PDF + EPUB', price: 899 }
       ],
       shippingAddress: {
         fullName: 'Valued Patron',
@@ -1576,7 +1606,7 @@ export class TamyizUnifiedApp {
     const invoiceDate = order.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
     const authToken = `TMZ-AUTH-${order.orderId}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
 
-    const itemsHtml = order.items.map((item) => `
+    const itemsHtml = (order.items || []).map((item) => `
       <tr>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5;">
           <strong style="font-size: 13px;">${item.name}</strong>
@@ -1584,8 +1614,8 @@ export class TamyizUnifiedApp {
         </td>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5;">${item.variant || 'Standard Digital Edition'}</td>
         <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: center;">1</td>
-        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: right;">₹${item.price.toLocaleString('en-IN')}</td>
-        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: right; font-weight: bold;">₹${item.price.toLocaleString('en-IN')}</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: right;">₹${(item.price || 0).toLocaleString('en-IN')}</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #E5E5E5; text-align: right; font-weight: bold;">₹${(item.price || 0).toLocaleString('en-IN')}</td>
       </tr>
     `).join('');
 
@@ -1665,12 +1695,12 @@ export class TamyizUnifiedApp {
   <div class="totals">
     <div class="totals-row">
       <span style="color: #666;">Subtotal:</span>
-      <span>₹${order.subtotal.toLocaleString('en-IN')}</span>
+      <span>₹${(order.subtotal || order.total || 0).toLocaleString('en-IN')}</span>
     </div>
     ${order.discount ? `
       <div class="totals-row" style="color: #E1251B; font-weight: 700;">
         <span>Coupon Discount:</span>
-        <span>−₹${order.discount.toLocaleString('en-IN')}</span>
+        <span>−₹${(order.discount || 0).toLocaleString('en-IN')}</span>
       </div>
     ` : ''}
     <div class="totals-row">
@@ -1679,7 +1709,7 @@ export class TamyizUnifiedApp {
     </div>
     <div class="totals-total">
       <span>Total Paid:</span>
-      <span style="color: #E1251B;">₹${order.total.toLocaleString('en-IN')}</span>
+      <span style="color: #E1251B;">₹${(order.total || 0).toLocaleString('en-IN')}</span>
     </div>
   </div>
 
@@ -1810,14 +1840,7 @@ export class TamyizUnifiedApp {
 
   scrollToFormatGuide() {
     this.closeMobileMenu();
-    if (this.currentPage !== 'home') {
-      this.navigateTo('/#format-guide');
-    } else {
-      const el = document.getElementById('format-guide');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    this.navigateTo('/philosophy#formats');
   }
 
   // ==========================================
@@ -1970,7 +1993,8 @@ export class TamyizUnifiedApp {
             mode: 'razorpay',
             items: store.cart,
             email,
-            phone
+            phone,
+            couponCode: (store.coupon ? store.coupon.code : null)
           });
         },
         prefill: {
@@ -2094,7 +2118,8 @@ export class TamyizUnifiedApp {
       mode: 'atelier_sandbox',
       items: store.cart,
       email,
-      phone
+      phone,
+      couponCode: (store.coupon ? store.coupon.code : null)
     };
 
     await this.verifyAndUnlockPayment(payload);
@@ -2130,14 +2155,20 @@ export class TamyizUnifiedApp {
     const downloads = result.downloads || [];
     const paymentId = result.paymentId || ('PAY-TMZ-' + Date.now());
     const orderId = result.orderId || ('TMZ-' + Date.now());
+    const totalPaid = result.totalINR !== undefined ? result.totalINR : (result.amount ? Math.round(result.amount / 100) : store.getTotal());
+    const subtotalPaid = result.subtotalINR !== undefined ? result.subtotalINR : store.getSubtotal();
+    const discountPaid = result.discountINR !== undefined ? result.discountINR : store.getDiscount();
 
     this.confirmedOrder = {
       orderId,
       referenceId: result.referenceId || paymentId,
       paymentId,
       date: new Date(result.timestamp || Date.now()).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-      total: (result.amount ? Math.round(result.amount / 100) : (result.totalINR || store.getTotal())),
+      total: totalPaid,
+      subtotal: subtotalPaid,
+      discount: discountPaid,
       shippingAddress: {
+        fullName: localStorage.getItem('tamyiz_buyer_name') || 'Valued Patron',
         email: result.email || '',
         phone: result.phone || ''
       },
@@ -2145,15 +2176,23 @@ export class TamyizUnifiedApp {
         const prod = findProductBySlugOrId(dl.productId);
         const prodImage = (prod && prod.images && prod.images[0]) || '/assets/images/tamyiz-logo.png';
         return {
+          productId: dl.productId,
           name: dl.name,
           variant: dl.variant,
           downloadUrl: dl.downloadUrl,
           actionLabel: dl.actionLabel,
           specs: dl.specs,
+          price: dl.price !== undefined ? dl.price : (prod ? prod.price : 499),
           image: prodImage
         };
       })
     };
+
+    // Save confirmed order to store history
+    if (store.orders) {
+      store.orders.unshift(this.confirmedOrder);
+      store.save('tamyiz_orders_v1', store.orders);
+    }
 
     // 1. Clear cart state & storage
     store.clearCart();
@@ -2255,28 +2294,7 @@ export class TamyizUnifiedApp {
   }
 
   downloadTaxInvoiceFromPayment(paymentId) {
-    const orderData = this.confirmedOrder ? {
-      orderId: this.confirmedOrder.orderId || 'TMZ-' + Date.now(),
-      date: new Date(this.confirmedOrder.timestamp || Date.now()).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-      total: this.confirmedOrder.downloads ? this.confirmedOrder.downloads.reduce((acc, d) => acc + (d.price || 0), 0) : 499,
-      subtotal: this.confirmedOrder.downloads ? this.confirmedOrder.downloads.reduce((acc, d) => acc + (d.price || 0), 0) : 499,
-      discount: 0,
-      items: (this.confirmedOrder.downloads || []).map(d => ({
-        name: d.name,
-        variant: d.variant,
-        price: d.price || 499
-      })),
-      shippingAddress: {
-        fullName: 'Valued Patron',
-        email: this.confirmedOrder.email || '—',
-        phone: this.confirmedOrder.phone || siteConfig.phone
-      }
-    } : null;
-
-    if (orderData) {
-      this.confirmedOrder = orderData;
-    }
-    this.downloadInvoice(paymentId || 'TMZ-INSTANT');
+    this.downloadInvoice(this.confirmedOrder?.orderId || paymentId || 'TMZ-INSTANT');
   }
 
   // ==========================================
@@ -2356,7 +2374,7 @@ export class TamyizUnifiedApp {
             </div>
             <div>
               <strong>Email:</strong> <a href="mailto:tamyiz.co@gmail.com" style="text-decoration: underline; color: #000;">tamyiz.co@gmail.com</a><br/>
-              <strong>WhatsApp Concierge:</strong> <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #000;">+91 95417 22379</a><br/>
+              <strong>WhatsApp Concierge:</strong> <a href="${siteConfig.whatsappUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #000; white-space: nowrap !important; display: inline-block;">+91&nbsp;95417&nbsp;22379</a><br/>
               <strong>Settlement &amp; Refund:</strong> 7-day resolution window • 5–7 business days settlement
             </div>
           </div>

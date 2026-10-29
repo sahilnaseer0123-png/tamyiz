@@ -27,12 +27,12 @@ class Store {
     if (this.cart.length > 0) {
       this.save(STORAGE_KEYS.CART, this.cart);
     }
-    this.wishlist = this.load(STORAGE_KEYS.WISHLIST, ['tmz-001', 'tmz-008']);
+    this.wishlist = this.load(STORAGE_KEYS.WISHLIST, ['tmz-dig-001', 'tmz-dig-008']);
     this.user = this.load(STORAGE_KEYS.USER, {
       isLoggedIn: true,
-      name: "Basit Khan",
+      name: "Basit Majeed",
       email: "tamyiz.co@gmail.com",
-      phone: "+91 95417 22379"
+      phone: "+91\u00A095417\u00A022379"
     });
     this.orders = this.load(STORAGE_KEYS.ORDERS, [
       {
@@ -40,27 +40,27 @@ class Store {
         date: "14 Oct 2026",
         items: [
           {
-            name: "TAMYIZ Monograph 01: The Horizon of Distinction",
-            variant: "Interactive PDF + EPUB",
-            price: 899,
+            name: "TAMYIZ Monograph 01: The Architecture of Distinction",
+            variant: "PDF + EPUB Bundle",
+            price: 499,
             quantity: 1,
             image: "/assets/images/products/book-monograph-01.jpg"
           }
         ],
-        subtotal: 899,
+        subtotal: 499,
         shipping: 0,
-        discount: 90,
-        total: 809,
+        discount: 0,
+        total: 499,
         status: "Access Vault Active",
         carrier: "Instant Digital Dispatch",
         trackingId: "DIGITAL-TOKEN-98214",
         shippingAddress: {
-          name: "Basit Khan",
+          name: "Basit Majeed",
           address: "TAMYIZ Digital Atelier",
           city: "Sopore",
           state: "Jammu & Kashmir",
           pincode: "193201",
-          phone: "+91 95417 22379"
+          phone: "+91\u00A095417\u00A022379"
         }
       }
     ]);
@@ -70,6 +70,7 @@ class Store {
 
   load(key, fallback) {
     try {
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined' || !localStorage) return fallback;
       const data = localStorage.getItem(key);
       return data ? JSON.parse(data) : fallback;
     } catch (e) {
@@ -80,6 +81,7 @@ class Store {
 
   save(key, data) {
     try {
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined' || !localStorage) return;
       localStorage.setItem(key, JSON.stringify(data));
     } catch (e) {
       console.warn(`Failed saving ${key} to localStorage:`, e);
@@ -285,9 +287,9 @@ class Store {
       shipping: this.getShippingFee(),
       discount: this.getDiscount(),
       total: this.getTotal(),
-      status: "Confirmed",
-      carrier: "Blue Dart Express",
-      trackingId: `BLU-${Math.floor(100000000 + Math.random() * 900000000)}`,
+      status: "Access Vault Active",
+      carrier: "Instant Digital Dispatch",
+      trackingId: `TOKEN-${Math.floor(100000000 + Math.random() * 900000000)}`,
       shippingAddress: checkoutData.address,
       paymentMethod: checkoutData.paymentMethod
     };
